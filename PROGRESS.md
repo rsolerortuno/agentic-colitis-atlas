@@ -2,7 +2,7 @@
 
 Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check passes; evidence is recorded below.
 
-**Current milestone:** M4 (knowledge graph)
+**Current milestone:** M6 (agents and orchestrator)
 
 | Milestone | Status | Evidence |
 |---|---|---|
@@ -11,7 +11,7 @@ Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check pass
 | M2 Differential expression and meta-analysis | ✅ passed | Per-cohort DE (patients averaged across biopsies; Welch or paired t-test, BH) and DerSimonian-Laird meta-analysis. MSCCR inflamed vs control: 1,086 genes with padj<0.05 and abs(log2FC)>=1; replicated in the same direction in UNIFI 83 %, PURSUIT 78 %, GSE73661 81 %, GSE16879 52 % (Spearman 0.64-0.77). Meta-analysis: 1,256 genes significant with abs(log2FC)>=1 of 24,768. All 12 positive controls significant in the expected direction in >=4 of 5 cohorts (S100A8, LCN2, REG4, DUOX2, CXCL8, MMP3, IL1B, OSM up; AQP8, SLC26A2, HMGCS2, ABCG2 down). Paired inflamed vs non-inflamed: 13,171 genes padj<0.05. `tests/test_expression.py` green |
 | M3 Literature | ✅ passed | PubTator3: 299 publications (top 100 for 'ulcerative colitis' + 5 per top-50 meta-analysis gene, searched with the platform-era symbol when it differs), 8,009 normalised annotations, 3,364 sentence chunks with BM25 index; PMID lists frozen in query_log.json. 100 abstracts in 4 batches processed by 4 Sonnet 5.5 extraction subagents: 203 relations kept, 0 rejected by the verbatim validator. Validator negative tests (paraphrase, out-of-schema relation, foreign PMID, bad confidence, invalid JSON) pass |
 | M4 Knowledge graph | ✅ passed | data/graph/kg.sqlite via GraphStore. 313,401 claims, each through an Evidence record: omics_de per gene x cohort x contrast (8 contrasts over 5 cohorts), expression_meta per gene, 203 literature relations, PubTator annotations and 3,364 sentence chunks, Open Targets associations for MONDO_0005101 (1,999 targets; EFO_0000729 returns nothing in Open Targets 2026), tractability and drugs (392 enriched genes, 109 with a drug), Reactome, STRING (2,913), UniProt (385). **claims_without_resolvable_evidence = 0** |
-| M5 MCP servers | pending | |
+| M5 MCP servers | ✅ passed | FastMCP stdio servers in .mcp.json: expression-mcp (get_de_results, meta_analysis, top_genes, replication), kg-mcp (neighbors, evidence_for, search_literature, check_evidence_ids, get_evidence, numeric_annotation, convergence_ranking, gene_scores), external-mcp (Open Targets association and target, STRING, UniProt, disease_top_targets). Previous symbols resolve (IL8 -> CXCL8). `tests/test_mcp.py`: 16 passed (one test per tool, graph integrity, stdio list_tools per server) |
 | M6 Agents and orchestrator | pending | |
 | M7 Web report | pending | |
 | M8 Evaluation | pending | |
