@@ -2,7 +2,7 @@
 
 Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check passes; evidence is recorded below.
 
-**Current milestone:** M6 (agents and orchestrator)
+**Current milestone:** M8 (evaluation)
 
 | Milestone | Status | Evidence |
 |---|---|---|
@@ -13,7 +13,7 @@ Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check pass
 | M4 Knowledge graph | ✅ passed | data/graph/kg.sqlite via GraphStore. 313,401 claims, each through an Evidence record: omics_de per gene x cohort x contrast (8 contrasts over 5 cohorts), expression_meta per gene, 203 literature relations, PubTator annotations and 3,364 sentence chunks, Open Targets associations for MONDO_0005101 (1,999 targets; EFO_0000729 returns nothing in Open Targets 2026), tractability and drugs (392 enriched genes, 109 with a drug), Reactome, STRING (2,913), UniProt (385). **claims_without_resolvable_evidence = 0** |
 | M5 MCP servers | ✅ passed | FastMCP stdio servers in .mcp.json: expression-mcp (get_de_results, meta_analysis, top_genes, replication), kg-mcp (neighbors, evidence_for, search_literature, check_evidence_ids, get_evidence, numeric_annotation, convergence_ranking, gene_scores), external-mcp (Open Targets association and target, STRING, UniProt, disease_top_targets). Previous symbols resolve (IL8 -> CXCL8). `tests/test_mcp.py`: 16 passed (one test per tool, graph integrity, stdio list_tools per server) |
 | M6 Agents and orchestrator | ✅ passed | Specialists agente-expresion, agente-literatura, agente-externo (Sonnet 5.5) with key findings, numeric annotation and JSON check; orchestrator `/informe` (Opus 5.5) with deterministic convergence v1 (expression meta-analysis, replication, inflamed vs non-inflamed, genetics, literature, tractability), `verify.py agents`, narrative, coverage step 4b, assembly, `verify.py final`. Official headless run `scripts/run_informe.ps1` (runs/2026-11-09): agents 12/14/12 findings submitted, all kept; **`verify.py final`: 68 statements, 0 unsupported**; coverage: 15 of 15 key findings cited. Cost $2.79, 5.4 min, 57 turns. Top of the ranking: CXCR2, CXCR1, CXCL8 (neutrophil chemokine axis) |
-| M7 Web report | pending | |
+| M7 Web report | ✅ passed | Self-contained reports/uc_report.html (6.3 MB, inline Plotly and Cytoscape.js) with the Sections menu by category: Overview (summary, prioritised candidates), Candidates (convergence table, score by stream), Expression (volcano, five-cohort heatmap, replication table), Literature & drugs, Network, Methods & evidence (datasets with sha256, verification, limitations, evidence appendix). `scripts/validate_report.py`: 30 claims, 80 evidence ids, 160 citation links, 0 broken, 0 external resources -> report valid. Checked in the browser: tabs, plots and network render, no console errors, no horizontal scroll |
 | M8 Evaluation | pending | |
 | M9 Reproducibility | pending | |
 | M10 Publication | pending | |

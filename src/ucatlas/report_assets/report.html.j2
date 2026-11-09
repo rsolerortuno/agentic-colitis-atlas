@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ulcerative Colitis Atlas</title>
+<style>
+{{ css | safe }}
+</style>
+<script>{{ plotly_js | safe }}</script>
+<script>{{ cytoscape_js | safe }}</script>
+</head>
+<body>
+{% macro paras(list) -%}
+{% for p in list %}<p class="claim" data-evidence="{{ p.evidence_ids | evattr }}">{{ p | statement_html | safe }} {{ p.evidence_ids | cite | safe }}</p>
+{% endfor %}
+{%- endmacro %}
+<div class="top"><div class="wrap">
+  <div class="brand"><h1>Ulcerative Colitis Atlas</h1>
+    <span class="sub">{{ f.disease.name }} · agentic multi-omics GraphRAG · generated {{ f.generated_utc[:10] }} · config <code>{{ f.config_sha256[:8] }}</code></span></div>
+  <nav class="nav" aria-label="Sections">
+    <button class="navbtn" type="button" id="navbtn" aria-expanded="false" aria-controls="navmenu">
+      <span class="lbl">&#9776; Sections</span><span class="crumb" id="navcrumb"></span><span class="caret">&#9662;</span></button>
+    <button class="navstep" type="button" id="navprev" aria-label="Previous section">&#8592;</button>
+    <button class="navstep" type="button" id="navnext" aria-label="Next section">&#8594;</button>
+    <div class="navmenu" id="navmenu" hidden>
+    {% for cat, items in nav %}<div class="navcat"><h4>{{ cat }}</h4><div class="navsub">
+      {% for title, key, text in items %}<button class="tab" type="button" data-tab="{{ key }}" data-cat="{{ cat }}">{{ title }}<small>{{ text }}</small></button>{% endfor %}
+    </div></div>{% endfor %}
+    </div>
+  </nav>
+</div></div>
+
+<main class="wrap">
+
+<section class="panel" id="tab-overview" data-name="overview">
+<div class="plainbox"><b>In plain words.</b> Ulcerative colitis is a chronic inflammation of the colon lining. This
+report asks which genes and immune pathways have the strongest agreeing evidence to be drug targets or measurable
+markers. It combines biopsy data from five public patient cohorts, the published literature and drug and genetics
+databases. AI agents read the evidence through tools and write the text; every sentence cites records that a program
+checks, and numbers are matched to their source.</div>
+<h2>Summary of the findings</h2>
+{{ paras(f.narrative.summary) }}
+<div class="kpis">
+  <div class="kpi"><b>5</b><span>biopsy cohorts (1 RNA-seq, 4 microarray)</span></div>
+  <div class="kpi"><b>{{ "{:,}".format(f.convergence.universe_size) }}</b><span>genes scored</span></div>
+  <div class="kpi"><b>{{ "{:,}".format(graph_stats.claims_total) }}</b><span>evidence-backed claims in the graph</span></div>
+  <div class="kpi"><b>{{ verification.statements if verification else "—" }}</b><span>statements checked, {{ verification.unsupported if verification else "—" }} unsupported</span></div>
+</div>
+<h2>Prioritised candidates</h2>
+<div class="grid">
+{% for t in f.targets %}
+<div class="card cand claim" data-evidence="{{ t.evidence_ids | evattr }}"><h3>{{ t.gene }}</h3>
+  <div class="meta"><span class="tag {{ 't' if t.category == 'target' else ('b' if t.category == 'biomarker' else 'tb') }}">{{ t.category | replace('_', ' ') }}</span></div>
+  <p>{{ t | statement_html | safe }} {{ t.evidence_ids | cite | safe }}</p></div>
+{% endfor %}
+</div>
+</section>
+
+<section class="panel" id="tab-candidates" data-name="candidates">
+<div class="plainbox"><b>In plain words.</b> Each gene gets a score from six independent kinds of evidence: how much it
+changes in UC biopsies (pooled over five cohorts), in how many cohorts the change repeats, whether it differs between
+inflamed and non-inflamed mucosa of the same patient, human genetics, the literature and whether a drug exists. The
+weights are fixed in the configuration file before the results are seen.</div>
+<h2>The convergence ranking</h2>
+{{ paras(f.narrative.sections.integration or []) }}
+<div class="plot">{{ figs.scores | safe }}</div>
+<div class="tw" style="margin-top:14px"><table><thead><tr><th>#</th><th>Gene</th><th class="num">Score</th><th class="num">Meta log2FC</th><th class="num">Cohorts</th><th class="num">Inflamed vs non-inflamed</th><th class="num">Genetics</th><th>Drugs</th></tr></thead><tbody>
+{% for r in ranking[:25] %}<tr><td class="num">{{ r.rank }}</td><td><b>{{ r.gene }}</b></td><td class="num">{{ r.score }}</td><td class="num">{{ r.meta_log2fc }}</td><td class="num">{{ r.cohorts_same_direction }}/5</td><td class="num">{{ r.paired_log2fc }}</td><td class="num">{{ r.ot_genetic_association }}</td><td>{{ r.drugs | map(attribute='name') | join(', ') if r.drugs else '' }}</td></tr>
+{% endfor %}</tbody></table></div>
+</section>
+
+<section class="panel" id="tab-expression" data-name="expression">
+<div class="plainbox"><b>In plain words.</b> The starting point: biopsies of inflamed colon from people with UC compared
+with colon of people without inflammatory bowel disease. A gene much higher in inflamed tissue may be a target or a
+marker; a gene much lower is usually a normal colon gene the inflamed lining has lost. Each change is then checked in
+four more cohorts, and in non-inflamed mucosa of the same patients.</div>
+<h2>What changes in ulcerative colitis</h2>
+{{ paras(f.narrative.sections.expression or []) }}
+<div class="grid two">
+  <div class="plot">{{ figs.volcano | safe }}</div>
+  <div class="plot">{{ figs.replication | safe }}</div>
+</div>
+<h2>Local inflammation or disease-wide?</h2>
+{{ paras(f.narrative.sections.inflammation or []) }}
+<h2>Replication across cohorts</h2>
+{{ paras(f.narrative.sections.replication or []) }}
+{% if replication %}<div class="tw"><table><thead><tr><th>Cohort</th><th class="num">Discovery changes tested</th><th class="num">Same direction, significant</th><th class="num">Share</th><th class="num">Spearman rho</th></tr></thead><tbody>
+{% for r in replication %}<tr><td>{{ r.cohort }}</td><td class="num">{{ r.tested }}</td><td class="num">{{ r.replicated_same_direction }}</td><td class="num">{{ "%.0f" | format(100 * r.share) }} %</td><td class="num">{{ "%.2f" | format(r.rho) }}</td></tr>
+{% endfor %}</tbody></table></div>{% endif %}
+</section>
+
+<section class="panel" id="tab-literature" data-name="literature">
+<div class="plainbox"><b>In plain words.</b> What is already known: findings extracted from PubMed abstracts (each
+with its exact sentence), and drugs, genetics and druggability from Open Targets, ChEMBL and UniProt.</div>
+<h2>Literature</h2>
+{{ paras(f.narrative.sections.literature or []) }}
+<h2>Drugs, genetics and druggability</h2>
+{{ paras(f.narrative.sections.external or []) }}
+</section>
+
+<section class="panel" id="tab-network" data-name="network">
+<div class="plainbox"><b>In plain words.</b> The top genes (blue), the drugs that act on them (green) and the known
+protein interactions between them. It helps to see clusters; it is not proof of mechanism.</div>
+<h2>Network of the top candidates</h2>
+<div id="cy" style="height:600px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"></div>
+<p class="small" id="cy-info">Click an edge to see its evidence.</p>
+</section>
+
+<section class="panel" id="tab-methods" data-name="methods">
+<h2>How the report was built and checked</h2>
+<div class="howbox"><ul>
+<li><strong>Data.</strong> Five public biopsy cohorts (GEO), each analysed on its own scale; patients with several biopsies
+count once; changes combined by random-effects meta-analysis. Literature from PubTator3; external knowledge from Open
+Targets, STRING and UniProt.</li>
+<li><strong>Agents.</strong> {{ f.models.agents }}; orchestrator: {{ f.models.orchestrator }}.</li>
+<li><strong>Verification.</strong> {% if verification %}{{ verification.statements }} statements checked, {{ verification.unsupported }} unsupported, {{ verification.stale }} citing changed evidence. {{ verification.interpretation }}. {{ verification.scope }}.{% endif %}</li>
+</ul></div>
+<h3>Limitations</h3>
+<ul>{% for l in f.narrative.limitations %}<li>{{ l.text }}</li>{% endfor %}</ul>
+<h3>Datasets</h3>
+<div class="tw"><table><thead><tr><th>File</th><th>Source</th><th>sha256</th></tr></thead><tbody>
+{% for d in f.datasets %}<tr><td>{{ d.file }}</td><td><a href="{{ d.url }}">{{ d.url.split('/')[2] }}</a></td><td><code>{{ d.sha256[:12] }}</code></td></tr>{% endfor %}
+</tbody></table></div>
+<h3>Evidence cited in this report</h3>
+<div id="evlist">{% for e in evidence %}<div class="ev" id="{{ e.anchor }}"><b>[{{ loop.index }}]</b> {% if e.link %}<a href="{{ e.link }}">{{ e.label }}</a>{% else %}{{ e.label }}{% endif %} · {{ e.detail }} <code>{{ e.id }}</code></div>
+{% endfor %}</div>
+</section>
+
+</main>
+<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661; PubTator3; Open Targets; STRING; UniProt; HGNC. Not medical advice.</footer></div>
+
+<script>
+(function(){
+  var panels=[].slice.call(document.querySelectorAll('.panel')), tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var nb=document.getElementById('navbtn'), nm=document.getElementById('navmenu'), cy=null, cyData={{ network_json | safe }};
+  function closeMenu(){if(!nm.hidden){nm.hidden=true; nb.setAttribute('aria-expanded','false');}}
+  function initCy(){
+    if(cy) return;
+    cy=cytoscape({container:document.getElementById('cy'),elements:cyData.nodes.concat(cyData.edges),
+      layout:{name:'cose',animate:false,nodeRepulsion:9000,idealEdgeLength:90},
+      style:[{selector:'node',style:{'label':'data(label)','font-size':10,'text-valign':'bottom','text-margin-y':3}},
+        {selector:'node[kind="gene"]',style:{'background-color':'#2a78d6','width':18,'height':18}},
+        {selector:'node[kind="drug"]',style:{'background-color':'#1baf7a','shape':'diamond','width':12,'height':12,'font-size':8}},
+        {selector:'edge',style:{'width':1.2,'line-color':'#9aa0aa','curve-style':'bezier','opacity':0.7}},
+        {selector:'edge[kind="drug"]',style:{'line-color':'#1baf7a','target-arrow-shape':'triangle','target-arrow-color':'#1baf7a'}}]});
+    cy.on('tap','edge',function(e){var d=e.target.data(); document.getElementById('cy-info').textContent=d.kind+': '+cy.getElementById(d.source).data('label')+' → '+cy.getElementById(d.target).data('label')+' · evidence '+d.ev;});
+  }
+  function show(name,push){
+    var p=document.getElementById('tab-'+name)||document.getElementById('tab-overview'); name=p.getAttribute('data-name');
+    panels.forEach(function(x){x.classList.toggle('on',x===p);});
+    tabs.forEach(function(t){t.setAttribute('aria-selected',t.getAttribute('data-tab')===name?'true':'false');});
+    var cur=tabs.filter(function(t){return t.getAttribute('data-tab')===name;})[0], cr=document.getElementById('navcrumb');
+    if(cur){cr.innerHTML=''; var c=document.createElement('span'), b=document.createElement('b'); c.className='cat';
+      c.textContent=cur.getAttribute('data-cat')+' › '; b.textContent=cur.firstChild.textContent; cr.appendChild(c); cr.appendChild(b);}
+    closeMenu();
+    if(name==='network'){initCy(); cy.resize(); cy.fit(undefined,30);}
+    [].slice.call(p.querySelectorAll('.js-plotly-plot')).forEach(function(d){try{Plotly.Plots.resize(d);}catch(e){}});
+    if(push!==false){try{history.replaceState(null,'','#tab='+name);}catch(e){}}
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){show(t.getAttribute('data-tab'));window.scrollTo(0,0);});});
+  nb.addEventListener('click',function(e){e.stopPropagation(); var open=nm.hidden; nm.hidden=!open; nb.setAttribute('aria-expanded',open?'true':'false');});
+  document.addEventListener('click',function(e){if(!nm.hidden&&!e.target.closest('#navmenu,#navbtn')) closeMenu();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!nm.hidden){closeMenu(); nb.focus();}});
+  function step(d){var i=tabs.map(function(t){return t.getAttribute('aria-selected');}).indexOf('true'); var t=tabs[(i+d+tabs.length)%tabs.length]; show(t.getAttribute('data-tab')); window.scrollTo(0,0);}
+  document.getElementById('navprev').addEventListener('click',function(){step(-1);});
+  document.getElementById('navnext').addEventListener('click',function(){step(1);});
+  document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#ev-"]'); if(!a) return; var el=document.getElementById(a.getAttribute('href').slice(1)); if(!el) return; e.preventDefault(); show('methods',false); el.scrollIntoView({behavior:'smooth',block:'center'});});
+  var h=(location.hash||'').replace('#tab=','').replace('#','');
+  show(document.getElementById('tab-'+h)?h:'overview',false);
+  window.addEventListener('hashchange',function(){var h2=(location.hash||'').replace('#tab=','').replace('#',''); if(document.getElementById('tab-'+h2)) show(h2,false);});
+})();
+</script>
+</body>
+</html>
