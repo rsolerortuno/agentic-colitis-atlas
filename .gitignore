@@ -18,3 +18,6 @@ runs/.current
 data/literature/pubtator/
 data/literature/extraction_batches/
 data/literature/extracted/
+!data/raw/spatial/*/
+data/raw/spatial/*/*
+!data/raw/spatial/*/manifest.json
