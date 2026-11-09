@@ -2,7 +2,7 @@
 
 Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check passes; evidence is recorded below.
 
-**Current milestone:** M9 (reproducibility)
+**Current milestone:** M10 (publication)
 
 | Milestone | Status | Evidence |
 |---|---|---|
@@ -15,7 +15,7 @@ Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check pass
 | M6 Agents and orchestrator | ✅ passed | Specialists agente-expresion, agente-literatura, agente-externo (Sonnet 5.5) with key findings, numeric annotation and JSON check; orchestrator `/informe` (Opus 5.5) with deterministic convergence v1 (expression meta-analysis, replication, inflamed vs non-inflamed, genetics, literature, tractability), `verify.py agents`, narrative, coverage step 4b, assembly, `verify.py final`. Official headless run `scripts/run_informe.ps1` (runs/2026-11-09): agents 12/14/12 findings submitted, all kept; **`verify.py final`: 68 statements, 0 unsupported**; coverage: 15 of 15 key findings cited. Cost $2.79, 5.4 min, 57 turns. Top of the ranking: CXCR2, CXCR1, CXCL8 (neutrophil chemokine axis) |
 | M7 Web report | ✅ passed | Self-contained reports/uc_report.html (6.3 MB, inline Plotly and Cytoscape.js) with the Sections menu by category: Overview (summary, prioritised candidates), Candidates (convergence table, score by stream), Expression (volcano, five-cohort heatmap, replication table), Literature & drugs, Network, Methods & evidence (datasets with sha256, verification, limitations, evidence appendix). `scripts/validate_report.py`: 30 claims, 80 evidence ids, 160 citation links, 0 broken, 0 external resources -> report valid. Checked in the browser: tabs, plots and network render, no console errors, no horizontal scroll |
 | M8 Evaluation | ✅ passed (with caveats) | evals/results.md. (a) 59 UC clinical targets (Open Targets clinical precedence, phase 2+): convergence v1 AUROC 0.86 (0.82-0.91), data-only 0.74 (0.67-0.82), expression alone 0.72, genetics alone 0.63; tractability alone 0.81 with 61 % recall@100 (circular: clinical targets have drugs). Clinical targets (cytokines, receptors, integrins) change little in bulk mRNA, so expression-led rankings put them low; the M14 profiles address this. (b) Temporal subset after 2018: only 4 targets, too small to conclude. (c) Known-answer questions with claude -p + MCP: 10/10 (q07 regex widened after the run, logged). (d) evals/history.md |
-| M9 Reproducibility | pending | |
+| M9 Reproducibility | ✅ passed | `uv run ucatlas run-all` from a cleaned processed folder and graph: download (12 files re-hashed) -> sample table (2,807 samples) -> expression and meta-analysis (24,768 genes) -> literature from the frozen PMID lists, 203/203 relations re-validated -> enrichment from cache -> graph (0 claims without evidence) -> convergence (identical top 10) -> verify agents -> assemble -> **verify final: 0 unsupported, 0 stale** -> render -> report valid; about 3 minutes. README written as a case study |
 | M10 Publication | pending | |
 | M11 Single cell and spatial | pending | |
 | M12 Cell composition | pending | |
