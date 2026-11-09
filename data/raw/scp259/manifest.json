@@ -1,0 +1,61 @@
+{
+ "source": "Broad Single Cell Portal SCP259 (Smillie et al. 2019, Cell, doi:10.1016/j.cell.2019.06.029); downloaded by the user (portal login required)",
+ "files": {
+  "gene_sorted-Epi.matrix.mtx": {
+   "sha256": "269d297ec20f0967e284b11661644918ce5224e61fe8cb26eaf7e5dd952c0c92",
+   "bytes": 2384706723
+  },
+  "gene_sorted-Fib.matrix.mtx": {
+   "sha256": "0e06ee08c6507eb5ab7bec7199f53fbc05e65c5a567bcd2a0021e5551687b835",
+   "bytes": 516067003
+  },
+  "gene_sorted-Imm.matrix.mtx": {
+   "sha256": "7ab9c8ca18b8d7954dfafb66c42e26e779970654aee411f69623161b2ca97583",
+   "bytes": 2441236789
+  },
+  "Epi.barcodes2.tsv": {
+   "sha256": "e9f0407a8f663103efb0598da4f2189c95f2095f7536f2e77436c39e291555cc",
+   "bytes": 3104379
+  },
+  "Fib.barcodes2.tsv": {
+   "sha256": "3e584ead83ec7c83c0712b4a9d0ee0c28acff618aa3f185bb0c3c2e2dd559c67",
+   "bytes": 796527
+  },
+  "Imm.barcodes2.tsv": {
+   "sha256": "7a7b9efb875e4c4f68ad34a6b48bdfcbe18d34dee4642af02584024b8fc071a3",
+   "bytes": 5356374
+  },
+  "Epi.genes.tsv": {
+   "sha256": "16aaf68c66c86aed9993b76231f2f268c9f5b1ae4ee21706d713d3042e7995e1",
+   "bytes": 154607
+  },
+  "Fib.genes.tsv": {
+   "sha256": "52bc05012822a5f9eecefb78794379c73b1c552ca2ca6097f3960741e9e2a2b3",
+   "bytes": 144640
+  },
+  "Imm.genes.tsv": {
+   "sha256": "84414cb13169f7701faeb483cc3fa5fb6ff72c4578577379d4fc63ae174b4803",
+   "bytes": 159297
+  },
+  "all.meta2.txt": {
+   "sha256": "ac09198b7acf05c28ca9baa4fc20cd8c6e39fd797e6d321b42b4fdf07ceab23d",
+   "bytes": 26391092
+  }
+ },
+ "checked_utc": "2026-11-09T12:43:51+00:00",
+ "dimensions": {
+  "Epi": [
+   20028,
+   123006
+  ],
+  "Fib": [
+   19076,
+   31872
+  ],
+  "Imm": [
+   20529,
+   210614
+  ],
+  "cells_in_meta": 365492
+ }
+}
