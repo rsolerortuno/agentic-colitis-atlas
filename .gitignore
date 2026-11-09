@@ -15,3 +15,6 @@ data/literature/*.json
 data/literature/*.parquet
 !data/literature/query_log.json
 runs/.current
+data/literature/pubtator/
+data/literature/extraction_batches/
+data/literature/extracted/

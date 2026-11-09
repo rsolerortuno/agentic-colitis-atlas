@@ -4,7 +4,8 @@ disease:
   name: ulcerative colitis
   short: UC
   mondo: "MONDO:0005101"
-  open_targets_id: "EFO_0000729"   # to confirm in M1
+  open_targets_id: "MONDO_0005101"  # Open Targets 2026 uses the MONDO id (EFO_0000729 returns nothing)
+  open_targets_top: 2000
   doid: "DOID:8577"
 
 literature:
