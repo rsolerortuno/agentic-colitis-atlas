@@ -19,6 +19,7 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `agente-externo`: "Question: <question>. Write your output to RUN/agent_external.json."
    - `agente-celular`: "Question: <question>. Write your output to RUN/agent_cells.json."
    - `agente-vias`: "Question: <question>. Write your output to RUN/agent_pathways.json."
+   - `agente-aplicado`: "Question: <question>. Write your output to RUN/agent_applied.json."
 
 3. Run `uv run python scripts/verify.py agents`. It removes evidence ids that do not exist or are not linked to the
    gene and drops unsupported findings, writing `*.verified.json`.
@@ -30,7 +31,8 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    ```json
    {"summary":  [{"text": "...", "evidence_ids": ["..."]}],
     "sections": {"expression": [...], "inflammation": [...], "replication": [...], "literature": [...],
-                 "external": [...], "cells": [...], "pathways": [...], "integration": [...]},
+                 "external": [...], "cells": [...], "pathways": [...], "treatment": [...],
+                 "discovery": [...], "integration": [...]},
     "targets":  [{"gene": "OSM", "category": "target|biomarker|target_and_biomarker",
                   "rationale": "...", "evidence_ids": ["..."]}],
     "limitations": [{"text": "..."}]}
@@ -49,6 +51,11 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `pathways` (2–3 paragraphs) from `agent_pathways.verified.json`: the pathways and transcription factors active in
      inflamed mucosa across cohorts, and the most specific cell-cell circuits (sender, ligand, receptor, receiver),
      separating already-targeted axes from untargeted ones. Co-expression is not proof of signalling.
+   - `treatment` (2 paragraphs) from `agent_applied.verified.json`: genes and pathways associated with non-response
+     to each drug, always with BH padj, separating drug-specific signals from general severity (placebo arms).
+   - `discovery` (2-3 paragraphs): the leading first-in-class candidates, one paragraph per gene (cell source,
+     composition, replication, tractability, safety, what is missing), as hypotheses for experimental validation.
+     Put at least two of them in `targets` with a rationale beginning "Exploratory:".
    - `integration` (2 paragraphs): agreements and disagreements between the streams.
    - 3–5 summary paragraphs; 10–14 entries in `targets` ordered by your judgment of strength (you may depart from the
      numeric ranking, but say why in `rationale`). Known UC targets act as positive controls: say so when they appear.

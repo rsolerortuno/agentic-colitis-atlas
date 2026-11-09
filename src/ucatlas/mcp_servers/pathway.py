@@ -73,5 +73,23 @@ def communication(gene: str, n: int = 10) -> list[dict]:
     return out or [{"gene": g, "message": "no ligand-receptor pair with this gene above the expression thresholds"}]
 
 
+@mcp.tool()
+def treatment_response(gene: str) -> dict:
+    """Baseline expression of a gene vs response to ustekinumab (UNIFI, mucosal healing week 8), golimumab (PURSUIT,
+    response week 6), infliximab (GSE16879) and vedolizumab (GSE73661), plus the placebo arms of UNIFI and PURSUIT.
+    Per arm: mean difference non-responders minus responders (positive = higher in non-responders) and BH padj;
+    drug-vs-placebo interaction (logistic) for ustekinumab and golimumab. Many genes also separate placebo
+    non-responders, i.e. they mark severity rather than a drug-specific mechanism: compare with the placebo arm."""
+    g = canonical_gene(gene)
+    return _rec(evidence_id("treatment_response", g)) or {"gene": g, "message": "not assessed"}
+
+
+@mcp.tool()
+def response_pathways(name: str, kind: str = "pathway") -> dict:
+    """Pathway (kind='pathway', PROGENy) or TF (kind='tf', CollecTRI) activity in non-responders vs responders per
+    drug arm and placebo arm (t, BH padj). Positive t = more active in non-responders."""
+    return _rec(evidence_id("response_pathway", kind, name)) or {"name": name, "message": "not assessed"}
+
+
 if __name__ == "__main__":
     mcp.run()

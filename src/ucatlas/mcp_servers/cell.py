@@ -76,5 +76,22 @@ def spatial_context(gene: str) -> dict:
     return _record("spatial_summary", g) or {"gene": g, "message": "not on the Xenium 5K panel or too few counts"}
 
 
+@mcp.tool()
+def discovery_profile(gene: str) -> dict:
+    """M13 discovery screen record of a gene up in UC: composition verdict and retained share, dominant lineage,
+    neutrophil share, UC papers in Europe PMC, clinical drug, tractability, highest vital-organ RNA (HPA) and status
+    ('first-in-class opportunity' when it passes every filter)."""
+    g = canonical_gene(gene)
+    return _record("discovery_profile", g) or {"gene": g, "message": "not in the discovery pool (not up in UC)"}
+
+
+@mcp.tool()
+def novel_targets(n: int = 20) -> list[dict]:
+    """The first-in-class opportunities of the discovery screen, strongest meta-analysis increase first."""
+    d = pd.read_parquet(PROCESSED / "discovery.parquet")
+    d = d[d["status"] == "first-in-class opportunity"].sort_values("meta_log2fc", ascending=False).head(n)
+    return [r for g in d["gene"] if (r := _record("discovery_profile", g))]
+
+
 if __name__ == "__main__":
     mcp.run()

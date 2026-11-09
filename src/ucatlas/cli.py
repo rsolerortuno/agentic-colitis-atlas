@@ -62,6 +62,10 @@ def run_all(clean: bool = True) -> None:
         _step("pathways", lambda: (pathways.pathway_activity(), pathways.tf_activity(), pathways.communication(),
                                    pathways.load())[3])
     _step("disease activity", lambda: (activity.run(), activity.load())[1])
+    from . import treatment
+    _step("treatment response", lambda: (treatment.response_genes(),
+                                         treatment.interaction(list(dict.fromkeys(expression_top(300) + TX_EXTRA))),
+                                         treatment.response_pathways(), treatment.load())[3])
     from . import spatial
     if (spatial.D / "manifest.json").exists():
         extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]
@@ -72,6 +76,10 @@ def run_all(clean: bool = True) -> None:
     _step("verify final", lambda: _script("scripts/verify.py", "final", run.name))
     _step("render", lambda: _script("scripts/render.py", run.name))
     _step("validate report", lambda: _script("scripts/validate_report.py"))
+
+
+TX_EXTRA = ["TNF", "IL23A", "IL12B", "ITGB7", "ITGA4", "MADCAM1", "OSM", "OSMR", "TREM1", "JAK1", "S1PR1",
+            "TNFSF15", "IL11"]
 
 
 def expression_top(n):
