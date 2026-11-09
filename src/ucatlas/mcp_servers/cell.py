@@ -66,5 +66,15 @@ def composition_effect(gene: str) -> dict:
     return _record("composition_effect", g) or {"gene": g, "message": "composition effect not computed for this gene"}
 
 
+@mcp.tool()
+def spatial_context(gene: str) -> dict:
+    """In-situ view from Xenium 5K sections of UC and healthy rectum (GSE312420): share of the gene's transcripts per
+    cell lineage by state, and lineages enriched among the 10 nearest neighbours of expressing cells (permutation
+    p < 0.05, enrichment > 1.2). Sections with few typed cells are left out and named. Panel sensitivity is low:
+    absence of enrichment is not evidence of absence."""
+    g = canonical_gene(gene)
+    return _record("spatial_summary", g) or {"gene": g, "message": "not on the Xenium 5K panel or too few counts"}
+
+
 if __name__ == "__main__":
     mcp.run()

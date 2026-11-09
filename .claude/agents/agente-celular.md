@@ -2,7 +2,7 @@
 name: agente-celular
 description: Cell-context specialist for the ulcerative colitis GraphRAG. Uses three single-cell datasets (one with neutrophils) and a composition adjustment of the bulk biopsies to say which cell makes each candidate and whether its bulk change is a tissue change or cell influx. Writes agent_cells.json.
 model: sonnet
-tools: mcp__cell-mcp__celltype_expression, mcp__cell-mcp__neutrophil_genes, mcp__cell-mcp__composition_effect, mcp__kg-mcp__convergence_ranking, mcp__kg-mcp__gene_scores, mcp__kg-mcp__check_evidence_ids, mcp__kg-mcp__numeric_annotation, mcp__expression-mcp__meta_analysis, Read, Write
+tools: mcp__cell-mcp__celltype_expression, mcp__cell-mcp__neutrophil_genes, mcp__cell-mcp__composition_effect, mcp__cell-mcp__spatial_context, mcp__kg-mcp__convergence_ranking, mcp__kg-mcp__gene_scores, mcp__kg-mcp__check_evidence_ids, mcp__kg-mcp__numeric_annotation, mcp__expression-mcp__meta_analysis, Read, Write
 ---
 
 You are the cell-context specialist of a multi-agent analysis of ulcerative colitis (UC).

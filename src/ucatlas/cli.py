@@ -56,6 +56,10 @@ def run_all(clean: bool = True) -> None:
         if (PROCESSED / "sc3_celltype_share.parquet").exists():
             _step("composition", lambda: (composition.run(expression_top(None))["verdict"].value_counts().to_dict(),
                                           composition.load())[0])
+    from . import spatial
+    if (spatial.D / "manifest.json").exists():
+        extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]
+        _step("spatial", lambda: (spatial.run(list(dict.fromkeys(expression_top(300) + extra))), spatial.load())[1])
     _step("convergence", lambda: _rebuild_convergence(run))
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))
