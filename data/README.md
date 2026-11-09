@@ -28,5 +28,5 @@ health state (healthy, non-inflamed, inflamed), compartment and cell cluster.
 
 ## Disease identifiers
 
-MONDO:0005101 (cross-referenced to EFO_0000729 and DOID:8577). The Open Targets id is confirmed in M4 when the
-association query is first run.
+MONDO:0005101 (cross-referenced to EFO_0000729 and DOID:8577). Open Targets (2026) uses MONDO_0005101; a query
+with EFO_0000729 returns no disease, checked 2026-11-09.

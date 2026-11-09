@@ -23,3 +23,17 @@ expression:
 
 # The remaining sections (convergence, profiles, discovery, pathways, treatment) are added by the milestone that
 # introduces them, with the decision recorded in evals/history.md before results are measured.
+
+convergence:
+  # v1 (M6). Decided before the first ranking was seen; changes are logged in evals/history.md.
+  version: 1
+  expression_cap: 3.0      # |meta log2FC| at which the expression stream reaches 1
+  paired_cap: 2.0          # |paired inflamed vs non-inflamed log2FC| at which the inflammation stream reaches 1
+  stream_weights:
+    expression: 2.0        # meta-analysis of UC vs control (five cohorts)
+    replication: 1.0       # share of cohorts with a significant same-direction change
+    inflammation: 1.0      # inflamed vs non-inflamed mucosa of the same patient
+    genetics: 2.0          # Open Targets germline genetic association
+    literature: 1.0        # validated local relations or Open Targets literature
+    tractability: 0.5      # clinical drug 1, predicted tractable 0.5
+  top_n_report: 100

@@ -203,6 +203,7 @@ def run() -> dict:
     meta = pd.DataFrame(rows)
     meta["meta_padj"] = _bh(meta["meta_p"])
     meta.to_parquet(PROCESSED / "meta.parquet", index=False)
+    replication(de).to_parquet(PROCESSED / "replication.parquet", index=False)
     return {"de": de, "meta": meta}
 
 
