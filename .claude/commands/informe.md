@@ -18,6 +18,7 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `agente-literatura`: "Question: <question>. Write your output to RUN/agent_literature.json."
    - `agente-externo`: "Question: <question>. Write your output to RUN/agent_external.json."
    - `agente-celular`: "Question: <question>. Write your output to RUN/agent_cells.json."
+   - `agente-vias`: "Question: <question>. Write your output to RUN/agent_pathways.json."
 
 3. Run `uv run python scripts/verify.py agents`. It removes evidence ids that do not exist or are not linked to the
    gene and drops unsupported findings, writing `*.verified.json`.
@@ -29,7 +30,7 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    ```json
    {"summary":  [{"text": "...", "evidence_ids": ["..."]}],
     "sections": {"expression": [...], "inflammation": [...], "replication": [...], "literature": [...],
-                 "external": [...], "cells": [...], "integration": [...]},
+                 "external": [...], "cells": [...], "pathways": [...], "integration": [...]},
     "targets":  [{"gene": "OSM", "category": "target|biomarker|target_and_biomarker",
                   "rationale": "...", "evidence_ids": ["..."]}],
     "limitations": [{"text": "..."}]}
@@ -45,6 +46,9 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
      stroma, myeloid cells, neutrophils, lymphocytes), whether the attribution replicates, and which bulk changes are
      tissue changes vs. cell influx after the composition adjustment (with its over-correction caveat). Use this to
      separate targets in a cell type from markers of inflammation; neutrophil genes are the main example.
+   - `pathways` (2–3 paragraphs) from `agent_pathways.verified.json`: the pathways and transcription factors active in
+     inflamed mucosa across cohorts, and the most specific cell-cell circuits (sender, ligand, receptor, receiver),
+     separating already-targeted axes from untargeted ones. Co-expression is not proof of signalling.
    - `integration` (2 paragraphs): agreements and disagreements between the streams.
    - 3–5 summary paragraphs; 10–14 entries in `targets` ordered by your judgment of strength (you may depart from the
      numeric ranking, but say why in `rationale`). Known UC targets act as positive controls: say so when they appear.

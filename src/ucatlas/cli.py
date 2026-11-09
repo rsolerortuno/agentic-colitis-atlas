@@ -56,6 +56,12 @@ def run_all(clean: bool = True) -> None:
         if (PROCESSED / "sc3_celltype_share.parquet").exists():
             _step("composition", lambda: (composition.run(expression_top(None))["verdict"].value_counts().to_dict(),
                                           composition.load())[0])
+    from . import activity, discovery, pathways
+    if (PROCESSED / "sc3_celltype_share.parquet").exists():
+        _step("discovery", lambda: (discovery.run()["status"].value_counts().to_dict(), discovery.load())[0])
+        _step("pathways", lambda: (pathways.pathway_activity(), pathways.tf_activity(), pathways.communication(),
+                                   pathways.load())[3])
+    _step("disease activity", lambda: (activity.run(), activity.load())[1])
     from . import spatial
     if (spatial.D / "manifest.json").exists():
         extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]

@@ -55,6 +55,20 @@
       "env": {
         "ATLAS_RUN_DIR": "${ATLAS_RUN_DIR:-}"
       }
+    },
+    "pathway-mcp": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--quiet",
+        "python",
+        "-m",
+        "ucatlas.mcp_servers.pathway"
+      ],
+      "env": {
+        "ATLAS_RUN_DIR": "${ATLAS_RUN_DIR:-}"
+      }
     }
   }
 }
