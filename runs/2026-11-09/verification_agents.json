@@ -1,0 +1,28 @@
+{
+ "agents": {
+  "agent_expression.json": {
+   "submitted": 12,
+   "kept": 12,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 0
+  },
+  "agent_literature.json": {
+   "submitted": 14,
+   "kept": 14,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 0
+  },
+  "agent_external.json": {
+   "submitted": 12,
+   "kept": 12,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 5
+  }
+ }
+}

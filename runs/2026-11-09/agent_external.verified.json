@@ -1,0 +1,239 @@
+{
+ "agent": "agente-externo",
+ "findings": [
+  {
+   "gene": "CXCR2",
+   "role": "target_and_biomarker",
+   "statement": "CXCR2 is the top convergence gene: up in UC biopsies (meta-analysis [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.264]) with Open Targets genetic support and an overall UC association [gene=CXCR2; type=open_targets_association; source=Open Targets Platform; score=0.5345]. Small-molecule tractability is 'SM: Advanced Clinical' and drugs include reparixin (PHASE_3) and navarixin, ladarixin, danirixin, elubrixin and SX-682 (PHASE_2), none a UC indication in the returned records; Reactome places it in neutrophil degranulation and chemokine receptor signalling.",
+   "evidence_ids": [
+    "EV:expression_meta:1fce9fb2531f",
+    "EV:open_targets_assoc:7d06375723b1",
+    "EV:open_targets_tract:1fce9fb2531f",
+    "EV:open_targets_drug:b6ab97730b13",
+    "EV:open_targets_drug:33654b5ea54a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1fce9fb2531f",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.264",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:open_targets_assoc:7d06375723b1",
+     "field": [
+      "score"
+     ],
+     "display": "0.5345",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "target_and_biomarker",
+   "statement": "CXCL8 is strongly induced in all cohorts ([gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.704]) but has no Open Targets genetic association with UC (genetics component zero); clinical-stage anti-IL-8 antibodies exist (ABX-IL8, adakitug, PHASE_2). STRING links CXCR2 to CXCL8 at very high confidence, supporting an IL-8/CXCR2 neutrophil axis driven by expression and literature rather than genetics.",
+   "evidence_ids": [
+    "EV:expression_meta:1e78b2f07f0c",
+    "EV:open_targets_assoc:43dd708a12ac",
+    "EV:open_targets_drug:505c7fa32e1a",
+    "EV:string:9bf5af659675"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1e78b2f07f0c",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.704",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCR1",
+   "role": "target",
+   "statement": "CXCR1 shares the same clinical dual CXCR1 and CXCR2 inhibitors as CXCR2 (reparixin PHASE_3, ladarixin, navarixin, SX-682 PHASE_2) and has intermediate Open Targets genetic support; it is up in biopsies in the same direction across five cohorts. STRING links it to CXCR2 at high confidence.",
+   "evidence_ids": [
+    "EV:expression_meta:450a602fd6f8",
+    "EV:open_targets_assoc:b086d247accc",
+    "EV:open_targets_tract:450a602fd6f8",
+    "EV:open_targets_drug:f18c23175e7a",
+    "EV:string:f780fa4d243a"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "biomarker",
+   "statement": "CHI3L1 has among the largest biopsy changes ([gene=CHI3L1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.714]) and strong replication, but no Open Targets genetic support and no drug in the returned records; it fits a biomarker or mechanism role, not a drug target.",
+   "evidence_ids": [
+    "EV:expression_meta:b3f7b3e784f8",
+    "EV:open_targets_assoc:e7ff84f71f32",
+    "EV:open_targets_tract:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:b3f7b3e784f8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.714",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "JAK2",
+   "role": "mechanism",
+   "statement": "JAK2 has the second-highest Open Targets UC association among the known targets ([gene=JAK2; type=open_targets_association; source=Open Targets Platform; score=0.7318]) yet changes only modestly in biopsies ([gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.872]); genetically supported but not strongly expression-led. Fedratinib is approved (in another indication).",
+   "evidence_ids": [
+    "EV:open_targets_assoc:3c2fb97467a0",
+    "EV:expression_meta:c36b80d82ff8",
+    "EV:open_targets_drug:0ab40df0a337"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:open_targets_assoc:3c2fb97467a0",
+     "field": [
+      "score"
+     ],
+     "display": "0.7318",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:expression_meta:c36b80d82ff8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.872",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "OSMR",
+   "role": "target",
+   "statement": "OSMR is up in UC ([gene=OSMR; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.042]) with genetic association and an antibody tractability label 'AB: Advanced Clinical'; vixarelimab (PHASE_2) is the only drug returned. Reactome: IL-6-type cytokine receptor ligand interactions. OSM itself is not among the top 1999 Open Targets UC associations.",
+   "evidence_ids": [
+    "EV:expression_meta:9dbbfc64540a",
+    "EV:open_targets_assoc:c4f64a2388d8",
+    "EV:open_targets_tract:9dbbfc64540a",
+    "EV:open_targets_drug:5a0bed88f542"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:9dbbfc64540a",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.042",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "IDO1",
+   "role": "target_and_biomarker",
+   "statement": "IDO1 is strongly up ([gene=IDO1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.445]) without genetic association; drugs returned are epacadostat (APPROVAL stage as listed) and linrodostat (PHASE_3), in other indications.",
+   "evidence_ids": [
+    "EV:expression_meta:2b76723dce27",
+    "EV:open_targets_assoc:1ad2fe844ae2",
+    "EV:open_targets_drug:c3b7dc4c3af0",
+    "EV:open_targets_drug:5b23b2c524fb"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:2b76723dce27",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.445",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "IL23R",
+   "role": "target",
+   "statement": "Established target IL23R has strong genetic association ([gene=IL23R; type=open_targets_association; source=Open Targets Platform; score=0.5997]) but is absent from the stored convergence ranking, so biopsy expression does not single it out. The same holds for TNF; known-target status comes from genetics and drugs, not from the transcriptomic signal.",
+   "evidence_ids": [
+    "EV:open_targets_assoc:4c94f023aa82"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:open_targets_assoc:4c94f023aa82",
+     "field": [
+      "score"
+     ],
+     "display": "0.5997",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CD274",
+   "role": "mechanism",
+   "statement": "CD274 (PD-L1) is up in five cohorts and has genetic association; marketed PD-L1 antibodies (atezolizumab PHASE_4, sugemalimab APPROVAL) exist in oncology only, so repurposing is not supported and checkpoint agonism rather than blockade would be the relevant direction.",
+   "evidence_ids": [
+    "EV:expression_meta:822a01cbf7e8",
+    "EV:open_targets_assoc:3cad6fefb485",
+    "EV:open_targets_drug:7c257bb58d6f"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "MMP3",
+   "role": "biomarker",
+   "statement": "MMP1, MMP3, MMP7, MMP9 and MMP10 are all up with consistent replication and none has Open Targets genetic support; broad MMP inhibitors (marimastat PHASE_3) exist, but this family is better read as a tissue-damage biomarker set than a validated target.",
+   "evidence_ids": [
+    "EV:expression_meta:de1e9e07b063",
+    "EV:open_targets_assoc:7807c49e3f7d",
+    "EV:open_targets_drug:49920869f140"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CXCL1",
+   "role": "biomarker",
+   "statement": "CXCL1, CXCL5 and S100A8/S100A9 are strongly replicated up-regulated genes with no returned drugs and no genetic association; STRING links CXCL1 and CXCL5 to CXCR2 at very high confidence, reinforcing the neutrophil chemokine axis.",
+   "evidence_ids": [
+    "EV:expression_meta:b36f0e2e423a",
+    "EV:open_targets_assoc:dcf57c26c06e",
+    "EV:string:89938ac4f309"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "IL2RA",
+   "role": "mechanism",
+   "statement": "IL2RA is up with genetic association and has drugs (basiliximab PHASE_4, other agents) in other indications; its expression change is modest relative to the chemokine and MMP genes.",
+   "evidence_ids": [
+    "EV:expression_meta:0d28c0dab75c",
+    "EV:open_targets_assoc:c275cc3ec9d3",
+    "EV:open_targets_drug:cf3fe5477445"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "Drug stages are Open Targets maximum clinical stage in any indication, not UC trials.",
+  "Bulk biopsy changes may reflect infiltrating neutrophils and myeloid cells rather than epithelial change.",
+  "IL23R and TNF are outside the stored convergence top, so their expression behaviour was not quantified.",
+  "PubMed connector was unavailable (needs authorization); no extra literature checks."
+ ]
+}

@@ -14,10 +14,10 @@ from . import provenance, semantic
 from .graph import GraphStore
 from .literature_entities import resolve_gene
 
-AGENT_FILES = ("agent_omics.json", "agent_literature.json", "agent_external.json", "agent_cells.json", "agent_applied.json",
-               "agent_single.json")
-# written only by the single-agent arm of the architecture benchmark (benchmarks/architecture_pipeline); absent otherwise
-OPTIONAL_AGENT_FILES = {"agent_single.json"}
+AGENT_FILES = ("agent_expression.json", "agent_literature.json", "agent_external.json", "agent_cells.json",
+               "agent_pathways.json", "agent_applied.json", "agent_single.json")
+# written only by milestones that add the specialist, or by the single-agent benchmark arm; absent otherwise
+OPTIONAL_AGENT_FILES = {"agent_cells.json", "agent_pathways.json", "agent_applied.json", "agent_single.json"}
 
 
 class Verifier:

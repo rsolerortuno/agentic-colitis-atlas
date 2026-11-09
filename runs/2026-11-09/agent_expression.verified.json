@@ -1,0 +1,281 @@
+{
+ "agent": "agente-expresion",
+ "findings": [
+  {
+   "gene": "CXCR2",
+   "role": "target_and_biomarker",
+   "statement": "CXCR2 tops the convergence ranking: pooled UC vs control log2FC is up [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.264], with an increase in all five cohorts and clinical-stage antagonists (reparixin, navarixin, ladarixin). In the same patients it is higher in inflamed than non-inflamed mucosa [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.6972]. Caveat: CXCR2 is a neutrophil receptor, so the bulk rise most likely reflects neutrophil infiltration rather than a change in the epithelium (cell composition to be tested later).",
+   "evidence_ids": [
+    "EV:expression_meta:1fce9fb2531f",
+    "EV:omics_de:8110a38ac4fd",
+    "EV:open_targets_drug:d584726e0cd6"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1fce9fb2531f",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.264",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:8110a38ac4fd",
+     "field": [
+      "log2fc"
+     ],
+     "display": "1.6972",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCR2",
+   "role": "mechanism",
+   "statement": "The CXCR2 increase is mostly local to inflamed mucosa: non-inflamed MSCCR mucosa shows only a small rise versus control [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.6399]. This makes it a marker of active local inflammation rather than a disease-wide lesion.",
+   "evidence_ids": [
+    "EV:omics_de:cae5dacd356b",
+    "EV:omics_de:8110a38ac4fd"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:omics_de:cae5dacd356b",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.6399",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CXCL8",
+   "role": "target_and_biomarker",
+   "statement": "CXCL8 (IL-8), the ligand of CXCR1 and CXCR2, is strongly and reproducibly up (all five cohorts) [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.7037], and is increased in inflamed vs non-inflamed mucosa of the same patient. Together with CXCR1, CXCR2 and CXCL1/CXCL5 it defines a coherent neutrophil-recruitment axis; bulk signal partly reflects infiltrating neutrophils and myeloid cells.",
+   "evidence_ids": [
+    "EV:expression_meta:1e78b2f07f0c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1e78b2f07f0c",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.7037",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "HMGCS2",
+   "role": "biomarker",
+   "statement": "HMGCS2 (epithelial ketogenesis) is strongly lost in UC [gene=HMGCS2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-3.5845], decreased in all five cohorts, and lower in inflamed than non-inflamed mucosa of the same patient [gene=HMGCS2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=-1.9508]. Non-inflamed MSCCR mucosa is not different from control (padj [gene=HMGCS2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; padj=0.675]), so this is a local-inflammation biomarker of epithelial metabolic failure, not a likely drug target.",
+   "evidence_ids": [
+    "EV:expression_meta:f0b27322cee4",
+    "EV:omics_de:f9c203f63dc8",
+    "EV:omics_de:d965802705ac"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:f0b27322cee4",
+     "field": [
+      "log2fc"
+     ],
+     "display": "-3.5845",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:f9c203f63dc8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "-1.9508",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:d965802705ac",
+     "field": [
+      "padj"
+     ],
+     "display": "0.675",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "DUOX2",
+   "role": "biomarker",
+   "statement": "DUOX2 is among the largest and most reproducible increases (all five cohorts) [gene=DUOX2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.3213]. Unlike many genes it is also modestly raised in non-inflamed mucosa [gene=DUOX2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.8129], suggesting an epithelial change partly independent of overt inflammation; it has no approved drug.",
+   "evidence_ids": [
+    "EV:expression_meta:69eb34ed119c",
+    "EV:omics_de:7fbbc35e6b54"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:69eb34ed119c",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.3213",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:7fbbc35e6b54",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.8129",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "OSMR",
+   "role": "target",
+   "statement": "OSMR (receptor of oncostatin M) is up in all five cohorts and has a genetic association in Open Targets; within patients it is higher in inflamed mucosa [gene=OSMR; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=0.8848]. The paired change is modest, so it is an inflammation-linked target candidate; stromal and immune cell origin must be checked.",
+   "evidence_ids": [
+    "EV:omics_de:325a7419e9ce"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:omics_de:325a7419e9ce",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.8848",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "JAK2",
+   "role": "target",
+   "statement": "JAK2 has the strongest genetic and tractability support among JAK genes but only a small expression change [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.872], even though it is significant in all five cohorts. It is a pathway target (JAK-STAT) whose value does not come from a large transcript change.",
+   "evidence_ids": [
+    "EV:expression_meta:c36b80d82ff8",
+    "EV:omics_de:7de704c895ae"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:c36b80d82ff8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.872",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "biomarker",
+   "statement": "CHI3L1 shows the largest reproducible increase among top-ranked genes (all five cohorts) [gene=CHI3L1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.7135], and is higher in inflamed than non-inflamed mucosa within patients. It is a candidate tissue marker of inflammation with no drug; contribution from macrophages and stroma cannot be excluded.",
+   "evidence_ids": [
+    "EV:expression_meta:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:b3f7b3e784f8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.7135",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "IDO1",
+   "role": "target_and_biomarker",
+   "statement": "IDO1 is strongly induced in all five cohorts [gene=IDO1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.445] and is higher in inflamed mucosa within patients. It is an interferon-response gene (immune pathway), with IDO1 inhibitors existing in oncology; the signal likely comes from immune and epithelial cells responding to IFN-gamma.",
+   "evidence_ids": [
+    "EV:expression_meta:2b76723dce27"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:2b76723dce27",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.445",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CCL2",
+   "role": "target",
+   "statement": "CCL2 is raised in UC [gene=CCL2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.28], but data are present in only four cohorts (all four significant up), so replication is weaker than for CXCL8 or CXCR2, and the paired inflamed vs non-inflamed change is small. The anti-CCL2 antibody carlumab stopped at phase 2.",
+   "evidence_ids": [
+    "EV:expression_meta:292d1ebb6cb9",
+    "EV:omics_de:9f3be1563b5d"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:292d1ebb6cb9",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.28",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CLDN8",
+   "role": "biomarker",
+   "statement": "CLDN8 (epithelial tight junction) shows the largest pooled decrease [gene=CLDN8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-4.5181], decreasing in all five cohorts and in the paired inflamed contrast. Like other lost epithelial transport and metabolism genes (SLC26A2, PCK1, AQP8), it is a barrier/differentiation biomarker, not a target.",
+   "evidence_ids": [
+    "EV:expression_meta:88cd7649bfb6"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:88cd7649bfb6",
+     "field": [
+      "log2fc"
+     ],
+     "display": "-4.5181",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "S100A8",
+   "role": "biomarker",
+   "statement": "S100A8 (with S100A9, calprotectin) is strongly and reproducibly up in all five cohorts [gene=S100A8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.6467]. It is a neutrophil-derived signal, consistent with tissue-level support for faecal calprotectin as a biomarker, but it reflects cell infiltration rather than a tissue-intrinsic change.",
+   "evidence_ids": [
+    "EV:expression_meta:6ff831ae12f7"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:6ff831ae12f7",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.6467",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  }
+ ],
+ "caveats": [
+  "Microarray fold changes are compressed relative to RNA-seq; only direction and significance were compared across cohorts.",
+  "Immune and neutrophil genes (CXCR1/2, CXCL8, S100A8/9, IDO1, CCL2) may be driven by infiltrating cells; cell-composition analysis is pending.",
+  "High heterogeneity (I2 mostly above 0.8) in pooled estimates: direction is consistent but effect size differs by cohort.",
+  "Some top genes (SLC6A14, DEFB4A, SAA2, TMIGD1) are measured in only two to four cohorts and were not prioritised.",
+  "Statements on paired and non-inflamed changes for CXCL8, CHI3L1, IDO1, CLDN8 and S100A8 come from the ranking summary; cited ids are the pooled records.",
+  "Expression alone does not establish causality or target safety."
+ ]
+}
