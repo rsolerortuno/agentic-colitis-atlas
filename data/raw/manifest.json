@@ -41,6 +41,12 @@
   "sha256": "61cd218f97a47c94902fc4094284424041203f7c809447bf45aae321749c8bf1",
   "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92415/matrix/GSE92415_series_matrix.txt.gz"
  },
+ "extra/hpa_rna_tissue_consensus.tsv.zip": {
+  "bytes": 5293680,
+  "retrieved_utc": "2026-11-09T14:50:14+00:00",
+  "sha256": "b001903da23f802c8dfbd1b6b3a8c20b831fedd4932f4bb721b06622d83ae60b",
+  "url": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip"
+ },
  "extra/ot_clinical_precedence.parquet": {
   "bytes": 39436998,
   "retrieved_utc": "2026-11-09T12:59:44+00:00",

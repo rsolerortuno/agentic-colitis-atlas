@@ -40,6 +40,8 @@ SOURCES: list[tuple[str, str]] = [
     ("https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt", "hgnc_complete_set.txt"),
     # second single-cell dataset for replication of the cell attribution (Garrido-Trigo et al. 2023, CZ CELLxGENE)
     ("https://datasets.cellxgene.cziscience.com/5e75dd8f-5c5f-4056-ade2-117748429022.h5ad", "sc_garrido2023/ibd_hc_10x.h5ad"),
+    # Human Protein Atlas RNA tissue consensus (vital-organ expression for the discovery safety filter, M13)
+    ("https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip", "extra/hpa_rna_tissue_consensus.tsv.zip"),
     # Open Targets 26.09 clinical precedence (all diseases, one part): gold set of the M8 evaluation
     ("https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_clinical_precedence/"
      "part-00000-c18648ed-1b6a-4490-aecf-bfadcf459516-c000.zstd.parquet", "extra/ot_clinical_precedence.parquet"),
