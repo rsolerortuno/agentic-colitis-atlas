@@ -37,3 +37,16 @@ convergence:
     literature: 1.0        # validated local relations or Open Targets literature
     tractability: 0.5      # clinical drug 1, predicted tractable 0.5
   top_n_report: 100
+
+profiles:
+  # M14 (decided before measuring; evals/history.md). No literature, no drug history.
+  target:
+    expression_up: 2.0
+    tissue_change: 1.0
+    genetics: 2.0
+    tractability_predicted: 0.5
+  biomarker:
+    expression_any: 2.0
+    replication: 1.0
+    activity: 1.0
+    inflammation: 1.0

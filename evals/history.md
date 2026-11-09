@@ -17,3 +17,15 @@
   showed CXCR2 keeping significance with only 17 % of its change (2.60 -> 0.44 log2FC), which that rule called
   intrinsic. Added: 'intrinsic' also needs >= 50 % of the change retained; otherwise 'partly_composition'.
   Decided after seeing results, so logged here.
+
+## 2026-11-09, M14 convergence v2 and profiles (decided before measuring)
+- Convergence v1 is kept unchanged (evaluated in M8). v2 adds three streams with weight 1 each: tissue change
+  (composition-retained share of the change, M12), disease activity (max |Spearman rho| with the Mayo endoscopic
+  score in the two cohorts that have it, significant only) and cell attribution replication is not scored.
+- Target profile (no literature, no drug history): expression up (only increases count), tissue change, genetics,
+  predicted tractability (SM or AB tractable, regardless of clinical drugs). Weights 2 / 1 / 2 / 0.5.
+- Biomarker profile: |expression| either direction, replication, disease activity, inflamed vs non-inflamed.
+  Weights 2 / 1 / 1 / 1.
+- Weight sensitivity: 1,000 random reweightings (each weight multiplied by a log-uniform factor in [1/2, 2]),
+  5th-95th percentile rank and probability of staying in the top 10 / 25.
+- The profiles are evaluated against the same M8 gold set; no weight is changed after seeing the result.

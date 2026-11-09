@@ -39,3 +39,20 @@ reported for completeness.
 ## (d) History of decisions
 
 See [history.md](history.md).
+
+## (e) M14 profiles (decided before measuring; same gold set)
+
+| Score | AUROC | 95 % CI | Recall@100 |
+|---|---|---|---|
+| Target profile (expression up, tissue change, genetics, predicted tractability) | 0.80 | 0.75–0.86 | 12 % |
+| Target profile without tractability | 0.71 | 0.65–0.79 | 10 % |
+| Predicted tractability alone | 0.81 | 0.74–0.88 | 14 % |
+| Biomarker profile | 0.76 | 0.69–0.82 | 7 % |
+
+**Reading.** Unlike the kidney atlas, the target profile does **not** beat predicted tractability alone on UC
+clinical targets: approved UC targets are druggable cytokines, receptors and integrins whose mRNA changes little in
+biopsies. The data-only signal (0.71 without tractability) is real but modest. The temporal subset (4 genes) stays
+uninformative. Disease activity: many genes track the Mayo endoscopic score in MSCCR (one value per patient, n = 375;
+for example S100A8 rho 0.49, LCN2 0.33) but none reach significance in GSE73661, where baseline scores are mostly 2–3
+and n = 67. Not done: Mendelian randomisation with plasma pQTL (summary statistics need a separate download and a
+locus-matching step; left as a limit).

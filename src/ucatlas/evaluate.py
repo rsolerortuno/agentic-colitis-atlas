@@ -86,11 +86,23 @@ def run() -> dict:
     noise = np.random.default_rng(0).random(len(t)) * 1e-9
     for k in ("expression", "genetics", "tractability"):
         t[f"only_{k}"] = t[f"c_{k}"] + noise
+    if load().get("profiles") and (PROCESSED / "activity.parquet").exists():
+        from .profiles import components
+        t = components(t)
+        prof = load()["profiles"]
+        for name, w in prof.items():
+            t[f"score_{name}"] = sum(wt * t[f"c_{k}"] for k, wt in w.items())
+        tw = dict(prof["target"])
+        t["score_target_no_tractability"] = t["score_target"] - tw.get("tractability_predicted", 0) * t["c_tractability_predicted"]
+        t["only_tractability_predicted"] = t["c_tractability_predicted"] + noise
     clin = clinical_targets()
     allc, hold = set(clin["gene"]), set(clin.loc[clin["holdout"], "gene"])
     pre = allc - hold
     scores = {"convergence v1 (incl. literature + drugs)": "score", "convergence without literature/tractability": "score_data_only",
               "expression alone": "only_expression", "genetics alone": "only_genetics", "tractability alone": "only_tractability"}
+    if "score_target" in t:
+        scores.update({"target profile (M14)": "score_target", "target profile without tractability": "score_target_no_tractability",
+                       "predicted tractability alone": "only_tractability_predicted", "biomarker profile (M14)": "score_biomarker"})
     out = {"gold_sets": {"uc_clinical_targets": sorted(allc), "temporal_holdout_targets": sorted(hold), "cutoff": CUTOFF},
            "clinical_targets": {k: metrics(t, c, allc) for k, c in scores.items()},
            "temporal_holdout": {k: metrics(t, c, hold, exclude=pre) for k, c in scores.items()},

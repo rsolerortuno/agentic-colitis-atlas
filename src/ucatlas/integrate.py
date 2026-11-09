@@ -125,8 +125,27 @@ def write(n: int | None = None, day: str | None = None) -> dict:
     ot = pd.read_parquet(PROCESSED / "external_ot_associations.parquet").set_index("symbol")
     details = json.loads((PROCESSED / "external_targets.json").read_text())
     ranking = [_row(i, row, cfg, details, ot, store) for i, row in t.head(n).iterrows()]
-    out = {"generated": date.today().isoformat(), "config": cfg["convergence"], "profile_weights": {},
-           "universe_size": int(len(t)), "ranking": ranking, "profiles": {}}
+    profiles, weights = {}, cfg.get("profiles", {})
+    if weights and (PROCESSED / "activity.parquet").exists():
+        from .profiles import add
+        t, sens = add(t)
+        for name, w in weights.items():
+            tp = t.sort_values(f"score_{name}", ascending=False).reset_index(drop=True)
+            si = sens[name].set_index("gene")
+            rows = []
+            for i, row in tp.head(cfg["convergence"]["top_n_report"]).iterrows():
+                r = _row(i, row, cfg, details, ot, store)
+                r["score"] = round(float(row[f"score_{name}"]), 4)
+                r["components"] = {k: round(float(row[f"c_{k}"]), 3) for k in w}
+                if row["gene"] in si.index:
+                    x = si.loc[row["gene"]]
+                    r["rank_interval_90"] = {"rank_p05": int(x.rank_p05), "rank_median": float(x.rank_median),
+                                             "rank_p95": int(x.rank_p95), "p_top10": round(float(x.p_top10), 3),
+                                             "p_top25": round(float(x.p_top25), 3)}
+                rows.append(r)
+            profiles[name] = rows
+    out = {"generated": date.today().isoformat(), "config": cfg["convergence"], "profile_weights": weights,
+           "universe_size": int(len(t)), "ranking": ranking, "profiles": profiles}
     path = run_dir(day) / "convergence.json"
     path.write_text(json.dumps(out, indent=1))
     from .ranking_evidence import load as load_ranking_evidence
