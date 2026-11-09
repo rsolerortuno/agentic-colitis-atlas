@@ -1,0 +1,793 @@
+{
+ "gold_sets": {
+  "uc_clinical_targets": [
+   "ALOX5",
+   "CCL11",
+   "CD3E",
+   "CXCL10",
+   "CXCR2",
+   "DHFR",
+   "DHODH",
+   "FKBP1A",
+   "HMGCR",
+   "HRH1",
+   "ICAM1",
+   "IFNAR1",
+   "IFNAR2",
+   "IL12A",
+   "IL12B",
+   "IL13",
+   "IL1RAP",
+   "IL23A",
+   "IL2RA",
+   "IL2RB",
+   "IL2RG",
+   "IL36R",
+   "ITGA2",
+   "ITGA4",
+   "ITGB7",
+   "JAK1",
+   "JAK2",
+   "JAK3",
+   "MADCAM1",
+   "MC2R",
+   "MMP1",
+   "MMP13",
+   "MMP7",
+   "MMP8",
+   "MMP9",
+   "NCBP1",
+   "NCBP2",
+   "NR3C1",
+   "PDE4A",
+   "PDE4B",
+   "PDE4C",
+   "PDE4D",
+   "PPARA",
+   "PPARG",
+   "PPAT",
+   "PTGS1",
+   "PTGS2",
+   "REN",
+   "S1PR1",
+   "S1PR2",
+   "S1PR3",
+   "S1PR4",
+   "S1PR5",
+   "SLC5A2",
+   "SMAD7",
+   "TLR9",
+   "TNF",
+   "TNFRSF4",
+   "TYK2"
+  ],
+  "temporal_holdout_targets": [
+   "HMGCR",
+   "HRH1",
+   "PPARA",
+   "SLC5A2"
+  ],
+  "cutoff": "2018-01-01"
+ },
+ "clinical_targets": {
+  "convergence v1 (incl. literature + drugs)": {
+   "n_gold": 59,
+   "universe": 24788,
+   "auroc": 0.858,
+   "auroc_ci95": [
+    0.815,
+    0.905
+   ],
+   "recall_at_100": 0.169,
+   "recall_at_500": 0.339,
+   "median_rank": 1052,
+   "fold_enrichment_at_100": 42.0,
+   "top_hits": [
+    "CXCR2",
+    "MMP1",
+    "MMP7",
+    "JAK2",
+    "IL2RA",
+    "MMP9",
+    "PTGS2",
+    "CCL11",
+    "CXCL10",
+    "ICAM1"
+   ]
+  },
+  "convergence without literature/tractability": {
+   "n_gold": 59,
+   "universe": 24788,
+   "auroc": 0.744,
+   "auroc_ci95": [
+    0.672,
+    0.819
+   ],
+   "recall_at_100": 0.102,
+   "recall_at_500": 0.203,
+   "median_rank": 2348,
+   "fold_enrichment_at_100": 25.2,
+   "top_hits": [
+    "CXCR2",
+    "MMP7",
+    "MMP1",
+    "IL2RA",
+    "JAK2",
+    "PTGS2"
+   ]
+  },
+  "expression alone": {
+   "n_gold": 59,
+   "universe": 24788,
+   "auroc": 0.722,
+   "auroc_ci95": [
+    0.655,
+    0.791
+   ],
+   "recall_at_100": 0.068,
+   "recall_at_500": 0.186,
+   "median_rank": 4003,
+   "fold_enrichment_at_100": 16.8,
+   "top_hits": [
+    "MMP1",
+    "MMP7",
+    "PTGS2",
+    "CCL11"
+   ]
+  },
+  "genetics alone": {
+   "n_gold": 59,
+   "universe": 24788,
+   "auroc": 0.625,
+   "auroc_ci95": [
+    0.55,
+    0.707
+   ],
+   "recall_at_100": 0.068,
+   "recall_at_500": 0.085,
+   "median_rank": 7967,
+   "fold_enrichment_at_100": 16.8,
+   "top_hits": [
+    "IL12B",
+    "JAK2",
+    "CXCR2",
+    "IL2RA"
+   ]
+  },
+  "tractability alone": {
+   "n_gold": 59,
+   "universe": 24788,
+   "auroc": 0.805,
+   "auroc_ci95": [
+    0.728,
+    0.871
+   ],
+   "recall_at_100": 0.61,
+   "recall_at_500": 0.61,
+   "median_rank": 78,
+   "fold_enrichment_at_100": 151.2,
+   "top_hits": [
+    "MC2R",
+    "FKBP1A",
+    "MMP9",
+    "MMP1",
+    "TYK2",
+    "PPAT",
+    "CCL11",
+    "ICAM1",
+    "PTGS1",
+    "S1PR4",
+    "PDE4D",
+    "IL23A",
+    "NCBP2",
+    "TNF",
+    "S1PR5"
+   ]
+  }
+ },
+ "temporal_holdout": {
+  "convergence v1 (incl. literature + drugs)": {
+   "n_gold": 4,
+   "universe": 24733,
+   "auroc": 0.773,
+   "auroc_ci95": [
+    0.572,
+    0.934
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 4653,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  },
+  "convergence without literature/tractability": {
+   "n_gold": 4,
+   "universe": 24733,
+   "auroc": 0.72,
+   "auroc_ci95": [
+    0.529,
+    0.877
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 6053,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  },
+  "expression alone": {
+   "n_gold": 4,
+   "universe": 24733,
+   "auroc": 0.714,
+   "auroc_ci95": [
+    0.554,
+    0.855
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 6431,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  },
+  "genetics alone": {
+   "n_gold": 4,
+   "universe": 24733,
+   "auroc": 0.536,
+   "auroc_ci95": [
+    0.126,
+    0.946
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 10251,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  },
+  "tractability alone": {
+   "n_gold": 4,
+   "universe": 24733,
+   "auroc": 0.349,
+   "auroc_ci95": [
+    0.054,
+    0.716
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 19376,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  }
+ },
+ "clinical_table": [
+  {
+   "gene": "ALOX5",
+   "trials": 130,
+   "drugs": 5,
+   "approved": true,
+   "first_trial": "2000-09-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "CCL11",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2015-07-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "CD3E",
+   "trials": 5,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2002-03-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "CXCL10",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2006-01-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "CXCR2",
+   "trials": 2,
+   "drugs": 3,
+   "approved": false,
+   "first_trial": "2009-01-22",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "DHFR",
+   "trials": 3,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2007-09-30",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "DHODH",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2009-03-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "FKBP1A",
+   "trials": 5,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2006-09-30",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "HMGCR",
+   "trials": 3,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2020-10-22",
+   "date_incomplete": false,
+   "holdout": true
+  },
+  {
+   "gene": "HRH1",
+   "trials": 2,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2025-07-15",
+   "date_incomplete": false,
+   "holdout": true
+  },
+  {
+   "gene": "ICAM1",
+   "trials": 3,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2002-11-20",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "IFNAR1",
+   "trials": 3,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2001-12-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "IFNAR2",
+   "trials": 3,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2001-12-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "IL12A",
+   "trials": 6,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2009-01-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "IL12B",
+   "trials": 43,
+   "drugs": 5,
+   "approved": true,
+   "first_trial": "2009-01-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "IL13",
+   "trials": 4,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2011-03-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "IL1RAP",
+   "trials": 4,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2017-05-22",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "IL23A",
+   "trials": 43,
+   "drugs": 5,
+   "approved": true,
+   "first_trial": "2009-01-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "IL2RA",
+   "trials": 4,
+   "drugs": 3,
+   "approved": false,
+   "first_trial": "2003-04-30",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "IL2RB",
+   "trials": 4,
+   "drugs": 3,
+   "approved": false,
+   "first_trial": "2003-04-30",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "IL2RG",
+   "trials": 4,
+   "drugs": 3,
+   "approved": false,
+   "first_trial": "2003-04-30",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "IL36R",
+   "trials": 4,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2017-05-22",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "ITGA2",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2012-08-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "ITGA4",
+   "trials": 50,
+   "drugs": 2,
+   "approved": true,
+   "first_trial": "2007-05-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "ITGB7",
+   "trials": 60,
+   "drugs": 3,
+   "approved": true,
+   "first_trial": "2007-05-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "JAK1",
+   "trials": 28,
+   "drugs": 8,
+   "approved": true,
+   "first_trial": "2008-12-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "JAK2",
+   "trials": 26,
+   "drugs": 6,
+   "approved": true,
+   "first_trial": "2008-12-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "JAK3",
+   "trials": 26,
+   "drugs": 6,
+   "approved": true,
+   "first_trial": "2008-12-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "MADCAM1",
+   "trials": 7,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2005-09-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "MC2R",
+   "trials": 1,
+   "drugs": 1,
+   "approved": true,
+   "first_trial": NaN,
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "MMP1",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2006-07-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "MMP13",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2006-07-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "MMP7",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2006-07-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "MMP8",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2006-07-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "MMP9",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2013-03-28",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "NCBP1",
+   "trials": 8,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2017-11-16",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "NCBP2",
+   "trials": 8,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2017-11-16",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "NR3C1",
+   "trials": 136,
+   "drugs": 12,
+   "approved": true,
+   "first_trial": "2003-07-22",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "PDE4A",
+   "trials": 5,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2003-05-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "PDE4B",
+   "trials": 5,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2003-05-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "PDE4C",
+   "trials": 5,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2003-05-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "PDE4D",
+   "trials": 5,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2003-05-31",
+   "date_incomplete": false,
+   "holdout": false
+  },
+  {
+   "gene": "PPARA",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2023-02-28",
+   "date_incomplete": false,
+   "holdout": true
+  },
+  {
+   "gene": "PPARG",
+   "trials": 130,
+   "drugs": 5,
+   "approved": true,
+   "first_trial": "2000-09-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "PPAT",
+   "trials": 10,
+   "drugs": 2,
+   "approved": true,
+   "first_trial": "2007-07-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "PTGS1",
+   "trials": 130,
+   "drugs": 5,
+   "approved": true,
+   "first_trial": "2000-09-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "PTGS2",
+   "trials": 130,
+   "drugs": 5,
+   "approved": true,
+   "first_trial": "2000-09-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "REN",
+   "trials": 3,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2022-03-21",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "S1PR1",
+   "trials": 26,
+   "drugs": 6,
+   "approved": true,
+   "first_trial": "2010-12-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "S1PR2",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2012-06-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "S1PR3",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2012-06-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "S1PR4",
+   "trials": 15,
+   "drugs": 3,
+   "approved": true,
+   "first_trial": "2012-06-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "S1PR5",
+   "trials": 24,
+   "drugs": 4,
+   "approved": true,
+   "first_trial": "2012-06-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "SLC5A2",
+   "trials": 2,
+   "drugs": 2,
+   "approved": false,
+   "first_trial": "2021-10-01",
+   "date_incomplete": false,
+   "holdout": true
+  },
+  {
+   "gene": "SMAD7",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2015-12-14",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "TLR9",
+   "trials": 3,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2011-12-31",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "TNF",
+   "trials": 76,
+   "drugs": 4,
+   "approved": true,
+   "first_trial": "2002-02-28",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "TNFRSF4",
+   "trials": 2,
+   "drugs": 1,
+   "approved": false,
+   "first_trial": "2016-06-30",
+   "date_incomplete": true,
+   "holdout": false
+  },
+  {
+   "gene": "TYK2",
+   "trials": 31,
+   "drugs": 9,
+   "approved": true,
+   "first_trial": "2008-12-31",
+   "date_incomplete": true,
+   "holdout": false
+  }
+ ]
+}

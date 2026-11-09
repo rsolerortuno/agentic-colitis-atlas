@@ -1,0 +1,98 @@
+{
+ "model": "claude-sonnet-5-5",
+ "correct": 10,
+ "total": 10,
+ "results": [
+  {
+   "id": "q01",
+   "question": "Is AQP8 expression increased or decreased in ulcerative colitis biopsies in the meta-analysis, and by how much (log2 fold change)?",
+   "expected": "decreased, log2FC about -4.31",
+   "answer": "AQP8 expression is decreased in ulcerative colitis biopsies in the meta-analysis, with a log2 fold change of \u22124.31 (padj 2.3e-19, significantly down in 4 of 5 cohorts, evidence EV:expression_meta:752c95b3a829).",
+   "correct": true,
+   "error": null,
+   "pattern": "(decreas|down|lower|reduc|-4\\.3)"
+  },
+  {
+   "id": "q02",
+   "question": "In how many of the five cohorts is LCN2 significantly increased in ulcerative colitis?",
+   "expected": "5",
+   "answer": "LCN2 is significantly increased in ulcerative colitis in all 5 of the 5 cohorts (log2FC 1.8 to 5.0, all significant after multiple-testing adjustment).",
+   "correct": true,
+   "error": null,
+   "pattern": "\\b(5|five|all)\\b"
+  },
+  {
+   "id": "q03",
+   "question": "Which approved antibody against the integrin beta 7 subunit (ITGB7) is listed by Open Targets?",
+   "expected": "vedolizumab (also etrolizumab)",
+   "answer": "Open Targets lists **vedolizumab** (CHEMBL1743087, Phase 4, evidence EV:open_targets_drug:38847fabbcb0) as the approved antibody against ITGB7. It also lists natalizumab at Phase 4, but the other antibodies, etrolizumab and abrilumab, are still in trials.",
+   "correct": true,
+   "error": null,
+   "pattern": "vedolizumab|etrolizumab"
+  },
+  {
+   "id": "q04",
+   "question": "What is the UniProt accession of TNF?",
+   "expected": "P01375",
+   "answer": "The UniProt accession of TNF is P01375 (Tumor necrosis factor), from the `uniprot_entry` lookup (evidence ID EV:uniprot:33959b1e1074).",
+   "correct": true,
+   "error": null,
+   "pattern": "P01375"
+  },
+  {
+   "id": "q05",
+   "question": "Is CXCL8 higher in inflamed than in non-inflamed mucosa of the same patients in the MSCCR cohort?",
+   "expected": "yes, log2FC about 1.97 (135 patients)",
+   "answer": "Yes. In the MSCCR cohort (GSE193677), CXCL8 is higher in inflamed than in paired non-inflamed mucosa from the same patients, with log2FC 1.97 and padj 1.4e-9 (135 pairs, evidence EV:omics_de:4b4308ba9576).",
+   "correct": true,
+   "error": null,
+   "pattern": "(yes|higher|increas|up|1\\.97)"
+  },
+  {
+   "id": "q06",
+   "question": "Is HMGCS2 up or down in ulcerative colitis compared with controls?",
+   "expected": "down",
+   "answer": "HMGCS2 is down in ulcerative colitis versus controls. The meta-analysis across 5 cohorts gives a log2FC of -3.58 (padj 6.7e-13), and all 5 cohorts are significantly down (evidence EV:expression_meta:f0b27322cee4).",
+   "correct": true,
+   "error": null,
+   "pattern": "(down|decreas|lower|reduc)"
+  },
+  {
+   "id": "q07",
+   "question": "Where does IL23R rank among Open Targets associations for ulcerative colitis?",
+   "expected": "13",
+   "answer": "IL23R ranks 13th of 1,999 Open Targets associations for ulcerative colitis, with a score of 0.5997 (evidence ID EV:open_targets_assoc:4c94f023aa82).",
+   "correct": true,
+   "error": null,
+   "pattern": "\\b13\\b"
+  },
+  {
+   "id": "q08",
+   "question": "Name an IL-23 (IL23A) antibody listed by Open Targets.",
+   "expected": "guselkumab, mirikizumab, risankizumab, ustekinumab, ...",
+   "answer": "Open Targets lists guselkumab (CHEMBL2364648, Phase 4) as an IL-23 (IL23A) antibody. Evidence ID: EV:open_targets_drug:09d646218521.",
+   "correct": true,
+   "error": null,
+   "pattern": "guselkumab|mirikizumab|risankizumab|ustekinumab|tildrakizumab|brazikumab|briakinumab"
+  },
+  {
+   "id": "q09",
+   "question": "Which gene ranks first in the project's convergence ranking?",
+   "expected": "CXCR2",
+   "answer": "CXCR2 ranks first in the project's convergence ranking, with a score of 6.2125 across 6 evidence streams.",
+   "correct": true,
+   "error": null,
+   "pattern": "CXCR2"
+  },
+  {
+   "id": "q10",
+   "question": "Name a sphingosine-1-phosphate receptor 1 (S1PR1) modulator listed by Open Targets.",
+   "expected": "ozanimod, etrasimod, ...",
+   "answer": "Open Targets lists etrasimod, an approved drug, as an S1PR1 modulator (evidence ID EV:open_targets_drug:909af712750c).",
+   "correct": true,
+   "error": null,
+   "pattern": "ozanimod|etrasimod|siponimod|ponesimod|amiselimod|cenerimod|fingolimod"
+  }
+ ],
+ "regraded": "q07 pattern widened to accept '13th' after the run (the answer was correct; the regex was too strict)"
+}

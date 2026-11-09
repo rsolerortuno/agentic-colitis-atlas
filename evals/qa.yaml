@@ -1,0 +1,42 @@
+# Known-answer questions. Expected answers were checked against the project's own data and tools on 2026-11-09
+# (meta-analysis, cohort DE, Open Targets / UniProt cache, convergence run). Graded by regex on the agent's answer.
+- id: q01
+  question: "Is AQP8 expression increased or decreased in ulcerative colitis biopsies in the meta-analysis, and by how much (log2 fold change)?"
+  expected: "decreased, log2FC about -4.31"
+  pattern: '(decreas|down|lower|reduc|-4\.3)'
+- id: q02
+  question: "In how many of the five cohorts is LCN2 significantly increased in ulcerative colitis?"
+  expected: "5"
+  pattern: '\b(5|five|all)\b'
+- id: q03
+  question: "Which approved antibody against the integrin beta 7 subunit (ITGB7) is listed by Open Targets?"
+  expected: "vedolizumab (also etrolizumab)"
+  pattern: 'vedolizumab|etrolizumab'
+- id: q04
+  question: "What is the UniProt accession of TNF?"
+  expected: "P01375"
+  pattern: 'P01375'
+- id: q05
+  question: "Is CXCL8 higher in inflamed than in non-inflamed mucosa of the same patients in the MSCCR cohort?"
+  expected: "yes, log2FC about 1.97 (135 patients)"
+  pattern: '(yes|higher|increas|up|1\.97)'
+- id: q06
+  question: "Is HMGCS2 up or down in ulcerative colitis compared with controls?"
+  expected: "down"
+  pattern: '(down|decreas|lower|reduc)'
+- id: q07
+  question: "Where does IL23R rank among Open Targets associations for ulcerative colitis?"
+  expected: "13"
+  pattern: '\b13(th)?\b'
+- id: q08
+  question: "Name an IL-23 (IL23A) antibody listed by Open Targets."
+  expected: "guselkumab, mirikizumab, risankizumab, ustekinumab, ..."
+  pattern: 'guselkumab|mirikizumab|risankizumab|ustekinumab|tildrakizumab|brazikumab|briakinumab'
+- id: q09
+  question: "Which gene ranks first in the project's convergence ranking?"
+  expected: "CXCR2"
+  pattern: 'CXCR2'
+- id: q10
+  question: "Name a sphingosine-1-phosphate receptor 1 (S1PR1) modulator listed by Open Targets."
+  expected: "ozanimod, etrasimod, ..."
+  pattern: 'ozanimod|etrasimod|siponimod|ponesimod|amiselimod|cenerimod|fingolimod'
