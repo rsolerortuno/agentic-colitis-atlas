@@ -1,0 +1,24 @@
+# Deterministic settings of the ulcerative colitis atlas. Changing these changes results; every run records this file.
+question: "What are the candidate therapeutic targets, immune pathways and biomarkers in ulcerative colitis with the strongest convergent evidence?"
+disease:
+  name: ulcerative colitis
+  short: UC
+  mondo: "MONDO:0005101"
+  open_targets_id: "EFO_0000729"   # to confirm in M1
+  doid: "DOID:8577"
+
+literature:
+  disease_query: "ulcerative colitis"
+  disease_pattern: "\\b(ulcerative colitis|UC|colitis ulcerosa)\\b"
+  disease_pmids: 100
+  top_genes: 50
+  pmids_per_gene: 5
+  max_extraction_abstracts: 100
+  extraction_batch_size: 25
+
+expression:
+  padj: 0.05
+  min_abs_log2fc: 1.0
+
+# The remaining sections (convergence, profiles, discovery, pathways, treatment) are added by the milestone that
+# introduces them, with the decision recorded in evals/history.md before results are measured.

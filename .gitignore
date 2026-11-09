@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# raw and derived data are rebuilt by the scripts (manifests with sha256 are kept)
+data/raw/*
+!data/raw/manifest.json
+!data/raw/*/
+data/raw/*/*
+!data/raw/*/manifest.json
+data/processed/
+data/cache/
+data/graph/
+data/literature/*.json
+data/literature/*.parquet
+!data/literature/query_log.json
+runs/.current
