@@ -1,0 +1,159 @@
+{
+ "agent": "agente-literatura",
+ "findings": [
+  {
+   "gene": "CXCL8",
+   "role": "target_and_biomarker",
+   "statement": "Literature links CXCL8 signalling through its receptors CXCR1 and CXCR2 to UC pathogenesis via PI3K/Akt, MAPK and NF-kappaB signalling (PMID:33706134), and CXCL8 was a hub gene in a PPI analysis; in blood RNA-seq validation of an IBD signature CXCL8 had one of the highest diagnostic performances (stated as IBD, not UC-specific). Evidence is bioinformatic or preclinical; no clinical trial of CXCL8 blockade in UC appears in this corpus.",
+   "evidence_ids": [
+    "EV:literature:c7d52659876e",
+    "EV:literature:91f0ff7ebee0"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "CXCR2 has no extracted literature relations in the graph, although Open Targets gives it literature and genetic support; a corpus abstract names CXCR2 among hub genes of active UC. Published support is therefore bioinformatic, and the corpus contains no UC trial of a CXCR2 antagonist.",
+   "evidence_ids": [
+    "EV:chunk:0f8b0af62099",
+    "EV:open_targets_assoc:7d06375723b1"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "IDO1",
+   "role": "target",
+   "statement": "A single study (PMID:40370742) reports IDO1 elevated in UC patients, correlated with M1 macrophage polarisation, and that IDO1 drives M1 polarisation via the ER stress GRP78-XBP1 pathway. A methyl-tryptophan IDO inhibitor ameliorated DSS colitis in mice. This is one preclinical study, so evidence is single-source.",
+   "evidence_ids": [
+    "EV:literature:d1d97e1a9042",
+    "EV:literature:bf184fc9a3bd",
+    "EV:literature:f2ede5da8622"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "target_and_biomarker",
+   "statement": "CHI3L1 is upregulated in UC patients and correlates with NLRP3 inflammasome expression; it promotes macrophage pyroptosis through the BCAT1/NF-kappaB axis, and exogenous NF-kappaB activation reversed the protective effect of CHI3L1 inhibition. Velpatasvir binding to recombinant CHI3L1 was confirmed in vitro (a computational repurposing study, PMID:42508656). No approved CHI3L1 drug exists.",
+   "evidence_ids": [
+    "EV:literature:2fc20563c788",
+    "EV:literature:b362caea066b",
+    "EV:literature:111b19cdfe29",
+    "EV:literature:8d66721bd093"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "DUOX2",
+   "role": "biomarker",
+   "statement": "DUOX2 is among the proteins most elevated in inflamed UC biopsies versus healthy controls and is listed with S100A8, IL-1B, CXCL1, MMP10 and others as credible diagnostic and therapeutic biomarkers. A herbal formula (TLXDS) reportedly alleviates UC by inhibiting DUOX2, with DUOX2 proposed as a key target; this is a single preclinical claim and a bioinformatic link to ferroptosis.",
+   "evidence_ids": [
+    "EV:literature:4720b127faf8",
+    "EV:literature:fe80697a88f3",
+    "EV:literature:8e1cd17f4bc3",
+    "EV:literature:29fe59966e76"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "AQP9",
+   "role": "mechanism",
+   "statement": "AQP9 is expressed predominantly in neutrophils and is upregulated in colon of UC mice; it promotes neutrophil extracellular trap formation through JAK2-STAT3-mediated pyroptosis, aggravating epithelial injury (PMID:41504039). The signal is neutrophil-derived (infiltrating cells) rather than epithelial, and evidence is mouse-based with no drug targeting in the corpus.",
+   "evidence_ids": [
+    "EV:literature:25b19ac1c291",
+    "EV:literature:edbfbecae6d9"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "IL1B",
+   "role": "biomarker",
+   "statement": "In tofacitinib non-responders, macrophages and fibroblasts increased after treatment with upregulation of MMP9, IL1B, IL6, CXCL1, CXCL8 and S100A9 versus baseline (PMID:40320713), suggesting these myeloid and stromal signals mark JAK-inhibitor non-response rather than epithelial change. IL-1B is also listed among credible UC biomarkers. Single scRNA-seq cohort.",
+   "evidence_ids": [
+    "EV:literature:262711d3dcf3"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "MMP1",
+   "role": "biomarker",
+   "statement": "Transcripts changed by mirikizumab, including MMP1, MMP3, S100A8 and IL1B, correlate with modified Mayo, Geboes and Robarts indices (PMID:36881820), supporting pharmacodynamic biomarker use. MMP1 showed strong diagnostic potential in a UC-associated CRC study and was positively associated with macrophage infiltration alongside CD274; MMP inhibitors for MMP1 are only computationally predicted (ilomastat docking).",
+   "evidence_ids": [
+    "EV:literature:8a5730511173",
+    "EV:literature:b7cef02b17a6"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "S100A9",
+   "role": "biomarker",
+   "statement": "S100A9 expression showed excellent performance for diagnosing active UC in a bioinformatic and animal study (PMID:38448514) and is higher in UC by nanopore RNA-seq. Tofacitinib response was associated with downregulation of S100A9 in resident macrophages, consistent with a myeloid origin of the signal.",
+   "evidence_ids": [
+    "EV:literature:3f6b72c806c7",
+    "EV:literature:1295d8fd8384"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "LCN2",
+   "role": "biomarker",
+   "statement": "LCN2 is higher in UC than normal and highest in short-duration UC, lower in long-duration UC and lowest in UC-associated cancer among the groups, and is proposed as a diagnostic biomarker of UC-associated carcinogenesis (PMID:35111677). Also upregulated in an IBD-CRC shared signature.",
+   "evidence_ids": [
+    "EV:literature:6fb1ac12a544",
+    "EV:literature:d51c8c1b2104"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "HMGCS2",
+   "role": "biomarker",
+   "statement": "HMGCS2 is downregulated in UC across studies (decreased with AQP8, high diagnostic value reported), representing the loss-of-epithelial-metabolism arm of the signature. No therapeutic targeting is described.",
+   "evidence_ids": [
+    "EV:literature:efeabd6a5a0a",
+    "EV:literature:778363dc9b97"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CXCL1",
+   "role": "biomarker",
+   "statement": "CXCL1 is reported as a UC biomarker with modest individual discrimination in one study and a high AUC only as part of a five-gene machine-learning model; in other work it is among credible biomarkers. Electroacupuncture is reported to target CXCL1. Evidence is bioinformatic with weak individual performance.",
+   "evidence_ids": [
+    "EV:literature:09c00158dd8e",
+    "EV:literature:e542795d63c8",
+    "EV:literature:39f80ba0f2a4"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CD274",
+   "role": "mechanism",
+   "statement": "CD274 (PD-L1) has no extracted literature relations, despite strong Open Targets literature and genetics scores. Corpus sentences identify CD274 with MMP1, NCF2 and PLAU as hub genes associated with UC and with macrophage infiltration, and one study validated PD-L1 by immunohistochemistry. The direction of therapeutic modulation is not established, and checkpoint drugs listed are oncology agents.",
+   "evidence_ids": [
+    "EV:open_targets_assoc:3cad6fefb485"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "Most literature relations come from bioinformatic hub-gene screens or mouse DSS models; few clinical UC trials in the corpus.",
+  "CXCR2, CXCR1, CD274, JAK2, OSMR, IL2RA, FCGR2A, PI3 and CXCL5 have zero extracted literature relations although Open Targets or expression scores are high; the corpus is silent or sparse for them, so their support rests on expression, genetics and tractability.",
+  "One corpus sentence reports no significant association between mucosal gene expression signatures and anti-TNF response (PMID:35185343), a negative result for predictive transcriptomic biomarkers.",
+  "No numeric values are quoted because the literature relations are sentence-level and carry no structured numeric fields.",
+  "The PubMed connector was unavailable (not authorised); only the ingested corpus was searched."
+ ]
+}

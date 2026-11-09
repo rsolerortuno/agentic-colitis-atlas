@@ -23,11 +23,16 @@ ASSETS = Path(__file__).parent / "report_assets"
 COHORT = {"GSE193677": "MSCCR (RNA-seq)", "GSE206285": "UNIFI", "GSE92415": "PURSUIT", "GSE16879": "GSE16879",
           "GSE73661": "GSE73661"}
 NAV = [("Start", [("Overview", "overview", "The question, the answer in brief and the prioritised candidates.")]),
-       ("Findings", [("Candidates", "candidates", "The convergence ranking and how each score is built.")]),
+       ("Findings", [("Candidates", "candidates", "The convergence ranking, target and biomarker profiles."),
+                     ("Discovery", "discovery", "New, untargeted candidates that pass composition, novelty and safety filters.")]),
        ("Evidence", [("Expression", "expression", "What changes in inflamed colon, how it replicates across five cohorts."),
-                     ("Literature & drugs", "literature", "What the papers and the drug databases say."),
-                     ("Network", "network", "Candidate genes, drugs and interactions as a graph.")]),
-       ("Trust and methods", [("Methods & evidence", "methods", "Datasets, verification, limits and every cited record.")])]
+                     ("Cells & space", "cells", "Which cell makes each gene, neutrophils, composition and the tissue view."),
+                     ("Pathways", "pathways", "Immune pathways, transcription factors and cell-cell circuits.")]),
+       ("Clinical use", [("Treatment response", "treatment", "What separates responders to four biologics, and placebo."),
+                         ("Literature & drugs", "literature", "What the papers and the drug databases say."),
+                         ("Network", "network", "Candidate genes, drugs and interactions as a graph.")]),
+       ("Trust and methods", [("Validation", "validation", "Recovery of known UC targets and known-answer questions."),
+                              ("Methods & evidence", "methods", "Datasets, verification, limits and every cited record.")])]
 
 
 def anchor(ev_id: str) -> str:
@@ -49,6 +54,10 @@ def collect_ids(f: dict) -> list[str]:
     for r in f["convergence"]["ranking"][:25]:
         for v in r["evidence_ids"].values():
             ids += v
+    for rows in (f["convergence"].get("profiles") or {}).values():
+        for r in rows[:25]:
+            for v in r["evidence_ids"].values():
+                ids += v[:6]
     return list(dict.fromkeys(ids))
 
 
@@ -158,6 +167,10 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     figs = {"volcano": volcano(de, list(dict.fromkeys(targets + top[:10]))),
             "replication": replication_heatmap(de, list(dict.fromkeys(targets + top))[:30]),
             "scores": score_bars(ranking, f["convergence"]["config"]["stream_weights"])}
+    from . import report_extra as X
+    figs.update({"cells": X.cells_figure(list(dict.fromkeys(targets + top[:20]))[:25]),
+                 "pathways": X.pathway_heatmap(), "response": X.response_heatmap()})
+    extra = X.tables()
     rep = pd.read_parquet(PROCESSED / "replication.parquet").to_dict("records") if (PROCESSED / "replication.parquet").exists() else []
     vpath = findings_path.parent / "verification_final.json"
 
@@ -171,7 +184,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     env.filters["statement_html"] = lambda st: statement_html(st, records)
     env.filters["evattr"] = lambda ev_ids: " ".join(ev_ids)
     html_out = env.get_template("report.html.j2").render(
-        f=f, ranking=ranking, evidence=ev_views, figs=figs, nav=NAV, replication=rep,
+        f=f, ranking=ranking, evidence=ev_views, figs=figs, nav=NAV, replication=rep, extra=extra,
+        profiles=f["convergence"].get("profiles") or {},
         verification=json.loads(vpath.read_text(encoding="utf-8")) if vpath.exists() else None,
         graph_stats=json.loads((PROCESSED / "graph_stats.json").read_text()),
         css=(ASSETS / "style.css").read_text(encoding="utf-8"), plotly_js=get_plotlyjs(),
