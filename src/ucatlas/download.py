@@ -38,6 +38,8 @@ SOURCES: list[tuple[str, str]] = [
     *_series("GSE73661"),                                                     # infliximab + vedolizumab, UC
     _platform("GPL13158"), _platform("GPL570"), _platform("GPL6244"),
     ("https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt", "hgnc_complete_set.txt"),
+    # second single-cell dataset for replication of the cell attribution (Garrido-Trigo et al. 2023, CZ CELLxGENE)
+    ("https://datasets.cellxgene.cziscience.com/5e75dd8f-5c5f-4056-ade2-117748429022.h5ad", "sc_garrido2023/ibd_hc_10x.h5ad"),
     # Open Targets 26.09 clinical precedence (all diseases, one part): gold set of the M8 evaluation
     ("https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_clinical_precedence/"
      "part-00000-c18648ed-1b6a-4490-aecf-bfadcf459516-c000.zstd.parquet", "extra/ot_clinical_precedence.parquet"),

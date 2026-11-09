@@ -19,6 +19,9 @@ dependencies = [
     "rank-bm25>=0.2.2",
     "pyyaml>=6.0",
     "pytest>=8.3",
+    "anndata>=0.13.4",
+    "h5py>=3.16.0",
+    "rdata>=1.1.0",
 ]
 
 [project.scripts]

@@ -70,5 +70,11 @@
   "retrieved_utc": "2026-11-09T12:41:04+00:00",
   "sha256": "99ee70f87e02c75ff1c8dc57b6c40c0482c7ef2760e004301315ac34344ac6dc",
   "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPL6nnn/GPL6244/annot/GPL6244.annot.gz"
+ },
+ "sc_garrido2023/ibd_hc_10x.h5ad": {
+  "bytes": 183688176,
+  "retrieved_utc": "2026-11-09T13:59:36+00:00",
+  "sha256": "64b5595c7c5375353918a2728c0f82c118cdfb731e4543e7cce43c461a20f1e9",
+  "url": "https://datasets.cellxgene.cziscience.com/5e75dd8f-5c5f-4056-ade2-117748429022.h5ad"
  }
 }

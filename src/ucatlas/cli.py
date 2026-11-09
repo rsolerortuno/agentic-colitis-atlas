@@ -48,12 +48,28 @@ def run_all(clean: bool = True) -> None:
     _step("relations", literature.validate_extractions)
     _step("enrichment", enrich.run)
     _step("graph", lambda: kg_build.build()["claims_without_resolvable_evidence"])
+    from . import composition, kg_cells, sc_replication
+    if (PROCESSED / "sc_celltype_share.parquet").exists():   # single-cell layer present (M11)
+        top = expression_top(500)
+        _step("single-cell replication", lambda: sc_replication.run(top))
+        _step("single-cell graph", kg_cells.load)
+        if (PROCESSED / "sc3_celltype_share.parquet").exists():
+            _step("composition", lambda: (composition.run(expression_top(None))["verdict"].value_counts().to_dict(),
+                                          composition.load())[0])
     _step("convergence", lambda: _rebuild_convergence(run))
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))
     _step("verify final", lambda: _script("scripts/verify.py", "final", run.name))
     _step("render", lambda: _script("scripts/render.py", run.name))
     _step("validate report", lambda: _script("scripts/validate_report.py"))
+
+
+def expression_top(n):
+    import pandas as pd
+    m = pd.read_parquet(PROCESSED / "meta.parquet")
+    m = m[(m["meta_padj"] < 0.05) & ((m["n_sig_up"] >= 2) | (m["n_sig_down"] >= 2))]
+    m = m.reindex(m["meta_log2fc"].abs().sort_values(ascending=False).index)
+    return (m["gene"].head(n) if n else m["gene"]).tolist()
 
 
 def _rebuild_convergence(run) -> str:

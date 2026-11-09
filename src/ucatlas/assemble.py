@@ -12,7 +12,7 @@ from .paths import CONFIG, RAW
 from .verify import AGENT_FILES, Verifier
 
 MODELS = {"orchestrator": "Claude Opus 5.5 — Claude Code main session",
-          "agents": "Claude Sonnet 5.5 — Claude Code subagents (agente-expresion, agente-literatura, agente-externo)",
+          "agents": "Claude Sonnet 5.5 — Claude Code subagents (agente-expresion, agente-literatura, agente-externo, agente-celular)",
           "relation_extraction": "Claude Sonnet 5.5 — extractor-relaciones subagents"}
 
 

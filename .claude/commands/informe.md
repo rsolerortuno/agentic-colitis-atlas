@@ -17,6 +17,7 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `agente-expresion`: "Question: <question>. Write your output to RUN/agent_expression.json."
    - `agente-literatura`: "Question: <question>. Write your output to RUN/agent_literature.json."
    - `agente-externo`: "Question: <question>. Write your output to RUN/agent_external.json."
+   - `agente-celular`: "Question: <question>. Write your output to RUN/agent_cells.json."
 
 3. Run `uv run python scripts/verify.py agents`. It removes evidence ids that do not exist or are not linked to the
    gene and drops unsupported findings, writing `*.verified.json`.
@@ -28,7 +29,7 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    ```json
    {"summary":  [{"text": "...", "evidence_ids": ["..."]}],
     "sections": {"expression": [...], "inflammation": [...], "replication": [...], "literature": [...],
-                 "external": [...], "integration": [...]},
+                 "external": [...], "cells": [...], "integration": [...]},
     "targets":  [{"gene": "OSM", "category": "target|biomarker|target_and_biomarker",
                   "rationale": "...", "evidence_ids": ["..."]}],
     "limitations": [{"text": "..."}]}
@@ -36,11 +37,14 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `expression` (2–3 paragraphs): the strongest and most reproducible changes of UC mucosa (meta-analysis across five
      cohorts), up and down, with what they mean (epithelial metabolism lost, antimicrobial and neutrophil genes up).
    - `inflammation` (1–2 paragraphs): which changes are local to inflamed mucosa (paired inflamed vs non-inflamed of the
-     same patient) and which are already present in non-inflamed mucosa. Say that bulk increases of immune genes may
-     come from infiltrating cells (cell composition is analysed later).
+     same patient) and which are already present in non-inflamed mucosa.
    - `replication` (1 paragraph): how well the discovery cohort's changes reproduce in the four microarray cohorts.
    - `literature`, `external` (1–2 paragraphs each) from the corresponding verified agent files; in `external`
      separate approved UC targets from expression-led candidates without a drug, and name genetic support.
+   - `cells` (2–3 paragraphs) from `agent_cells.verified.json`: which cell makes each leading candidate (epithelium,
+     stroma, myeloid cells, neutrophils, lymphocytes), whether the attribution replicates, and which bulk changes are
+     tissue changes vs. cell influx after the composition adjustment (with its over-correction caveat). Use this to
+     separate targets in a cell type from markers of inflammation; neutrophil genes are the main example.
    - `integration` (2 paragraphs): agreements and disagreements between the streams.
    - 3–5 summary paragraphs; 10–14 entries in `targets` ordered by your judgment of strength (you may depart from the
      numeric ranking, but say why in `rationale`). Known UC targets act as positive controls: say so when they appear.

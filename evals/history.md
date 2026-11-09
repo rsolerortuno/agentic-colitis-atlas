@@ -11,3 +11,9 @@
 - Results in results.md / results.json. No weight was changed after seeing them.
 - QA q07: the answer "13th" was correct but the regex `\b13\b` did not match; the pattern was widened to
   `\b13(th)?\b` and the saved answers were regraded (10/10). Logged here because it was changed after the run.
+
+## 2026-11-09, M12 composition verdict (changed after the first run)
+- First rule: 'intrinsic' if the composition-adjusted change stays significant in the same direction. The first run
+  showed CXCR2 keeping significance with only 17 % of its change (2.60 -> 0.44 log2FC), which that rule called
+  intrinsic. Added: 'intrinsic' also needs >= 50 % of the change retained; otherwise 'partly_composition'.
+  Decided after seeing results, so logged here.

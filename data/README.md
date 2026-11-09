@@ -26,6 +26,15 @@ sha256: `data/raw/scp259/manifest.json`. Checked: the matrix headers match the b
 describes all 365,492 cells (the paper reports 366,650 before its own filtering). The metadata give the subject,
 health state (healthy, non-inflamed, inflamed), compartment and cell cluster.
 
+## Single cell with neutrophils (for M11-M12)
+
+SCP3755 (Gubatan et al. 2026, Front Immunol, doi:10.3389/fimmu.2026.1705328), downloaded by the user into
+`data/raw/scp3755/`: a Seurat object (.RDS, 1.9 GB) and its cell metadata (.csv). 408,930 cells from 20 UC patients
+(inflamed and uninflamed biopsies, BD Rhapsody; no healthy controls), 47,516 neutrophils in five states. No R is
+installed: the RDS is parsed in Python (`rdata`); the RNA count matrix is the only dgCMatrix with one column per cell
+(32,365 genes, integer counts). Second dataset for lineage replication: Garrido-Trigo et al. 2023 (CZ CELLxGENE,
+46,700 cells, 6 UC / 6 CD / 6 healthy donors, five coarse lineages), downloaded with sha256 in the manifest.
+
 ## Disease identifiers
 
 MONDO:0005101 (cross-referenced to EFO_0000729 and DOID:8577). Open Targets (2026) uses MONDO_0005101; a query

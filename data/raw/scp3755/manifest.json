@@ -1,0 +1,24 @@
+{
+ "source": "Broad Single Cell Portal SCP3755 (Gubatan et al. 2026, Front Immunol, doi:10.3389/fimmu.2026.1705328); downloaded by the user (portal login required)",
+ "files": {
+  "manifest.txt": {
+   "sha256": "b4661f6f34d36123ecc155bbadd879090e03047825135f50809dc6c40e6a1ca8",
+   "bytes": 447
+  },
+  "UC.tissue.merged.annotated.all.objects.harmonized.finalversion.updated.metadata.09.18.2023_upload_ready.csv": {
+   "sha256": "4324a067b62a30378adbb3a58c35664c7264285723e2f048c65e1fd818d128ec",
+   "bytes": 102998696
+  },
+  "UC.tissue.merged.annotated.all.objects.harmonized.finalversion.updated.metadata.09.18.2023_upload_ready.RDS": {
+   "sha256": "9233dd34e30d96d9a0767db5ff3ef288e5a3d5a78ca3ccdde09dc15b27607cb1",
+   "bytes": 1863387810
+  }
+ },
+ "checked_utc": "2026-11-09T14:36:43+00:00",
+ "dimensions": {
+  "genes": 32365,
+  "cells": 408930,
+  "patients": 20,
+  "neutrophils": 47516
+ }
+}
