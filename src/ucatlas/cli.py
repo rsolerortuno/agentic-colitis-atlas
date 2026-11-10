@@ -31,16 +31,19 @@ def _script(*args) -> str:
     return p.stdout.strip().splitlines()[-1] if p.stdout.strip() else ""
 
 
-def run_all(clean: bool = True) -> None:
+def run_all(clean: bool = True, run_name: str | None = None) -> None:
     from . import cohorts, download, enrich, expression, kg_build, literature
     from .runs import current_run
     if clean:
-        # the single-cell layer (sc_*) is rebuilt by its own milestone step (it streams 5 GB); everything else goes
+        # the single-cell pseudobulk files (sc_*, sc3_*) come from long streaming steps and are kept; everything
+        # else is rebuilt. They are rebuilt here only when missing.
+        keep = ("sc_pseudobulk", "sc_celltype_share", "sc_celltype_de", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share")
         for f in PROCESSED.glob("*"):
-            if not f.name.startswith("sc_"):
+            if not f.name.startswith(keep):
                 f.unlink() if f.is_file() else shutil.rmtree(f)
         GRAPH_DB.unlink(missing_ok=True)
-    run = current_run()
+    from .runs import RUNS
+    run = RUNS / run_name if run_name else current_run()
     _step("download", lambda: f"{len(download.run())} files checked")
     _step("samples", lambda: f"{len(cohorts.build())} samples")
     _step("expression", lambda: f"{len(expression.run()['meta'])} genes in the meta-analysis")
@@ -48,7 +51,11 @@ def run_all(clean: bool = True) -> None:
     _step("relations", literature.validate_extractions)
     _step("enrichment", enrich.run)
     _step("graph", lambda: kg_build.build()["claims_without_resolvable_evidence"])
-    from . import composition, kg_cells, sc_replication
+    from . import composition, kg_cells, sc_replication, sc_neutrophil, singlecell
+    if not (PROCESSED / "sc_celltype_share.parquet").exists() and (singlecell.SC / "manifest.json").exists():
+        _step("single cell (Smillie 2019)", lambda: singlecell.run(expression_top(None)))
+    if not (PROCESSED / "sc3_celltype_share.parquet").exists() and (sc_neutrophil.D / "manifest.json").exists():
+        _step("single cell with neutrophils (Gubatan 2026)", sc_neutrophil.build)
     if (PROCESSED / "sc_celltype_share.parquet").exists():   # single-cell layer present (M11)
         top = expression_top(500)
         _step("single-cell replication", lambda: sc_replication.run(top))
@@ -103,9 +110,10 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run-all", help="rebuild everything from the raw downloads to the report")
     r.add_argument("--keep", action="store_true", help="do not delete processed data and the graph first")
+    r.add_argument("--run", help="agent run folder under runs/ to re-verify and render (default: runs/.current)")
     a = ap.parse_args()
     if a.cmd == "run-all":
-        run_all(clean=not a.keep)
+        run_all(clean=not a.keep, run_name=a.run)
 
 
 if __name__ == "__main__":

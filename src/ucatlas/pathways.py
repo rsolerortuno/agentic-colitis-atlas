@@ -144,8 +144,11 @@ def load(store=None) -> int:
                     store.add_claim(tf_node["id"], "tf_activity_assessed_in", "ANALYSIS:pathways", ev)
                 n += 1
         c = pd.read_parquet(PROCESSED / "communication.parquet")
+        # deterministic selection, independent of what was loaded before: the 400 highest inflamed scores overall plus,
         # per ligand-receptor pair, the three sender-receiver combinations with the highest inflamed score
-        c = c[(c.get("inflamed", 0) > 0)].groupby(["ligand", "receptor"], group_keys=False).head(3)
+        c = c[(c.get("inflamed", 0) > 0)]
+        c = pd.concat([c.head(400), c.groupby(["ligand", "receptor"], group_keys=False).head(3)]).drop_duplicates(
+            ["ligand", "receptor", "sender", "receiver"])
         for r in c.itertuples():
             rec = {"ligand": r.ligand, "receptor": r.receptor, "sender": r.sender, "receiver": r.receiver,
                    "score_inflamed": round(float(r.inflamed), 3), "score_noninflamed": round(float(getattr(r, "noninflamed", 0.0)), 3),
