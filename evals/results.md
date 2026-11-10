@@ -40,22 +40,30 @@ reported for completeness.
 
 See [history.md](history.md).
 
-## (e) M14 profiles (decided before measuring; same gold set)
+## (e) M14 profiles (decided before measuring; same gold set; corrected in the review of 2026-11-10)
 
 | Score | AUROC | 95 % CI | Recall@100 |
 |---|---|---|---|
-| Target profile (expression up, tissue change, genetics, predicted tractability) | 0.80 | 0.75–0.86 | 12 % |
+| Target profile (expression up, tissue change, genetics, predicted tractability) | 0.84 | 0.80–0.89 | 14 % |
 | Target profile without tractability | 0.71 | 0.65–0.79 | 10 % |
-| Predicted tractability alone | 0.81 | 0.74–0.88 | 14 % |
+| Predicted tractability alone | 0.83 | 0.78–0.88 | 2 % |
+| Target profile, tractability without ligand history | 0.81 | 0.77–0.87 | 12 % |
+| Predicted tractability without ligand history, alone | 0.75 | 0.69–0.82 | 3 % |
 | Biomarker profile | 0.76 | 0.69–0.82 | 7 % |
 
-**Reading.** Unlike the kidney atlas, the target profile does **not** beat predicted tractability alone on UC
-clinical targets: approved UC targets are druggable cytokines, receptors and integrins whose mRNA changes little in
-biopsies. The data-only signal (0.71 without tractability) is real but modest. The temporal subset (4 genes) stays
-uninformative. Disease activity: many genes track the Mayo endoscopic score in MSCCR (one value per patient, n = 375;
-for example S100A8 rho 0.49, LCN2 0.33) but none reach significance in GSE73661, where baseline scores are mostly 2–3
-and n = 67. Not done: Mendelian randomisation with plasma pQTL (summary statistics need a separate download and a
-locus-matching step; left as a limit).
+**Correction.** The first version of this table took predicted tractability only for the ~1,100 genes enriched
+through the Open Targets API, which are mostly genes already associated with UC; every other gene counted as not
+tractable. That favoured clinical targets and made "tractability alone" look as good as the profile. With the Open
+Targets bulk table for every gene (same buckets as the kidney atlas), the target profile matches tractability on
+AUROC (0.84 vs 0.83) but recovers far more clinical targets in its top 100 (14 % vs 2 %), and without the
+medicinal-chemistry ligand bucket it beats tractability clearly (0.81 vs 0.75). As in the kidney atlas, the gain is
+in early enrichment. Convergence v1 keeps its original tractability stream (enriched genes only, a known bias that
+inflates its 0.86); it is not changed because the published narratives were written from it.
+
+Disease activity: many genes track the Mayo endoscopic score in MSCCR (one value per patient, n = 375; for example
+S100A8 rho 0.49, LCN2 0.33) but none reach significance in GSE73661, where baseline scores are mostly 2–3 and n = 67.
+Not done: Mendelian randomisation with plasma pQTL (summary statistics need a separate download and a locus-matching
+step; left as a limit). The temporal subset (4 genes) stays uninformative.
 
 ## (f) M17: repeats and one agent vs the team
 

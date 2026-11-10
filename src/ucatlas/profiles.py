@@ -20,6 +20,30 @@ from .config import load
 from .paths import PROCESSED
 
 
+def tractability_table() -> pd.DataFrame:
+    """Open Targets 26.09 tractability for every target (same buckets as the kidney atlas): clinical precedence,
+    predicted SM / AB tractability (strong buckets: SM high-quality ligand or pocket, AB high-confidence surface or
+    secreted location) and the same without the ligand bucket (medicinal-chemistry history)."""
+    from .paths import RAW
+    parts = sorted((RAW / "extra").glob("ot_target_tractability_*.parquet"))
+    t = pd.concat([pd.read_parquet(p) for p in parts], ignore_index=True)
+    t = t[t["value"]].copy()
+    clinical = t["category"].isin(["Approved Drug", "Advanced Clinical", "Phase 1 Clinical"])
+    pred = (((t["modality"] == "SM") & t["category"].isin(["High-Quality Ligand", "High-Quality Pocket"]))
+            | ((t["modality"] == "AB") & (t["category"] == "UniProt loc high conf")))
+    pred_nl = (((t["modality"] == "SM") & t["category"].eq("High-Quality Pocket"))
+               | ((t["modality"] == "AB") & (t["category"] == "UniProt loc high conf")))
+    hg = pd.read_csv(RAW / "hgnc_complete_set.txt", sep="\t", usecols=["symbol", "ensembl_gene_id"], dtype=str).dropna()
+    t["gene"] = t["targetId"].map(dict(zip(hg["ensembl_gene_id"], hg["symbol"])))
+    t = t.dropna(subset=["gene"])
+    genes = sorted(set(t["gene"]))
+    out = pd.DataFrame(index=pd.Index(genes, name="gene"))
+    out["clinical"] = out.index.isin(t.loc[clinical, "gene"])
+    out["predicted"] = out.index.isin(t.loc[pred, "gene"])
+    out["predicted_no_ligand"] = out.index.isin(t.loc[pred_nl, "gene"])
+    return out
+
+
 def components(t: pd.DataFrame) -> pd.DataFrame:
     t = t.copy()
     t["c_expression_up"] = np.where(t["meta_log2fc"] > 0, t["c_expression"], 0.0)
@@ -30,18 +54,11 @@ def components(t: pd.DataFrame) -> pd.DataFrame:
     act = pd.read_parquet(PROCESSED / "activity.parquet")
     act = act[act["padj"] < 0.05].groupby("gene")["rho"].apply(lambda r: r.abs().max())
     t["c_activity"] = (t["gene"].map(act).fillna(0.0) / 0.5).clip(upper=1)
-    details = json.loads((PROCESSED / "external_targets.json").read_text())
-    disc = pd.read_parquet(PROCESSED / "discovery.parquet").set_index("gene") if (PROCESSED / "discovery.parquet").exists() else None
-
-    def predicted(g):
-        d = (details.get(g) or {}).get("open_targets")
-        if d:
-            return 1.0 if set(d["tractable_modalities"]) & {"SM", "AB"} else 0.0
-        if disc is not None and g in disc.index:
-            return 1.0 if len(disc.loc[g, "tractable"]) else 0.0
-        return 0.0
-
-    t["c_tractability_predicted"] = [predicted(g) for g in t["gene"]]
+    # every gene from the Open Targets bulk table (v1 of the profiles used only the ~1,100 enriched genes, which
+    # favoured genes already associated with UC; corrected in the review of 2026-11-10, evals/history.md)
+    tr = tractability_table()
+    t["c_tractability_predicted"] = t["gene"].map(tr["predicted"]).fillna(False).astype(float)
+    t["c_tractability_predicted_no_ligand"] = t["gene"].map(tr["predicted_no_ligand"]).fillna(False).astype(float)
     return t
 
 

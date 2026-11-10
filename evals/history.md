@@ -29,3 +29,10 @@
 - Weight sensitivity: 1,000 random reweightings (each weight multiplied by a log-uniform factor in [1/2, 2]),
   5th-95th percentile rank and probability of staying in the top 10 / 25.
 - The profiles are evaluated against the same M8 gold set; no weight is changed after seeing the result.
+
+## 2026-11-10, review: tractability for every gene
+- Bug: predicted tractability (target profile and the 'tractability alone' baseline) came only from the ~1,100
+  genes enriched through the Open Targets API; all other genes scored 0. Fixed with the Open Targets 26.09 bulk
+  tractability table (same strong buckets as the kidney atlas). Target profile AUROC 0.80 -> 0.84, predicted
+  tractability alone 0.81 -> 0.83, recall@100 14 % vs 2 %. Weights unchanged. Convergence v1 keeps its biased
+  tractability stream (documented) because the published narratives were written from it.

@@ -42,6 +42,10 @@ SOURCES: list[tuple[str, str]] = [
     ("https://datasets.cellxgene.cziscience.com/5e75dd8f-5c5f-4056-ade2-117748429022.h5ad", "sc_garrido2023/ibd_hc_10x.h5ad"),
     # Human Protein Atlas RNA tissue consensus (vital-organ expression for the discovery safety filter, M13)
     ("https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip", "extra/hpa_rna_tissue_consensus.tsv.zip"),
+    # Open Targets 26.09 tractability for every target (two parts): predicted SM / AB tractability for all genes
+    *[("https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_tractability/"
+       f"part-0000{i}-e2201205-916c-4b28-971d-6511ae9ea691-c000.zstd.parquet", f"extra/ot_target_tractability_{i}.parquet")
+      for i in (0, 1)],
     # Open Targets 26.09 clinical precedence (all diseases, one part): gold set of the M8 evaluation
     ("https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_clinical_precedence/"
      "part-00000-c18648ed-1b6a-4490-aecf-bfadcf459516-c000.zstd.parquet", "extra/ot_clinical_precedence.parquet"),

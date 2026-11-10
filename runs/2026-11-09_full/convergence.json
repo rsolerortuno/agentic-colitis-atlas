@@ -5374,9 +5374,9 @@
     "rank_interval_90": {
      "rank_p05": 1,
      "rank_median": 1.0,
-     "rank_p95": 16,
-     "p_top10": 0.909,
-     "p_top25": 0.977
+     "rank_p95": 10,
+     "p_top10": 0.952,
+     "p_top25": 0.995
     }
    },
    {
@@ -5431,10 +5431,10 @@
     },
     "rank_interval_90": {
      "rank_p05": 2,
-     "rank_median": 5.0,
-     "rank_p95": 31,
-     "p_top10": 0.702,
-     "p_top25": 0.905
+     "rank_median": 4.0,
+     "rank_p95": 19,
+     "p_top10": 0.808,
+     "p_top25": 0.982
     }
    },
    {
@@ -5510,9 +5510,9 @@
     "rank_interval_90": {
      "rank_p05": 1,
      "rank_median": 4.0,
-     "rank_p95": 90,
-     "p_top10": 0.671,
-     "p_top25": 0.739
+     "rank_p95": 72,
+     "p_top10": 0.714,
+     "p_top25": 0.797
     }
    },
    {
@@ -5586,11 +5586,11 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 5,
-     "rank_median": 8.0,
-     "rank_p95": 48,
-     "p_top10": 0.599,
-     "p_top25": 0.786
+     "rank_p05": 4,
+     "rank_median": 6.0,
+     "rank_p95": 29,
+     "p_top10": 0.71,
+     "p_top25": 0.916
     }
    },
    {
@@ -5639,150 +5639,14 @@
     },
     "rank_interval_90": {
      "rank_p05": 2,
-     "rank_median": 9.0,
-     "rank_p95": 86,
-     "p_top10": 0.534,
-     "p_top25": 0.636
+     "rank_median": 7.0,
+     "rank_p95": 74,
+     "p_top10": 0.568,
+     "p_top25": 0.724
     }
    },
    {
     "rank": 6,
-    "gene": "OSMR",
-    "score": 3.3013,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.681,
-     "tissue_change": 0.222,
-     "genetics": 0.609,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.042,
-    "meta_padj": 1.67e-08,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 0.885,
-    "open_targets_score": 0.3907,
-    "ot_genetic_association": 0.6089,
-    "ot_literature": 0.1311,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "VIXARELIMAB",
-      "max_stage": "PHASE_2"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:9dbbfc64540a"
-     ],
-     "replication": [
-      "EV:omics_de:878039637a11",
-      "EV:omics_de:e61234f93366",
-      "EV:omics_de:5a478ef60a53",
-      "EV:omics_de:9ea6f38f2c9f",
-      "EV:omics_de:5cac17b22544"
-     ],
-     "inflammation": [
-      "EV:omics_de:325a7419e9ce"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:c4f64a2388d8"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:c4f64a2388d8"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:9dbbfc64540a",
-      "EV:open_targets_drug:5a0bed88f542"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 4,
-     "rank_median": 10.0,
-     "rank_p95": 48,
-     "p_top10": 0.503,
-     "p_top25": 0.744
-    }
-   },
-   {
-    "rank": 7,
-    "gene": "IL2RA",
-    "score": 3.272,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.5,
-     "tissue_change": 0.449,
-     "genetics": 0.662,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 1.499,
-    "meta_padj": 3.01e-30,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 0.965,
-    "open_targets_score": 0.4349,
-    "ot_genetic_association": 0.6619,
-    "ot_literature": 0.3756,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "DENILEUKIN DIFTITOX",
-      "max_stage": "PHASE_4"
-     },
-     {
-      "name": "INOLIMOMAB",
-      "max_stage": "PHASE_3"
-     },
-     {
-      "name": "LMB-2",
-      "max_stage": "PHASE_2"
-     },
-     {
-      "name": "BASILIXIMAB",
-      "max_stage": "PHASE_4"
-     },
-     {
-      "name": "ALDESLEUKIN",
-      "max_stage": "PHASE_4"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:0d28c0dab75c"
-     ],
-     "replication": [
-      "EV:omics_de:a5020c356d19",
-      "EV:omics_de:abfdb1839dcc",
-      "EV:omics_de:4eb6a004b4e2",
-      "EV:omics_de:034464897029",
-      "EV:omics_de:99203004e6f7"
-     ],
-     "inflammation": [
-      "EV:omics_de:96663efe551c"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:c275cc3ec9d3"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:c275cc3ec9d3"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:0d28c0dab75c",
-      "EV:open_targets_drug:cbffc1f5d9f7",
-      "EV:open_targets_drug:4ac53b1238e8",
-      "EV:open_targets_drug:fec88ccfe92a",
-      "EV:open_targets_drug:cf3fe5477445",
-      "EV:open_targets_drug:c4d75d83cd60"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 4,
-     "rank_median": 8.0,
-     "rank_p95": 64,
-     "p_top10": 0.588,
-     "p_top25": 0.729
-    }
-   },
-   {
-    "rank": 8,
     "gene": "REG3A",
     "score": 3.254,
     "n_streams": 5,
@@ -5828,14 +5692,14 @@
     },
     "rank_interval_90": {
      "rank_p05": 1,
-     "rank_median": 6.0,
-     "rank_p95": 60,
-     "p_top10": 0.688,
-     "p_top25": 0.824
+     "rank_median": 5.0,
+     "rank_p95": 59,
+     "p_top10": 0.734,
+     "p_top25": 0.857
     }
    },
    {
-    "rank": 9,
+    "rank": 7,
     "gene": "SERPINB5",
     "score": 3.1826,
     "n_streams": 5,
@@ -5882,64 +5746,14 @@
     },
     "rank_interval_90": {
      "rank_p05": 2,
-     "rank_median": 9.0,
-     "rank_p95": 64,
-     "p_top10": 0.61,
-     "p_top25": 0.797
+     "rank_median": 7.0,
+     "rank_p95": 66,
+     "p_top10": 0.668,
+     "p_top25": 0.828
     }
    },
    {
-    "rank": 10,
-    "gene": "REG1A",
-    "score": 3.1102,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.61,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 3.61,
-    "meta_padj": 9.07e-19,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": 2.213,
-    "open_targets_score": 0.0934,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.6561,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:e47ac58985af"
-     ],
-     "replication": [
-      "EV:omics_de:5ff3be7334d5",
-      "EV:omics_de:4e6d0c1b800d",
-      "EV:omics_de:1b1c32864242",
-      "EV:omics_de:7cf3ec1f98f3",
-      "EV:omics_de:ae957b63fa92"
-     ],
-     "inflammation": [
-      "EV:omics_de:1a671494ab05"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:4bc6f968270d"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:e47ac58985af"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 3,
-     "rank_median": 11.0,
-     "rank_p95": 71,
-     "p_top10": 0.493,
-     "p_top25": 0.755
-    }
-   },
-   {
-    "rank": 11,
+    "rank": 8,
     "gene": "CCL11",
     "score": 3.0737,
     "n_streams": 6,
@@ -5988,65 +5802,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 9,
-     "rank_median": 15.0,
-     "rank_p95": 55,
-     "p_top10": 0.132,
-     "p_top25": 0.726
+     "rank_p05": 5,
+     "rank_median": 11.0,
+     "rank_p95": 53,
+     "p_top10": 0.439,
+     "p_top25": 0.846
     }
    },
    {
-    "rank": 12,
-    "gene": "REG1B",
-    "score": 3.0555,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.556,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 3.12,
-    "meta_padj": 9.01e-18,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": 2.138,
-    "open_targets_score": 0.0467,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.296,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:75d5350d923d"
-     ],
-     "replication": [
-      "EV:omics_de:00093bf09716",
-      "EV:omics_de:daff8ef9eaef",
-      "EV:omics_de:6481dc344bfe",
-      "EV:omics_de:f2dc8cc4cd73",
-      "EV:omics_de:362c251ca63c"
-     ],
-     "inflammation": [
-      "EV:omics_de:84eb9571ac39"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:55ac96c6430c"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:75d5350d923d"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 4,
-     "rank_median": 13.0,
-     "rank_p95": 75,
-     "p_top10": 0.369,
-     "p_top25": 0.707
-    }
-   },
-   {
-    "rank": 13,
+    "rank": 9,
     "gene": "CXCR1",
     "score": 3.0343,
     "n_streams": 6,
@@ -6116,112 +5880,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 8,
-     "rank_median": 24.0,
-     "rank_p95": 76,
-     "p_top10": 0.18,
-     "p_top25": 0.535
-    }
-   },
-   {
-    "rank": 14,
-    "gene": "SAA2",
-    "score": 3.0169,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.517,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 3.788,
-    "meta_padj": 2.46e-158,
-    "cohorts_same_direction": 2,
-    "paired_log2fc": 2.258,
-    "open_targets_score": 0.0698,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.2122,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:b11fa4644424"
-     ],
-     "replication": [
-      "EV:omics_de:2d2c263bb0f6",
-      "EV:omics_de:05206f628e60"
-     ],
-     "inflammation": [
-      "EV:omics_de:87ba77afcd52"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:47960a9a5f94"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:b11fa4644424"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 5,
-     "rank_median": 16.0,
-     "rank_p95": 80,
-     "p_top10": 0.317,
-     "p_top25": 0.679
-    }
-   },
-   {
-    "rank": 15,
-    "gene": "DMBT1",
-    "score": 3.0125,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.921,
-     "tissue_change": 0.67,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.764,
-    "meta_padj": 6.19e-19,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.695,
-    "open_targets_score": 0.0482,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.3312,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:8bcf6f16246e"
-     ],
-     "replication": [
-      "EV:omics_de:60247b2c608a",
-      "EV:omics_de:3e2a0fe350c3",
-      "EV:omics_de:09456d81c159",
-      "EV:omics_de:4749fb20e7fe",
-      "EV:omics_de:319644adc470"
-     ],
-     "inflammation": [
-      "EV:omics_de:52283cb777f6"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:cc6fb9fb9211"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:8bcf6f16246e"
-     ]
-    },
-    "rank_interval_90": {
      "rank_p05": 6,
-     "rank_median": 20.0,
-     "rank_p95": 77,
-     "p_top10": 0.234,
-     "p_top25": 0.639
+     "rank_median": 18.0,
+     "rank_p95": 65,
+     "p_top10": 0.329,
+     "p_top25": 0.632
     }
    },
    {
-    "rank": 16,
+    "rank": 10,
     "gene": "DEFA5",
     "score": 3.0009,
     "n_streams": 5,
@@ -6264,71 +5931,14 @@
     },
     "rank_interval_90": {
      "rank_p05": 3,
-     "rank_median": 25.0,
-     "rank_p95": 80,
-     "p_top10": 0.233,
-     "p_top25": 0.51
+     "rank_median": 17.0,
+     "rank_p95": 79,
+     "p_top10": 0.329,
+     "p_top25": 0.689
     }
    },
    {
-    "rank": 17,
-    "gene": "IL18R1",
-    "score": 2.9783,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.329,
-     "tissue_change": 0.515,
-     "genetics": 0.652,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 0.988,
-    "meta_padj": 5.06e-12,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": 0.458,
-    "open_targets_score": 0.4027,
-    "ot_genetic_association": 0.6522,
-    "ot_literature": 0.1817,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "IBOCTADEKIN",
-      "max_stage": "PHASE_2"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:4c4440e17efb"
-     ],
-     "replication": [
-      "EV:omics_de:3c4d012cf42a",
-      "EV:omics_de:281e38335586",
-      "EV:omics_de:c67372bce942",
-      "EV:omics_de:3ff4bba346fb"
-     ],
-     "inflammation": [
-      "EV:omics_de:02d33ca35af3"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:486a1adeb486"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:486a1adeb486"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:4c4440e17efb",
-      "EV:open_targets_drug:177af34e7c24"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 9,
-     "rank_median": 21.0,
-     "rank_p95": 122,
-     "p_top10": 0.221,
-     "p_top25": 0.537
-    }
-   },
-   {
-    "rank": 18,
+    "rank": 11,
     "gene": "INHBA",
     "score": 2.9673,
     "n_streams": 6,
@@ -6382,65 +5992,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 12,
-     "rank_median": 32.0,
-     "rank_p95": 54,
-     "p_top10": 0.02,
-     "p_top25": 0.355
+     "rank_p05": 9,
+     "rank_median": 23.0,
+     "rank_p95": 45,
+     "p_top10": 0.119,
+     "p_top25": 0.627
     }
    },
    {
-    "rank": 19,
-    "gene": "DUOXA2",
-    "score": 2.9466,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.447,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 4.492,
-    "meta_padj": 9.2e-22,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 2.865,
-    "open_targets_score": 0.0734,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.3699,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:e74e22709f40"
-     ],
-     "replication": [
-      "EV:omics_de:fc0f25dae4e5",
-      "EV:omics_de:1bfcb60ecfa0",
-      "EV:omics_de:5dda8fbf8b28",
-      "EV:omics_de:971242ed6355",
-      "EV:omics_de:0e5a94d22d5f"
-     ],
-     "inflammation": [
-      "EV:omics_de:a8f58f48ba6b"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:654b445298b4"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:e74e22709f40"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 7,
-     "rank_median": 20.0,
-     "rank_p95": 91,
-     "p_top10": 0.213,
-     "p_top25": 0.601
-    }
-   },
-   {
-    "rank": 20,
+    "rank": 12,
     "gene": "MMP10",
     "score": 2.9429,
     "n_streams": 5,
@@ -6487,15 +6047,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 8,
-     "rank_median": 21.0,
-     "rank_p95": 93,
-     "p_top10": 0.194,
-     "p_top25": 0.587
+     "rank_p05": 4,
+     "rank_median": 13.0,
+     "rank_p95": 99,
+     "p_top10": 0.409,
+     "p_top25": 0.691
     }
    },
    {
-    "rank": 21,
+    "rank": 13,
     "gene": "MMP1",
     "score": 2.9378,
     "n_streams": 5,
@@ -6562,169 +6122,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 9,
-     "rank_median": 22.0,
-     "rank_p95": 97,
-     "p_top10": 0.152,
-     "p_top25": 0.566
+     "rank_p05": 5,
+     "rank_median": 14.0,
+     "rank_p95": 102,
+     "p_top10": 0.344,
+     "p_top25": 0.675
     }
    },
    {
-    "rank": 22,
-    "gene": "RNF186",
-    "score": 2.9365,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.0,
-     "tissue_change": 1.0,
-     "genetics": 0.718,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": -0.297,
-    "meta_padj": 0.0383,
-    "cohorts_same_direction": 3,
-    "paired_log2fc": -0.089,
-    "open_targets_score": 0.4482,
-    "ot_genetic_association": 0.7182,
-    "ot_literature": 0.3807,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:e684bb17c6e2"
-     ],
-     "replication": [
-      "EV:omics_de:21d185182c71",
-      "EV:omics_de:78b6034308f6",
-      "EV:omics_de:521233b41520",
-      "EV:omics_de:0c8bdf310bb1",
-      "EV:omics_de:367ddae62971"
-     ],
-     "inflammation": [
-      "EV:omics_de:32b754c09eb4"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:5d4e80937912"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:5d4e80937912"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:e684bb17c6e2"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 2,
-     "rank_median": 21.0,
-     "rank_p95": 276,
-     "p_top10": 0.358,
-     "p_top25": 0.535
-    }
-   },
-   {
-    "rank": 23,
-    "gene": "OLFM4",
-    "score": 2.9213,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.82,
-     "tissue_change": 0.782,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.459,
-    "meta_padj": 0.000215,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.229,
-    "open_targets_score": 0.1112,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.834,
-    "n_literature_relations": 1,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:0b029a73d475"
-     ],
-     "replication": [
-      "EV:omics_de:35369cf1b1ee",
-      "EV:omics_de:08edfb7f908b",
-      "EV:omics_de:7750eb177974",
-      "EV:omics_de:6d1ae3621bb2",
-      "EV:omics_de:91e3e0d94282"
-     ],
-     "inflammation": [
-      "EV:omics_de:dd7663e67ee4"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:9266416c15be",
-      "EV:open_targets_assoc:3d9d3cb45de5"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:0b029a73d475"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 8,
-     "rank_median": 34.0,
-     "rank_p95": 93,
-     "p_top10": 0.103,
-     "p_top25": 0.381
-    }
-   },
-   {
-    "rank": 24,
-    "gene": "TCN1",
-    "score": 2.9213,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.421,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 3.383,
-    "meta_padj": 3.37e-09,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.964,
-    "open_targets_score": 0.0548,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.2232,
-    "n_literature_relations": 1,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:4fb13b0eaf6a"
-     ],
-     "replication": [
-      "EV:omics_de:d0263a6e7b73",
-      "EV:omics_de:916fdfb1ee30",
-      "EV:omics_de:f69c811579db",
-      "EV:omics_de:de0d647a17da",
-      "EV:omics_de:a17030b2861a"
-     ],
-     "inflammation": [
-      "EV:omics_de:d5a717ebdb5b"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:92dc16d8b33c",
-      "EV:open_targets_assoc:15c331252fa4"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:4fb13b0eaf6a"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 10,
-     "rank_median": 24.0,
-     "rank_p95": 99,
-     "p_top10": 0.065,
-     "p_top25": 0.526
-    }
-   },
-   {
-    "rank": 25,
+    "rank": 14,
     "gene": "DUOX2",
     "score": 2.897,
     "n_streams": 5,
@@ -6772,15 +6178,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 11,
-     "rank_median": 26.0,
-     "rank_p95": 105,
-     "p_top10": 0.014,
-     "p_top25": 0.494
+     "rank_p05": 6,
+     "rank_median": 16.0,
+     "rank_p95": 121,
+     "p_top10": 0.275,
+     "p_top25": 0.639
     }
    },
    {
-    "rank": 26,
+    "rank": 15,
     "gene": "MMP7",
     "score": 2.8905,
     "n_streams": 5,
@@ -6840,15 +6246,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 12,
-     "rank_median": 27.0,
-     "rank_p95": 107,
-     "p_top10": 0.0,
-     "p_top25": 0.466
+     "rank_p05": 7,
+     "rank_median": 17.0,
+     "rank_p95": 131,
+     "p_top10": 0.236,
+     "p_top25": 0.626
     }
    },
    {
-    "rank": 27,
+    "rank": 16,
     "gene": "TLR4",
     "score": 2.8895,
     "n_streams": 6,
@@ -6908,117 +6314,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 12,
-     "rank_median": 31.0,
-     "rank_p95": 131,
-     "p_top10": 0.0,
-     "p_top25": 0.467
+     "rank_p05": 8,
+     "rank_median": 20.0,
+     "rank_p95": 115,
+     "p_top10": 0.168,
+     "p_top25": 0.562
     }
    },
    {
-    "rank": 28,
-    "gene": "CXCL11",
-    "score": 2.8831,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.92,
-     "tissue_change": 0.542,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.761,
-    "meta_padj": 9.96e-114,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.996,
-    "open_targets_score": 0.0637,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.3185,
-    "n_literature_relations": 2,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:493738b53bfe"
-     ],
-     "replication": [
-      "EV:omics_de:91c12a1a607e",
-      "EV:omics_de:6edde53950d6",
-      "EV:omics_de:3531437ec4d5",
-      "EV:omics_de:b94309fbcfe6",
-      "EV:omics_de:692b9e6b21c6"
-     ],
-     "inflammation": [
-      "EV:omics_de:a78a60ec409e"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:49367dc8cefd",
-      "EV:literature:dfe70e6fae87",
-      "EV:open_targets_assoc:882b07bc7b34"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:493738b53bfe"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 16,
-     "rank_median": 32.0,
-     "rank_p95": 98,
-     "p_top10": 0.0,
-     "p_top25": 0.279
-    }
-   },
-   {
-    "rank": 29,
-    "gene": "C4BPB",
-    "score": 2.8686,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.892,
-     "tissue_change": 0.585,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.675,
-    "meta_padj": 3.08e-36,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.236,
-    "open_targets_score": 0.0412,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.0767,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:e385eae1a67c"
-     ],
-     "replication": [
-      "EV:omics_de:8a9cba22acaf",
-      "EV:omics_de:d0e93c481307",
-      "EV:omics_de:e46cada99d3e",
-      "EV:omics_de:b84e5c009a7d",
-      "EV:omics_de:388cdae99bfd"
-     ],
-     "inflammation": [
-      "EV:omics_de:65808bb34a35"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:dee60c0223c2"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:e385eae1a67c"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 17,
-     "rank_median": 35.0,
-     "rank_p95": 100,
-     "p_top10": 0.0,
-     "p_top25": 0.228
-    }
-   },
-   {
-    "rank": 30,
+    "rank": 17,
     "gene": "CHI3L1",
     "score": 2.8658,
     "n_streams": 5,
@@ -7066,15 +6370,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 14,
-     "rank_median": 30.0,
-     "rank_p95": 113,
-     "p_top10": 0.0,
-     "p_top25": 0.414
+     "rank_p05": 8,
+     "rank_median": 19.0,
+     "rank_p95": 143,
+     "p_top10": 0.163,
+     "p_top25": 0.601
     }
    },
    {
-    "rank": 31,
+    "rank": 18,
     "gene": "IDO1",
     "score": 2.8593,
     "n_streams": 5,
@@ -7130,66 +6434,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 15,
-     "rank_median": 31.5,
-     "rank_p95": 118,
-     "p_top10": 0.0,
-     "p_top25": 0.37
+     "rank_p05": 9,
+     "rank_median": 21.0,
+     "rank_p95": 150,
+     "p_top10": 0.121,
+     "p_top25": 0.588
     }
    },
    {
-    "rank": 32,
-    "gene": "TNIP3",
-    "score": 2.8496,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.35,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 4.093,
-    "meta_padj": 4.41e-29,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 2.146,
-    "open_targets_score": 0.0682,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.2109,
-    "n_literature_relations": 1,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:0d851e14dd2c"
-     ],
-     "replication": [
-      "EV:omics_de:275aa7435520",
-      "EV:omics_de:6cf250e100fd",
-      "EV:omics_de:fe6733869478",
-      "EV:omics_de:44a94bc7ba4b",
-      "EV:omics_de:ec03556b44ea"
-     ],
-     "inflammation": [
-      "EV:omics_de:4bdd8b10cec6"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:2fceed76c9b4",
-      "EV:open_targets_assoc:154dc47f07a5"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:0d851e14dd2c"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 16,
-     "rank_median": 33.0,
-     "rank_p95": 122,
-     "p_top10": 0.0,
-     "p_top25": 0.335
-    }
-   },
-   {
-    "rank": 33,
+    "rank": 19,
     "gene": "DEFA6",
     "score": 2.839,
     "n_streams": 4,
@@ -7229,15 +6482,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 7,
-     "rank_median": 43.0,
-     "rank_p95": 107,
-     "p_top10": 0.096,
-     "p_top25": 0.281
+     "rank_p05": 5,
+     "rank_median": 27.0,
+     "rank_p95": 101,
+     "p_top10": 0.171,
+     "p_top25": 0.46
     }
    },
    {
-    "rank": 34,
+    "rank": 20,
     "gene": "IL1RN",
     "score": 2.8387,
     "n_streams": 5,
@@ -7279,15 +6532,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 19,
-     "rank_median": 35.0,
-     "rank_p95": 123,
-     "p_top10": 0.0,
-     "p_top25": 0.261
+     "rank_p05": 11,
+     "rank_median": 22.0,
+     "rank_p95": 166,
+     "p_top10": 0.011,
+     "p_top25": 0.553
     }
    },
    {
-    "rank": 35,
+    "rank": 21,
     "gene": "KYNU",
     "score": 2.8383,
     "n_streams": 5,
@@ -7329,171 +6582,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 17,
-     "rank_median": 36.0,
-     "rank_p95": 128,
-     "p_top10": 0.0,
-     "p_top25": 0.277
+     "rank_p05": 10,
+     "rank_median": 23.0,
+     "rank_p95": 168,
+     "p_top10": 0.051,
+     "p_top25": 0.555
     }
    },
    {
-    "rank": 36,
-    "gene": "VSIG1",
-    "score": 2.8371,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.94,
-     "tissue_change": 0.457,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.819,
-    "meta_padj": 3.21e-07,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.947,
-    "open_targets_score": 0.037,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.0304,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:380e43c4769b"
-     ],
-     "replication": [
-      "EV:omics_de:ce5214b22204",
-      "EV:omics_de:c0e977e2788a",
-      "EV:omics_de:3fbd3d149052",
-      "EV:omics_de:db574bc2168b",
-      "EV:omics_de:f0a6be22b029"
-     ],
-     "inflammation": [
-      "EV:omics_de:c08c237e3231"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:70eea37aae93"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:380e43c4769b"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 24,
-     "rank_median": 37.0,
-     "rank_p95": 109,
-     "p_top10": 0.0,
-     "p_top25": 0.086
-    }
-   },
-   {
-    "rank": 37,
-    "gene": "PI3",
-    "score": 2.8289,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.329,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 3.037,
-    "meta_padj": 1.7e-18,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 2.13,
-    "open_targets_score": 0.1047,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.7611,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:d1bafeeb64b7"
-     ],
-     "replication": [
-      "EV:omics_de:ad2a8010f94b",
-      "EV:omics_de:755a0b829bae",
-      "EV:omics_de:ac376db31845",
-      "EV:omics_de:953512a7ad71",
-      "EV:omics_de:a16fd709e23a"
-     ],
-     "inflammation": [
-      "EV:omics_de:ec3a18067a21"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:089a3a27b057"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:d1bafeeb64b7"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 18,
-     "rank_median": 38.0,
-     "rank_p95": 131,
-     "p_top10": 0.0,
-     "p_top25": 0.218
-    }
-   },
-   {
-    "rank": 38,
-    "gene": "CDH3",
-    "score": 2.8072,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.307,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 3.067,
-    "meta_padj": 3.66e-11,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 2.551,
-    "open_targets_score": 0.051,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.2421,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "PF-03732010",
-      "max_stage": "PHASE_1"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:3bf2f6fb0d93"
-     ],
-     "replication": [
-      "EV:omics_de:0f8f043b1110",
-      "EV:omics_de:ffa3d62a41e0",
-      "EV:omics_de:581ddfedd3e6",
-      "EV:omics_de:1357e0f5ceae",
-      "EV:omics_de:29c13022d85d"
-     ],
-     "inflammation": [
-      "EV:omics_de:d2f93651183e"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:3b9cfd32712d"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:3bf2f6fb0d93",
-      "EV:open_targets_drug:759806c3fe8d"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 20,
-     "rank_median": 40.0,
-     "rank_p95": 136,
-     "p_top10": 0.0,
-     "p_top25": 0.172
-    }
-   },
-   {
-    "rank": 39,
+    "rank": 22,
     "gene": "FCGR3B",
     "score": 2.8064,
     "n_streams": 5,
@@ -7535,65 +6632,73 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 21,
-     "rank_median": 41.0,
-     "rank_p95": 138,
+     "rank_p05": 13,
+     "rank_median": 25.0,
+     "rank_p95": 194,
      "p_top10": 0.0,
-     "p_top25": 0.151
+     "p_top25": 0.503
     }
    },
    {
-    "rank": 40,
-    "gene": "SOCS3",
-    "score": 2.8036,
-    "n_streams": 5,
+    "rank": 23,
+    "gene": "OSMR",
+    "score": 2.8013,
+    "n_streams": 6,
     "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.304,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
+     "expression_up": 0.681,
+     "tissue_change": 0.222,
+     "genetics": 0.609,
+     "tractability_predicted": 0.0
     },
-    "meta_log2fc": 3.044,
-    "meta_padj": 2.26e-19,
+    "meta_log2fc": 2.042,
+    "meta_padj": 1.67e-08,
     "cohorts_same_direction": 5,
-    "paired_log2fc": 1.531,
-    "open_targets_score": 0.0561,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.4097,
+    "paired_log2fc": 0.885,
+    "open_targets_score": 0.3907,
+    "ot_genetic_association": 0.6089,
+    "ot_literature": 0.1311,
     "n_literature_relations": 0,
-    "drugs": [],
+    "drugs": [
+     {
+      "name": "VIXARELIMAB",
+      "max_stage": "PHASE_2"
+     }
+    ],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:64427f4cae8a"
+      "EV:expression_meta:9dbbfc64540a"
      ],
      "replication": [
-      "EV:omics_de:1caa6f6236f1",
-      "EV:omics_de:1c502e30ecf9",
-      "EV:omics_de:7b94da6cb1ca",
-      "EV:omics_de:8472ee45001f",
-      "EV:omics_de:fd667170bbd1"
+      "EV:omics_de:878039637a11",
+      "EV:omics_de:e61234f93366",
+      "EV:omics_de:5a478ef60a53",
+      "EV:omics_de:9ea6f38f2c9f",
+      "EV:omics_de:5cac17b22544"
      ],
      "inflammation": [
-      "EV:omics_de:8b8abe509899"
+      "EV:omics_de:325a7419e9ce"
      ],
-     "genetics": [],
+     "genetics": [
+      "EV:open_targets_assoc:c4f64a2388d8"
+     ],
      "literature": [
-      "EV:open_targets_assoc:5c9a3ddb5d67"
+      "EV:open_targets_assoc:c4f64a2388d8"
      ],
      "tractability": [
-      "EV:open_targets_tract:64427f4cae8a"
+      "EV:open_targets_tract:9dbbfc64540a",
+      "EV:open_targets_drug:5a0bed88f542"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 22,
-     "rank_median": 42.0,
-     "rank_p95": 141,
-     "p_top10": 0.0,
-     "p_top25": 0.125
+     "rank_p05": 7,
+     "rank_median": 36.0,
+     "rank_p95": 161,
+     "p_top10": 0.12,
+     "p_top25": 0.347
     }
    },
    {
-    "rank": 41,
+    "rank": 24,
     "gene": "RORC",
     "score": 2.7936,
     "n_streams": 5,
@@ -7637,68 +6742,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 4,
-     "rank_median": 36.0,
-     "rank_p95": 315,
-     "p_top10": 0.235,
-     "p_top25": 0.44
+     "rank_p05": 3,
+     "rank_median": 23.0,
+     "rank_p95": 253,
+     "p_top10": 0.33,
+     "p_top25": 0.519
     }
    },
    {
-    "rank": 42,
-    "gene": "S100A8",
-    "score": 2.7875,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.288,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 4.647,
-    "meta_padj": 8.47e-19,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.804,
-    "open_targets_score": 0.09,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.631,
-    "n_literature_relations": 3,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:6ff831ae12f7"
-     ],
-     "replication": [
-      "EV:omics_de:32850137b2cb",
-      "EV:omics_de:5cb9bdcc8ed1",
-      "EV:omics_de:3e18b077f309",
-      "EV:omics_de:c19df566c449",
-      "EV:omics_de:3066a056f6b4"
-     ],
-     "inflammation": [
-      "EV:omics_de:8e95c3590481"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:347e445b0c25",
-      "EV:literature:84b4bf458a59",
-      "EV:literature:aa6bd1636886",
-      "EV:open_targets_assoc:1891ead8ab9c"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:6ff831ae12f7"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 24,
-     "rank_median": 44.0,
-     "rank_p95": 145,
-     "p_top10": 0.0,
-     "p_top25": 0.091
-    }
-   },
-   {
-    "rank": 43,
+    "rank": 25,
     "gene": "MMP3",
     "score": 2.783,
     "n_streams": 5,
@@ -7752,66 +6804,93 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 25,
-     "rank_median": 45.0,
-     "rank_p95": 147,
+     "rank_p05": 14,
+     "rank_median": 28.0,
+     "rank_p95": 222,
      "p_top10": 0.0,
-     "p_top25": 0.071
+     "p_top25": 0.466
     }
    },
    {
-    "rank": 44,
-    "gene": "ABCA12",
-    "score": 2.7688,
-    "n_streams": 5,
+    "rank": 26,
+    "gene": "IL2RA",
+    "score": 2.772,
+    "n_streams": 6,
     "components": {
-     "expression_up": 0.92,
-     "tissue_change": 0.429,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
+     "expression_up": 0.5,
+     "tissue_change": 0.449,
+     "genetics": 0.662,
+     "tractability_predicted": 0.0
     },
-    "meta_log2fc": 2.759,
-    "meta_padj": 0.000547,
+    "meta_log2fc": 1.499,
+    "meta_padj": 3.01e-30,
     "cohorts_same_direction": 5,
-    "paired_log2fc": 2.689,
-    "open_targets_score": 0.0667,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.1798,
-    "n_literature_relations": 1,
-    "drugs": [],
+    "paired_log2fc": 0.965,
+    "open_targets_score": 0.4349,
+    "ot_genetic_association": 0.6619,
+    "ot_literature": 0.3756,
+    "n_literature_relations": 0,
+    "drugs": [
+     {
+      "name": "DENILEUKIN DIFTITOX",
+      "max_stage": "PHASE_4"
+     },
+     {
+      "name": "INOLIMOMAB",
+      "max_stage": "PHASE_3"
+     },
+     {
+      "name": "LMB-2",
+      "max_stage": "PHASE_2"
+     },
+     {
+      "name": "BASILIXIMAB",
+      "max_stage": "PHASE_4"
+     },
+     {
+      "name": "ALDESLEUKIN",
+      "max_stage": "PHASE_4"
+     }
+    ],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:132a55327d8f"
+      "EV:expression_meta:0d28c0dab75c"
      ],
      "replication": [
-      "EV:omics_de:e0416987d442",
-      "EV:omics_de:d143365fc4d7",
-      "EV:omics_de:4c1fe73eb06a",
-      "EV:omics_de:4b05d280a6ee",
-      "EV:omics_de:90173ac4a3db"
+      "EV:omics_de:a5020c356d19",
+      "EV:omics_de:abfdb1839dcc",
+      "EV:omics_de:4eb6a004b4e2",
+      "EV:omics_de:034464897029",
+      "EV:omics_de:99203004e6f7"
      ],
      "inflammation": [
-      "EV:omics_de:50865d1fc150"
+      "EV:omics_de:96663efe551c"
      ],
-     "genetics": [],
+     "genetics": [
+      "EV:open_targets_assoc:c275cc3ec9d3"
+     ],
      "literature": [
-      "EV:literature:6da4e525ae44",
-      "EV:open_targets_assoc:e6e8bfdae143"
+      "EV:open_targets_assoc:c275cc3ec9d3"
      ],
      "tractability": [
-      "EV:open_targets_tract:132a55327d8f"
+      "EV:open_targets_tract:0d28c0dab75c",
+      "EV:open_targets_drug:cbffc1f5d9f7",
+      "EV:open_targets_drug:4ac53b1238e8",
+      "EV:open_targets_drug:fec88ccfe92a",
+      "EV:open_targets_drug:cf3fe5477445",
+      "EV:open_targets_drug:c4d75d83cd60"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 33,
-     "rank_median": 45.0,
-     "rank_p95": 126,
-     "p_top10": 0.0,
-     "p_top25": 0.0
+     "rank_p05": 8,
+     "rank_median": 35.0,
+     "rank_p95": 149,
+     "p_top10": 0.091,
+     "p_top25": 0.381
     }
    },
    {
-    "rank": 45,
+    "rank": 27,
     "gene": "S100A9",
     "score": 2.7685,
     "n_streams": 5,
@@ -7859,15 +6938,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 26,
-     "rank_median": 47.0,
-     "rank_p95": 153,
+     "rank_p05": 15,
+     "rank_median": 30.0,
+     "rank_p95": 236,
      "p_top10": 0.0,
-     "p_top25": 0.042
+     "p_top25": 0.426
     }
    },
    {
-    "rank": 46,
+    "rank": 28,
     "gene": "AQP9",
     "score": 2.7611,
     "n_streams": 5,
@@ -7912,15 +6991,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 27,
-     "rank_median": 49.0,
-     "rank_p95": 157,
+     "rank_p05": 16,
+     "rank_median": 31.0,
+     "rank_p95": 249,
      "p_top10": 0.0,
-     "p_top25": 0.016
+     "p_top25": 0.389
     }
    },
    {
-    "rank": 47,
+    "rank": 29,
     "gene": "SAA1",
     "score": 2.7204,
     "n_streams": 5,
@@ -7960,15 +7039,65 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 37,
-     "rank_median": 50.0,
-     "rank_p95": 133,
+     "rank_p05": 21,
+     "rank_median": 35.0,
+     "rank_p95": 153,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.236
     }
    },
    {
-    "rank": 48,
+    "rank": 30,
+    "gene": "CHRM3",
+    "score": 2.7168,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.186,
+     "tissue_change": 0.844,
+     "genetics": 0.5,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 0.559,
+    "meta_padj": 1.84e-08,
+    "cohorts_same_direction": 3,
+    "paired_log2fc": 0.446,
+    "open_targets_score": 0.3054,
+    "ot_genetic_association": 0.4999,
+    "ot_literature": 0.0395,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:8482daad0592"
+     ],
+     "replication": [
+      "EV:omics_de:3ca63282188a",
+      "EV:omics_de:6b032b58a713",
+      "EV:omics_de:cf5f6b899130",
+      "EV:omics_de:b31c8a7c5e7f",
+      "EV:omics_de:bc22ab825719"
+     ],
+     "inflammation": [
+      "EV:omics_de:650460f59930"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:7af8c6aa50b5"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:7af8c6aa50b5"
+     ],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 9,
+     "rank_median": 31.0,
+     "rank_p95": 177,
+     "p_top10": 0.088,
+     "p_top25": 0.408
+    }
+   },
+   {
+    "rank": 31,
     "gene": "KLK10",
     "score": 2.6921,
     "n_streams": 4,
@@ -8008,15 +7137,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 30,
-     "rank_median": 56.0,
-     "rank_p95": 185,
+     "rank_p05": 18,
+     "rank_median": 37.0,
+     "rank_p95": 316,
      "p_top10": 0.0,
-     "p_top25": 0.002
+     "p_top25": 0.288
     }
    },
    {
-    "rank": 49,
+    "rank": 32,
     "gene": "PSAT1",
     "score": 2.6882,
     "n_streams": 5,
@@ -8058,15 +7187,15 @@
      "tractability": []
     },
     "rank_interval_90": {
-     "rank_p05": 30,
-     "rank_median": 56.0,
-     "rank_p95": 109,
+     "rank_p05": 24,
+     "rank_median": 39.0,
+     "rank_p95": 96,
      "p_top10": 0.0,
-     "p_top25": 0.001
+     "p_top25": 0.097
     }
    },
    {
-    "rank": 50,
+    "rank": 33,
     "gene": "CCL20",
     "score": 2.6593,
     "n_streams": 6,
@@ -8111,67 +7240,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 19,
-     "rank_median": 61.0,
-     "rank_p95": 197,
-     "p_top10": 0.0,
-     "p_top25": 0.156
+     "rank_p05": 12,
+     "rank_median": 46.0,
+     "rank_p95": 311,
+     "p_top10": 0.018,
+     "p_top25": 0.295
     }
    },
    {
-    "rank": 51,
-    "gene": "SERPINA3",
-    "score": 2.6521,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.978,
-     "tissue_change": 0.197,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.933,
-    "meta_padj": 7.28e-30,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.921,
-    "open_targets_score": 0.0748,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.6153,
-    "n_literature_relations": 2,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:07e18ced1125"
-     ],
-     "replication": [
-      "EV:omics_de:ea52f4a870e9",
-      "EV:omics_de:c8a1ccb12b78",
-      "EV:omics_de:d8e5349e1de7",
-      "EV:omics_de:4d52f26ca5c0",
-      "EV:omics_de:fa2d00bc822b"
-     ],
-     "inflammation": [
-      "EV:omics_de:e907ca023a59"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:1ef410bb3b0c",
-      "EV:literature:85208aae31f9",
-      "EV:open_targets_assoc:8c6baf2641b1"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:07e18ced1125"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 35,
-     "rank_median": 60.0,
-     "rank_p95": 196,
-     "p_top10": 0.0,
-     "p_top25": 0.0
-    }
-   },
-   {
-    "rank": 52,
+    "rank": 34,
     "gene": "NR5A2",
     "score": 2.6483,
     "n_streams": 6,
@@ -8215,65 +7292,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 8,
-     "rank_median": 60.5,
-     "rank_p95": 443,
-     "p_top10": 0.093,
-     "p_top25": 0.355
+     "rank_p05": 6,
+     "rank_median": 40.0,
+     "rank_p95": 363,
+     "p_top10": 0.224,
+     "p_top25": 0.404
     }
    },
    {
-    "rank": 53,
-    "gene": "HCAR3",
-    "score": 2.6428,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.977,
-     "tissue_change": 0.189,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.931,
-    "meta_padj": 5.4e-21,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.47,
-    "open_targets_score": 0.0644,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.4836,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:d519fa757e44"
-     ],
-     "replication": [
-      "EV:omics_de:22f484876267",
-      "EV:omics_de:9d3a5498e172",
-      "EV:omics_de:2a560644dada",
-      "EV:omics_de:54bb9c466985",
-      "EV:omics_de:d9ae31c916d3"
-     ],
-     "inflammation": [
-      "EV:omics_de:fbec62139572"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:586853a76324"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:d519fa757e44"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 36,
-     "rank_median": 62.0,
-     "rank_p95": 200,
-     "p_top10": 0.0,
-     "p_top25": 0.0
-    }
-   },
-   {
-    "rank": 54,
+    "rank": 35,
     "gene": "MAP3K8",
     "score": 2.6379,
     "n_streams": 6,
@@ -8323,15 +7350,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 19,
-     "rank_median": 63.0,
-     "rank_p95": 251,
-     "p_top10": 0.0,
-     "p_top25": 0.273
+     "rank_p05": 12,
+     "rank_median": 43.5,
+     "rank_p95": 242,
+     "p_top10": 0.005,
+     "p_top25": 0.342
     }
    },
    {
-    "rank": 55,
+    "rank": 36,
     "gene": "PARK7",
     "score": 2.6353,
     "n_streams": 5,
@@ -8375,278 +7402,65 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 10,
-     "rank_median": 58.0,
-     "rank_p95": 324,
-     "p_top10": 0.055,
-     "p_top25": 0.28
+     "rank_p05": 9,
+     "rank_median": 38.0,
+     "rank_p95": 248,
+     "p_top10": 0.109,
+     "p_top25": 0.392
     }
    },
    {
-    "rank": 56,
-    "gene": "CXCL1",
-    "score": 2.6342,
+    "rank": 37,
+    "gene": "REG1A",
+    "score": 2.6102,
     "n_streams": 5,
     "components": {
      "expression_up": 1.0,
-     "tissue_change": 0.134,
+     "tissue_change": 0.61,
      "genetics": 0.0,
-     "tractability_predicted": 1.0
+     "tractability_predicted": 0.0
     },
-    "meta_log2fc": 3.868,
-    "meta_padj": 6.6e-18,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 2.052,
-    "open_targets_score": 0.0871,
+    "meta_log2fc": 3.61,
+    "meta_padj": 9.07e-19,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": 2.213,
+    "open_targets_score": 0.0934,
     "ot_genetic_association": 0.0,
-    "ot_literature": 0.5873,
-    "n_literature_relations": 6,
+    "ot_literature": 0.6561,
+    "n_literature_relations": 0,
     "drugs": [],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:b36f0e2e423a"
+      "EV:expression_meta:e47ac58985af"
      ],
      "replication": [
-      "EV:omics_de:ad1663d3ae85",
-      "EV:omics_de:0e468b262919",
-      "EV:omics_de:2a828c350417",
-      "EV:omics_de:937aeeaddef1",
-      "EV:omics_de:476f26a4b068"
+      "EV:omics_de:5ff3be7334d5",
+      "EV:omics_de:4e6d0c1b800d",
+      "EV:omics_de:1b1c32864242",
+      "EV:omics_de:7cf3ec1f98f3",
+      "EV:omics_de:ae957b63fa92"
      ],
      "inflammation": [
-      "EV:omics_de:448aa513cc0e"
+      "EV:omics_de:1a671494ab05"
      ],
      "genetics": [],
      "literature": [
-      "EV:literature:09c00158dd8e",
-      "EV:literature:0a8bb8c4711b",
-      "EV:literature:39f80ba0f2a4",
-      "EV:literature:e542795d63c8",
-      "EV:literature:f20befabdbc0",
-      "EV:literature:fa5e4add4a84",
-      "EV:open_targets_assoc:dcf57c26c06e"
+      "EV:open_targets_assoc:4bc6f968270d"
      ],
      "tractability": [
-      "EV:open_targets_tract:b36f0e2e423a"
+      "EV:open_targets_tract:e47ac58985af"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 33,
-     "rank_median": 64.5,
-     "rank_p95": 225,
-     "p_top10": 0.0,
-     "p_top25": 0.0
+     "rank_p05": 14,
+     "rank_median": 42.0,
+     "rank_p95": 338,
+     "p_top10": 0.031,
+     "p_top25": 0.233
     }
    },
    {
-    "rank": 57,
-    "gene": "TNFSF15",
-    "score": 2.6285,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.2,
-     "tissue_change": 0.0,
-     "genetics": 0.864,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 0.599,
-    "meta_padj": 8.66e-05,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": 0.58,
-    "open_targets_score": 0.5393,
-    "ot_genetic_association": 0.8644,
-    "ot_literature": 0.4367,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:d5dbdfbcb407"
-     ],
-     "replication": [
-      "EV:omics_de:d792cad6eefd",
-      "EV:omics_de:a765f4624c45",
-      "EV:omics_de:1460f14b56b7",
-      "EV:omics_de:791a0e92666f",
-      "EV:omics_de:75c0d8ab48ca"
-     ],
-     "inflammation": [
-      "EV:omics_de:82560c32fed5"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:3c0c2f7a452b"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:3c0c2f7a452b"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:d5dbdfbcb407"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 10,
-     "rank_median": 64.0,
-     "rank_p95": 381,
-     "p_top10": 0.083,
-     "p_top25": 0.306
-    }
-   },
-   {
-    "rank": 58,
-    "gene": "IGHG1",
-    "score": 2.6065,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.906,
-     "tissue_change": 0.295,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.718,
-    "meta_padj": 7.5e-06,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": 2.341,
-    "open_targets_score": 0.053,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.1144,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:da794e5b81fb"
-     ],
-     "replication": [
-      "EV:omics_de:d26229f7e69b",
-      "EV:omics_de:6b460d428935",
-      "EV:omics_de:f71e3b80ffb3",
-      "EV:omics_de:17ff2b132633"
-     ],
-     "inflammation": [
-      "EV:omics_de:7344b4510009"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:3f67b69616bc"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:da794e5b81fb"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 44,
-     "rank_median": 64.0,
-     "rank_p95": 178,
-     "p_top10": 0.0,
-     "p_top25": 0.0
-    }
-   },
-   {
-    "rank": 59,
-    "gene": "IL10",
-    "score": 2.6003,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.132,
-     "tissue_change": 0.0,
-     "genetics": 0.918,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 0.397,
-    "meta_padj": 0.000583,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": 0.66,
-    "open_targets_score": 0.5871,
-    "ot_genetic_association": 0.9178,
-    "ot_literature": 0.9494,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "SCH-708980",
-      "max_stage": "PHASE_1_2"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:dddeb2e6c55d"
-     ],
-     "replication": [
-      "EV:omics_de:a26b6e9b309f",
-      "EV:omics_de:70f51036f823",
-      "EV:omics_de:963e364ff91b",
-      "EV:omics_de:d1df09034d62",
-      "EV:omics_de:c4a5c73c9c18"
-     ],
-     "inflammation": [
-      "EV:omics_de:debe23cd06ea"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:d5129675eae7"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:d5129675eae7"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:dddeb2e6c55d",
-      "EV:open_targets_drug:4a2b2b53f589"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 8,
-     "rank_median": 69.0,
-     "rank_p95": 493,
-     "p_top10": 0.116,
-     "p_top25": 0.308
-    }
-   },
-   {
-    "rank": 60,
-    "gene": "SPINK4",
-    "score": 2.5969,
-    "n_streams": 4,
-    "components": {
-     "expression_up": 0.672,
-     "tissue_change": 0.752,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.017,
-    "meta_padj": 4.77e-13,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.169,
-    "open_targets_score": 0.0,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.0,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:e82488227cc1"
-     ],
-     "replication": [
-      "EV:omics_de:635c66653959",
-      "EV:omics_de:af609d4879ea",
-      "EV:omics_de:52b1d8b76c47",
-      "EV:omics_de:942bac628a89",
-      "EV:omics_de:7c6a5cf4c256"
-     ],
-     "inflammation": [
-      "EV:omics_de:129a6c7215b2"
-     ],
-     "genetics": [],
-     "literature": [],
-     "tractability": [
-      "EV:open_targets_tract:e82488227cc1"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 27,
-     "rank_median": 66.0,
-     "rank_p95": 140,
-     "p_top10": 0.0,
-     "p_top25": 0.041
-    }
-   },
-   {
-    "rank": 61,
+    "rank": 38,
     "gene": "SLCO1B3",
     "score": 2.5967,
     "n_streams": 4,
@@ -8686,15 +7500,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 47,
-     "rank_median": 63.0,
-     "rank_p95": 156,
+     "rank_p05": 29,
+     "rank_median": 47.0,
+     "rank_p95": 203,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.02
     }
    },
    {
-    "rank": 62,
+    "rank": 39,
     "gene": "PRKCB",
     "score": 2.5751,
     "n_streams": 6,
@@ -8764,123 +7578,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 17,
-     "rank_median": 73.0,
-     "rank_p95": 322,
-     "p_top10": 0.0,
-     "p_top25": 0.216
+     "rank_p05": 11,
+     "rank_median": 56.0,
+     "rank_p95": 453,
+     "p_top10": 0.04,
+     "p_top25": 0.276
     }
    },
    {
-    "rank": 63,
-    "gene": "CXCL2",
-    "score": 2.5694,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.91,
-     "tissue_change": 0.248,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.731,
-    "meta_padj": 5.37e-22,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.546,
-    "open_targets_score": 0.0542,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.3367,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:3f0f07cf33f3"
-     ],
-     "replication": [
-      "EV:omics_de:5c115fee2059",
-      "EV:omics_de:901df8d3ad31",
-      "EV:omics_de:d9f59cd38a31",
-      "EV:omics_de:9880cc30ee48",
-      "EV:omics_de:3c3cf3b2f5c4"
-     ],
-     "inflammation": [
-      "EV:omics_de:6ce086309ae1"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:93de46f09368"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:3f0f07cf33f3"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 47,
-     "rank_median": 70.0,
-     "rank_p95": 203,
-     "p_top10": 0.0,
-     "p_top25": 0.0
-    }
-   },
-   {
-    "rank": 64,
-    "gene": "FCGR2B",
-    "score": 2.5585,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.362,
-     "tissue_change": 0.0,
-     "genetics": 0.667,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 1.086,
-    "meta_padj": 6.04e-05,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 0.538,
-    "open_targets_score": 0.4105,
-    "ot_genetic_association": 0.6672,
-    "ot_literature": 0.1358,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "OBEXELIMAB",
-      "max_stage": "PHASE_3"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:68277f7b69bc"
-     ],
-     "replication": [
-      "EV:omics_de:76dd8eea942c",
-      "EV:omics_de:600180faa469",
-      "EV:omics_de:75817c38ed7f",
-      "EV:omics_de:ea914a1e4b35",
-      "EV:omics_de:5e8fb9b44552"
-     ],
-     "inflammation": [
-      "EV:omics_de:3da9a400347f"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:6bfc94ca85f5"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:6bfc94ca85f5"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:68277f7b69bc",
-      "EV:open_targets_drug:bdb6945a8f1f"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 23,
-     "rank_median": 75.0,
-     "rank_p95": 277,
-     "p_top10": 0.0,
-     "p_top25": 0.092
-    }
-   },
-   {
-    "rank": 65,
+    "rank": 40,
     "gene": "ALDOB",
     "score": 2.5571,
     "n_streams": 4,
@@ -8920,63 +7626,65 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 20,
-     "rank_median": 74.0,
-     "rank_p95": 157,
-     "p_top10": 0.002,
-     "p_top25": 0.078
+     "rank_p05": 14,
+     "rank_median": 55.5,
+     "rank_p95": 154,
+     "p_top10": 0.021,
+     "p_top25": 0.163
     }
    },
    {
-    "rank": 66,
-    "gene": "C4BPA",
-    "score": 2.5554,
-    "n_streams": 4,
+    "rank": 41,
+    "gene": "REG1B",
+    "score": 2.5555,
+    "n_streams": 5,
     "components": {
-     "expression_up": 0.762,
-     "tissue_change": 0.532,
+     "expression_up": 1.0,
+     "tissue_change": 0.556,
      "genetics": 0.0,
-     "tractability_predicted": 1.0
+     "tractability_predicted": 0.0
     },
-    "meta_log2fc": 2.286,
-    "meta_padj": 2.29e-06,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.187,
-    "open_targets_score": 0.0371,
+    "meta_log2fc": 3.12,
+    "meta_padj": 9.01e-18,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": 2.138,
+    "open_targets_score": 0.0467,
     "ot_genetic_association": 0.0,
-    "ot_literature": 0.0,
+    "ot_literature": 0.296,
     "n_literature_relations": 0,
     "drugs": [],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:ac7aebfdeaae"
+      "EV:expression_meta:75d5350d923d"
      ],
      "replication": [
-      "EV:omics_de:068bdbc5264d",
-      "EV:omics_de:f8b4ed0ff4c2",
-      "EV:omics_de:9808f28d0c76",
-      "EV:omics_de:e26219efbf40",
-      "EV:omics_de:5e30d76f14b6"
+      "EV:omics_de:00093bf09716",
+      "EV:omics_de:daff8ef9eaef",
+      "EV:omics_de:6481dc344bfe",
+      "EV:omics_de:f2dc8cc4cd73",
+      "EV:omics_de:362c251ca63c"
      ],
      "inflammation": [
-      "EV:omics_de:e5dd5d097b99"
+      "EV:omics_de:84eb9571ac39"
      ],
      "genetics": [],
-     "literature": [],
+     "literature": [
+      "EV:open_targets_assoc:55ac96c6430c"
+     ],
      "tractability": [
-      "EV:open_targets_tract:ac7aebfdeaae"
+      "EV:open_targets_tract:75d5350d923d"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 49,
-     "rank_median": 67.0,
-     "rank_p95": 155,
-     "p_top10": 0.0,
-     "p_top25": 0.0
+     "rank_p05": 19,
+     "rank_median": 49.0,
+     "rank_p95": 394,
+     "p_top10": 0.007,
+     "p_top25": 0.15
     }
    },
    {
-    "rank": 67,
+    "rank": 42,
     "gene": "IRF8",
     "score": 2.5387,
     "n_streams": 6,
@@ -9020,143 +7728,65 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 10,
-     "rank_median": 75.0,
-     "rank_p95": 528,
-     "p_top10": 0.058,
-     "p_top25": 0.255
+     "rank_p05": 8,
+     "rank_median": 57.5,
+     "rank_p95": 476,
+     "p_top10": 0.108,
+     "p_top25": 0.336
     }
    },
    {
-    "rank": 68,
-    "gene": "CD40",
-    "score": 2.5344,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.31,
-     "tissue_change": 0.235,
-     "genetics": 0.589,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 0.931,
-    "meta_padj": 1.23e-19,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 0.901,
-    "open_targets_score": 0.3712,
-    "ot_genetic_association": 0.5891,
-    "ot_literature": 0.3317,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "LUCATUMUMAB",
-      "max_stage": "PHASE_2"
-     },
-     {
-      "name": "SELICRELUMAB",
-      "max_stage": "PHASE_1_2"
-     },
-     {
-      "name": "SOTIGALIMAB",
-      "max_stage": "PHASE_2"
-     },
-     {
-      "name": "PG-102",
-      "max_stage": "PHASE_2"
-     },
-     {
-      "name": "DACETUZUMAB",
-      "max_stage": "PHASE_2"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:fcbe80e867e0"
-     ],
-     "replication": [
-      "EV:omics_de:2735e53513c7",
-      "EV:omics_de:89718d746bf2",
-      "EV:omics_de:8b13ba47cc2f",
-      "EV:omics_de:9a18d38359dc",
-      "EV:omics_de:61473b6bb3f3"
-     ],
-     "inflammation": [
-      "EV:omics_de:d41a5d42a953"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:ebed74ff8afa"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:ebed74ff8afa"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:fcbe80e867e0",
-      "EV:open_targets_drug:404429cfe124",
-      "EV:open_targets_drug:0c062fa14950",
-      "EV:open_targets_drug:ca1f9021bbff",
-      "EV:open_targets_drug:73d02e8a79e3",
-      "EV:open_targets_drug:ecb8839c3b28"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 29,
-     "rank_median": 75.0,
-     "rank_p95": 230,
-     "p_top10": 0.0,
-     "p_top25": 0.002
-    }
-   },
-   {
-    "rank": 69,
-    "gene": "S100P",
-    "score": 2.5296,
+    "rank": 43,
+    "gene": "RASGRP1",
+    "score": 2.5314,
     "n_streams": 5,
     "components": {
-     "expression_up": 0.674,
-     "tissue_change": 0.681,
-     "genetics": 0.0,
+     "expression_up": 0.273,
+     "tissue_change": 0.347,
+     "genetics": 0.569,
      "tractability_predicted": 1.0
     },
-    "meta_log2fc": 2.022,
-    "meta_padj": 4.83e-35,
+    "meta_log2fc": 0.82,
+    "meta_padj": 1.93e-05,
     "cohorts_same_direction": 5,
-    "paired_log2fc": 1.012,
-    "open_targets_score": 0.0602,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.4432,
+    "paired_log2fc": 0.598,
+    "open_targets_score": 0.3476,
+    "ot_genetic_association": 0.5688,
+    "ot_literature": 0.0334,
     "n_literature_relations": 0,
     "drugs": [],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:fa5013be5b77"
+      "EV:expression_meta:2a8729187c3b"
      ],
      "replication": [
-      "EV:omics_de:1e24c2d687dd",
-      "EV:omics_de:264a00241d80",
-      "EV:omics_de:43132ce940a5",
-      "EV:omics_de:b705ada0dc67",
-      "EV:omics_de:0f8c8194134c"
+      "EV:omics_de:e269062d188a",
+      "EV:omics_de:cfb28bb54b4f",
+      "EV:omics_de:4a2149bebd34",
+      "EV:omics_de:23785578485b",
+      "EV:omics_de:5d40c3dd7cc7"
      ],
      "inflammation": [
-      "EV:omics_de:d8e6c3279511"
+      "EV:omics_de:c6d6b30dbe93"
      ],
-     "genetics": [],
+     "genetics": [
+      "EV:open_targets_assoc:39a644f9209c"
+     ],
      "literature": [
-      "EV:open_targets_assoc:5e879b61e037"
+      "EV:open_targets_assoc:39a644f9209c"
      ],
-     "tractability": [
-      "EV:open_targets_tract:fa5013be5b77"
-     ]
+     "tractability": []
     },
     "rank_interval_90": {
-     "rank_p05": 39,
-     "rank_median": 75.0,
-     "rank_p95": 153,
+     "rank_p05": 21,
+     "rank_median": 54.5,
+     "rank_p95": 218,
      "p_top10": 0.0,
-     "p_top25": 0.002
+     "p_top25": 0.13
     }
    },
    {
-    "rank": 70,
+    "rank": 44,
     "gene": "INAVA",
     "score": 2.5238,
     "n_streams": 5,
@@ -9200,15 +7830,112 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 6,
-     "rank_median": 75.0,
-     "rank_p95": 643,
-     "p_top10": 0.096,
-     "p_top25": 0.264
+     "rank_p05": 4,
+     "rank_median": 56.0,
+     "rank_p95": 585,
+     "p_top10": 0.143,
+     "p_top25": 0.339
     }
    },
    {
-    "rank": 71,
+    "rank": 45,
+    "gene": "SAA2",
+    "score": 2.5169,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.517,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 3.788,
+    "meta_padj": 2.46e-158,
+    "cohorts_same_direction": 2,
+    "paired_log2fc": 2.258,
+    "open_targets_score": 0.0698,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.2122,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:b11fa4644424"
+     ],
+     "replication": [
+      "EV:omics_de:2d2c263bb0f6",
+      "EV:omics_de:05206f628e60"
+     ],
+     "inflammation": [
+      "EV:omics_de:87ba77afcd52"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:47960a9a5f94"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:b11fa4644424"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 22,
+     "rank_median": 54.0,
+     "rank_p95": 452,
+     "p_top10": 0.0,
+     "p_top25": 0.099
+    }
+   },
+   {
+    "rank": 46,
+    "gene": "DMBT1",
+    "score": 2.5125,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.921,
+     "tissue_change": 0.67,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 2.764,
+    "meta_padj": 6.19e-19,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.695,
+    "open_targets_score": 0.0482,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.3312,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:8bcf6f16246e"
+     ],
+     "replication": [
+      "EV:omics_de:60247b2c608a",
+      "EV:omics_de:3e2a0fe350c3",
+      "EV:omics_de:09456d81c159",
+      "EV:omics_de:4749fb20e7fe",
+      "EV:omics_de:319644adc470"
+     ],
+     "inflammation": [
+      "EV:omics_de:52283cb777f6"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:cc6fb9fb9211"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:8bcf6f16246e"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 22,
+     "rank_median": 56.0,
+     "rank_p95": 362,
+     "p_top10": 0.002,
+     "p_top25": 0.085
+    }
+   },
+   {
+    "rank": 47,
     "gene": "APOL1",
     "score": 2.5101,
     "n_streams": 5,
@@ -9250,15 +7977,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 52,
-     "rank_median": 75.0,
-     "rank_p95": 166,
+     "rank_p05": 34,
+     "rank_median": 59.0,
+     "rank_p95": 184,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.001
     }
    },
    {
-    "rank": 72,
+    "rank": 48,
     "gene": "REG4",
     "score": 2.5069,
     "n_streams": 5,
@@ -9300,132 +8027,130 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 56,
-     "rank_median": 75.0,
-     "rank_p95": 178,
+     "rank_p05": 34,
+     "rank_median": 58.0,
+     "rank_p95": 266,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 73,
-    "gene": "SLC6A14",
-    "score": 2.5,
+    "rank": 49,
+    "gene": "MAX",
+    "score": 2.5023,
     "n_streams": 4,
     "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.0,
-     "genetics": 0.0,
+     "expression_up": 0.0,
+     "tissue_change": 1.0,
+     "genetics": 0.501,
      "tractability_predicted": 1.0
     },
-    "meta_log2fc": 5.025,
-    "meta_padj": 1.37e-05,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": null,
-    "open_targets_score": 0.1099,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.752,
-    "n_literature_relations": 6,
+    "meta_log2fc": -0.265,
+    "meta_padj": 0.0255,
+    "cohorts_same_direction": 3,
+    "paired_log2fc": -0.072,
+    "open_targets_score": 0.3163,
+    "ot_genetic_association": 0.5011,
+    "ot_literature": 0.382,
+    "n_literature_relations": 0,
     "drugs": [],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:32923f0324c0"
+      "EV:expression_meta:7b186e235f28"
      ],
      "replication": [
-      "EV:omics_de:b08896fe0039",
-      "EV:omics_de:9e1319ef9822",
-      "EV:omics_de:a38b719b3107",
-      "EV:omics_de:3c891c16b65c"
+      "EV:omics_de:bf5b906d7562",
+      "EV:omics_de:1de90d2cdf79",
+      "EV:omics_de:793bb58d34da",
+      "EV:omics_de:d34aaa22cfa7",
+      "EV:omics_de:307964bef374"
      ],
-     "inflammation": [],
-     "genetics": [],
+     "inflammation": [
+      "EV:omics_de:a33083b0baf2"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:12e9fae89ee9"
+     ],
      "literature": [
-      "EV:literature:182cf275b7d4",
-      "EV:literature:1f4e8bd4d272",
-      "EV:literature:533012368b9c",
-      "EV:literature:a55b9a38e327",
-      "EV:literature:ab499c6ec89c",
-      "EV:literature:d433d99f355b",
-      "EV:open_targets_assoc:d38216b00b8a"
+      "EV:open_targets_assoc:12e9fae89ee9"
      ],
-     "tractability": [
-      "EV:open_targets_tract:32923f0324c0"
-     ]
+     "tractability": []
     },
     "rank_interval_90": {
-     "rank_p05": 41,
-     "rank_median": 82.0,
-     "rank_p95": 379,
-     "p_top10": 0.0,
-     "p_top25": 0.0
+     "rank_p05": 8,
+     "rank_median": 51.0,
+     "rank_p95": 372,
+     "p_top10": 0.071,
+     "p_top25": 0.279
     }
    },
    {
-    "rank": 74,
-    "gene": "MMP12",
+    "rank": 50,
+    "gene": "CXCL8",
     "score": 2.5,
-    "n_streams": 4,
+    "n_streams": 5,
     "components": {
      "expression_up": 1.0,
      "tissue_change": 0.0,
      "genetics": 0.0,
      "tractability_predicted": 1.0
     },
-    "meta_log2fc": 3.13,
-    "meta_padj": 1.96e-19,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": null,
-    "open_targets_score": 0.0647,
+    "meta_log2fc": 3.704,
+    "meta_padj": 5.27e-17,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.968,
+    "open_targets_score": 0.1087,
     "ot_genetic_association": 0.0,
-    "ot_literature": 0.4629,
-    "n_literature_relations": 1,
+    "ot_literature": 0.7966,
+    "n_literature_relations": 4,
     "drugs": [
      {
-      "name": "CTS-1027",
+      "name": "ABX-IL8",
       "max_stage": "PHASE_2"
      },
      {
-      "name": "MARIMASTAT",
-      "max_stage": "PHASE_3"
-     },
-     {
-      "name": "AZD-1236",
+      "name": "ADAKITUG",
       "max_stage": "PHASE_2"
      }
     ],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:e3719cef452f"
+      "EV:expression_meta:1e78b2f07f0c"
      ],
      "replication": [
-      "EV:omics_de:babf45913575",
-      "EV:omics_de:a9bc35d19e76",
-      "EV:omics_de:6eb9a624dd8c",
-      "EV:omics_de:205377f57439"
+      "EV:omics_de:98abf339e651",
+      "EV:omics_de:f31fe39d23d0",
+      "EV:omics_de:19a47932181b",
+      "EV:omics_de:37f3998bb459",
+      "EV:omics_de:f9ae921fbe85"
      ],
-     "inflammation": [],
+     "inflammation": [
+      "EV:omics_de:4b4308ba9576"
+     ],
      "genetics": [],
      "literature": [
-      "EV:literature:33408358e8f0",
-      "EV:open_targets_assoc:5c4cf43af41e"
+      "EV:literature:68cfce5c0d9c",
+      "EV:literature:91f0ff7ebee0",
+      "EV:literature:c7d52659876e",
+      "EV:literature:d754694cd476",
+      "EV:open_targets_assoc:43dd708a12ac"
      ],
      "tractability": [
-      "EV:open_targets_tract:e3719cef452f",
-      "EV:open_targets_drug:0127915b5408",
-      "EV:open_targets_drug:426d4b231fe9",
-      "EV:open_targets_drug:f1c142cc7414"
+      "EV:open_targets_tract:1e78b2f07f0c",
+      "EV:open_targets_drug:505c7fa32e1a",
+      "EV:open_targets_drug:7543f707f78c"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 40,
-     "rank_median": 82.0,
-     "rank_p95": 381,
+     "rank_p05": 23,
+     "rank_median": 62.0,
+     "rank_p95": 632,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.097
     }
    },
    {
-    "rank": 75,
+    "rank": 51,
     "gene": "IL1B",
     "score": 2.5,
     "n_streams": 5,
@@ -9495,15 +8220,132 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 41,
-     "rank_median": 82.0,
-     "rank_p95": 380,
+     "rank_p05": 23,
+     "rank_median": 61.5,
+     "rank_p95": 633,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.107
     }
    },
    {
-    "rank": 76,
+    "rank": 52,
+    "gene": "MMP12",
+    "score": 2.5,
+    "n_streams": 4,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.0,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 3.13,
+    "meta_padj": 1.96e-19,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": null,
+    "open_targets_score": 0.0647,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.4629,
+    "n_literature_relations": 1,
+    "drugs": [
+     {
+      "name": "CTS-1027",
+      "max_stage": "PHASE_2"
+     },
+     {
+      "name": "MARIMASTAT",
+      "max_stage": "PHASE_3"
+     },
+     {
+      "name": "AZD-1236",
+      "max_stage": "PHASE_2"
+     }
+    ],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:e3719cef452f"
+     ],
+     "replication": [
+      "EV:omics_de:babf45913575",
+      "EV:omics_de:a9bc35d19e76",
+      "EV:omics_de:6eb9a624dd8c",
+      "EV:omics_de:205377f57439"
+     ],
+     "inflammation": [],
+     "genetics": [],
+     "literature": [
+      "EV:literature:33408358e8f0",
+      "EV:open_targets_assoc:5c4cf43af41e"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:e3719cef452f",
+      "EV:open_targets_drug:0127915b5408",
+      "EV:open_targets_drug:426d4b231fe9",
+      "EV:open_targets_drug:f1c142cc7414"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 23,
+     "rank_median": 61.0,
+     "rank_p95": 635,
+     "p_top10": 0.0,
+     "p_top25": 0.086
+    }
+   },
+   {
+    "rank": 53,
+    "gene": "SLC6A14",
+    "score": 2.5,
+    "n_streams": 4,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.0,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 5.025,
+    "meta_padj": 1.37e-05,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": null,
+    "open_targets_score": 0.1099,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.752,
+    "n_literature_relations": 6,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:32923f0324c0"
+     ],
+     "replication": [
+      "EV:omics_de:b08896fe0039",
+      "EV:omics_de:9e1319ef9822",
+      "EV:omics_de:a38b719b3107",
+      "EV:omics_de:3c891c16b65c"
+     ],
+     "inflammation": [],
+     "genetics": [],
+     "literature": [
+      "EV:literature:182cf275b7d4",
+      "EV:literature:1f4e8bd4d272",
+      "EV:literature:533012368b9c",
+      "EV:literature:a55b9a38e327",
+      "EV:literature:ab499c6ec89c",
+      "EV:literature:d433d99f355b",
+      "EV:open_targets_assoc:d38216b00b8a"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:32923f0324c0"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 23,
+     "rank_median": 61.0,
+     "rank_p95": 634,
+     "p_top10": 0.0,
+     "p_top25": 0.095
+    }
+   },
+   {
+    "rank": 54,
     "gene": "DEFB4A",
     "score": 2.5,
     "n_streams": 4,
@@ -9540,132 +8382,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 41,
-     "rank_median": 82.0,
-     "rank_p95": 378,
+     "rank_p05": 23,
+     "rank_median": 61.0,
+     "rank_p95": 633,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.089
     }
    },
    {
-    "rank": 77,
-    "gene": "CXCL8",
-    "score": 2.5,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 1.0,
-     "tissue_change": 0.0,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 3.704,
-    "meta_padj": 5.27e-17,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.968,
-    "open_targets_score": 0.1087,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.7966,
-    "n_literature_relations": 4,
-    "drugs": [
-     {
-      "name": "ABX-IL8",
-      "max_stage": "PHASE_2"
-     },
-     {
-      "name": "ADAKITUG",
-      "max_stage": "PHASE_2"
-     }
-    ],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:1e78b2f07f0c"
-     ],
-     "replication": [
-      "EV:omics_de:98abf339e651",
-      "EV:omics_de:f31fe39d23d0",
-      "EV:omics_de:19a47932181b",
-      "EV:omics_de:37f3998bb459",
-      "EV:omics_de:f9ae921fbe85"
-     ],
-     "inflammation": [
-      "EV:omics_de:4b4308ba9576"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:68cfce5c0d9c",
-      "EV:literature:91f0ff7ebee0",
-      "EV:literature:c7d52659876e",
-      "EV:literature:d754694cd476",
-      "EV:open_targets_assoc:43dd708a12ac"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:1e78b2f07f0c",
-      "EV:open_targets_drug:505c7fa32e1a",
-      "EV:open_targets_drug:7543f707f78c"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 41,
-     "rank_median": 82.5,
-     "rank_p95": 382,
-     "p_top10": 0.0,
-     "p_top25": 0.0
-    }
-   },
-   {
-    "rank": 78,
-    "gene": "ADCY7",
-    "score": 2.4941,
-    "n_streams": 6,
-    "components": {
-     "expression_up": 0.176,
-     "tissue_change": 0.0,
-     "genetics": 0.821,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 0.527,
-    "meta_padj": 3.59e-18,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 0.514,
-    "open_targets_score": 0.5038,
-    "ot_genetic_association": 0.8214,
-    "ot_literature": 0.1469,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:9e9f706c6198"
-     ],
-     "replication": [
-      "EV:omics_de:8f97440a80e2",
-      "EV:omics_de:ca468bcb48ee",
-      "EV:omics_de:143255f3f988",
-      "EV:omics_de:f70856fb290e",
-      "EV:omics_de:93c644ee3c1e"
-     ],
-     "inflammation": [
-      "EV:omics_de:14d9efe13d2a"
-     ],
-     "genetics": [
-      "EV:open_targets_assoc:6140cbb52c64"
-     ],
-     "literature": [
-      "EV:open_targets_assoc:6140cbb52c64"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:9e9f706c6198"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 15,
-     "rank_median": 88.5,
-     "rank_p95": 498,
-     "p_top10": 0.0,
-     "p_top25": 0.217
-    }
-   },
-   {
-    "rank": 79,
+    "rank": 55,
     "gene": "CD55",
     "score": 2.4898,
     "n_streams": 5,
@@ -9707,67 +8432,72 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 59,
-     "rank_median": 77.5,
-     "rank_p95": 175,
+     "rank_p05": 36,
+     "rank_median": 62.0,
+     "rank_p95": 228,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 80,
-    "gene": "NXPE1",
-    "score": 2.4813,
+    "rank": 56,
+    "gene": "IL18R1",
+    "score": 2.4783,
     "n_streams": 6,
     "components": {
-     "expression_up": 0.0,
-     "tissue_change": 0.468,
-     "genetics": 0.757,
-     "tractability_predicted": 1.0
+     "expression_up": 0.329,
+     "tissue_change": 0.515,
+     "genetics": 0.652,
+     "tractability_predicted": 0.0
     },
-    "meta_log2fc": -1.03,
-    "meta_padj": 8.92e-06,
+    "meta_log2fc": 0.988,
+    "meta_padj": 5.06e-12,
     "cohorts_same_direction": 4,
-    "paired_log2fc": -0.45,
-    "open_targets_score": 0.4643,
-    "ot_genetic_association": 0.7567,
-    "ot_literature": 0.1216,
+    "paired_log2fc": 0.458,
+    "open_targets_score": 0.4027,
+    "ot_genetic_association": 0.6522,
+    "ot_literature": 0.1817,
     "n_literature_relations": 0,
-    "drugs": [],
+    "drugs": [
+     {
+      "name": "IBOCTADEKIN",
+      "max_stage": "PHASE_2"
+     }
+    ],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:712ca9566b3a"
+      "EV:expression_meta:4c4440e17efb"
      ],
      "replication": [
-      "EV:omics_de:79ecd07df576",
-      "EV:omics_de:8fc9cedb5cda",
-      "EV:omics_de:78010f8028e0",
-      "EV:omics_de:a8df5e4c07b3",
-      "EV:omics_de:45bd6c9c1487"
+      "EV:omics_de:3c4d012cf42a",
+      "EV:omics_de:281e38335586",
+      "EV:omics_de:c67372bce942",
+      "EV:omics_de:3ff4bba346fb"
      ],
      "inflammation": [
-      "EV:omics_de:6de5650a810d"
+      "EV:omics_de:02d33ca35af3"
      ],
      "genetics": [
-      "EV:open_targets_assoc:64fdfaf17087"
+      "EV:open_targets_assoc:486a1adeb486"
      ],
      "literature": [
-      "EV:open_targets_assoc:64fdfaf17087"
+      "EV:open_targets_assoc:486a1adeb486"
      ],
      "tractability": [
-      "EV:open_targets_tract:712ca9566b3a"
+      "EV:open_targets_tract:4c4440e17efb",
+      "EV:open_targets_drug:177af34e7c24"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 16,
-     "rank_median": 83.5,
-     "rank_p95": 528,
+     "rank_p05": 20,
+     "rank_median": 71.5,
+     "rank_p95": 325,
      "p_top10": 0.0,
-     "p_top25": 0.234
+     "p_top25": 0.143
     }
    },
    {
-    "rank": 81,
+    "rank": 57,
     "gene": "CALHM6",
     "score": 2.476,
     "n_streams": 5,
@@ -9809,65 +8539,15 @@
      "tractability": []
     },
     "rank_interval_90": {
-     "rank_p05": 53,
-     "rank_median": 83.0,
-     "rank_p95": 138,
+     "rank_p05": 42,
+     "rank_median": 67.0,
+     "rank_p95": 129,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 82,
-    "gene": "PROK2",
-    "score": 2.4746,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.89,
-     "tissue_change": 0.195,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.669,
-    "meta_padj": 1.24e-13,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.613,
-    "open_targets_score": 0.0478,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.2684,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:48307ec00e18"
-     ],
-     "replication": [
-      "EV:omics_de:6b8f27f171d8",
-      "EV:omics_de:37b8d47bc336",
-      "EV:omics_de:a64fb6bfaf85",
-      "EV:omics_de:06e7aa223f19",
-      "EV:omics_de:ff8e45241522"
-     ],
-     "inflammation": [
-      "EV:omics_de:81c56be242e8"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:open_targets_assoc:46acd370d24b"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:48307ec00e18"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 52,
-     "rank_median": 84.0,
-     "rank_p95": 253,
-     "p_top10": 0.0,
-     "p_top25": 0.0
-    }
-   },
-   {
-    "rank": 83,
+    "rank": 58,
     "gene": "PRDM1",
     "score": 2.4638,
     "n_streams": 6,
@@ -9911,15 +8591,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 21,
-     "rank_median": 96.5,
-     "rank_p95": 439,
-     "p_top10": 0.005,
-     "p_top25": 0.073
+     "rank_p05": 16,
+     "rank_median": 79.0,
+     "rank_p95": 740,
+     "p_top10": 0.015,
+     "p_top25": 0.133
     }
    },
    {
-    "rank": 84,
+    "rank": 59,
     "gene": "IL1R1",
     "score": 2.4582,
     "n_streams": 5,
@@ -9961,60 +8641,15 @@
      "tractability": []
     },
     "rank_interval_90": {
-     "rank_p05": 35,
-     "rank_median": 90.0,
-     "rank_p95": 263,
+     "rank_p05": 27,
+     "rank_median": 74.0,
+     "rank_p95": 444,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.04
     }
    },
    {
-    "rank": 85,
-    "gene": "XKR9",
-    "score": 2.4571,
-    "n_streams": 4,
-    "components": {
-     "expression_up": 0.58,
-     "tissue_change": 0.798,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 1.739,
-    "meta_padj": 0.0185,
-    "cohorts_same_direction": 2,
-    "paired_log2fc": 1.301,
-    "open_targets_score": 0.0,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.0,
-    "n_literature_relations": 0,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:6eb069569835"
-     ],
-     "replication": [
-      "EV:omics_de:68d65eb1daeb",
-      "EV:omics_de:ba58681c8206"
-     ],
-     "inflammation": [
-      "EV:omics_de:97abb3ee38f3"
-     ],
-     "genetics": [],
-     "literature": [],
-     "tractability": [
-      "EV:open_targets_tract:6eb069569835"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 35,
-     "rank_median": 89.0,
-     "rank_p95": 174,
-     "p_top10": 0.0,
-     "p_top25": 0.012
-    }
-   },
-   {
-    "rank": 86,
+    "rank": 60,
     "gene": "LCN2",
     "score": 2.4529,
     "n_streams": 5,
@@ -10060,15 +8695,117 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 47,
-     "rank_median": 91.0,
-     "rank_p95": 421,
+     "rank_p05": 28,
+     "rank_median": 70.0,
+     "rank_p95": 687,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.016
     }
    },
    {
-    "rank": 87,
+    "rank": 61,
+    "gene": "DUOXA2",
+    "score": 2.4466,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.447,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 4.492,
+    "meta_padj": 9.2e-22,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 2.865,
+    "open_targets_score": 0.0734,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.3699,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:e74e22709f40"
+     ],
+     "replication": [
+      "EV:omics_de:fc0f25dae4e5",
+      "EV:omics_de:1bfcb60ecfa0",
+      "EV:omics_de:5dda8fbf8b28",
+      "EV:omics_de:971242ed6355",
+      "EV:omics_de:0e5a94d22d5f"
+     ],
+     "inflammation": [
+      "EV:omics_de:a8f58f48ba6b"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:654b445298b4"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:e74e22709f40"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 26,
+     "rank_median": 65.0,
+     "rank_p95": 580,
+     "p_top10": 0.0,
+     "p_top25": 0.043
+    }
+   },
+   {
+    "rank": 62,
+    "gene": "RNF186",
+    "score": 2.4365,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.0,
+     "tissue_change": 1.0,
+     "genetics": 0.718,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": -0.297,
+    "meta_padj": 0.0383,
+    "cohorts_same_direction": 3,
+    "paired_log2fc": -0.089,
+    "open_targets_score": 0.4482,
+    "ot_genetic_association": 0.7182,
+    "ot_literature": 0.3807,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:e684bb17c6e2"
+     ],
+     "replication": [
+      "EV:omics_de:21d185182c71",
+      "EV:omics_de:78b6034308f6",
+      "EV:omics_de:521233b41520",
+      "EV:omics_de:0c8bdf310bb1",
+      "EV:omics_de:367ddae62971"
+     ],
+     "inflammation": [
+      "EV:omics_de:32b754c09eb4"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:5d4e80937912"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:5d4e80937912"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:e684bb17c6e2"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 8,
+     "rank_median": 70.0,
+     "rank_p95": 669,
+     "p_top10": 0.08,
+     "p_top25": 0.271
+    }
+   },
+   {
+    "rank": 63,
     "gene": "NOS2",
     "score": 2.4325,
     "n_streams": 5,
@@ -10132,15 +8869,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 61,
-     "rank_median": 88.0,
-     "rank_p95": 225,
+     "rank_p05": 37,
+     "rank_median": 68.0,
+     "rank_p95": 353,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 88,
+    "rank": 64,
     "gene": "CFB",
     "score": 2.4308,
     "n_streams": 5,
@@ -10195,15 +8932,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 60,
-     "rank_median": 87.0,
-     "rank_p95": 179,
+     "rank_p05": 41,
+     "rank_median": 71.0,
+     "rank_p95": 221,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 89,
+    "rank": 65,
     "gene": "SERPINB7",
     "score": 2.4295,
     "n_streams": 4,
@@ -10243,76 +8980,117 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 41,
-     "rank_median": 93.0,
-     "rank_p95": 375,
+     "rank_p05": 28,
+     "rank_median": 69.5,
+     "rank_p95": 610,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.024
     }
    },
    {
-    "rank": 90,
-    "gene": "TNC",
-    "score": 2.4049,
+    "rank": 66,
+    "gene": "OLFM4",
+    "score": 2.4213,
     "n_streams": 5,
     "components": {
-     "expression_up": 0.849,
-     "tissue_change": 0.207,
+     "expression_up": 0.82,
+     "tissue_change": 0.782,
      "genetics": 0.0,
-     "tractability_predicted": 1.0
+     "tractability_predicted": 0.0
     },
-    "meta_log2fc": 2.548,
-    "meta_padj": 1.51e-18,
+    "meta_log2fc": 2.459,
+    "meta_padj": 0.000215,
     "cohorts_same_direction": 5,
-    "paired_log2fc": 1.32,
-    "open_targets_score": 0.046,
+    "paired_log2fc": 1.229,
+    "open_targets_score": 0.1112,
     "ot_genetic_association": 0.0,
-    "ot_literature": 0.3193,
-    "n_literature_relations": 0,
-    "drugs": [
-     {
-      "name": "TENATUMOMAB",
-      "max_stage": "PHASE_3"
-     },
-     {
-      "name": "F16IL2",
-      "max_stage": "PHASE_2"
-     }
-    ],
+    "ot_literature": 0.834,
+    "n_literature_relations": 1,
+    "drugs": [],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:cab6e211f3cf"
+      "EV:expression_meta:0b029a73d475"
      ],
      "replication": [
-      "EV:omics_de:6e2ec965dce2",
-      "EV:omics_de:114b481f7eae",
-      "EV:omics_de:1435e5453fe2",
-      "EV:omics_de:3e21dffb7f91",
-      "EV:omics_de:f8d0acd8fc25"
+      "EV:omics_de:35369cf1b1ee",
+      "EV:omics_de:08edfb7f908b",
+      "EV:omics_de:7750eb177974",
+      "EV:omics_de:6d1ae3621bb2",
+      "EV:omics_de:91e3e0d94282"
      ],
      "inflammation": [
-      "EV:omics_de:329adcd915c1"
+      "EV:omics_de:dd7663e67ee4"
      ],
      "genetics": [],
      "literature": [
-      "EV:open_targets_assoc:a34e88570daf"
+      "EV:literature:9266416c15be",
+      "EV:open_targets_assoc:3d9d3cb45de5"
      ],
      "tractability": [
-      "EV:open_targets_tract:cab6e211f3cf",
-      "EV:open_targets_drug:f0c2f6aa7ad4",
-      "EV:open_targets_drug:931e5687375d"
+      "EV:open_targets_tract:0b029a73d475"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 58,
-     "rank_median": 95.0,
-     "rank_p95": 274,
-     "p_top10": 0.0,
-     "p_top25": 0.0
+     "rank_p05": 26,
+     "rank_median": 75.0,
+     "rank_p95": 364,
+     "p_top10": 0.001,
+     "p_top25": 0.047
     }
    },
    {
-    "rank": 91,
+    "rank": 67,
+    "gene": "TCN1",
+    "score": 2.4213,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.421,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 3.383,
+    "meta_padj": 3.37e-09,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.964,
+    "open_targets_score": 0.0548,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.2232,
+    "n_literature_relations": 1,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:4fb13b0eaf6a"
+     ],
+     "replication": [
+      "EV:omics_de:d0263a6e7b73",
+      "EV:omics_de:916fdfb1ee30",
+      "EV:omics_de:f69c811579db",
+      "EV:omics_de:de0d647a17da",
+      "EV:omics_de:a17030b2861a"
+     ],
+     "inflammation": [
+      "EV:omics_de:d5a717ebdb5b"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:literature:92dc16d8b33c",
+      "EV:open_targets_assoc:15c331252fa4"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:4fb13b0eaf6a"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 30,
+     "rank_median": 72.0,
+     "rank_p95": 631,
+     "p_top10": 0.0,
+     "p_top25": 0.014
+    }
+   },
+   {
+    "rank": 68,
     "gene": "CXCL10",
     "score": 2.4012,
     "n_streams": 5,
@@ -10366,15 +9144,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 70,
-     "rank_median": 92.0,
-     "rank_p95": 194,
+     "rank_p05": 44,
+     "rank_median": 75.0,
+     "rank_p95": 285,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 92,
+    "rank": 69,
     "gene": "CFI",
     "score": 2.3975,
     "n_streams": 4,
@@ -10414,15 +9192,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 68,
-     "rank_median": 94.0,
-     "rank_p95": 190,
+     "rank_p05": 45,
+     "rank_median": 77.0,
+     "rank_p95": 255,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 93,
+    "rank": 70,
     "gene": "ANXA1",
     "score": 2.3934,
     "n_streams": 5,
@@ -10464,15 +9242,67 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 67,
-     "rank_median": 95.0,
-     "rank_p95": 238,
+     "rank_p05": 43,
+     "rank_median": 76.0,
+     "rank_p95": 362,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 94,
+    "rank": 71,
+    "gene": "CXCL11",
+    "score": 2.3831,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.92,
+     "tissue_change": 0.542,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 2.761,
+    "meta_padj": 9.96e-114,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.996,
+    "open_targets_score": 0.0637,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.3185,
+    "n_literature_relations": 2,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:493738b53bfe"
+     ],
+     "replication": [
+      "EV:omics_de:91c12a1a607e",
+      "EV:omics_de:6edde53950d6",
+      "EV:omics_de:3531437ec4d5",
+      "EV:omics_de:b94309fbcfe6",
+      "EV:omics_de:692b9e6b21c6"
+     ],
+     "inflammation": [
+      "EV:omics_de:a78a60ec409e"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:literature:49367dc8cefd",
+      "EV:literature:dfe70e6fae87",
+      "EV:open_targets_assoc:882b07bc7b34"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:493738b53bfe"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 35,
+     "rank_median": 79.0,
+     "rank_p95": 553,
+     "p_top10": 0.0,
+     "p_top25": 0.001
+    }
+   },
+   {
+    "rank": 72,
     "gene": "IL23R",
     "score": 2.3821,
     "n_streams": 6,
@@ -10517,66 +9347,15 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 11,
-     "rank_median": 105.5,
-     "rank_p95": 926,
-     "p_top10": 0.043,
-     "p_top25": 0.222
+     "rank_p05": 7,
+     "rank_median": 91.0,
+     "rank_p95": 1158,
+     "p_top10": 0.109,
+     "p_top25": 0.246
     }
    },
    {
-    "rank": 95,
-    "gene": "CXCL9",
-    "score": 2.3777,
-    "n_streams": 5,
-    "components": {
-     "expression_up": 0.744,
-     "tissue_change": 0.389,
-     "genetics": 0.0,
-     "tractability_predicted": 1.0
-    },
-    "meta_log2fc": 2.232,
-    "meta_padj": 4.91e-19,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.505,
-    "open_targets_score": 0.1041,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.7885,
-    "n_literature_relations": 1,
-    "drugs": [],
-    "evidence_ids": {
-     "expression": [
-      "EV:expression_meta:e4f6727f421d"
-     ],
-     "replication": [
-      "EV:omics_de:6c35733f9da1",
-      "EV:omics_de:86e2d861d3bc",
-      "EV:omics_de:6768e0c6dae9",
-      "EV:omics_de:df8dfe6980b4",
-      "EV:omics_de:057409a0caa9"
-     ],
-     "inflammation": [
-      "EV:omics_de:8af133f0fea1"
-     ],
-     "genetics": [],
-     "literature": [
-      "EV:literature:915f25d7ca71",
-      "EV:open_targets_assoc:47206965702c"
-     ],
-     "tractability": [
-      "EV:open_targets_tract:e4f6727f421d"
-     ]
-    },
-    "rank_interval_90": {
-     "rank_p05": 73,
-     "rank_median": 96.5,
-     "rank_p95": 210,
-     "p_top10": 0.0,
-     "p_top25": 0.0
-    }
-   },
-   {
-    "rank": 96,
+    "rank": 73,
     "gene": "TDO2",
     "score": 2.3756,
     "n_streams": 4,
@@ -10616,65 +9395,65 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 73,
-     "rank_median": 97.0,
-     "rank_p95": 198,
+     "rank_p05": 48,
+     "rank_median": 80.0,
+     "rank_p95": 274,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 97,
-    "gene": "CLDN2",
-    "score": 2.3739,
+    "rank": 74,
+    "gene": "C4BPB",
+    "score": 2.3686,
     "n_streams": 5,
     "components": {
-     "expression_up": 0.646,
-     "tissue_change": 0.581,
+     "expression_up": 0.892,
+     "tissue_change": 0.585,
      "genetics": 0.0,
-     "tractability_predicted": 1.0
+     "tractability_predicted": 0.0
     },
-    "meta_log2fc": 1.939,
-    "meta_padj": 0.00458,
-    "cohorts_same_direction": 4,
-    "paired_log2fc": 2.112,
-    "open_targets_score": 0.0967,
+    "meta_log2fc": 2.675,
+    "meta_padj": 3.08e-36,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.236,
+    "open_targets_score": 0.0412,
     "ot_genetic_association": 0.0,
-    "ot_literature": 0.7246,
+    "ot_literature": 0.0767,
     "n_literature_relations": 0,
     "drugs": [],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:5d812d8d2b1a"
+      "EV:expression_meta:e385eae1a67c"
      ],
      "replication": [
-      "EV:omics_de:9fb95da64d43",
-      "EV:omics_de:787eb20979e9",
-      "EV:omics_de:b5e28a020c69",
-      "EV:omics_de:00cdc75662a0",
-      "EV:omics_de:e040cde092df"
+      "EV:omics_de:8a9cba22acaf",
+      "EV:omics_de:d0e93c481307",
+      "EV:omics_de:e46cada99d3e",
+      "EV:omics_de:b84e5c009a7d",
+      "EV:omics_de:388cdae99bfd"
      ],
      "inflammation": [
-      "EV:omics_de:0b46bf04ca49"
+      "EV:omics_de:65808bb34a35"
      ],
      "genetics": [],
      "literature": [
-      "EV:open_targets_assoc:4cab809b126a"
+      "EV:open_targets_assoc:dee60c0223c2"
      ],
      "tractability": [
-      "EV:open_targets_tract:5d812d8d2b1a"
+      "EV:open_targets_tract:e385eae1a67c"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 64,
-     "rank_median": 100.0,
-     "rank_p95": 193,
+     "rank_p05": 37,
+     "rank_median": 85.0,
+     "rank_p95": 531,
      "p_top10": 0.0,
-     "p_top25": 0.0
+     "p_top25": 0.002
     }
    },
    {
-    "rank": 98,
+    "rank": 75,
     "gene": "FPR1",
     "score": 2.3677,
     "n_streams": 5,
@@ -10716,65 +9495,164 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 64,
-     "rank_median": 101.0,
-     "rank_p95": 292,
+     "rank_p05": 41,
+     "rank_median": 82.0,
+     "rank_p95": 476,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 99,
-    "gene": "CXCL3",
-    "score": 2.3313,
+    "rank": 76,
+    "gene": "TNIP3",
+    "score": 2.3496,
     "n_streams": 5,
     "components": {
-     "expression_up": 0.816,
-     "tissue_change": 0.2,
+     "expression_up": 1.0,
+     "tissue_change": 0.35,
      "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 4.093,
+    "meta_padj": 4.41e-29,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 2.146,
+    "open_targets_score": 0.0682,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.2109,
+    "n_literature_relations": 1,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:0d851e14dd2c"
+     ],
+     "replication": [
+      "EV:omics_de:275aa7435520",
+      "EV:omics_de:6cf250e100fd",
+      "EV:omics_de:fe6733869478",
+      "EV:omics_de:44a94bc7ba4b",
+      "EV:omics_de:ec03556b44ea"
+     ],
+     "inflammation": [
+      "EV:omics_de:4bdd8b10cec6"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:literature:2fceed76c9b4",
+      "EV:open_targets_assoc:154dc47f07a5"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:0d851e14dd2c"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 34,
+     "rank_median": 87.0,
+     "rank_p95": 860,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 77,
+    "gene": "KIF11",
+    "score": 2.3428,
+    "n_streams": 3,
+    "components": {
+     "expression_up": 0.128,
+     "tissue_change": 0.699,
+     "genetics": 0.444,
      "tractability_predicted": 1.0
     },
-    "meta_log2fc": 2.447,
-    "meta_padj": 3.59e-11,
-    "cohorts_same_direction": 5,
-    "paired_log2fc": 1.547,
-    "open_targets_score": 0.0638,
-    "ot_genetic_association": 0.0,
-    "ot_literature": 0.434,
+    "meta_log2fc": 0.384,
+    "meta_padj": 5.19e-08,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": -0.007,
+    "open_targets_score": 0.2697,
+    "ot_genetic_association": 0.4437,
+    "ot_literature": 0.0,
     "n_literature_relations": 0,
     "drugs": [],
     "evidence_ids": {
      "expression": [
-      "EV:expression_meta:d832bc78ffd7"
+      "EV:expression_meta:3bcbf68111b1"
      ],
      "replication": [
-      "EV:omics_de:a93bcfcf9b11",
-      "EV:omics_de:41bd080b648e",
-      "EV:omics_de:da06b5774d02",
-      "EV:omics_de:d01525fd5c34",
-      "EV:omics_de:dd7e9062052b"
+      "EV:omics_de:87358914304b",
+      "EV:omics_de:d97eb74832c0",
+      "EV:omics_de:b2899239003a",
+      "EV:omics_de:bfc6d3237814",
+      "EV:omics_de:d1a37ac58922"
      ],
      "inflammation": [
-      "EV:omics_de:6e4dbb2929af"
+      "EV:omics_de:eca6b0245569"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:7e099a22a1ae"
+     ],
+     "literature": [],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 25,
+     "rank_median": 79.0,
+     "rank_p95": 309,
+     "p_top10": 0.0,
+     "p_top25": 0.05
+    }
+   },
+   {
+    "rank": 78,
+    "gene": "VSIG1",
+    "score": 2.3371,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.94,
+     "tissue_change": 0.457,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 2.819,
+    "meta_padj": 3.21e-07,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.947,
+    "open_targets_score": 0.037,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.0304,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:380e43c4769b"
+     ],
+     "replication": [
+      "EV:omics_de:ce5214b22204",
+      "EV:omics_de:c0e977e2788a",
+      "EV:omics_de:3fbd3d149052",
+      "EV:omics_de:db574bc2168b",
+      "EV:omics_de:f0a6be22b029"
+     ],
+     "inflammation": [
+      "EV:omics_de:c08c237e3231"
      ],
      "genetics": [],
      "literature": [
-      "EV:open_targets_assoc:84a4845521c0"
+      "EV:open_targets_assoc:70eea37aae93"
      ],
      "tractability": [
-      "EV:open_targets_tract:d832bc78ffd7"
+      "EV:open_targets_tract:380e43c4769b"
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 68,
-     "rank_median": 109.5,
-     "rank_p95": 322,
+     "rank_p05": 40,
+     "rank_median": 89.0,
+     "rank_p95": 684,
      "p_top10": 0.0,
      "p_top25": 0.0
     }
    },
    {
-    "rank": 100,
+    "rank": 79,
     "gene": "KCND3",
     "score": 2.3306,
     "n_streams": 5,
@@ -10842,9 +9720,1121 @@
      ]
     },
     "rank_interval_90": {
-     "rank_p05": 81,
-     "rank_median": 106.5,
-     "rank_p95": 225,
+     "rank_p05": 54,
+     "rank_median": 87.0,
+     "rank_p95": 345,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 80,
+    "gene": "CLDN1",
+    "score": 2.329,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.679,
+     "tissue_change": 0.471,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 2.038,
+    "meta_padj": 1.08e-13,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.173,
+    "open_targets_score": 0.0497,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.3434,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:2eb9c64582c1"
+     ],
+     "replication": [
+      "EV:omics_de:f80db4968f15",
+      "EV:omics_de:a624ed94222c",
+      "EV:omics_de:110abbdb1847",
+      "EV:omics_de:fff0feaa98c2",
+      "EV:omics_de:03b200926223"
+     ],
+     "inflammation": [
+      "EV:omics_de:833eb8fbafed"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:50b4a79d40ef"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:2eb9c64582c1"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 53,
+     "rank_median": 89.0,
+     "rank_p95": 298,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 81,
+    "gene": "PI3",
+    "score": 2.3289,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.329,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 3.037,
+    "meta_padj": 1.7e-18,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 2.13,
+    "open_targets_score": 0.1047,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.7611,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:d1bafeeb64b7"
+     ],
+     "replication": [
+      "EV:omics_de:ad2a8010f94b",
+      "EV:omics_de:755a0b829bae",
+      "EV:omics_de:ac376db31845",
+      "EV:omics_de:953512a7ad71",
+      "EV:omics_de:a16fd709e23a"
+     ],
+     "inflammation": [
+      "EV:omics_de:ec3a18067a21"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:089a3a27b057"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:d1bafeeb64b7"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 35,
+     "rank_median": 92.5,
+     "rank_p95": 917,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 82,
+    "gene": "SELE",
+    "score": 2.3276,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.792,
+     "tissue_change": 0.244,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 2.376,
+    "meta_padj": 9.93e-06,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.907,
+    "open_targets_score": 0.0402,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.1953,
+    "n_literature_relations": 0,
+    "drugs": [
+     {
+      "name": "UPROLESELAN",
+      "max_stage": "PHASE_3"
+     },
+     {
+      "name": "RIVIPANSEL",
+      "max_stage": "PHASE_3"
+     },
+     {
+      "name": "BIMOSIAMOSE",
+      "max_stage": "PHASE_2"
+     },
+     {
+      "name": "CDP-850",
+      "max_stage": "PHASE_2"
+     }
+    ],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:c4e279f1743d"
+     ],
+     "replication": [
+      "EV:omics_de:22ecda210768",
+      "EV:omics_de:548b1af4dee1",
+      "EV:omics_de:163d6c80b3e8",
+      "EV:omics_de:dc732641e7e0",
+      "EV:omics_de:787bc0c9ec75"
+     ],
+     "inflammation": [
+      "EV:omics_de:ca261744c264"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:07fe16b9b04b"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:c4e279f1743d",
+      "EV:open_targets_drug:bd006b470b54",
+      "EV:open_targets_drug:9856f76d2d19",
+      "EV:open_targets_drug:e820dca2f071",
+      "EV:open_targets_drug:1dc8f5e83784"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 48,
+     "rank_median": 89.5,
+     "rank_p95": 463,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 83,
+    "gene": "NOD2",
+    "score": 2.3202,
+    "n_streams": 6,
+    "components": {
+     "expression_up": 0.322,
+     "tissue_change": 0.0,
+     "genetics": 0.588,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 0.967,
+    "meta_padj": 3.26e-10,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 0.801,
+    "open_targets_score": 0.3782,
+    "ot_genetic_association": 0.5877,
+    "ot_literature": 0.6778,
+    "n_literature_relations": 0,
+    "drugs": [
+     {
+      "name": "MIFAMURTIDE",
+      "max_stage": "APPROVAL"
+     }
+    ],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:e3233f362ae3"
+     ],
+     "replication": [
+      "EV:omics_de:f176453f2bae",
+      "EV:omics_de:c0e07953065b",
+      "EV:omics_de:c06d448c9db6",
+      "EV:omics_de:1aa2b56133b9",
+      "EV:omics_de:c61ec90f1ecb"
+     ],
+     "inflammation": [
+      "EV:omics_de:526226fd425b"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:16104114b893"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:16104114b893"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:e3233f362ae3",
+      "EV:open_targets_drug:176e17b9a852"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 32,
+     "rank_median": 104.0,
+     "rank_p95": 642,
+     "p_top10": 0.0,
+     "p_top25": 0.018
+    }
+   },
+   {
+    "rank": 84,
+    "gene": "PI15",
+    "score": 2.3146,
+    "n_streams": 2,
+    "components": {
+     "expression_up": 0.407,
+     "tissue_change": 1.0,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 1.222,
+    "meta_padj": 0.00635,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": 0.092,
+    "open_targets_score": 0.0,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.0,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:96b39de13cf8"
+     ],
+     "replication": [
+      "EV:omics_de:92a5227a09db",
+      "EV:omics_de:cc9c36ed63f6",
+      "EV:omics_de:b52747bc1a5a",
+      "EV:omics_de:b3fce4575a43",
+      "EV:omics_de:a4558302f38f"
+     ],
+     "inflammation": [
+      "EV:omics_de:2e7e29393c99"
+     ],
+     "genetics": [],
+     "literature": [],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 19,
+     "rank_median": 99.0,
+     "rank_p95": 264,
+     "p_top10": 0.009,
+     "p_top25": 0.091
+    }
+   },
+   {
+    "rank": 85,
+    "gene": "CDH3",
+    "score": 2.3072,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.307,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 3.067,
+    "meta_padj": 3.66e-11,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 2.551,
+    "open_targets_score": 0.051,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.2421,
+    "n_literature_relations": 0,
+    "drugs": [
+     {
+      "name": "PF-03732010",
+      "max_stage": "PHASE_1"
+     }
+    ],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:3bf2f6fb0d93"
+     ],
+     "replication": [
+      "EV:omics_de:0f8f043b1110",
+      "EV:omics_de:ffa3d62a41e0",
+      "EV:omics_de:581ddfedd3e6",
+      "EV:omics_de:1357e0f5ceae",
+      "EV:omics_de:29c13022d85d"
+     ],
+     "inflammation": [
+      "EV:omics_de:d2f93651183e"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:3b9cfd32712d"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:3bf2f6fb0d93",
+      "EV:open_targets_drug:759806c3fe8d"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 38,
+     "rank_median": 98.0,
+     "rank_p95": 971,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 86,
+    "gene": "SOCS3",
+    "score": 2.3036,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.304,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 3.044,
+    "meta_padj": 2.26e-19,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.531,
+    "open_targets_score": 0.0561,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.4097,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:64427f4cae8a"
+     ],
+     "replication": [
+      "EV:omics_de:1caa6f6236f1",
+      "EV:omics_de:1c502e30ecf9",
+      "EV:omics_de:7b94da6cb1ca",
+      "EV:omics_de:8472ee45001f",
+      "EV:omics_de:fd667170bbd1"
+     ],
+     "inflammation": [
+      "EV:omics_de:8b8abe509899"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:5c9a3ddb5d67"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:64427f4cae8a"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 39,
+     "rank_median": 100.0,
+     "rank_p95": 983,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 87,
+    "gene": "KSR1",
+    "score": 2.3023,
+    "n_streams": 4,
+    "components": {
+     "expression_up": 0.159,
+     "tissue_change": 0.477,
+     "genetics": 0.504,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 0.476,
+    "meta_padj": 0.00495,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 0.496,
+    "open_targets_score": 0.3067,
+    "ot_genetic_association": 0.5039,
+    "ot_literature": 0.0,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:c46f549983fa"
+     ],
+     "replication": [
+      "EV:omics_de:133b03d09e88",
+      "EV:omics_de:6c5d8803c753",
+      "EV:omics_de:23c972f9f6e5",
+      "EV:omics_de:1a7fab990bec",
+      "EV:omics_de:1468a284463f"
+     ],
+     "inflammation": [
+      "EV:omics_de:74de36242e2f"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:4cf1e7d72b8d"
+     ],
+     "literature": [],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 34,
+     "rank_median": 98.0,
+     "rank_p95": 340,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 88,
+    "gene": "S100A8",
+    "score": 2.2875,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 1.0,
+     "tissue_change": 0.288,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 4.647,
+    "meta_padj": 8.47e-19,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.804,
+    "open_targets_score": 0.09,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.631,
+    "n_literature_relations": 3,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:6ff831ae12f7"
+     ],
+     "replication": [
+      "EV:omics_de:32850137b2cb",
+      "EV:omics_de:5cb9bdcc8ed1",
+      "EV:omics_de:3e18b077f309",
+      "EV:omics_de:c19df566c449",
+      "EV:omics_de:3066a056f6b4"
+     ],
+     "inflammation": [
+      "EV:omics_de:8e95c3590481"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:literature:347e445b0c25",
+      "EV:literature:84b4bf458a59",
+      "EV:literature:aa6bd1636886",
+      "EV:open_targets_assoc:1891ead8ab9c"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:6ff831ae12f7"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 41,
+     "rank_median": 104.5,
+     "rank_p95": 1037,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 89,
+    "gene": "FOS",
+    "score": 2.2805,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.417,
+     "tissue_change": 0.0,
+     "genetics": 0.473,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 1.252,
+    "meta_padj": 0.000366,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": 1.146,
+    "open_targets_score": 0.2956,
+    "ot_genetic_association": 0.473,
+    "ot_literature": 0.1881,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:037b3386ad6f"
+     ],
+     "replication": [
+      "EV:omics_de:0e34f831e8b5",
+      "EV:omics_de:73cf2813a4c0",
+      "EV:omics_de:4bd7e84bf428",
+      "EV:omics_de:9be6979f88b7",
+      "EV:omics_de:b73f9671a096"
+     ],
+     "inflammation": [
+      "EV:omics_de:1c87592e79db"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:0900e4613af0"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:0900e4613af0"
+     ],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 49,
+     "rank_median": 111.0,
+     "rank_p95": 640,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 90,
+    "gene": "GPR35",
+    "score": 2.28,
+    "n_streams": 4,
+    "components": {
+     "expression_up": 0.0,
+     "tissue_change": 0.0,
+     "genetics": 0.89,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": -0.211,
+    "meta_padj": 0.0671,
+    "cohorts_same_direction": 3,
+    "paired_log2fc": -0.147,
+    "open_targets_score": 0.552,
+    "ot_genetic_association": 0.89,
+    "ot_literature": 0.3588,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:b7c5e6c279f4"
+     ],
+     "replication": [
+      "EV:omics_de:e8a0d25c72d8",
+      "EV:omics_de:5d5c2adc57f2",
+      "EV:omics_de:c31b52e9d2ea",
+      "EV:omics_de:2290db95cf19",
+      "EV:omics_de:75f1d318c23b"
+     ],
+     "inflammation": [
+      "EV:omics_de:03aa75181b72"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:9d4017dfa45f"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:9d4017dfa45f"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:b7c5e6c279f4"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 11,
+     "rank_median": 119.0,
+     "rank_p95": 1297,
+     "p_top10": 0.046,
+     "p_top25": 0.199
+    }
+   },
+   {
+    "rank": 91,
+    "gene": "ITGAL",
+    "score": 2.28,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.345,
+     "tissue_change": 0.0,
+     "genetics": 0.545,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 1.035,
+    "meta_padj": 7.22e-07,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 0.785,
+    "open_targets_score": 0.3356,
+    "ot_genetic_association": 0.545,
+    "ot_literature": 0.1324,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:adf842853cc4"
+     ],
+     "replication": [
+      "EV:omics_de:60399c7705bb",
+      "EV:omics_de:c0c0642da58d",
+      "EV:omics_de:bcd9b4c03faf",
+      "EV:omics_de:4aa81ed942a5",
+      "EV:omics_de:70a0b95dfd43"
+     ],
+     "inflammation": [
+      "EV:omics_de:bf364caaf678"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:b9747eaf4ae0"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:b9747eaf4ae0"
+     ],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 40,
+     "rank_median": 115.0,
+     "rank_p95": 673,
+     "p_top10": 0.0,
+     "p_top25": 0.005
+    }
+   },
+   {
+    "rank": 92,
+    "gene": "GPR65",
+    "score": 2.2735,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.291,
+     "tissue_change": 0.215,
+     "genetics": 0.488,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 0.873,
+    "meta_padj": 3.67e-08,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 0.514,
+    "open_targets_score": 0.303,
+    "ot_genetic_association": 0.4884,
+    "ot_literature": 0.1862,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:bd5939bdfc49"
+     ],
+     "replication": [
+      "EV:omics_de:a31a8e29aaff",
+      "EV:omics_de:426359fd6c78",
+      "EV:omics_de:c08b37572496",
+      "EV:omics_de:7582d679f086",
+      "EV:omics_de:e43814ab322a"
+     ],
+     "inflammation": [
+      "EV:omics_de:871ab454637c"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:5d7f8558d54a"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:5d7f8558d54a"
+     ],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 47,
+     "rank_median": 109.0,
+     "rank_p95": 418,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 93,
+    "gene": "ABCA12",
+    "score": 2.2688,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.92,
+     "tissue_change": 0.429,
+     "genetics": 0.0,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 2.759,
+    "meta_padj": 0.000547,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 2.689,
+    "open_targets_score": 0.0667,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.1798,
+    "n_literature_relations": 1,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:132a55327d8f"
+     ],
+     "replication": [
+      "EV:omics_de:e0416987d442",
+      "EV:omics_de:d143365fc4d7",
+      "EV:omics_de:4c1fe73eb06a",
+      "EV:omics_de:4b05d280a6ee",
+      "EV:omics_de:90173ac4a3db"
+     ],
+     "inflammation": [
+      "EV:omics_de:50865d1fc150"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:literature:6da4e525ae44",
+      "EV:open_targets_assoc:e6e8bfdae143"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:132a55327d8f"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 48,
+     "rank_median": 107.0,
+     "rank_p95": 817,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 94,
+    "gene": "MTMR3",
+    "score": 2.2681,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.0,
+     "tissue_change": 1.0,
+     "genetics": 0.384,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": -0.278,
+    "meta_padj": 7.19e-08,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": -0.09,
+    "open_targets_score": 0.2399,
+    "ot_genetic_association": 0.3841,
+    "ot_literature": 0.2123,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:e33c7c8e71f4"
+     ],
+     "replication": [
+      "EV:omics_de:af6fd5c4985a",
+      "EV:omics_de:e5e07852d319",
+      "EV:omics_de:f34e0524eb36",
+      "EV:omics_de:48bbe01a49b7",
+      "EV:omics_de:b193c926ba37"
+     ],
+     "inflammation": [
+      "EV:omics_de:13161bcc3f2f"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:a0c7c140cee8"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:a0c7c140cee8"
+     ],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 16,
+     "rank_median": 96.0,
+     "rank_p95": 513,
+     "p_top10": 0.004,
+     "p_top25": 0.127
+    }
+   },
+   {
+    "rank": 95,
+    "gene": "TIMP1",
+    "score": 2.256,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.878,
+     "tissue_change": 0.0,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 2.634,
+    "meta_padj": 6.81e-14,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.206,
+    "open_targets_score": 0.1026,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.7846,
+    "n_literature_relations": 2,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:2cbee460ad56"
+     ],
+     "replication": [
+      "EV:omics_de:f158a1636107",
+      "EV:omics_de:1129ff577279",
+      "EV:omics_de:5b25c84ca7aa",
+      "EV:omics_de:b64ba00a2120",
+      "EV:omics_de:d306b2fc1449"
+     ],
+     "inflammation": [
+      "EV:omics_de:03058c3cbb5d"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:literature:5f9b3526a2f2",
+      "EV:literature:cfa400884c1b",
+      "EV:open_targets_assoc:920453c07204"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:2cbee460ad56"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 42,
+     "rank_median": 109.5,
+     "rank_p95": 1199,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 96,
+    "gene": "TRIB2",
+    "score": 2.256,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.603,
+     "tissue_change": 0.317,
+     "genetics": 0.367,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 1.808,
+    "meta_padj": 7.83e-20,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.014,
+    "open_targets_score": 0.2303,
+    "ot_genetic_association": 0.3669,
+    "ot_literature": 0.0,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:c0122b2533a3"
+     ],
+     "replication": [
+      "EV:omics_de:1c27060fb088",
+      "EV:omics_de:7d919fc64f47",
+      "EV:omics_de:a11b0ab66b42",
+      "EV:omics_de:679307403459",
+      "EV:omics_de:f5d8a7f449fa"
+     ],
+     "inflammation": [
+      "EV:omics_de:219db950f74e"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:2c3de7fce8a2"
+     ],
+     "literature": [],
+     "tractability": [
+      "EV:open_targets_tract:c0122b2533a3"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 62,
+     "rank_median": 118.0,
+     "rank_p95": 577,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 97,
+    "gene": "PDPN",
+    "score": 2.2554,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.709,
+     "tissue_change": 0.338,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 2.126,
+    "meta_padj": 5.21e-11,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.317,
+    "open_targets_score": 0.0959,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.7093,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:1d0f85202dca"
+     ],
+     "replication": [
+      "EV:omics_de:ef5b8ada4834",
+      "EV:omics_de:b4d1db10dca9",
+      "EV:omics_de:c5475659d6fd",
+      "EV:omics_de:5f875de57dfe",
+      "EV:omics_de:16bb32ca2271"
+     ],
+     "inflammation": [
+      "EV:omics_de:ea76398ab83b"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:ee08d7276ad4"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:1d0f85202dca"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 65,
+     "rank_median": 103.0,
+     "rank_p95": 425,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 98,
+    "gene": "SOCS1",
+    "score": 2.2536,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.467,
+     "tissue_change": 0.229,
+     "genetics": 0.546,
+     "tractability_predicted": 0.0
+    },
+    "meta_log2fc": 1.4,
+    "meta_padj": 3.59e-25,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.079,
+    "open_targets_score": 0.3543,
+    "ot_genetic_association": 0.546,
+    "ot_literature": 0.5937,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:e315d3193452"
+     ],
+     "replication": [
+      "EV:omics_de:af7abfcc9039",
+      "EV:omics_de:a67ee9ee7432",
+      "EV:omics_de:e5854fb929d9",
+      "EV:omics_de:01584db0064a",
+      "EV:omics_de:1d7065afbd76"
+     ],
+     "inflammation": [
+      "EV:omics_de:ad8f5043a263"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:60e6a9732799"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:60e6a9732799"
+     ],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 44,
+     "rank_median": 121.5,
+     "rank_p95": 688,
+     "p_top10": 0.0,
+     "p_top25": 0.001
+    }
+   },
+   {
+    "rank": 99,
+    "gene": "FKBP5",
+    "score": 2.244,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.19,
+     "tissue_change": 0.542,
+     "genetics": 0.411,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 0.569,
+    "meta_padj": 2.4e-19,
+    "cohorts_same_direction": 4,
+    "paired_log2fc": 0.142,
+    "open_targets_score": 0.2561,
+    "ot_genetic_association": 0.4113,
+    "ot_literature": 0.1758,
+    "n_literature_relations": 0,
+    "drugs": [],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:6b682888cc5b"
+     ],
+     "replication": [
+      "EV:omics_de:dd9fc691c703",
+      "EV:omics_de:fbe992f62ce7",
+      "EV:omics_de:9c580c563581",
+      "EV:omics_de:2f64ca8ad560"
+     ],
+     "inflammation": [
+      "EV:omics_de:870486af8bc6"
+     ],
+     "genetics": [
+      "EV:open_targets_assoc:9df03303dc5b"
+     ],
+     "literature": [
+      "EV:open_targets_assoc:9df03303dc5b"
+     ],
+     "tractability": []
+    },
+    "rank_interval_90": {
+     "rank_p05": 44,
+     "rank_median": 112.0,
+     "rank_p95": 298,
+     "p_top10": 0.0,
+     "p_top25": 0.0
+    }
+   },
+   {
+    "rank": 100,
+    "gene": "PTGS2",
+    "score": 2.2424,
+    "n_streams": 5,
+    "components": {
+     "expression_up": 0.871,
+     "tissue_change": 0.0,
+     "genetics": 0.0,
+     "tractability_predicted": 1.0
+    },
+    "meta_log2fc": 2.614,
+    "meta_padj": 1.81e-12,
+    "cohorts_same_direction": 5,
+    "paired_log2fc": 1.305,
+    "open_targets_score": 0.6276,
+    "ot_genetic_association": 0.0,
+    "ot_literature": 0.6726,
+    "n_literature_relations": 0,
+    "drugs": [
+     {
+      "name": "FENCLOFENAC",
+      "max_stage": "WITHDRAWAL"
+     },
+     {
+      "name": "MELOXICAM",
+      "max_stage": "WITHDRAWAL"
+     },
+     {
+      "name": "DEXKETOPROFEN",
+      "max_stage": "PHASE_4"
+     },
+     {
+      "name": "SUPROFEN",
+      "max_stage": "WITHDRAWAL"
+     },
+     {
+      "name": "DICLOFENAC",
+      "max_stage": "PHASE_4"
+     }
+    ],
+    "evidence_ids": {
+     "expression": [
+      "EV:expression_meta:4d9ad846a3a6"
+     ],
+     "replication": [
+      "EV:omics_de:01da04fec784",
+      "EV:omics_de:7376fd709c41",
+      "EV:omics_de:7e12f9a36efb",
+      "EV:omics_de:fc3bd23de49a",
+      "EV:omics_de:2d401fbe17e9"
+     ],
+     "inflammation": [
+      "EV:omics_de:23e033845021"
+     ],
+     "genetics": [],
+     "literature": [
+      "EV:open_targets_assoc:aa33df59283c"
+     ],
+     "tractability": [
+      "EV:open_targets_tract:4d9ad846a3a6",
+      "EV:open_targets_drug:9b75e0e76c2c",
+      "EV:open_targets_drug:d0d89d859342",
+      "EV:open_targets_drug:7bbfda16162b",
+      "EV:open_targets_drug:2cfff917a9ec",
+      "EV:open_targets_drug:3642e79a2f10"
+     ]
+    },
+    "rank_interval_90": {
+     "rank_p05": 45,
+     "rank_median": 113.5,
+     "rank_p95": 1221,
      "p_top10": 0.0,
      "p_top25": 0.0
     }

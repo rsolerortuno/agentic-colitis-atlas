@@ -53,6 +53,18 @@
   "sha256": "df235108bff0a9db4a313ae7c6997c6edeb30f9e74bf719c47753757bf6e1f47",
   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_clinical_precedence/part-00000-c18648ed-1b6a-4490-aecf-bfadcf459516-c000.zstd.parquet"
  },
+ "extra/ot_target_tractability_0.parquet": {
+  "bytes": 55708,
+  "retrieved_utc": "2026-11-10T02:07:09+00:00",
+  "sha256": "c81b9d1c61d3fa1e23e67a5b91c082e7d20829aba578ffe95adc9ea1ef2332fe",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_tractability/part-00000-e2201205-916c-4b28-971d-6511ae9ea691-c000.zstd.parquet"
+ },
+ "extra/ot_target_tractability_1.parquet": {
+  "bytes": 72189,
+  "retrieved_utc": "2026-11-10T02:07:09+00:00",
+  "sha256": "ebc49a49ae182dee29be43664dfc61c21897bf3d776d9df18f7e0e73bc0990ea",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_tractability/part-00001-e2201205-916c-4b28-971d-6511ae9ea691-c000.zstd.parquet"
+ },
  "hgnc_complete_set.txt": {
   "bytes": 16994064,
   "retrieved_utc": "2026-11-09T12:41:05+00:00",

@@ -182,8 +182,7 @@ def run() -> dict:
         uc = [c for c in xa.columns if s.loc[c, "group"] == "UC"]
         hc = [c for c in xa.columns if s.loc[c, "group"] == "healthy"]
         results.append(welch(xa, uc, hc).assign(cohort=gse, contrast="uc_vs_control"))
-        full = series_table(gse)  # keep every sample (incl. post-treatment) on the gene level for later milestones
-        xa_all, _ = array_genes(gse)
+        xa_all, _ = array_genes(gse)  # every sample (incl. post-treatment) on the gene level, for later milestones
         xa_all.astype("float32").to_parquet(PROCESSED / f"expr_{gse}.parquet")
 
     de = pd.concat(results).rename_axis("gene").reset_index()

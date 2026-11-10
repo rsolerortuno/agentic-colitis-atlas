@@ -187,23 +187,24 @@
   "target profile (M14)": {
    "n_gold": 59,
    "universe": 24788,
-   "auroc": 0.803,
+   "auroc": 0.843,
    "auroc_ci95": [
-    0.746,
-    0.86
+    0.799,
+    0.885
    ],
-   "recall_at_100": 0.119,
+   "recall_at_100": 0.136,
    "recall_at_500": 0.271,
-   "median_rank": 2566,
-   "fold_enrichment_at_100": 29.4,
+   "median_rank": 2871,
+   "fold_enrichment_at_100": 33.6,
    "top_hits": [
     "CXCR2",
     "JAK2",
-    "IL2RA",
     "CCL11",
     "MMP1",
     "MMP7",
-    "CXCL10"
+    "IL2RA",
+    "CXCL10",
+    "PTGS2"
    ]
   },
   "target profile without tractability": {
@@ -230,24 +231,17 @@
   "predicted tractability alone": {
    "n_gold": 59,
    "universe": 24788,
-   "auroc": 0.814,
+   "auroc": 0.829,
    "auroc_ci95": [
-    0.741,
-    0.884
+    0.779,
+    0.881
    ],
-   "recall_at_100": 0.136,
-   "recall_at_500": 0.492,
-   "median_rank": 501,
-   "fold_enrichment_at_100": 33.6,
+   "recall_at_100": 0.017,
+   "recall_at_500": 0.136,
+   "median_rank": 2635,
+   "fold_enrichment_at_100": 4.2,
    "top_hits": [
-    "MC2R",
-    "FKBP1A",
-    "MMP9",
-    "MMP1",
-    "TYK2",
-    "PPAT",
-    "CCL11",
-    "ICAM1"
+    "MMP8"
    ]
   },
   "biomarker profile (M14)": {
@@ -267,6 +261,45 @@
     "MMP1",
     "CXCR2",
     "PTGS2"
+   ]
+  },
+  "target profile, tractability without ligand history": {
+   "n_gold": 59,
+   "universe": 24788,
+   "auroc": 0.814,
+   "auroc_ci95": [
+    0.766,
+    0.866
+   ],
+   "recall_at_100": 0.119,
+   "recall_at_500": 0.22,
+   "median_rank": 3396,
+   "fold_enrichment_at_100": 29.4,
+   "top_hits": [
+    "JAK2",
+    "CXCR2",
+    "CCL11",
+    "MMP1",
+    "MMP7",
+    "IL2RA",
+    "CXCL10"
+   ]
+  },
+  "predicted tractability without ligand history, alone": {
+   "n_gold": 59,
+   "universe": 24788,
+   "auroc": 0.751,
+   "auroc_ci95": [
+    0.685,
+    0.819
+   ],
+   "recall_at_100": 0.034,
+   "recall_at_500": 0.153,
+   "median_rank": 3219,
+   "fold_enrichment_at_100": 8.4,
+   "top_hits": [
+    "MMP8",
+    "MC2R"
    ]
   }
  },
@@ -344,14 +377,14 @@
   "target profile (M14)": {
    "n_gold": 4,
    "universe": 24733,
-   "auroc": 0.504,
+   "auroc": 0.777,
    "auroc_ci95": [
-    0.328,
-    0.686
+    0.734,
+    0.823
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 10998,
+   "median_rank": 5337,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
@@ -372,14 +405,14 @@
   "predicted tractability alone": {
    "n_gold": 4,
    "universe": 24733,
-   "auroc": 0.343,
+   "auroc": 0.863,
    "auroc_ci95": [
-    0.053,
-    0.704
+    0.8,
+    0.942
    ],
    "recall_at_100": 0.0,
-   "recall_at_500": 0.0,
-   "median_rank": 19482,
+   "recall_at_500": 0.25,
+   "median_rank": 4083,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
@@ -394,6 +427,34 @@
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
    "median_rank": 5221,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  },
+  "target profile, tractability without ligand history": {
+   "n_gold": 4,
+   "universe": 24733,
+   "auroc": 0.794,
+   "auroc_ci95": [
+    0.759,
+    0.832
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 4967,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  },
+  "predicted tractability without ligand history, alone": {
+   "n_gold": 4,
+   "universe": 24733,
+   "auroc": 0.898,
+   "auroc_ci95": [
+    0.85,
+    0.957
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.25,
+   "median_rank": 3063,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   }
