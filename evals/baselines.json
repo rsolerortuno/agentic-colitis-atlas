@@ -1,0 +1,128 @@
+{
+ "closed_book": {
+  "lists": [
+   [
+    "TNF",
+    "IL23A",
+    "ITGA4",
+    "JAK1",
+    "S1PR1",
+    "IL12B",
+    "ITGB7",
+    "TNFSF15",
+    "IL23R",
+    "OSM"
+   ],
+   [
+    "TNF",
+    "IL23A",
+    "ITGB7",
+    "JAK1",
+    "TNFSF15",
+    "S1PR1",
+    "IL12B",
+    "OSM",
+    "TREM1",
+    "LCN2"
+   ],
+   [
+    "TNF",
+    "IL23A",
+    "ITGB7",
+    "JAK1",
+    "S1PR1",
+    "IL12B",
+    "ITGA4",
+    "TNFSF15",
+    "CXCL8",
+    "OSM"
+   ]
+  ],
+  "mean_pairwise_jaccard": 0.717,
+  "share_clinical_targets": [
+   0.7,
+   0.6,
+   0.7
+  ],
+  "share_in_data_top500": [
+   0.5,
+   0.6,
+   0.5
+  ],
+  "statements_citing_evidence": 0
+ },
+ "pipeline": {
+  "lists": [
+   [
+    "CXCR2",
+    "OSMR",
+    "IDO1",
+    "MMP1",
+    "CHI3L1",
+    "JAK2",
+    "CXCL8",
+    "DUOX2",
+    "HMGCS2",
+    "SLC26A2",
+    "S100A8",
+    "CD274",
+    "LAX1",
+    "CHRDL2"
+   ],
+   [
+    "CXCR2",
+    "MMP1",
+    "IDO1",
+    "OSMR",
+    "JAK2",
+    "CXCL8",
+    "DUOX2",
+    "CHI3L1",
+    "CXCR1",
+    "S100A8",
+    "HMGCS2",
+    "CLDN8",
+    "SDR16C5",
+    "CHRDL2"
+   ],
+   [
+    "CXCR2",
+    "CXCL8",
+    "JAK2",
+    "OSMR",
+    "IDO1",
+    "MMP1",
+    "CHI3L1",
+    "DUOX2",
+    "S100A8",
+    "HMGCS2",
+    "CLDN8",
+    "CD274",
+    "SDR16C5",
+    "CHRDL2"
+   ]
+  ],
+  "mean_pairwise_jaccard": 0.755,
+  "share_clinical_targets": [
+   0.21,
+   0.21,
+   0.21
+  ],
+  "share_in_data_top500": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "statements_checked": [
+   120,
+   116,
+   119
+  ],
+  "unsupported": [
+   0,
+   0,
+   0
+  ]
+ },
+ "n_clinical_targets": 59
+}

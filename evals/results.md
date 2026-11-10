@@ -96,3 +96,19 @@ design (it reads only significant per-cohort and meta-analysis changes); a flipp
 paper or a cell type is not detected. Two fixes came from this test: the direction check now also reads the
 meta-analysis records (before, 1 of 55 flips was even eligible), and ordering words ("moved down") and "up to" are no
 longer read as expression directions.
+
+## (h) What the agentic layer adds (closed-book baseline, review of 2026-11-10)
+
+Claude Opus 5.5 without tools or data, asked the same question three times (`uv run python -m ucatlas.baselines`,
+evals/baselines.json), against the three team runs:
+
+| | Closed-book LLM | GraphRAG pipeline |
+|---|---|---|
+| Mean pairwise Jaccard of the lists | 0.72 | 0.76 |
+| Candidates that are UC clinical targets | 70 %, 60 %, 70 % | 21 %, 21 %, 21 % |
+| Candidates in the data-only top 500 (target or biomarker profile) | 50 %, 60 %, 50 % | 100 %, 100 %, 100 % |
+| Statements citing checkable evidence | 0 | 120, 116, 119 checked; 0 unsupported |
+
+The closed-book model lists the drugs already used in UC (TNF, IL-23, α4β7, JAK, S1P, TL1A); the pipeline lists
+candidates the data support, most of them not yet drug targets in UC, each with checkable evidence. The same pattern
+as the kidney atlas.

@@ -48,6 +48,8 @@ Progress and the check behind every milestone: [PROGRESS.md](PROGRESS.md). Evalu
 | Independent repeats | 116 and 119 statements, 0 unsupported; target-list Jaccard 0.65–0.87 |
 | Recovery of 59 UC clinical targets | Target profile AUROC 0.84 vs predicted tractability alone 0.83, but 14 % vs 2 % of them in its top 100; convergence 0.86 (partly circular); data only 0.74 |
 | Known-answer questions (`claude -p` + MCP) | 10/10 |
+| Closed-book LLM without tools | Lists approved UC targets (60–70 % clinical) with nothing to check; the pipeline lists data-supported candidates (100 % in the data-only top 500) with verified evidence |
+| Verifier sabotage test | Wrong numbers 78/78, wrong gene 83/83, wrong evidence 83/83 caught; flipped directions 16/25 where bulk evidence is cited |
 | One agent vs the team | Same quality (10/12 checklist facts, 0 unsupported); the team is about 27 % cheaper and 2.4x faster |
 | Deterministic rebuild | `uv run ucatlas run-all --run 2026-11-09_full` |
 
