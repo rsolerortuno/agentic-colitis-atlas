@@ -171,3 +171,9 @@ Designs fixed before running. Nothing below changes the convergence score or the
   than the discovery screen; both disagreed with the screen (19 reds on genes the screen had passed; EHD3 labelled
   stromal but "B cell" as source). Fixed before publishing by reusing the screen's composition verdict and the
   Smillie 2019 lineage shares.
+- **Shortlist revision (2026-11-11)**: CCNO came first in the first version. Reviewed gene by gene and fixed four
+  criteria (per-cell change, crypt regeneration flag, Mendelian disease, antibody route from topology; null genetics
+  scores 0), each checked on markers and on 16 clinical targets. Adding the Mendelian field to the target-safety
+  records made 3 agent statements stale (CXCR2, CD274 and one more); moved it to its own evidence record instead and
+  the run is back to 0 stale.
+

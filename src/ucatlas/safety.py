@@ -11,6 +11,11 @@ clinical targets (as reference):
    other GWAS traits that colocalise (H4 >= 0.8) with the gene's instrument credible sets in Open Targets, IBD traits
    excluded, molecular traits (protein or metabolite levels) excluded; these are the other conditions a drug acting on the same gene could change. Uses the cached
    colocalisation answers of mr.py.
+4. Mendelian disease (added 2026-11-11): the human diseases UniProt curates for the gene (DISEASE comments, from OMIM
+   and the literature), kept only when UniProt states that the disease is caused by variants of the gene (not
+   susceptibility loci, not somatic involvement), with the inheritance and whether the variants are gain of function. A gene whose loss causes
+   a disease may give that disease when it is inhibited for years (CCNO and primary ciliary dyskinesia is the case
+   that prompted it); a gain-of-function disease does not argue against inhibition. Cached through external.py.
 Outputs: data/processed/safety.parquet, safety_summary.json.
 """
 from __future__ import annotations
@@ -51,6 +56,31 @@ def _ot(ens: str) -> list[dict]:
             raise RuntimeError(f"Open Targets safety query failed for {ens}")
         CACHE.write_text(json.dumps(cache), encoding="utf-8")
     return cache[ens]
+
+
+GOF = re.compile(r"gain[- ]of[- ]function|activating mutation|constitutive(ly)? activ", re.I)
+
+
+def mendelian(symbol: str) -> list[dict]:
+    from .external import UNIPROT_URL, _cached, _request
+    params = {"query": f"gene_exact:{symbol} AND organism_id:9606 AND reviewed:true", "fields": "accession,cc_disease",
+              "format": "json", "size": 1}
+    data = _cached("uniprot", json.dumps(params, sort_keys=True),
+                   lambda: _request("GET", UNIPROT_URL, params=params).json())["data"]
+    out = []
+    for r in data.get("results", [])[:1]:
+        for c in r.get("comments", []):
+            if c.get("commentType") != "DISEASE" or "disease" not in c:
+                continue
+            dz = c["disease"]
+            note = " ".join(t.get("value", "") for t in (c.get("note") or {}).get("texts", []))
+            if not re.search(r"disease is caused by", note, re.I):
+                continue   # susceptibility loci and somatic involvement are not Mendelian diseases
+            text = " ".join([dz.get("description", "")] + [t.get("value", "") for t in (c.get("note") or {}).get("texts", [])])
+            inh = ("recessive" if re.search(r"recessive", text, re.I) else "dominant" if re.search(r"dominant", text, re.I)
+                   else "X-linked" if re.search(r"X-linked", text, re.I) else "not stated")
+            out.append({"disease": dz.get("diseaseId", ""), "inheritance": inh, "gain_of_function": bool(GOF.search(text))})
+    return out
 
 
 def genes() -> list[str]:
@@ -106,10 +136,14 @@ def run() -> dict:
         liab = _ot(ens[g]) if g in ens else []
         events = sorted({x.get("event") for x in liab if x.get("event")})
         pw = phewas(g) if g in mr_sig else []
+        md = mendelian(g)
         rows.append({"gene": g, "loeuf": loeuf, "pli": float(con.at[g, "lof.pLI"]) if g in con.index else np.nan,
                      "constrained": bool(loeuf < LOEUF_STRONG) if not np.isnan(loeuf) else None,
                      "safety_events": events, "n_safety_events": len(events),
-                     "phewas_traits": [x["trait"] for x in pw], "n_phewas_traits": len(pw), "clinical_target": g in clin})
+                     "phewas_traits": [x["trait"] for x in pw], "n_phewas_traits": len(pw), "clinical_target": g in clin,
+                     "mendelian_diseases": [f"{x['disease']} ({x['inheritance']}{', gain of function' if x['gain_of_function'] else ''})"
+                                            for x in md],
+                     "mendelian_loss_disease": any(not x["gain_of_function"] for x in md)})
     d = pd.DataFrame(rows)
     d.to_parquet(PROCESSED / "safety.parquet", index=False)
     cand = d[~d.clinical_target]
@@ -119,6 +153,8 @@ def run() -> dict:
          "candidates_with_safety_events": int((cand.n_safety_events > 0).sum()),
          "clinical_targets_with_safety_events": int((ct.n_safety_events > 0).sum()),
          "genes_with_phewas": int((d.n_phewas_traits > 0).sum()),
+         "candidates_with_mendelian_disease": int(cand.mendelian_loss_disease.sum()),
+         "clinical_targets_with_mendelian_disease": int(ct.mendelian_loss_disease.sum()),
          "median_loeuf_candidates": round(float(cand.loeuf.median()), 3),
          "median_loeuf_clinical_targets": round(float(ct.loeuf.median()), 3)}
     (PROCESSED / "safety_summary.json").write_text(json.dumps(s, indent=1), encoding="utf-8")
@@ -145,6 +181,14 @@ def load(store=None) -> int:
                                     date.today().isoformat(), **rec)
             store.add_claim(node["id"], "has_safety_profile_in", "DATASET:SAFETY", ev)
             n += 1
+            if "mendelian_diseases" in d.columns and len(r.mendelian_diseases):
+                # a separate record, so the target_safety records cited by earlier agent runs stay unchanged
+                ev2 = store.add_evidence(evidence_id("mendelian_disease", r.gene), "mendelian_disease", "DATASET:SAFETY",
+                                         date.today().isoformat(), gene=r.gene,
+                                         diseases_caused_by_variants=list(r.mendelian_diseases)[:10],
+                                         loss_of_function_disease=bool(r.mendelian_loss_disease), database="UniProt DISEASE",
+                                         interpretation="inhibiting the gene for years may reproduce a disease caused by its loss")
+                store.add_claim(node["id"], "has_mendelian_disease_in", "DATASET:SAFETY", ev2)
     return n
 
 

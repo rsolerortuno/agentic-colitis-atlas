@@ -134,7 +134,7 @@ HELP: dict[str, dict[str, str]] = {
                  "RNA in normal tissue, not protein."),
     "shortlist": _h("The first-in-class genes checked against eight questions a laboratory would ask before testing them.",
                     "One light per criterion (green meets, amber partly, red fails, grey not measured); hover for the values. Rows are ordered by points (green 2, amber 1, grey 0, red −1); the cards give the proposed first experiment.",
-                    "Lights summarise the other tabs with fixed thresholds; a grey light is missing data, not a negative result."),
+                    "Lights summarise the other tabs with fixed thresholds; a grey light is missing data, not a negative result, and a green safety light on a new gene means nothing is known yet (see the calibration on clinical targets)."),
     "discovery_table": _h("The screen results.", "Filter by cell family or status, or search a gene.", "Tractability is predicted, not experimental."),
     # treatment and subgroups
     "treatment_controls": _h("The check: published infliximab non-response genes in every arm.",

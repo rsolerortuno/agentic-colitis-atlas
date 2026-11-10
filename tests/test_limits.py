@@ -220,3 +220,17 @@ def test_validation_shortlist_covers_first_in_class():
         lights = json.loads(c)
         assert set(lights) == {"reproducible", "protein", "tissue", "cell", "genetics", "druggable", "safety", "mouse"}
         assert all(v[0] in ("green", "amber", "red", "grey") and v[1] for v in lights.values())
+
+
+@pytest.mark.skipif(not (PROCESSED / "validation_shortlist_calibration.parquet").exists(), reason="layer not built")
+def test_validation_shortlist_rules_on_markers_and_controls():
+    from ucatlas import validation_shortlist as vs
+    sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet").set_index("gene")
+    ccno = json.loads(sl.at["CCNO", "criteria"])
+    assert sl.at["CCNO", "regeneration_flag"] and "Ciliary dyskinesia" in ccno["safety"][1]
+    assert "no extracellular part" in json.loads(sl.at["OSBPL3", "criteria"])["druggable"][1]
+    cal = pd.read_parquet(PROCESSED / "validation_shortlist_calibration.parquet")
+    assert all(json.loads(c)["druggable"][0] == "green" for c in cal.criteria)
+    sc = vs._SingleCell()
+    assert sc.per_cell("DUOX2")[0] > 3 and sc.per_cell("AQP8")[0] < -1 and abs(sc.per_cell("TNF")[0]) < 0.3
+    assert sc.crypt["OLFM4"] > vs.CRYPT_SHARE > sc.crypt["EPCAM"]

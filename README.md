@@ -166,7 +166,8 @@ and described in [data/README.md](data/README.md).
   and low expression in vital organs.
 - **Validation shortlist.** Each first-in-class gene checked against eight questions a laboratory would ask
   (reproducible, protein, tissue change, cell source, causal genetics, druggable, safety, mouse), one traffic light
-  per question with fixed thresholds, and a proposed first experiment chosen by cell source and drug route. Its own
+  per question with fixed thresholds checked on markers and on the UC clinical targets, and a proposed first
+  experiment chosen by cell source and drug route. Its own
   report tab, under Findings → New targets.
 
 ## 5. Main results
@@ -257,7 +258,7 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | MR sensitivity | Plasma, 48 proteins with >= 3 instruments: no directional pleiotropy in 43 (MR-Egger), weighted median agrees in 45; Steiger direction correct for every significant estimate in all layers |
 | Covariate adjustment (MSCCR: colon segment, age, sex) | Adjusted and unadjusted changes correlate at rho 0.99; all 1,086 clear changes hold |
 | Negative control | Clinical targets compared only with genes of similar expression: convergence AUROC 0.86, target profile 0.82, random sets <= 0.57; matched on literature 0.73 and 0.70 |
-| Target safety | 2 candidates strongly constrained (INHBA, GJC1; 5 of 59 clinical targets); PheWAS recovers psoriasis for IL12B and blood counts for ITGA4 |
+| Target safety | 2 candidates strongly constrained (INHBA, GJC1; 5 of 59 clinical targets); PheWAS recovers psoriasis for IL12B and blood counts for ITGA4; a Mendelian disease caused by the gene (UniProt) for 10 candidates (CCNO: primary ciliary dyskinesia) and 23 clinical targets |
 | Protein-level replication (Schniers 2019) | 75 % of clear RNA changes replicate as protein (281 of 373); RNA-protein rho 0.61 over 6,112 genes |
 | Mouse colitis models (MGI) | 24 % of UC clinical targets and 15 % of the convergence top 100 have a colitis phenotype, against 1.2 % of all genes |
 | CosMx single cells | 22 of 108 candidate genes on the 6K panel above background (epithelial, myeloid, plasma genes); the neutrophil and stromal candidates are not resolved |
@@ -269,7 +270,7 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Repeat agent runs (final data) | Three team runs: 116–124 statements, 0 unsupported; target-list overlap (Jaccard) 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each |
 | Single agent against multi-agent (final data) | Same quality (0 unsupported; 10–11 of 12 checklist facts); the team was about 36 % cheaper ($4.79 vs $7.52 on average) and 2.5 times faster (7.6 vs 19.3 minutes); the single agent cited less of its evidence (82 % vs 90–98 %) |
 | Report validator | 570 claims, 1,145 evidence records, 1,260 citation links, all resolvable, no external resources |
-| Knowledge graph | 564,827 claims, 0 without a resolvable evidence record |
+| Knowledge graph | 564,860 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (233 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)

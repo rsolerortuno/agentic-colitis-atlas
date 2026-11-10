@@ -540,7 +540,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         third["mouse_lit_fic"] = int(ml.gene.isin(fic_).sum())
         third["mouse_lit_rows"] = [{"gene": r_.gene, "papers": int(r_.papers), "pmids": ", ".join(list(r_.top_pmids)[:3])}
                                    for r_ in ml[~ml.gene.isin(fic_)].itertuples()]
-    SL = {"rows": [], "criteria": []}
+    SL = {"rows": [], "criteria": [], "cal": [], "summary": {}}
     if (PROCESSED / "validation_shortlist.parquet").exists():
         sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
         SL["criteria"] = [("reproducible", "Reproducible"), ("protein", "Protein"), ("tissue", "Tissue change"),
@@ -549,6 +549,10 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         SL["rows"] = [{"rank": int(r.rank), "gene": r.gene, "lineage": r.lineage, "meta_log2fc": r.meta_log2fc,
                        "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria), "experiment": r.experiment,
                        "evidence_ids": [evidence_id("discovery_profile", r.gene)]} for r in sl.itertuples()]
+        cal_p = PROCESSED / "validation_shortlist_calibration.parquet"
+        if cal_p.exists():
+            SL["cal"] = [{"gene": r.gene, "score": int(r.score)} for r in pd.read_parquet(cal_p).itertuples()]
+            SL["summary"] = json.loads((PROCESSED / "validation_shortlist_summary.json").read_text(encoding="utf-8"))
     lit_rel = PROCESSED.parents[0] / "literature" / "pubtator_relations.parquet"
     if lit_rel.exists():
         pubs = pd.read_parquet(PROCESSED.parents[0] / "literature" / "publications.parquet")

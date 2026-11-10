@@ -238,12 +238,37 @@ pockets 24 %: the detector finds real sites better than the score ranks them fir
 
 Target-list overlap: team runs 0.87-1.0; single agent vs team 0.56 (it leads with IL12B, TNF and ITGB7).
 
-## (r) Validation shortlist (added 2026-11-11)
+## (r) Validation shortlist (added 2026-11-11, revised the same day)
 
-The 36 first-in-class genes, each with a light per criterion (rules in `src/ucatlas/validation_shortlist.py`, written
-before the table was looked at; the tissue and cell criteria reuse the sources of the discovery screen so the two tabs
-cannot disagree). Structure now covers every first-in-class gene (72 proteins modelled, up from the top targets only).
-No gene has a green causal-genetics light: plasma pQTL and gut eQTL instruments exist for few of them and none of the
-tested ones has a significant estimate. None has ever been perturbed in mouse colitis (title and abstract search).
-The first five by points are CCNO, OSBPL3, ERO1A, EHD3 and CYP4X1. The table is a way to read the other layers, not a
-new estimate.
+The 36 first-in-class genes, each with a light per criterion (rules in `src/ucatlas/validation_shortlist.py`).
+Structure now covers every first-in-class gene (72 proteins modelled).
+
+**First version and why it changed.** It put CCNO (cyclin O) first. Read gene by gene, three criteria were too
+lenient: (1) CCNO sits in transit-amplifying crypt cells and rises per cell there, like OLFM4 and REG1A: it is part of
+the regenerating crypt, which the lineage-level composition adjustment cannot see; (2) its loss causes primary ciliary
+dyskinesia (UniProt), which neither LOEUF (recessive disease) nor vital-organ RNA (few ciliated cells) catches;
+(3) "surface or secreted" counted any membrane location, so cytoplasmic or ER proteins (OSBPL3, EHD3, RFTN1, SGIP1,
+SDR16C5) got an antibody route. Also, a null genetic test scored like a partial success.
+
+**Revisions, each checked on markers or controls before use.**
+- Per-cell change inside the gene's own single-cell clusters (Smillie 2019). Markers: DUOX2 +7.1, MMP3 +4.9,
+  CHI3L1 +4.1 log2 (state changes), TNF +0.2, IL1B -0.5, OSM -0.6 (influx), AQP8 -2.7. CALHM6, CLEC1A, IKBIP,
+  RILPL2, FBXO16 and FILIP1L do not rise per cell (red).
+- Crypt-zone regeneration flag: >= 76 % of epithelial RNA in stem/TA/progenitor clusters (EPCAM 58 %, LGR5, OLFM4,
+  MKI67, REG1A 92-97 %) and rising there: CCNO and CYP4X1.
+- Mendelian disease (UniProt, only "caused by variants", no susceptibility loci): CCNO, TPK1 and CSGALNACT1 among the
+  new genes; 23 of 59 clinical targets (mostly immunodeficiencies, the intended effect of immunosuppression). Kept as
+  a separate evidence record so the target-safety records cited by the agents stay unchanged (0 stale).
+- Antibody route from UniProt topology (extracellular domain, GPI anchor, secretion). Controls: all 16 clinical
+  targets in the table keep a green druggable light; 58 % of the new genes do.
+
+**Calibration on the 16 clinical targets** (share of green lights, first-in-class vs clinical): reproducible 94 vs
+100 %, protein 14 vs 19 %, tissue 42 vs 12 %, cell 56 vs 69 %, genetics 0 vs 0 %, druggable 58 vs 100 %, safety 89 vs
+19 %; median points 8.5 vs 8. Safety is an ascertainment effect (side effects and diseases are known for studied
+genes), and tissue change describes the kind of target the screen looks for, not its odds; both are said in the tab.
+
+**Result.** First ten: ERO1A, CHRDL2, CPXM1, PCDH17, LYPD5, LAIR2, OLFML2B, ADGRE3, OSBPL3, FIBIN; CCNO falls to 23rd.
+Eight of the ten are secreted or surface proteins of stroma, endothelium, epithelium or immune cells that rise per
+cell; ERO1A (ER oxidoreductase with known inhibitors) leads on protein replication and per-cell rise. CCNO's
+"high-quality ligand" in Open Targets comes from the CDK2-cyclin O complex, not from CCNO itself. The table is a way
+to read the other layers, not a new estimate; genes with equal points are equally supported.
