@@ -13,7 +13,8 @@ uv sync --frozen
 uv run python -m ucatlas.download          # bulk cohorts, platforms, HGNC, HPA, Open Targets tables, UC GWAS
 uv run python -m ucatlas.mr download       # Open Targets credible sets filtered to UKB-PPP pQTL (~1.8 GB streamed)
 uv run python -m ucatlas.spatial_download  # Xenium GSE312420 expression files
-uv run python -c "from ucatlas.spatial_download import run_extra; run_extra()"   # Xenium GSE339323 + Visium GSE189184
+uv run python -c "from ucatlas.spatial_download import run_extra; run_extra()"   # Xenium GSE339323 + Visium GSE189184 (with H&E)
+uv run python -m ucatlas.mr_colon download # Open Targets credible sets filtered to gut eQTL (GTEx colon, CEDAR, IBDverse)
 ```
 
 Two single-cell datasets need a Broad Single Cell Portal login and are placed by hand (see `data/README.md`):
@@ -31,7 +32,8 @@ uv run python -m ucatlas.evaluate          # evaluation against UC clinical targ
 
 `run-all` refuses to start when a frozen input, `config.yaml` or `uv.lock` differs from
 `reproducibility/inputs.json`. It deletes the processed tables and the graph first and keeps only the single-cell
-pseudobulk files, which come from long streaming steps. It does not call a language model: the agent outputs of the
+pseudobulk files, which come from long streaming steps. AlphaFold models and PDBe-KB ligand sites are fetched once
+into `data/cache/alphafold` (not part of the frozen inputs). It does not call a language model: the agent outputs of the
 published run are inputs, re-verified against the rebuilt graph.
 
 A fresh download is not guaranteed to give the same bytes: GEO, NCBI and Open Targets update their files. The

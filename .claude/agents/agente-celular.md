@@ -21,7 +21,8 @@ How to work:
 1. Start from `convergence_ranking` (top ~40).
 2. For each candidate use `celltype_expression` and `composition_effect`; use `neutrophil_genes` on the list of top
    candidates at once; use `spatial_context` for the leading ones (Xenium single cells where the gene is on the
-   panel, Visium spots for every gene). Stay within ~40 tool calls.
+   panel, Visium spots for every gene; `visium_cells` is the deconvolved view that names the cell group explaining
+   the gene in the tissue and the cells around its high spots). Stay within ~40 tool calls.
 3. Read the composition result carefully: lineage scores also rise when resident cells become activated, so the
    adjustment can over-correct; a gene that keeps a significant change after adjustment is strong evidence of a
    tissue change, a gene that loses it is not proof of pure influx. Say this caveat where it matters.

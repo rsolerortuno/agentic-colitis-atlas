@@ -84,12 +84,14 @@ if __name__ == "__main__":
 # GSE339323: Xenium Prime 5K, one UC resection, most and least inflamed region (cell x gene h5 + cell table only).
 # GSE189184: 10x Visium (whole transcriptome, 55 um spots), adult UC inflamed and healthy colon (checkpoint-inhibitor
 # colitis sections are not used). Each sample is a 0.1-0.9 GB zip that is mostly images; only the filtered spot x
-# gene matrix and the spot positions are read from it with HTTP range requests (about 1.5 MB per section).
+# gene matrix, the spot positions and the low-resolution H&E picture are read from it with HTTP range requests
+# (about 2 MB per section).
 XENIUM2 = {"GSM9893496": ("UC1_inf", "inflamed"), "GSM9893497": ("UC1_noninf", "noninflamed")}
 VISIUM = {"GSM5695828": ("B5", "UC_inflamed"), "GSM5695829": ("B4", "UC_inflamed"), "GSM5695834": ("B8", "UC_inflamed"),
           "GSM5695835": ("B9", "UC_inflamed"), "GSM5695838": ("B12", "UC_inflamed"), "GSM5695839": ("B13", "UC_inflamed"),
           "GSM5695840": ("C2", "UC_inflamed"), "GSM5695837": ("B10", "healthy"), "GSM5695843": ("C5", "healthy")}
-VISIUM_MEMBERS = ("filtered_feature_bc_matrix.h5", "spatial/tissue_positions_list.csv", "spatial/scalefactors_json.json")
+VISIUM_MEMBERS = ("filtered_feature_bc_matrix.h5", "spatial/tissue_positions_list.csv", "spatial/scalefactors_json.json",
+                  "spatial/tissue_lowres_image.png")
 
 
 class _HttpFile(io.RawIOBase):

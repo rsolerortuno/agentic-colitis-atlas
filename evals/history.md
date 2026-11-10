@@ -73,3 +73,35 @@
   117 statements, 0 unsupported, 0 stale, 29 of 29 key findings cited, $4.08, 6.6 minutes. A first attempt the same
   day ran without the two MR tools (they were registered after `mcp.run()` in the server file) and was discarded.
 - The benchmark runs of 2026-11-09 (three team runs, one single agent) stay as they were, on the earlier data.
+
+## 2026-11-10, second round: gut genetics, spot deconvolution and the kidney-atlas views
+Designs and weights below were written into the code before the step was run; none was changed after seeing results.
+- **Gut eQTL Mendelian randomisation (`mr_colon.py`).** Same instruments, outcome and estimator as the plasma analysis,
+  with Open Targets 26.09 credible sets of GTEx v10 gene-level eQTL (transverse and sigmoid colon), CEDAR eQTL
+  (transverse colon, rectum) and IBDverse single-cell eQTL. eQTL credible sets carry no z-score, so |z| is derived from
+  the p-value (mantissa and exponent). Colon layer: per gene the study with the most instruments; cell layer: the
+  strongest cell type with its p multiplied by the number of cell types tested. BH within each layer.
+- **Visium deconvolution (`spatial_deconv.py`).** Kidney-atlas design: SCP3755 profiles folded into 12 groups, up to
+  40 markers per group (log2 ratio > 1, >= 20 CPM), candidates and the discovery pool excluded from the markers, NNLS
+  per spot, NNLS of gene CPM on shares for the in-situ expresser, ring-1 neighbourhood with 1,000 section-stratified
+  permutations (seed 20261110), BH over genes x groups.
+- **Protein structure (`structure.py`).** Kidney-atlas pipeline without the molecular-glue components (that question
+  is not asked here): pocket score = 0.5 confidence + 0.4 geometry + 0.1 hydrophobicity; controls are UC
+  small-molecule targets. A PDBe 504 is retried rather than cached.
+- **Report layers (`report_layers.py`).** Subgroups (paediatric vs adult cohorts, rectum vs proximal colon, neutrophil
+  activity axis), biologic suitability (surface 0.30, increase 0.25, vital organs 0.25, patients 0.20), immune-target
+  score (immune share 0.3, coupling 0.25, increase 0.2, tractability 0.15, response 0.1), a novelty score that only
+  orders the discovery table, and rank stability of the convergence score. Known UC drug targets rank low on the
+  biologic and immune scores (none of the immune controls in the top 100); this is reported, not tuned away.
+- **New published run.** The new evidence and tools changed what the agents can cite, so the team ran again
+  (runs/2026-11-10, replacing the morning run): 126 statements, 0 unsupported, 0 stale, 31 of 31 key findings cited,
+  $5.57, 6.4 minutes. The orchestrator returned failing findings to the specialists once (numbers printed twice) and
+  sent the cells specialist back for the in-situ findings of the new spatial section.
+- **Report.** Rebuilt on the kidney-atlas layout: 16 tabs, a "?" help on every chart and counter, tissue viewer on the
+  H&E sections, 3D protein viewer, candidate evidence cards, profile tables, rank-stability and outcome charts, agent
+  benchmark tab.
+- **Fingerprints ignore float noise.** The clean rebuild flagged 4 discovery records cited by the new run as stale.
+  They differed only in the last binary digits of the composition-retained fraction (at most 174 units in the last
+  place; a least-squares fit repeated in another process). Evidence fingerprints now round floats to 10 significant
+  digits; the basis of runs/2026-11-10 was migrated (2,525 records unchanged, 4 float-noise only, 0 left stale; listed
+  in its basis.json). A real change of a value is still caught (tests/test_limits.py).

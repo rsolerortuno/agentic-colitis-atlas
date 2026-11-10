@@ -23,7 +23,25 @@ from .paths import CONFIG
 IGNORED = {"evidence_id", "date"}
 
 
+def _normal(x):
+    """Floats to 10 significant digits: a least-squares fit repeated in another process (multithreaded BLAS) can
+    differ in the last binary digits, which is not a change of evidence (2026-11-10, evals/history.md)."""
+    if isinstance(x, float):
+        return float(f"{x:.10g}")
+    if isinstance(x, list):
+        return [_normal(v) for v in x]
+    if isinstance(x, dict):
+        return {k: _normal(v) for k, v in x.items()}
+    return x
+
+
 def fingerprint(record: dict) -> str:
+    body = _normal({k: v for k, v in record.items() if k not in IGNORED})
+    return hashlib.sha256(json.dumps(body, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def fingerprint_raw(record: dict) -> str:
+    """The pre-2026-11-10 fingerprint (no float normalisation), kept to migrate saved runs."""
     body = {k: v for k, v in record.items() if k not in IGNORED}
     return hashlib.sha256(json.dumps(body, sort_keys=True, default=str).encode()).hexdigest()[:16]
 

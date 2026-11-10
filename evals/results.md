@@ -173,3 +173,26 @@ With PROTECT, RISK and GSE165512 added, 13,840 genes are measured in all eight c
 fell from 4,948 to 3,610 and no longer get a pooled significance (before: 2,522 of them were called significant on
 MSCCR alone); the rest are mostly pseudogenes, small RNAs and lowly expressed genes. The discovery changes of MSCCR
 replicate in the same direction in 95 % (PROTECT), 94 % (RISK) and 50 % (GSE165512) of tested genes.
+
+## (l) Gut eQTL Mendelian randomisation (added 2026-11-10, second round)
+
+`uv run python -m ucatlas.mr_colon` (data/processed/mr_colon.parquet). Colon tissue (GTEx v10 transverse and sigmoid
+colon, CEDAR transverse colon and rectum): 5,852 genes tested, 135 significant (BH q < 0.05), 38 colocalise with an
+IBD/UC GWAS signal, among them IRF5, GSDMB, RGS14, NXPE1, IRF8, GNA12 and the RTEL1-TNFRSF6B locus. Gut cell types
+(IBDverse): 6,895 genes, 161 significant, 60 colocalise. CHI3L1, IDO1 and MMP1 are null in colon tissue; CXCL8, CXCR2,
+OSM, DUOX2 and TNF have no gut instrument. For the 509 genes tested in plasma and colon, the estimates have the same
+sign in 61 %.
+
+## (m) Visium deconvolution (added 2026-11-10, second round)
+
+`uv run python -m ucatlas.spatial_deconv`. 16,699 spots (12,989 UC). Held-out candidates (never markers) correlate
+with the share of their single-cell group: LCN2 0.61, DUOX2 0.46, MMP3 0.23, CHI3L1 0.24, S100A8 0.18, IL11 0.17,
+CXCR1 0.08, CXCR2 0.07. In-situ expressers: S100A8, CXCL8, AQP9, IL1B neutrophil; MMP1, MMP3, MMP10 inflammatory
+fibroblast; LCN2, DUOX2, REG1A epithelial (tests/test_limits.py). Neutrophil share 1.7 % of transcripts in UC spots vs
+0.9 % in healthy colon.
+
+## (n) Pocket score against UC small-molecule targets (added 2026-11-10, second round)
+
+46 AlphaFold models. The 9 modelled controls rank 4 (JAK1) to 25 (PDE4B) of 45 proteins by best pocket score.
+Detected cavities cover a median 53 % of experimentally ligand-bound residues (PDBe-KB, 28 proteins), the top three
+pockets 24 %: the detector finds real sites better than the score ranks them first.

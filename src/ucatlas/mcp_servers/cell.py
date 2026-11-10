@@ -75,10 +75,15 @@ def spatial_context(gene: str) -> dict:
     visium: Visium whole transcriptome (GSE189184; 55 um spots of several cells; 7 UC inflamed, 2 healthy sections):
     the lineage whose marker score co-varies most with the gene across spots (median Spearman rho over UC sections,
     and in how many sections it ranks first), and the UC vs healthy ratio of mean CPM. Spot co-variation is weaker
-    evidence of the producing cell than single-cell data; absence of enrichment is not evidence of absence."""
+    evidence of the producing cell than single-cell data; absence of enrichment is not evidence of absence.
+    visium_cells: the same Visium spots deconvolved into 12 cell groups with single-cell profiles (NNLS; candidate
+    genes are never deconvolution markers): the cell group that explains the gene's spot expression in situ (share of
+    the in-situ signal), the composition-corrected source, and cell groups enriched around the gene's top-decile spots
+    (ring of 6 neighbouring spots, permutation test, BH). This resolves the cell type, not only the compartment."""
     g = canonical_gene(gene)
     out = {"gene": g, "xenium": _record("spatial_summary", g) or {"message": "not on the Xenium 5K panel or too few counts"},
-           "visium": _record("spatial_visium", g) or {"message": "not analysed in Visium (not a top candidate) or expressed in < 20 spots"}}
+           "visium": _record("spatial_visium", g) or {"message": "not analysed in Visium (not a top candidate) or expressed in < 20 spots"},
+           "visium_cells": _record("spatial_visium_cell", g) or {"message": "not deconvolved (not a top candidate or expressed in < 20 spots)"}}
     return out
 
 

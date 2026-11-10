@@ -70,5 +70,18 @@ new tools, and the run was repeated.
 
 ## Blockers / notes
 - GitHub Pages is live (public repository); the workflow republishes the report whenever it changes on main.
-- Remaining limits (README section 8): plasma pQTL cover 1,693 proteins and not CXCR2, OSM, DUOX2, JAK2 or TNF;
-  Visium spots mix cells; two GSE312420 Xenium sections stay too sparse; GSE16879 is MAS5 data on a log2 scale.
+- Remaining limits (README section 8): no mucosal protein QTL exists, so gut genetics is RNA; many candidates have no
+  instrument in any layer; the Visium deconvolution relies on one atlas; two GSE312420 Xenium sections stay too
+  sparse; GSE16879 is MAS5 data on a log2 scale.
+
+## 2026-11-10 (second round): the two remaining limits and the kidney-atlas views
+
+| Limit | What was done | Result |
+|---|---|---|
+| MR used plasma protein only | `mr_colon.py`: the same MR with colon-tissue eQTL (GTEx v10, CEDAR) and gut cell-type eQTL (IBDverse); MCP tool `mr_gut_hits`, `mendelian_randomization` returns all three layers | 5,852 genes in colon tissue (135 significant, 38 colocalise: IRF5, GSDMB, RGS14, NXPE1...); 6,895 in gut cell types (161, 60); blood and colon agree in direction for 61 % of 509 shared genes |
+| Visium spots mix cells | `spatial_deconv.py`: NNLS deconvolution into 12 cell groups, in-situ expresser, neighbourhood permutation test, tissue-viewer data with the H&E pictures | S100A8, CXCL8, AQP9 neutrophil; MMP1, MMP3 inflammatory fibroblast; LCN2, DUOX2 epithelial; held-out genes follow their group (rho 0.07-0.61) |
+
+Views of the kidney atlas added or adapted: protein structure and pockets (46 AlphaFold models, controls rank 4-25 of
+45), patient subgroups, biologic suitability, immune microenvironment, rank stability, candidate evidence cards, tissue
+and protein viewers, help on every chart, agent benchmark tab. Not copied because the biology differs: tumour
+mutations, copy number, cell-line dependency and the molecular-glue degrader score.

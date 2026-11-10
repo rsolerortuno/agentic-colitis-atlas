@@ -23,6 +23,8 @@ dependencies = [
     "h5py>=3.16.0",
     "rdata>=1.1.0",
     "decoupler>=2.3.1",
+    "biopython>=1.84",
+    "pykvfinder>=0.9.6",
 ]
 
 [project.scripts]

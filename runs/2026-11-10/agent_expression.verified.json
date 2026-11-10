@@ -4,12 +4,12 @@
   {
    "gene": "CXCR2",
    "role": "target_and_biomarker",
-   "statement": "CXCR2 tops the convergence ranking: pooled UC-vs-control log2FC [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.814], up in all eight cohorts, with Open Targets genetic association and clinical-stage antagonists (navarixin, reparixin, ladarixin). Within patients the gain is local to inflamed mucosa (paired inflamed vs non-inflamed log2FC [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.6972]) and only small in non-inflamed mucosa [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.6399]. CXCR2 is a neutrophil receptor, so the bulk signal largely reflects neutrophil infiltration (cell-context specialist to confirm).",
+   "statement": "CXCR2 ranks first in the convergence ranking: pooled UC vs control log2FC is [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.814], with the change in the same direction in all eight cohorts. It is a local inflammation signal: paired inflamed vs non-inflamed log2FC is [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.6972], while non-inflamed vs control is only [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.6399]. Caveat: CXCR2 is expressed mainly by neutrophils, so the bulk increase most likely reflects neutrophil infiltration, not a change in tissue cells; the cell-context specialist must check this. Antagonists (navarixin, reparixin, ladarixin, SX-682) exist in clinical trials for other indications.",
    "evidence_ids": [
     "EV:expression_meta:1fce9fb2531f",
     "EV:omics_de:8110a38ac4fd",
     "EV:omics_de:cae5dacd356b",
-    "EV:open_targets_assoc:7d06375723b1"
+    "EV:open_targets_drug:d584726e0cd6"
    ],
    "numeric_claims": [
     {
@@ -42,10 +42,9 @@
   {
    "gene": "CXCL8",
    "role": "target_and_biomarker",
-   "statement": "CXCL8, the ligand of CXCR1 and CXCR2, is strongly and reproducibly up (pooled log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.864], eight of eight cohorts) and enriched in inflamed mucosa of the same patient (paired log2FC [gene=CXCL8; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.968]). It has no genetic support in the ranking; the axis rests on expression, literature and drug history, and the signal is neutrophil-recruitment driven.",
+   "statement": "CXCL8 (IL-8), the main ligand of CXCR1/CXCR2, is raised in all eight cohorts with pooled log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.864]. The neutrophil-recruitment axis (CXCL8, CXCL1, CXCL5 with CXCR1/CXCR2) is the most coherent chemokine module in the ranking. It has no genetic support (genetics component zero), so the case rests on expression and literature.",
    "evidence_ids": [
-    "EV:expression_meta:1e78b2f07f0c",
-    "EV:omics_de:4b4308ba9576"
+    "EV:expression_meta:1e78b2f07f0c"
    ],
    "numeric_claims": [
     {
@@ -55,42 +54,6 @@
      ],
      "display": "3.864",
      "unit": "native"
-    },
-    {
-     "evidence_id": "EV:omics_de:4b4308ba9576",
-     "field": [
-      "log2fc"
-     ],
-     "display": "1.968",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
-   "gene": "MMP3",
-   "role": "biomarker",
-   "statement": "MMP3 is among the largest pooled increases (log2FC [gene=MMP3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.9012]) and is up in all eight cohorts. It is local to inflamed mucosa (paired log2FC [gene=MMP3; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=2.3368]), which makes it a tissue-inflammation marker. MMP1, MMP7 and MMP10 behave the same way; broad MMP inhibitors (marimastat) have no genetic support here.",
-   "evidence_ids": [
-    "EV:expression_meta:de1e9e07b063",
-    "EV:omics_de:286b35705246"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:expression_meta:de1e9e07b063",
-     "field": [
-      "log2fc"
-     ],
-     "display": "4.9012",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:omics_de:286b35705246",
-     "field": [
-      "log2fc"
-     ],
-     "display": "2.3368",
-     "unit": "native"
     }
    ],
    "key": false
@@ -98,10 +61,11 @@
   {
    "gene": "HMGCS2",
    "role": "biomarker",
-   "statement": "HMGCS2, an epithelial ketogenesis/metabolism gene, is lost in UC (pooled log2FC [gene=HMGCS2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-3.8375]), significantly down in all eight cohorts. The loss is restricted to inflamed mucosa: in non-inflamed mucosa of MSCCR it is unchanged from controls [gene=HMGCS2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=-0.0649]. It is a marker of local inflammation, not a target.",
+   "statement": "HMGCS2 (epithelial ketogenesis) is lost in UC, pooled log2FC [gene=HMGCS2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-3.838], down in all eight cohorts. The loss is local to inflamed mucosa: in MSCCR non-inflamed vs control the change is [gene=HMGCS2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=-0.0649] and not significant. It is a marker of active inflammation, not a target.",
    "evidence_ids": [
     "EV:expression_meta:f0b27322cee4",
-    "EV:omics_de:d965802705ac"
+    "EV:omics_de:d965802705ac",
+    "EV:omics_de:f9c203f63dc8"
    ],
    "numeric_claims": [
     {
@@ -109,7 +73,7 @@
      "field": [
       "log2fc"
      ],
-     "display": "-3.8375",
+     "display": "-3.838",
      "unit": "native"
     },
     {
@@ -124,65 +88,9 @@
    "key": true
   },
   {
-   "gene": "DUOX2",
-   "role": "biomarker",
-   "statement": "DUOX2, an epithelial source of reactive oxygen species, is strongly up (pooled log2FC [gene=DUOX2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.4116]) in all eight cohorts. Its increase is mostly inflamed-specific, with a small but significant rise in non-inflamed mucosa [gene=DUOX2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.8129], so part of it may reflect the disease state rather than current inflammation. The heterogeneity across cohorts is high, so effect sizes should not be compared between cohorts. It has no genetic support or approved drug.",
-   "evidence_ids": [
-    "EV:expression_meta:69eb34ed119c",
-    "EV:omics_de:7fbbc35e6b54"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:expression_meta:69eb34ed119c",
-     "field": [
-      "log2fc"
-     ],
-     "display": "4.4116",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:omics_de:7fbbc35e6b54",
-     "field": [
-      "log2fc"
-     ],
-     "display": "0.8129",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
-   "gene": "REG1A",
-   "role": "biomarker",
-   "statement": "REG1A has a large pooled increase (log2FC [gene=REG1A; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.4862]) but is less reproducible than the leading genes: significant in six of eight cohorts, and not significant in the Leuven GSE16879 cohort (padj [gene=REG1A; type=omics_de; source=DATASET:GSE16879; layer=rna; cohort=GSE16879; contrast=uc_vs_control; padj=0.132]) or the adult colon GSE165512 cohort, even though the direction is up in both. It is a strong biomarker candidate with a caveat on sample size and variance.",
-   "evidence_ids": [
-    "EV:expression_meta:e47ac58985af",
-    "EV:omics_de:7cf3ec1f98f3"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:expression_meta:e47ac58985af",
-     "field": [
-      "log2fc"
-     ],
-     "display": "4.4862",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:omics_de:7cf3ec1f98f3",
-     "field": [
-      "padj"
-     ],
-     "display": "0.132",
-     "unit": "native"
-    }
-   ],
-   "key": true
-  },
-  {
    "gene": "JAK2",
-   "role": "target",
-   "statement": "JAK2 has the strongest genetic and tractability support in the ranking but only a modest expression change (pooled log2FC [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.874]), significant in all eight cohorts. Its rank therefore comes from genetics and drugs (JAK inhibitors), not from a large expression change. The change is partly inflammation-local.",
+   "role": "mechanism",
+   "statement": "JAK2 has strong genetic and drug support but only a modest expression change: pooled log2FC [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.874] in all eight cohorts. Its ranking position comes from genetics and tractability, not from a large transcript change, and JAK pathway activity is regulated post-transcriptionally, so mRNA level alone does not support it as a biomarker.",
    "evidence_ids": [
     "EV:expression_meta:c36b80d82ff8",
     "EV:open_targets_assoc:3c2fb97467a0"
@@ -200,28 +108,9 @@
    "key": true
   },
   {
-   "gene": "AQP8",
-   "role": "biomarker",
-   "statement": "AQP8 shows the largest pooled loss in UC (log2FC [gene=AQP8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-5.246]), significant down in seven of eight cohorts. Together with CLDN8, SLC26A2, PCK1, GUCA2A/B and UGT2A3, it forms a reproducible epithelial absorptive, barrier and metabolism loss signature, a biomarker set that is not a target set.",
-   "evidence_ids": [
-    "EV:expression_meta:752c95b3a829"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:expression_meta:752c95b3a829",
-     "field": [
-      "log2fc"
-     ],
-     "display": "-5.246",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
    "gene": "S100A8",
    "role": "biomarker",
-   "statement": "S100A8 (with S100A9 and S100A12) is strongly up (pooled log2FC [gene=S100A8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.7697]) in all eight cohorts. These are neutrophil and monocyte calprotectin genes, so the bulk rise mainly reflects infiltrating myeloid cells and not a change inside epithelium; the cell-context specialist should confirm it with single-cell data. It has no genetic support.",
+   "statement": "S100A8 shows pooled log2FC [gene=S100A8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.77] in all eight cohorts, in line with S100A9 and S100A12 (calprotectin family). This is largely a neutrophil and monocyte signal from infiltrating cells, so it is a biomarker of inflammatory burden rather than evidence of an epithelial change; pooled heterogeneity between cohorts is high.",
    "evidence_ids": [
     "EV:expression_meta:6ff831ae12f7"
    ],
@@ -231,16 +120,44 @@
      "field": [
       "log2fc"
      ],
-     "display": "4.7697",
+     "display": "4.77",
      "unit": "native"
     }
    ],
    "key": true
   },
   {
+   "gene": "DUOX2",
+   "role": "biomarker",
+   "statement": "DUOX2 is a strongly induced epithelial gene, pooled log2FC [gene=DUOX2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.412] in all eight cohorts. It is mostly local to inflamed mucosa but also modestly raised in non-inflamed mucosa (log2FC [gene=DUOX2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.8129]), which suggests some disease-intrinsic epithelial activation. No drug exists and genetics is absent.",
+   "evidence_ids": [
+    "EV:expression_meta:69eb34ed119c",
+    "EV:omics_de:7fbbc35e6b54"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:69eb34ed119c",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.412",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:7fbbc35e6b54",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.8129",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
    "gene": "IDO1",
-   "role": "target",
-   "statement": "IDO1 is strongly and consistently up (pooled log2FC [gene=IDO1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.118]) in all eight cohorts. It has inhibitors in phase 3 and approval-stage records (from oncology), but no genetic evidence, and the rise may be partly interferon-driven by immune cells.",
+   "role": "target_and_biomarker",
+   "statement": "IDO1 (tryptophan catabolism, interferon-induced) is raised in all eight cohorts with pooled log2FC [gene=IDO1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.118]. It points to an interferon-gamma driven programme; inhibitors exist (epacadostat, linrodostat) but were developed in oncology, and there is no genetic support.",
    "evidence_ids": [
     "EV:expression_meta:2b76723dce27"
    ],
@@ -257,9 +174,66 @@
    "key": false
   },
   {
+   "gene": "MMP3",
+   "role": "biomarker",
+   "statement": "MMP3 is among the strongest increases, pooled log2FC [gene=MMP3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.901] in all eight cohorts, with MMP1, MMP7 and MMP10 following the same pattern (stromal tissue-remodelling module). Broad MMP inhibitors failed historically for toxicity, so these genes are better biomarkers than targets.",
+   "evidence_ids": [
+    "EV:expression_meta:de1e9e07b063"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:de1e9e07b063",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.901",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "biomarker",
+   "statement": "CHI3L1 has the highest pooled increase among the well-replicated genes with log2FC [gene=CHI3L1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.875] in all eight cohorts, with substantial literature support and no approved drug. It is a candidate tissue and serum marker of inflammation.",
+   "evidence_ids": [
+    "EV:expression_meta:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:b3f7b3e784f8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.875",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "AQP8",
+   "role": "biomarker",
+   "statement": "AQP8 shows the largest pooled loss, log2FC [gene=AQP8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-5.246], significantly down in seven of eight cohorts. Together with CLDN8, PCK1, SLC26A2 and GUCA2A/B it forms a mature colonocyte absorptive-metabolic programme that is lost in UC; these are biomarkers of epithelial state, not targets.",
+   "evidence_ids": [
+    "EV:expression_meta:752c95b3a829"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:752c95b3a829",
+     "field": [
+      "log2fc"
+     ],
+     "display": "-5.246",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
    "gene": "CD274",
    "role": "mechanism",
-   "statement": "CD274 (PD-L1) is up in all eight cohorts (pooled log2FC [gene=CD274; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.974]) and has genetic association and literature support, pointing to an interferon-responsive checkpoint program in inflamed mucosa. The target direction is unclear: the data support an adaptive brake, so checkpoint agonism, not blockade, would be the logical direction, and this is not shown by expression.",
+   "statement": "CD274 (PD-L1) rises with pooled log2FC [gene=CD274; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.974] in all eight cohorts, and has both genetic and literature support. It likely reflects interferon-driven feedback in epithelium and immune cells, so it is a regulatory-brake signal; the direction of any therapeutic intervention is unclear (agonism rather than blockade).",
    "evidence_ids": [
     "EV:expression_meta:822a01cbf7e8"
    ],
@@ -276,20 +250,19 @@
    "key": false
   },
   {
-   "gene": "SLC26A3",
-   "role": "target_and_biomarker",
-   "statement": "SLC26A3, a chloride/bicarbonate exchanger with genetic association to UC, is down (pooled log2FC [gene=SLC26A3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-1.702]) in all eight cohorts. It is a rare example of a lost epithelial gene with genetic support, so it is a mechanism and biomarker candidate. Any therapy would need to restore function, since the gene is already reduced.",
+   "gene": "TREM1",
+   "role": "target",
+   "statement": "TREM1 is raised in all eight cohorts with pooled log2FC [gene=TREM1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.861] and has a strong inflamed-vs-non-inflamed component in the ranking. It is expressed on neutrophils and monocytes, so the bulk change probably reflects infiltration; genetic support is absent and the only drug is nangibotide (phase 2, other indications).",
    "evidence_ids": [
-    "EV:expression_meta:6a7d4f43d1fa",
-    "EV:open_targets_assoc:0a80030df616"
+    "EV:expression_meta:cf67e67b4e3b"
    ],
    "numeric_claims": [
     {
-     "evidence_id": "EV:expression_meta:6a7d4f43d1fa",
+     "evidence_id": "EV:expression_meta:cf67e67b4e3b",
      "field": [
       "log2fc"
      ],
-     "display": "-1.702",
+     "display": "2.861",
      "unit": "native"
     }
    ],
@@ -297,10 +270,10 @@
   }
  ],
  "caveats": [
-  "Pooled log2FC values come from a random-effects model with very high heterogeneity for most top genes, so effect sizes are less reliable than direction and significance.",
-  "Microarray cohorts (UNIFI, PURSUIT, Leuven) have compressed fold changes compared with RNA-seq; compare direction and significance, not size.",
-  "Bulk biopsies are rich in infiltrating neutrophils and myeloid cells; the increases of CXCR1/2, CXCL8, S100A8/9/12, IL1B, TREM1 and LCN2 probably come mainly from those cells. This needs the cell-context specialist's single-cell and composition check.",
-  "Paired inflamed vs non-inflamed and non-inflamed vs control contrasts exist only in the MSCCR cohort.",
-  "Genes with high rank but zero genetics (CXCL8, IDO1, MMPs) rely on literature and drug history from other diseases; expression alone does not show that a target is causal or safe."
+  "Pooled estimates show very high between-cohort heterogeneity (I2 mostly above 0.9) because array fold changes are compressed relative to RNA-seq; use direction and significance across cohorts, not size.",
+  "Bulk biopsy increases in immune genes (CXCR1/2, CXCL8, S100A8/9/12, TREM1, IL1B, IL6) can arise from infiltrating neutrophils and monocytes; a composition adjustment and single-cell check by the cell-context specialist is required before calling these tissue-intrinsic changes.",
+  "Only the MSCCR cohort has a paired inflamed vs non-inflamed contrast; the other cohorts compare UC with healthy controls and mix disease severity.",
+  "Genetic support in the ranking (CXCR2, JAK2, FCGR2A, IL2RA, CD274) comes from Open Targets scores, which I did not independently verify; several top-ranked genes have no genetic evidence at all.",
+  "Several genes seen in the top-gene list (SAA1, SAA2, DEFB4A/B) are measured in few cohorts and have weaker pooled support."
  ]
 }

@@ -1,4 +1,4 @@
-<!doctype html>
+{% from "macros.j2" import q, plot, plain, paras, findings with context %}<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -6,15 +6,13 @@
 <title>Ulcerative Colitis Atlas</title>
 <style>
 {{ css | safe }}
+.tag.epithelial{background:var(--s1);color:#fff}.tag.stromal{background:var(--s2);color:#fff}.tag.immune{background:var(--s3);color:#fff}
+details.howbox summary{cursor:pointer}
 </style>
 <script>{{ plotly_js | safe }}</script>
 <script>{{ cytoscape_js | safe }}</script>
 </head>
 <body>
-{% macro paras(list) -%}
-{% for p in list %}<p class="claim" data-evidence="{{ p.evidence_ids | evattr }}">{{ p | statement_html | safe }} {{ p.evidence_ids | cite | safe }}</p>
-{% endfor %}
-{%- endmacro %}
 <div class="top"><div class="wrap">
   <div class="brand"><h1>Ulcerative Colitis Atlas</h1>
     <span class="sub">{{ f.disease.name }} · agentic multi-omics GraphRAG · generated {{ f.generated_utc[:10] }} · config <code>{{ f.config_sha256[:8] }}</code></span></div>
@@ -24,258 +22,574 @@
     <button class="navstep" type="button" id="navprev" aria-label="Previous section">&#8592;</button>
     <button class="navstep" type="button" id="navnext" aria-label="Next section">&#8594;</button>
     <div class="navmenu" id="navmenu" hidden>
-    {% for cat, items in nav %}<div class="navcat"><h4>{{ cat }}</h4><div class="navsub">
-      {% for title, key, text in items %}<button class="tab" type="button" data-tab="{{ key }}" data-cat="{{ cat }}">{{ title }}<small>{{ text }}</small></button>{% endfor %}
-    </div></div>{% endfor %}
+    {% for cat, subs in nav %}<div class="navcat"><h4>{{ cat }}</h4>
+      {% for sub, keys in subs %}<div class="navsub"><span>{{ sub }}</span>
+        {% for k in keys %}<button class="tab" type="button" data-tab="{{ k }}" data-cat="{{ cat }}">{{ nav_text[k][0] }}{% if k == 'discovery' %}<span class="n">{{ kpis.fic }}</span>{% endif %}<small>{{ nav_text[k][1] }}</small></button>{% endfor %}
+      </div>{% endfor %}
+    </div>{% endfor %}
     </div>
   </nav>
 </div></div>
 
 <main class="wrap">
 
+<!-- ================================================================ OVERVIEW -->
 <section class="panel" id="tab-overview" data-name="overview">
-<div class="plainbox"><b>In plain words.</b> Ulcerative colitis is a chronic inflammation of the colon lining. This
-report asks which genes and immune pathways have the strongest agreeing evidence to be drug targets or measurable
-markers. It combines biopsy data from eight public patient cohorts, single-cell and tissue-section data, the published
-literature, drug databases and human genetics. AI agents read the evidence through tools and write the text; every sentence cites records that a program
-checks, and numbers are matched to their source.</div>
-<h2>Summary of the findings</h2>
-{{ paras(f.narrative.summary) }}
+{% include "overview_intro.html.j2" %}
 <div class="kpis">
-  <div class="kpi"><b>8</b><span>biopsy cohorts (4 RNA-seq, 4 microarray)</span></div>
-  <div class="kpi"><b>{{ "{:,}".format(f.convergence.universe_size) }}</b><span>genes scored</span></div>
-  <div class="kpi"><b>{{ "{:,}".format(graph_stats.claims_total) }}</b><span>evidence-backed claims in the graph</span></div>
-  <div class="kpi"><b>{{ verification.statements if verification else "—" }}</b><span>statements checked, {{ verification.unsupported if verification else "—" }} unsupported</span></div>
+  <div class="kpi">{{ q("kpi_cohorts") }}<b>8</b><span>biopsy cohorts ({{ "{:,}".format(kpis.samples) }} samples)</span></div>
+  <div class="kpi">{{ q("kpi_universe") }}<b>{{ "{:,}".format(kpis.universe) }}</b><span>genes scored</span></div>
+  <div class="kpi">{{ q("kpi_claims") }}<b>{{ "{:,}".format(kpis.claims) }}</b><span>evidence-backed claims in the graph</span></div>
+  <div class="kpi">{{ q("kpi_cells") }}<b>{{ "{:,}".format(kpis.cells) }}</b><span>single cells (scRNA-seq)</span></div>
+  <div class="kpi">{{ q("kpi_spots") }}<b>{{ "{:,}".format(kpis.spots) }}</b><span>Visium spots and {{ "{:,}".format(kpis.xenium_cells) }} Xenium cells</span></div>
+  <div class="kpi">{{ q("kpi_mr") }}<b>{{ "{:,}".format(kpis.mr_genes) }}</b><span>genes tested for a causal effect (MR)</span></div>
+  <div class="kpi">{{ q("kpi_proteins") }}<b>{{ kpis.proteins }}</b><span>AlphaFold models analysed</span></div>
+  <div class="kpi">{{ q("kpi_fic") }}<b>{{ kpis.fic }}</b><span>first-in-class opportunities (of {{ kpis.pool }} screened)</span></div>
 </div>
+<h2>Summary of the findings</h2>
+<p class="small">Written by the orchestrating agent from the six agent reports. Every sentence cites evidence records and passed the automatic checks.</p>
+{{ paras(f.narrative.summary) }}
 <h2>Prioritised candidates</h2>
+<p class="small">The orchestrator picked these from the numeric ranking and the verified agent reports. It may depart from the ranking and then says why. The tags show the role (target, biomarker or both), the convergence rank, the cell that makes the gene in inflamed mucosa, the causal genetic estimate where one exists and any drug that already reached the clinic.</p>
 <div class="grid">
-{% for t in f.targets %}
-<div class="card cand claim" data-evidence="{{ t.evidence_ids | evattr }}"><h3>{{ t.gene }}</h3>
-  <div class="meta"><span class="tag {{ 't' if t.category == 'target' else ('b' if t.category == 'biomarker' else 'tb') }}">{{ t.category | replace('_', ' ') }}</span></div>
-  <p>{{ t | statement_html | safe }} {{ t.evidence_ids | cite | safe }}</p></div>
+{% for t in f.targets %}{% set b = badges.get(t.gene, {}) %}
+<div class="card cand claim" data-evidence="{{ t.evidence_ids | evattr }}">
+  <h3>{{ loop.index }}. {{ t.gene }}</h3>
+  <div class="meta">
+    <span class="tag {{ {'target':'t','biomarker':'b','target_and_biomarker':'tb'}.get(t.category,'') }}">{{ t.category | replace("_"," ") }}</span>
+    {% if b.rank %}<span class="tag">rank {{ b.rank }}</span>{% endif %}
+    {% if b.cell_label %}<span class="tag">{{ b.cell_label }}{% if b.cell_share is not none %} {{ "%.0f" | format(b.cell_share * 100) }}%{% endif %}</span>{% endif %}
+    {% if b.verdict %}<span class="tag{% if b.verdict == 'composition' %} warn{% endif %}">{{ b.verdict | replace("_"," ") }}</span>{% endif %}
+    {% if b.mr %}<span class="tag">{{ b.mr }}</span>{% endif %}
+    {% if b.drug %}<span class="tag fic">{{ b.drug }}</span>{% endif %}
+  </div>
+  <p>{{ t | statement_html | safe }} {{ t.evidence_ids | cite | safe }}</p>
+</div>
 {% endfor %}
 </div>
 </section>
 
+<!-- ================================================================ CANDIDATES -->
 <section class="panel" id="tab-candidates" data-name="candidates">
-<div class="plainbox"><b>In plain words.</b> Each gene gets a score from six independent kinds of evidence: how much it
-changes in UC biopsies (pooled over eight cohorts), in how many cohorts the change repeats, whether it differs between
-inflamed and non-inflamed mucosa of the same patient, human genetics, the literature and whether a drug exists. The
-weights are fixed in the configuration file before the results are seen.</div>
+{% include "candidate_evidence.html.j2" %}
+{{ plain('candidates') }}
 <h2>The convergence ranking</h2>
+<p class="lede">Each gene gets one score built from six kinds of evidence: how much it changes in UC biopsies (pooled over eight cohorts), in how many cohorts the change repeats, whether it differs between inflamed and non-inflamed mucosa of the same patient, human genetics, the literature and whether a drug exists or looks possible. Every kind is scaled from 0 to 1 and multiplied by a weight ({% for k, v in sw.items() %}{{ k }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). The weights live in <code>config.yaml</code> and were set before the results were known. {{ "{:,}".format(f.convergence.universe_size) }} genes are scored.</p>
+<div class="grid two">
+  {{ plot('stream_stack', figs.stream_stack) }}
+  {{ plot('component_heatmap', figs.component_heatmap) }}
+</div>
+<h3>Top 25 {{ q('top25') }}</h3>
+<div class="tw"><table>
+<thead><tr><th>#</th><th>Gene</th><th>Score</th>{% for k in sw %}<th>{{ k[:6] }}.</th>{% endfor %}<th>Rank 90 % interval</th>
+<th>Meta log2FC</th><th>Cohorts</th><th>Inflamed vs non-inflamed</th><th>Drugs (max stage)</th><th>Evidence</th></tr></thead>
+<tbody>
+{% for r in top25 %}{% set ids = [] %}{% for v in r.evidence_ids.values() %}{% for i in v %}{% set _ = ids.append(i) %}{% endfor %}{% endfor %}
+<tr class="claim" data-evidence="{{ ids | evattr }}">
+<td>{{ r.rank }}</td><td><strong>{{ r.gene }}</strong></td>
+<td class="num"><span class="score" style="width:{{ (r.score * 8) | round(0) | int }}px"></span>{{ r.score }}</td>
+{% for k in sw %}<td class="num">{{ r.components[k] }}</td>{% endfor %}
+<td class="num">{% if r.rank_interval_90 %}{{ r.rank_interval_90.rank_p05 }}–{{ r.rank_interval_90.rank_p95 }}{% else %}—{% endif %}</td>
+<td class="num">{{ r.meta_log2fc | fmt }}</td><td class="num">{{ r.cohorts_same_direction | fmt }}/8</td><td class="num">{{ r.paired_log2fc | fmt }}</td>
+<td>{% for d in r.drugs[:3] %}{{ d.name | title }} ({{ d.max_stage | replace("_"," ") | lower }}){% if not loop.last %}; {% endif %}{% endfor %}</td>
+<td>{{ ids[:6] | cite | safe }}</td></tr>
+{% endfor %}
+</tbody></table></div>
+<div class="howbox calc"><h4>How each column is calculated</h4>
+<p class="small" style="margin-top:0">Every evidence stream is turned into a number from 0 (no evidence) to 1 (strongest). The score is the sum of these numbers, each multiplied by its weight, so the largest possible score is {{ sw.values() | sum }}.</p>
+<div class="tw"><table><thead><tr><th>Column</th><th>What it measures</th><th>How it is calculated</th></tr></thead><tbody>
+<tr><td>Score</td><td>Overall strength of agreement</td><td>Sum over the six streams of weight × component.</td></tr>
+<tr><td>expres.</td><td>Change in UC biopsies</td><td>min(1, |pooled log2 fold change| ÷ 3) when the random-effects meta-analysis over the cohorts that measured the gene has an adjusted p below 0.05 (at least two cohorts).</td></tr>
+<tr><td>replic.</td><td>Repeats across cohorts</td><td>Share of the eight cohorts with a significant change in the same direction as the pooled estimate.</td></tr>
+<tr><td>inflam.</td><td>Local inflammation</td><td>min(1, |log2 fold change| ÷ 2) for inflamed against non-inflamed biopsies of the same MSCCR patients, when significant.</td></tr>
+<tr><td>geneti.</td><td>Human genetics</td><td>Open Targets germline genetic association score for UC.</td></tr>
+<tr><td>litera.</td><td>What the literature says</td><td>The larger of the checked PubMed relations ÷ 3 (up to 1) and the Open Targets literature score.</td></tr>
+<tr><td>tracta.</td><td>Druggability</td><td>1 if a drug for the gene reached the clinic (any disease), 0.5 if it looks tractable by a small molecule or antibody, 0 otherwise.</td></tr>
+<tr><td>Rank 90 % interval</td><td>How stable the rank is</td><td>5th to 95th percentile of the gene's rank over 1,000 random changes to the weights.</td></tr>
+<tr><td>Meta log2FC</td><td>Raw change</td><td>Pooled UC minus control on a log2 scale. +1 is twice as high.</td></tr>
+<tr><td>Cohorts</td><td>Agreement</td><td>Cohorts whose change has the same sign as the pooled change.</td></tr>
+<tr><td>Inflamed vs non-inflamed</td><td>Local change</td><td>Paired log2 fold change in MSCCR.</td></tr>
+<tr><td>Drugs</td><td>Existing drugs</td><td>Up to three drugs aimed at the gene with their most advanced clinical stage (Open Targets).</td></tr>
+</tbody></table></div></div>
+{% if f.narrative.sections.integration %}<h3 style="margin-top:1.6em">Integration</h3>{% endif %}
 {{ paras(f.narrative.sections.integration or []) }}
-<div class="plot">{{ figs.scores | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Each bar is a gene's convergence score split by the kind of evidence that contributes to it. Long bars made of many colours are supported by several independent kinds of evidence.</p></details>
-<div class="tw" style="margin-top:14px"><table><thead><tr><th>#</th><th>Gene</th><th class="num">Score</th><th class="num">Meta log2FC</th><th class="num">Cohorts</th><th class="num">Inflamed vs non-inflamed</th><th class="num">Genetics</th><th>Drugs</th></tr></thead><tbody>
-{% for r in ranking[:25] %}<tr><td class="num">{{ r.rank }}</td><td><b>{{ r.gene }}</b></td><td class="num">{{ r.score }}</td><td class="num">{{ r.meta_log2fc }}</td><td class="num">{{ r.cohorts_same_direction }}/5</td><td class="num">{{ r.paired_log2fc }}</td><td class="num">{{ r.ot_genetic_association }}</td><td>{{ r.drugs | map(attribute='name') | join(', ') if r.drugs else '' }}</td></tr>
-{% endfor %}</tbody></table></div>
 </section>
 
+<!-- ================================================================ EXPRESSION -->
 <section class="panel" id="tab-expression" data-name="expression">
-<div class="plainbox"><b>In plain words.</b> The starting point: biopsies of inflamed colon from people with UC compared
-with colon of people without inflammatory bowel disease. A gene much higher in inflamed tissue may be a target or a
-marker; a gene much lower is usually a normal colon gene the inflamed lining has lost. Each change is then checked in
-four more cohorts, and in non-inflamed mucosa of the same patients.</div>
+{{ plain('expression') }}
 <h2>What changes in ulcerative colitis</h2>
 {{ paras(f.narrative.sections.expression or []) }}
 <div class="grid two">
-  <div class="plot">{{ figs.volcano | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Each dot is a gene. Horizontal: how much higher (right) or lower (left) it is in inflamed UC colon than in control colon (log2 fold change; 1 = twice). Vertical: how sure that is (higher = more certain). Red and blue dots pass both thresholds.</p></details>
-  <div class="plot">{{ figs.replication | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Rows are the top candidates, columns the eight cohorts. Red = higher in UC, blue = lower. A row of one colour means the change repeats in every cohort. Microarray cohorts show smaller numbers than RNA-seq for the same change.</p></details>
+  {{ plot('volcano_ic', figs.volcano_ic) }}{{ plot('volcano_paired', figs.volcano_paired) }}
+  {{ plot('cohort_agree', figs.cohort_agree) }}{{ plot('replication', figs.replication) }}
 </div>
+<h3>Association with disease activity {{ q('activity') }}</h3>
+<p class="small">This shows how closely each gene follows the endoscopic Mayo subscore (0 normal to 3 severe) across the UC biopsies of MSCCR and of the Leuven vedolizumab cohort. Disease activity is the outcome-like measure available in biopsy cohorts; response to treatment is on the Treatment tab.</p>
+{{ plot('activity', figs.activity) }}
+<div class="howbox"><h4>How to read this chart</h4><ul>
+<li>Each gene has up to two bars: blue for MSCCR and orange for the Leuven cohort. The genes shown are the report candidates and the top of the convergence ranking.</li>
+<li>The horizontal axis is the Spearman correlation between the gene and the Mayo subscore, from -0.7 to +0.7.</li>
+<li>A bar to the right means the gene is higher in more active disease. A bar to the left means it is lower: usually a gene of the healthy lining that is lost as inflammation grows.</li>
+<li>When both cohorts point the same way, the link is more believable.</li></ul>
+<p class="small" style="margin:.5em 0 0">Strongest in MSCCR, higher with activity: {% for g, r in activity_caption.up %}{{ g }} ({{ r }}){% if not loop.last %}, {% endif %}{% endfor %}; lower with activity: {% for g, r in activity_caption.down %}{{ g }} ({{ r }}){% if not loop.last %}, {% endif %}{% endfor %}.</p></div>
 <h2>Local inflammation or disease-wide?</h2>
 {{ paras(f.narrative.sections.inflammation or []) }}
-<h2>Replication across cohorts</h2>
+<h2>Replication across cohorts {{ q('replication_table') }}</h2>
 {{ paras(f.narrative.sections.replication or []) }}
 {% if replication %}<div class="tw"><table><thead><tr><th>Cohort</th><th class="num">Discovery changes tested</th><th class="num">Same direction, significant</th><th class="num">Share</th><th class="num">Spearman rho</th></tr></thead><tbody>
-{% for r in replication %}<tr><td>{{ r.cohort }}</td><td class="num">{{ r.tested }}</td><td class="num">{{ r.replicated_same_direction }}</td><td class="num">{{ "%.0f" | format(100 * r.share) }} %</td><td class="num">{{ "%.2f" | format(r.rho) }}</td></tr>
+{% for r in replication %}<tr><td>{{ cohort_names.get(r.cohort, r.cohort) }}</td><td class="num">{{ r.tested }}</td><td class="num">{{ r.replicated_same_direction }}</td><td class="num">{{ "%.0f" | format(100 * r.share) }} %</td><td class="num">{{ "%.2f" | format(r.rho) }}</td></tr>
 {% endfor %}</tbody></table></div>{% endif %}
+{{ findings('expression', 'Expression agent findings') }}
 </section>
 
-<section class="panel" id="tab-discovery" data-name="discovery">
-<div class="plainbox"><b>In plain words.</b> Most top-ranked genes are already known. This screen looks for the
-opposite: genes that rise in UC mucosa, whose rise is a change of the tissue rather than cells flooding in, with
-little UC literature and no clinical drug, that look druggable and are low in vital organs. They are hypotheses to
-test, not proven targets.</div>
-<h2>New candidates</h2>
-{{ paras(f.narrative.sections.discovery or []) }}
-<div class="kpis">{% for k, v in extra.discovery_counts.items() %}<div class="kpi"><b>{{ v }}</b><span>{{ k }}</span></div>{% endfor %}</div>
-<div class="tw"><table><thead><tr><th>Gene</th><th class="num">Meta log2FC</th><th>Cell lineage</th><th class="num">UC papers</th><th>Tractable</th><th class="num">Vital-organ nTPM</th><th class="num">Change kept after composition</th></tr></thead><tbody>
-{% for r in extra.first_in_class %}<tr><td><b>{{ r.gene }}</b></td><td class="num">{{ r.log2fc }}</td><td>{{ r.lineage }}</td><td class="num">{{ r.papers }}</td><td>{{ r.tractable }}</td><td class="num">{{ r.vital }}</td><td class="num">{{ "%.0f" | format(100 * r.retained) }} %</td></tr>
-{% endfor %}</tbody></table></div>
-</section>
-
+<!-- ================================================================ CELLS -->
 <section class="panel" id="tab-cells" data-name="cells">
-<div class="plainbox"><b>In plain words.</b> Inflamed colon is full of cells that came in from the blood, above all
-neutrophils. A gene that looks higher in a biopsy may simply belong to those cells. This tab says which cell makes each
-candidate (three single-cell datasets, one of them with neutrophils), how much of each bulk change survives once the
-mix of cells is accounted for, and what the tissue looks like around the candidates (Xenium single cells for the genes on
-its 5,000-gene panel, Visium spots for every gene).</div>
-<h2>Which cell makes each candidate?</h2>
+{{ plain('cells') }}
+<h2>Which cells make each candidate?</h2>
+<p class="lede">The cell-type calls come from the colon single-cell atlas of Gubatan et al. 2026 ({{ "{:,}".format(cell.sc3_cells) }} cells from inflamed and non-inflamed UC mucosa), the only one that captures neutrophils. "Share of transcripts" is the part of a gene's RNA in inflamed mucosa that each cell family makes. It separates a gene the lining or the stroma makes from one that arrives with infiltrating cells. The composition adjustment then asks the same question in the bulk biopsies: how much of the UC change is left once the mix of cell types is accounted for. The last blocks repeat the attribution in a second atlas and in the tissue.</p>
 {{ paras(f.narrative.sections.cells or []) }}
-<div class="plot">{{ figs.cells | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Orange: share of the gene's RNA made by neutrophils in inflamed mucosa. Blue: share of the bulk change left after accounting for the mix of cells. A long orange bar with a short blue bar means the bulk increase is mostly neutrophils arriving.</p></details>
-{% if extra.visium %}<h3>Where the candidates sit in the tissue (Visium, whole transcriptome)</h3>
-<p class="small">{{ extra.visium_sections.uc }} inflamed UC and {{ extra.visium_sections.healthy }} healthy colon sections (GSE189184, {{ "{:,}".format(extra.visium_sections.spots) }} spots). One spot holds several cells, so this shows the tissue compartment a gene follows, not the single cell that makes it.</p>
-<div class="tw"><table><thead><tr><th>Gene</th><th>Compartment it follows</th><th class="num">rho</th><th>Next</th><th class="num">UC sections where first</th><th class="num">log2 UC / healthy</th></tr></thead><tbody>
-{% for r in extra.visium %}<tr><td><b>{{ r.gene }}</b></td><td>{{ r.compartment }}</td><td class="num">{{ r.rho }}</td><td>{{ r.second }}</td><td class="num">{{ r.first_in }} of {{ r.sections }}</td><td class="num">{{ r.log2_ratio }}</td></tr>
+<div class="grid two">
+  {{ plot('dotplot', figs.dotplot) }}{{ plot('share_stack', figs.share_stack) }}
+</div>
+{{ plot('neutrophil_retained', figs.neutrophil_retained) }}
+<h3>Cell type of each candidate {{ q('cell_table') }}</h3>
+<div class="tw" style="margin-top:14px"><table>
+<thead><tr><th>Gene</th><th>Highest-expressing cell type (mean)</th><th>% cells</th><th>Share of transcripts (top family)</th><th>Neutrophil share</th><th>τ</th>
+<th>Change kept after composition</th><th>Inflamed vs healthy, same cell type</th><th>Evidence</th></tr></thead><tbody>
+{% for t in cell.cell_rows %}
+<tr class="claim" data-evidence="{{ t.evidence_ids | evattr }}"><td><strong>{{ t.gene }}</strong></td>
+<td>{{ t.top_label }} <span class="small">({{ t.top_group }})</span></td><td class="num">{{ t.top_pct }}</td><td class="num">{{ t.top_share }}</td>
+<td class="num">{{ t.neutrophil_share | fmt }}</td><td class="num">{{ t.tau | fmt }}</td>
+<td class="num">{% if t.retained is not none %}{{ "%.0f" | format(100 * t.retained) }} % <span class="small">({{ t.verdict | replace("_"," ") }})</span>{% else %}—{% endif %}</td>
+<td class="num">{% if t.ivh %}log2FC {{ t.ivh.log2fc }} (padj {{ t.ivh.padj }}, {{ t.ivh.cluster }}){% else %}—{% endif %}</td><td>{{ t.evidence_ids[:4] | cite | safe }}</td></tr>
 {% endfor %}</tbody></table></div>
-<details class="howbox"><summary><b>How to read this table</b></summary><p>For each gene, the cell lineage whose marker genes rise and fall together with it across the spots of inflamed UC sections (median Spearman rho; marker sets never contain the gene itself). "UC sections where first" counts the sections in which that lineage came top; a gene expressed in fewer than 20 spots of a section is not scored there. The last column compares the gene's level in inflamed UC with healthy colon.</p></details>{% endif %}
-<p class="small">Xenium 5K sections: {% for s in extra.spatial_sections %}{{ s.state }} {{ s.gsm }}{% if s.study %} ({{ s.study }}{% endif %}, {{ "{:,}".format(s.cells) }} cells{% if s.median_counts_per_cell is defined %}, median {{ "%.0f" | format(s.median_counts_per_cell) }} transcripts per cell{% endif %}, {{ "%.0f" | format(100 * s.assigned_fraction) }} % typed){{ "; " if not loop.last }}{% endfor %}. Sections with fewer than half the cells typed are left out of the in-situ results.</p>
+
+<h2>Does a second atlas agree?</h2>
+<p class="lede">Smillie et al. 2019 profiled colon biopsies of UC patients and healthy people with a different protocol and without neutrophils. Both atlases were folded into shared lineages. For {{ cell.sc_rep.genes }} candidate genes measured in both, the dominant lineage is the same in {{ cell.sc_rep.same_lineage }}, and the share in that lineage correlates at rho {{ cell.sc_rep.rho }}. Neutrophil genes cannot agree: the first atlas has no neutrophils.</p>
+<div class="grid two">
+  {{ plot('sc_replication', figs.sc_replication) }}
+  <div class="tw"><table><thead><tr><th>Gene</th><th>Smillie 2019 lineage</th><th>Share</th><th>Second atlas lineage</th><th>Share</th></tr></thead><tbody>
+  {% for r in cell.sc_rep_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage_2019 }}</td><td class="num">{{ r.share_2019 | fmt }}</td><td>{{ r.lineage_2023 }}</td><td class="num">{{ r.share_2023 | fmt }}</td></tr>{% endfor %}
+  </tbody></table></div>
+</div>
+
+<h2>Where in the tissue, and what is next to it?</h2>
+{% set V = cell.visium %}
+<p class="lede">The tissue data are {{ "{:,}".format(V.spots) }} Visium spots from {{ V.sections }} colon sections (GSE189184; {{ "{:,}".format(V.uc_spots) }} spots in seven inflamed UC sections, the rest in two healthy ones). Each 55 µm spot mixes several cells, so its cell make-up is estimated by fitting it to the single-cell profiles of twelve cell groups (non-negative least squares on marker genes). The candidate genes were left out of that fit, which makes them a fair test of it: {% for g, v in V.validation_held_out.items() %}{{ g }} follows the {{ v.group | replace("_", " ") | lower }} share (rho {{ v.spearman }}){% if not loop.last %}, {% endif %}{% endfor %}. The correlations are positive but modest for low-count genes. Neutrophils make up {{ "%.1f" | format(100 * V.mean_share_uc.Neutrophil) }} % of the estimated transcripts in UC spots against {{ "%.1f" | format(100 * V.mean_share_healthy.Neutrophil) }} % in healthy ones, and the epithelium {{ "%.0f" | format(100 * V.mean_share_uc.Epithelial) }} % against {{ "%.0f" | format(100 * V.mean_share_healthy.Epithelial) }} %. The Tissue viewer tab shows the same data on the real H&amp;E sections.</p>
+{{ paras(f.narrative.sections.spatial or []) }}
+<p class="small">Use the menu above each map to pick a cell share or a candidate gene. These are the largest UC resection and a healthy biopsy.</p>
+<div class="grid two">
+  {{ plot('visium_maps', figs.map_uc) }}
+  {{ plot('visium_maps', figs.map_healthy) }}
+</div>
+<div class="grid two">
+  {{ plot('expressers', figs.expressers) }}
+  {{ plot('neighbors', figs.neighbors) }}
+</div>
+<p class="small">For each gene, we take the top tenth of spots in each UC section and look at the ring of six spots around each one (about 100 micrometres). We compare the cell make-up of those rings with rings around random spots of the same sections, as a ratio, so common cell types get no head start. A permutation test with 1,000 shuffles gives each p-value, adjusted over all genes and cell groups.</p>
+<h3>Tissue context of each candidate {{ q('spatial_table') }}</h3>
+<div class="tw"><table>
+<thead><tr><th>Gene</th><th>In-situ expresser (NNLS)</th><th>Share of in-situ signal</th><th>Composition-corrected source</th><th>Compartment it follows (marker co-variation)</th><th>High spots</th><th>Enriched neighbours (log₂ obs/exp, padj &lt; 0.05)</th><th>Evidence</th></tr></thead><tbody>
+{% for t in cell.spatial_rows %}
+<tr class="claim" data-evidence="{{ t.evidence_ids | evattr }}"><td><strong>{{ t.gene }}</strong></td><td>{{ t.top_expresser | fmt }}</td><td class="num">{{ t.contribution | fmt }}</td><td>{{ t.corrected | fmt }}</td>
+<td>{{ t.compartment | fmt }}</td><td class="num">{{ t.n_high }}</td>
+<td>{% for e in t.neighbors %}{{ e.cell_group | replace("_"," ") }} {{ "%+.2f"|format(e.log2_enrichment) }}{% if not loop.last %} · {% endif %}{% endfor %}{% if not t.neighbors %}—{% endif %}</td>
+<td>{{ t.evidence_ids[:4] | cite | safe }}</td></tr>
+{% endfor %}</tbody></table></div>
+<h3>Single-cell resolution in situ (Xenium 5K) {{ q('xenium_table') }}</h3>
+<p class="small">Xenium sections: {% for s in cell.xenium_sections %}{{ s.state }} {{ s.gsm }}{% if s.study %} ({{ s.study }}{% endif %}, {{ "{:,}".format(s.cells) }} cells{% if s.median_counts_per_cell is defined %}, median {{ "%.0f" | format(s.median_counts_per_cell) }} transcripts per cell{% endif %}, {{ "%.0f" | format(100 * s.assigned_fraction) }} % typed){{ "; " if not loop.last }}{% endfor %}. Sections with fewer than half the cells typed are left out. Many candidates are not on the 5,000-gene panel; Visium covers them.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Top lineage, inflamed sections</th><th>Share</th><th>% of cells expressing</th></tr></thead><tbody>
+{% for r in cell.xenium_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }}</td><td class="num">{{ r.share }}</td><td class="num">{{ r.pct }}</td></tr>{% endfor %}
+</tbody></table></div>
+{{ findings('cells', 'Cell-context agent findings') }}
 </section>
 
+<!-- ================================================================ PATHWAYS -->
 <section class="panel" id="tab-pathways" data-name="pathways">
-<div class="plainbox"><b>In plain words.</b> Genes act in pathways and cells talk to each other. This tab shows which
-signalling pathways are switched on in inflamed mucosa in all eight cohorts, and which cell sends which signal to which
-cell (a ligand on one cell, its receptor on another). Co-expression is not proof that the signal is used.</div>
+{{ plain('pathways') }}
 <h2>Immune pathways and cell-cell circuits</h2>
 {{ paras(f.narrative.sections.pathways or []) }}
-<div class="plot">{{ figs.pathways | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Rows are signalling pathways, columns the eight cohorts. Red = more active in UC than in controls (t statistic). Inflamed mucosa switches on many pathways at once.</p></details>
-<h3>Strongest ligand-receptor pairs in inflamed mucosa</h3>
-<div class="tw"><table><thead><tr><th>Ligand</th><th>Receptor</th><th>Sender</th><th>Receiver</th><th class="num">Score</th><th class="num">log2 change vs uninflamed</th></tr></thead><tbody>
+<div class="grid two">
+  {{ plot('pathways', figs.pathways) }}
+  {{ plot('tf_bars', figs.tf_bars) }}
+</div>
+<h3>Strongest ligand-receptor pairs in inflamed mucosa {{ q('communication') }}</h3>
+<div class="tw"><table><thead><tr><th>Ligand</th><th>Receptor</th><th>Sender</th><th>Receiver</th><th class="num">Score</th><th class="num">log2 change vs non-inflamed</th></tr></thead><tbody>
 {% for r in extra.communication + extra.osm %}<tr><td>{{ r.ligand }}</td><td>{{ r.receptor }}</td><td>{{ r.sender }}</td><td>{{ r.receiver }}</td><td class="num">{{ r.score }}</td><td class="num">{{ r.log2_change if r.log2_change is defined else "" }}</td></tr>
 {% endfor %}</tbody></table></div>
 <p class="small">The last rows show the neutrophil OSM → OSMR pair, whose top receiver is the inflammatory fibroblast.</p>
+{{ findings('pathways', 'Pathway agent findings') }}
 </section>
 
-{% if figs.mr %}<section class="panel" id="tab-genetics" data-name="genetics">
-<div class="plainbox"><b>In plain words.</b> People inherit small DNA differences that raise or lower the level of a
-protein in their blood all their life. If the people with the higher-level version also get ulcerative colitis more
-often, the protein is more likely to be a cause than a consequence of the disease (Mendelian randomisation). A drug that
-lowers a protein whose genetically higher level raises risk should protect. Blood levels are not levels in the gut
-wall, and a nearby variant can mimic the effect, so each hit is checked for a shared genetic signal (colocalisation).</div>
-<h2>Does genetically higher plasma protein change UC risk?</h2>
-<div class="kpis"><div class="kpi"><b>{{ "{:,}".format(extra.mr_counts.tested) }}</b><span>proteins with a cis-pQTL instrument</span></div>
-<div class="kpi"><b>{{ extra.mr_counts.significant }}</b><span>significant (BH q &lt; 0.05)</span></div>
-<div class="kpi"><b>{{ extra.mr_counts.colocalising }}</b><span>of these colocalise with an IBD GWAS signal</span></div>
-<div class="kpi"><b>{{ extra.mr_counts.clinical_significant | length }} / {{ extra.mr_counts.clinical_tested }}</b><span>UC clinical targets tested that are significant</span></div></div>
-<div class="plot">{{ figs.mr | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Each dot is a protein. Right of zero: genetically higher protein, higher UC risk (red when significant); left: lower risk (blue). Higher dots have stronger evidence. Grey dots are not significant after correction for testing every protein.</p></details>
-<h3>Significant proteins</h3>
+<!-- ================================================================ GENETICS -->
+<section class="panel" id="tab-genetics" data-name="genetics">
+{{ plain('genetics') }}
+<h2>Does genetically higher protein or expression change UC risk?</h2>
+<p class="lede">Mendelian randomisation uses inherited DNA variants that change how much of a gene product a person makes as a natural experiment. It is run three ways, with the same outcome (the UC GWAS of de Lange et al. 2017) and the same rules (fine-mapped cis credible sets from Open Targets 26.09, lead variant p &lt; 5×10⁻⁸, MHC and palindromic variants removed, Wald ratio or inverse-variance weighted estimate): with protein in <strong>blood</strong> (UK Biobank Pharma Proteomics Project), with gene expression in the <strong>colon wall</strong> (GTEx v10 transverse and sigmoid colon, CEDAR transverse colon and rectum biopsies) and with expression in <strong>single gut cell types</strong> (IBDverse, biopsies of people with and without IBD). Significant genes are checked for a shared genetic signal with an IBD GWAS (colocalisation).</p>
+<div class="kpis">
+  <div class="kpi"><b>{{ "{:,}".format(G.plasma.tested) }}</b><span>plasma proteins tested; {{ G.plasma.significant }} significant, {{ G.plasma.colocalising }} colocalise</span></div>
+  <div class="kpi"><b>{{ "{:,}".format(G.colon.tested) }}</b><span>genes tested with colon eQTL; {{ G.colon.significant }} significant, {{ G.colon.colocalising }} colocalise</span></div>
+  <div class="kpi"><b>{{ "{:,}".format(G.cell.tested) }}</b><span>genes tested in gut cell types; {{ G.cell.significant }} significant, {{ G.cell.colocalising }} colocalise</span></div>
+  <div class="kpi"><b>{{ G.plasma.clinical_significant | length }} / {{ G.plasma.clinical_tested }}</b><span>UC clinical targets tested in plasma that are significant</span></div>
+</div>
+<div class="grid two">
+  {{ plot('mr_plasma', figs.mr) }}
+  {{ plot('mr_colon', figs.mr_colon) }}
+  {{ plot('mr_agree', figs.mr_agree) }}
+  {{ plot('mr_cells', figs.mr_cells) }}
+</div>
+<div class="howbox"><h4>How to read these charts</h4><ul>
+<li><strong>Volcano plots.</strong> Each dot is a gene. Right of zero: the genetically higher level raises UC risk (red when significant); left: it lowers risk (blue). Higher dots have stronger evidence.</li>
+<li><strong>Blood against gut.</strong> For genes with instruments in both, the two estimates are plotted against each other. Agreement in direction supports the result; disagreement can be real biology (a gene acting differently in blood cells and in the gut wall).</li>
+<li><strong>Cell types.</strong> For candidate genes with a cell-type instrument, the estimate in each gut cell type. It shows in which cell the genetic effect is seen.</li></ul></div>
+<h3>Significant plasma proteins {{ q('mr_table') }}</h3>
 <div class="tw"><table><thead><tr><th>Protein (gene)</th><th class="num">OR per SD</th><th class="num">95 % CI</th><th class="num">p</th><th class="num">q</th><th class="num">Instruments</th><th>Colocalises</th><th>UC clinical target</th></tr></thead><tbody>
 {% for r in extra.mr %}<tr><td><b>{{ r.gene }}</b></td><td class="num">{{ r.or }}</td><td class="num">{{ r.ci[0] }}–{{ r.ci[1] }}</td><td class="num">{{ r.p }}</td><td class="num">{{ r.q }}</td><td class="num">{{ r.n }}</td><td>{{ r.coloc }}</td><td>{{ "yes" if r.clinical else "" }}</td></tr>
 {% endfor %}</tbody></table></div>
-<h3>The leading candidates</h3>
-<p class="small">{% for r in extra.mr_candidates %}<b>{{ r.gene }}</b> {% if r.tested %}OR {{ r.or }} (q {{ r.q }}){% else %}not tested{% endif %}{{ "; " if not loop.last }}{% endfor %}. "Not tested" means the protein has no cis-pQTL in UKB-PPP (or is not on the Olink panel); it is not evidence against the gene.</p>
-<p class="small">Exposure: UK Biobank Pharma Proteomics Project, European ancestry, fine-mapped cis-pQTL credible sets from Open Targets 26.09. Outcome: UC GWAS of de Lange et al. 2017 (GCST004133). Wald ratio or inverse-variance weighted estimate; MHC region and palindromic variants excluded.</p>
-</section>{% endif %}
-
-<section class="panel" id="tab-treatment" data-name="treatment">
-<div class="plainbox"><b>In plain words.</b> Biopsies taken before treatment in four trials and cohorts are compared
-between people who later responded and people who did not. Placebo arms are included: a gene that also separates
-placebo responders marks how severe the disease is, not how a drug works.</div>
-<h2>What separates responders?</h2>
-{{ paras(f.narrative.sections.treatment or []) }}
-<div class="plot">{{ figs.response | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Rows are pathways, columns the treatment arms (and placebo). Red = more active before treatment in people who did not respond. A red cell in a placebo column means the signal marks severity, not the drug.</p></details>
-<p class="small">Genes with BH-adjusted p &lt; 0.05 (non-responders vs responders): {% for k, v in extra.response_counts.items() %}{{ k }} {{ v }}{{ "; " if not loop.last }}{% endfor %}.</p>
-</section>
-
-<section class="panel" id="tab-validation" data-name="validation">
-<div class="plainbox"><b>In plain words.</b> Does the ranking find the targets of drugs already tested in ulcerative
-colitis, which it was never shown? And can an agent answer factual questions about the data with the tools?</div>
-<h2>Recovery of known UC targets ({{ extra.n_gold }} genes)</h2>
-<div class="tw"><table><thead><tr><th>Score</th><th class="num">AUROC</th><th class="num">95 % CI</th><th class="num">Recall@100</th><th class="num">Median rank</th></tr></thead><tbody>
-{% for r in extra.eval %}<tr><td>{{ r.score }}</td><td class="num">{{ r.auroc }}</td><td class="num">{{ r.auroc_ci95[0] }}–{{ r.auroc_ci95[1] }}</td><td class="num">{{ "%.0f" | format(100 * r.recall_at_100) }} %</td><td class="num">{{ r.median_rank }}</td></tr>
+<h3>Significant genes, colon expression {{ q('mr_table') }}</h3>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Tissue</th><th class="num">OR per SD</th><th class="num">q</th><th class="num">Instruments</th><th>Colocalises</th><th>Plasma estimate</th></tr></thead><tbody>
+{% for r in G.colon_rows %}<tr><td><b>{{ r.gene }}</b></td><td>{{ r.label }}</td><td class="num">{{ r.or }}</td><td class="num">{{ r.q }}</td><td class="num">{{ r.n }}</td><td>{{ r.coloc }}</td><td>{{ r.plasma or "—" }}</td></tr>
 {% endfor %}</tbody></table></div>
-<p class="small">Known UC targets are mostly druggable cytokines, receptors and integrins whose mRNA changes little in biopsies. Predicted tractability alone reaches almost the same AUROC as the target profile, but the profile places far more of them in its top 100: the gain is in early enrichment. Known-answer questions answered by an agent with the tools: {{ extra.qa }}.</p>
-{% if extra.temporal_wide %}<h3>Targets first tried in UC from {{ extra.temporal_cutoff[:4] }} on ({{ extra.temporal_wide[0].n_gold }} genes)</h3>
-<p class="small">Targets of drugs whose first UC trial started on or after {{ extra.temporal_cutoff }} and that reached phase 2; older UC targets are removed from the ranking. The data are not frozen at that date, so this is a retrospective check.</p>
-<div class="tw"><table><thead><tr><th>Score</th><th class="num">AUROC</th><th class="num">95 % CI</th><th class="num">Recall@100</th></tr></thead><tbody>
-{% for r in extra.temporal_wide %}<tr><td>{{ r.score }}</td><td class="num">{{ r.auroc }}</td><td class="num">{{ r.auroc_ci95[0] }}–{{ r.auroc_ci95[1] }}</td><td class="num">{{ "%.0f" | format(100 * r.recall_at_100) }} %</td></tr>
-{% endfor %}</tbody></table></div>{% endif %}
-{% if extra.agent_benchmark %}<h3>One agent or a team of agents?</h3>
-<p class="small">The same analysis run by the team (an Opus orchestrator and six Sonnet specialists working in parallel; three independent runs) and by one Opus agent doing all six jobs itself (one run). Checklist: 12 facts the data establish, fixed before reading the single-agent report.</p>
-<div class="tw"><table><thead><tr><th>Set-up</th><th>Run</th><th class="num">Statements</th><th class="num">Unsupported</th><th class="num">Checklist</th><th class="num">Specialist evidence cited</th><th class="num">Cost</th><th class="num">Minutes</th><th class="num">Turns</th></tr></thead><tbody>
-{% for r in extra.agent_benchmark %}<tr><td>{{ "Team" if r.arm == "team" else "One agent" }}</td><td>{{ r.run }}</td><td class="num">{{ r.statements }}</td><td class="num">{{ r.unsupported }}</td><td class="num">{{ r.checklist_score }}/{{ r.checklist_max }}</td><td class="num">{{ "%.0f" | format(100 * r.evidence_cited_share) }} %</td><td class="num">${{ "%.2f" | format(r.cost_usd) }}</td><td class="num">{{ r.minutes }}</td><td class="num">{{ r.turns }}</td></tr>
-{% endfor %}</tbody></table></div>{% endif %}
-{% if profiles %}<h3>Target and biomarker profiles (no literature, no drug history)</h3>
-<div class="grid two">{% for name, rows in profiles.items() %}<div class="card"><h4 style="margin:.1em 0">{{ name }} profile</h4>
-<ol class="small" style="color:var(--ink2)">{% for r in rows[:12] %}<li><b>{{ r.gene }}</b> {{ r.score }}{% if r.rank_interval_90 %} · top-10 in {{ "%.0f" | format(100 * r.rank_interval_90.p_top10) }} % of reweightings{% endif %}</li>{% endfor %}</ol></div>{% endfor %}</div>{% endif %}
-</section>
-
-<section class="panel" id="tab-literature" data-name="literature">
-<div class="plainbox"><b>In plain words.</b> What is already known: findings extracted from PubMed abstracts (each
-with its exact sentence), and drugs, genetics and druggability from Open Targets, ChEMBL and UniProt.</div>
-<h2>Literature</h2>
-{{ paras(f.narrative.sections.literature or []) }}
-<h2>Drugs, genetics and druggability</h2>
-{{ paras(f.narrative.sections.external or []) }}
-</section>
-
-<section class="panel" id="tab-network" data-name="network">
-<div class="plainbox"><b>In plain words.</b> The top genes (blue), the drugs that act on them (green) and the known
-protein interactions between them. It helps to see clusters; it is not proof of mechanism.</div>
-<h2>Network of the top candidates</h2>
-<div id="cy" style="height:600px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"></div>
-<p class="small" id="cy-info">Click an edge to see its evidence.</p>
-</section>
-
-<section class="panel" id="tab-methods" data-name="methods">
-<h2>How the report was built and checked</h2>
-<div class="howbox"><ul>
-<li><strong>Data.</strong> Eight public biopsy cohorts (GEO; four microarray, four RNA-seq), each analysed on its own
-scale; patients with several biopsies count once; changes combined by random-effects meta-analysis (a pooled estimate
-needs at least two cohorts). Three single-cell datasets; Xenium and Visium tissue sections; Mendelian randomisation with
-UKB-PPP plasma pQTL on the UC GWAS. Literature from PubTator3; external knowledge from Open Targets, STRING and UniProt.</li>
-<li><strong>Agents.</strong> {{ f.models.agents }}; orchestrator: {{ f.models.orchestrator }}.</li>
-<li><strong>Verification.</strong> {% if verification %}{{ verification.statements }} statements checked, {{ verification.unsupported }} unsupported, {{ verification.stale }} citing changed evidence. {{ verification.interpretation }}. {{ verification.scope }}.{% endif %}</li>
-</ul></div>
-<h3>Limitations</h3>
-<ul>{% for l in f.narrative.limitations %}<li>{{ l.text }}</li>{% endfor %}</ul>
-<h3>Datasets</h3>
-<div class="tw"><table><thead><tr><th>File</th><th>Source</th><th>sha256</th></tr></thead><tbody>
-{% for d in f.datasets %}<tr><td>{{ d.file }}</td><td><a href="{{ d.url }}">{{ d.url.split('/')[2] }}</a></td><td><code>{{ d.sha256[:12] }}</code></td></tr>{% endfor %}
+<h3>The leading candidates in all three layers</h3>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Plasma protein</th><th>Colon expression</th><th>Gut cell type (strongest)</th></tr></thead><tbody>
+{% for r in G.candidates %}<tr><td><b>{{ r.gene }}</b></td><td>{{ r.plasma }}</td><td>{{ r.colon }}</td><td>{{ r.cell }}</td></tr>{% endfor %}
 </tbody></table></div>
-<h3>Evidence cited in this report</h3>
-<div id="evlist">{% for e in evidence %}<div class="ev" id="{{ e.anchor }}"><b>[{{ loop.index }}]</b> {% if e.link %}<a href="{{ e.link }}">{{ e.label }}</a>{% else %}{{ e.label }}{% endif %} · {{ e.detail }} <code>{{ e.id }}</code></div>
-{% endfor %}</div>
+<p class="small">"Not tested" means the gene has no genetic instrument in that layer; it is not evidence against the gene. Colon eQTL come from people without IBD (GTEx) or healthy volunteers (CEDAR); IBDverse includes IBD patients. For the cell layer, the p-value of the strongest cell type is multiplied by the number of cell types tested for that gene before the correction over genes.</p>
+{{ findings('external', 'External-knowledge agent findings') }}
+</section>
+
+<!-- ================================================================ STRUCTURE -->
+<section class="panel" id="tab-structure" data-name="structure">
+{{ plain('structure') }}
+<h2>Structure and pockets</h2>
+{% include "protein_viewer.html.j2" %}
+<p class="lede">Cavities are detected on AlphaFold monomers after removing residues below pLDDT {{ S.config.min_plddt_keep }}. The pocket score orders the cavities of one protein: {% for k, v in S.config.weights.items() %}{{ k }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %} (confidence: mean pLDDT of the pocket walls; geometry: a volume of {{ S.config.pocket_volume[0] }}–{{ S.config.pocket_volume[1] }} Å³ and depth; hydrophobicity: average hydropathy of the cavity). UC small-molecule targets with approved or late drugs ({{ S.config.controls | join(", ") }}) are scored the same way as controls.</p>
+<div class="note bad"><strong>This is not a binding prediction.</strong> It describes the shape of a predicted monomer. It does not model a ligand, a binding mode or selectivity. The ligand-site check below tests cavity detection, not drug binding.</div>
+{{ paras(f.narrative.sections.structure or []) }}
+<div class="grid two">
+  {{ plot('pocket_bubble', figs.pocket_bubble) }}{{ plot('pocket_components', figs.pocket_components) }}
+  {{ plot('ligand_validation', figs.ligand_validation) }}{{ plot('control_ranking', figs.control_ranking) }}
+</div>
+{% if S.controls %}<p class="small">Controls (UC small-molecule targets) rank {% for c in S.controls %}{{ c.gene }} {{ c.rank }}{% if not loop.last %}, {% endif %}{% endfor %} of {{ S.controls[0].of }} proteins by best pocket score.</p>{% endif %}
+<h3>Best pocket per protein {{ q('pocket_table') }}</h3>
+<div class="tw"><table>
+<thead><tr><th>Gene</th><th>UniProt</th><th>Mean pLDDT</th><th>Pocket</th><th>Volume (Å³)</th><th>Depth (Å)</th><th>Hydropathy</th><th>Pocket score</th><th>Ligand-site recall (all / top 3)</th><th>Evidence</th></tr></thead><tbody>
+{% for r in S.rows %}
+<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong>{% if r.control %} <span class="tag">control</span>{% endif %}</td>
+<td><a href="https://www.uniprot.org/uniprotkb/{{ r.uniprot }}">{{ r.uniprot }}</a></td><td class="num">{{ r.mean_plddt }}</td><td class="num">{{ r.rank }}</td>
+<td class="num">{{ r.volume_a3 }}</td><td class="num">{{ r.max_depth_a }}</td><td class="num">{{ r.avg_hydropathy }}</td>
+<td class="num"><span class="score" style="width:{{ (r.pocket_score * 60) | round(0) | int }}px"></span>{{ r.pocket_score }}</td>
+<td class="num">{{ r.recall | fmt }} / {{ r.recall_top | fmt }}</td><td>{{ r.evidence_ids[:3] | cite | safe }}</td></tr>
+{% endfor %}</tbody></table></div>
+</section>
+
+<!-- ================================================================ DISCOVERY -->
+<section class="panel" id="tab-discovery" data-name="discovery">
+{{ plain('discovery') }}
+<h2>Target discovery: promising, little studied, no drug yet</h2>
+<p class="lede">The screen starts from <strong>{{ D.pool }}</strong> genes that rise in UC in the meta-analysis of eight cohorts (padj &lt; 0.05, log2FC ≥ 1, at least two cohorts). Each gene is then checked for how much of its rise survives the composition adjustment (a tissue change, not cells arriving), which cell family makes it, how much UC literature it has (Europe PMC), whether a clinical drug exists (Open Targets), whether it looks tractable, and how much it is expressed in vital organs (Human Protein Atlas). A gene is a <strong>first-in-class opportunity</strong> when it keeps at least half of its rise after adjustment, has few UC papers and no clinical drug, is tractable and stays at or below 50 nTPM in every vital organ ({{ kpis.fic }} genes: {% for t, n in D.fic_by_track.items() %}{{ n }} {{ t }}{% if not loop.last %}, {% endif %}{% endfor %}). These are hypotheses ranked by data, not validated targets.</p>
+{{ paras(f.narrative.sections.discovery or []) }}
+<div class="kpis">
+  {% for t, n in D.by_track.items() %}<div class="kpi"><b>{{ n }}</b><span>{{ t }} track</span></div>{% endfor %}
+  {% for k, v in D.status.items() %}<div class="kpi"><b>{{ v }}</b><span>{{ k }}</span></div>{% endfor %}
+</div>
+<div class="grid two">
+  {{ plot('discovery_scatter', figs.discovery_scatter) }}{{ plot('discovery_bars', figs.discovery_bars) }}
+</div>
+<h3>Spotlight: first-in-class candidates</h3>
+<p class="small">The best first-in-class genes of each cell family, ordered by the novelty score ({% for k, v in D.weights.items() %}{{ k | replace("_"," ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}; it only orders the list, the filters decide the status).</p>
+<div class="grid">
+{% for r in D.cards %}
+<div class="card cand claim" data-evidence="{{ r.evidence_ids | evattr }}">
+  <h3>{{ r.gene }} <span class="small">{{ r.name or "" }}</span></h3>
+  <div class="meta"><span class="tag {{ r.track }}">{{ r.track }} #{{ r.rank_in_track }}</span><span class="tag fic">first-in-class</span>
+    <span class="tag">novelty {{ r.novelty }}</span><span class="tag">{{ r.papers }} UC papers</span>
+    <span class="tag">kept {{ "%.0f" | format(100 * r.retained) }} %</span>{% if r.pocket %}<span class="tag">pocket {{ r.pocket }}</span>{% endif %}</div>
+  <p>{{ r.why }} {{ r.evidence_ids | cite | safe }}</p>
+</div>
+{% endfor %}
+</div>
+{{ plot('safety', figs.safety) }}
+<h3>Screen results (top 40 per track by novelty score) {{ q('discovery_table') }}</h3>
+<div class="filters">
+  <span class="small">Track</span>
+  <button class="chip" aria-pressed="true" data-ftrack="all">all</button><button class="chip" aria-pressed="false" data-ftrack="epithelial">epithelial</button>
+  <button class="chip" aria-pressed="false" data-ftrack="stromal">stromal</button><button class="chip" aria-pressed="false" data-ftrack="immune">immune</button>
+  <span class="small" style="margin-left:10px">Status</span>
+  <button class="chip" aria-pressed="false" data-fstatus="first-in-class opportunity">first-in-class</button>
+  <button class="chip" aria-pressed="false" data-fstatus="novel">any novel</button>
+  <input class="search" id="dsearch" type="search" placeholder="Search gene or lineage" aria-label="Search discovery table">
+  <span class="small" id="dcount"></span>
+</div>
+<div class="tw"><table id="dtable">
+<thead><tr><th>Gene</th><th>Track</th><th>Lineage (neutrophil share)</th><th>Novelty</th><th>Meta log2FC</th><th>Change kept</th><th>UC papers</th><th>Clinical drug</th><th>Tractability</th><th>Vital-organ max nTPM</th><th>Status</th><th>Evidence</th></tr></thead><tbody>
+{% for r in D.rows %}
+<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}" data-track="{{ r.track }}" data-status="{{ r.status }}" data-text="{{ (r.gene ~ ' ' ~ r.lineage) | lower }}">
+<td><strong>{{ r.gene }}</strong></td><td><span class="tag {{ r.track }}">{{ r.track }}</span></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td>
+<td class="num"><span class="score" style="width:{{ (r.novelty * 50) | round(0) | int }}px"></span>{{ r.novelty }}</td>
+<td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td>{{ "yes" if r.clinical else "no" }}</td><td>{{ r.tractable or "—" }}</td>
+<td class="num">{{ r.vital | fmt }}</td><td>{{ r.status }}</td><td>{{ r.evidence_ids[:3] | cite | safe }}</td></tr>
+{% endfor %}</tbody></table></div>
+<div class="note"><strong>Caveats.</strong> Literature volume is a Europe PMC title/abstract count for the gene symbol and UC terms; ambiguous or recently renamed symbols can under- or over-count. "No clinical drug" and tractability come from Open Targets (predicted tractability, not experimental). Vital-organ expression is RNA (HPA consensus), not protein. The composition adjustment uses marker-gene scores and can over-correct activated resident cells.</div>
+</section>
+
+{% include "tabs_clinical.html.j2" %}
+
+<!-- ================================================================ VALIDATION -->
+<section class="panel" id="tab-validation" data-name="validation">
+{{ plain('validation') }}
+<h2>Independent validation and robustness</h2>
+<p class="lede">Expression differences between UC and control colon are only one kind of evidence, so this tab collects the others: replication in independent adult and paediatric cohorts, the composition adjustment that separates tissue change from cell influx, causal genetics in blood and gut, and transcription-factor activity.</p>
+{{ paras(f.narrative.sections.validation or []) }}
+<div class="howbox"><h4>The four charts below, in plain words</h4><ol>
+<li><strong>External replication.</strong> Each dot is a gene. Horizontal: its change in MSCCR. Vertical: its change in UNIFI, a different set of adult patients measured by microarray. Dots along the diagonal agree.</li>
+<li><strong>Cell influx or tissue change.</strong> For each gene, one marker shows the change in the whole biopsy and another the change after adjusting for the mix of cells. If the second stays far from zero, the tissue itself changes. If it collapses, arriving cells were carrying it.</li>
+<li><strong>Blood and gut genetics.</strong> Each dot is a gene tested with instruments in both: the causal estimate from plasma protein and from colon expression.</li>
+<li><strong>Transcription factors.</strong> Each bar is a regulator. Longer bars mean its known target genes move together in inflamed mucosa, so it is probably more active.</li></ol></div>
+<div class="grid two">
+  {{ plot('replication_scatter', figs.cohort_agree) }}
+  {{ plot('composition_shift', figs.composition_shift) }}
+  {{ plot('genetics_agree', figs.mr_agree) }}
+  {{ plot('tf_bars', figs.tf_bars) }}
+</div>
+
+<h2>Does the signal replicate in held-out cohorts?</h2>
+<p class="lede">MSCCR drives most of the meta-analysis. The two paediatric RNA-seq cohorts, PROTECT and RISK, are separate patients (treatment-naive children), sequenced in other centres. The discovery changes of MSCCR replicate in the same direction at q &lt; 0.05 in {% for r in replication if r.cohort in ("GSE109142", "GSE117993") %}{{ "%.0f" | format(100 * r.share) }} % ({{ cohort_names[r.cohort] }}, rho {{ "%.2f" | format(r.rho) }}){% if not loop.last %} and {% endif %}{% endfor %} of tested genes.</p>
+<div class="grid two">
+  {{ plot('confirmatory', figs.confirm_protect) }}
+  {{ plot('confirmatory', figs.confirm_risk) }}
+</div>
+<h3>Candidates in the held-out cohorts</h3>
+<div class="tw"><table><thead><tr><th>Gene</th><th>MSCCR log2FC</th><th>PROTECT log2FC (q)</th><th>RISK log2FC (q)</th><th>Replicates</th></tr></thead><tbody>
+{% for r in confirm_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td class="num">{{ r.msccr }}</td><td class="num">{{ r.protect }} ({{ r.protect_q }})</td><td class="num">{{ r.risk }} ({{ r.risk_q }})</td><td>{{ r.replicates }}</td></tr>{% endfor %}
+</tbody></table></div>
+
+<h2>Two questions, two scores</h2>
+<p class="small">The overall score mixes target and biomarker evidence, so there are two separate profiles. The <strong>target</strong> profile weighs ({% for k, v in profile_weights.target.items() %}{{ k | replace("_", " ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). The <strong>biomarker</strong> profile weighs ({% for k, v in profile_weights.biomarker.items() %}{{ k | replace("_", " ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). Neither uses literature or drug history, which lets us test them against clinical targets below without the answer leaking into the score.</p>
+<div class="howbox calc"><h4>What the components of each profile mean</h4>
+<div class="tw"><table><thead><tr><th>Profile</th><th>Component</th><th>How it is calculated (each runs from 0 to 1)</th></tr></thead><tbody>
+<tr><td>Target</td><td>expression up</td><td>Like the expression column, but only increases in UC count.</td></tr>
+<tr><td>Target</td><td>tissue change</td><td>Share of the bulk change kept after the composition adjustment, when the adjusted change is significant. It rewards changes the tissue itself makes rather than arriving cells.</td></tr>
+<tr><td>Target</td><td>genetics</td><td>Open Targets germline association with UC.</td></tr>
+<tr><td>Target</td><td>tractability predicted</td><td>1 if the protein looks tractable by a small molecule or antibody. Existing clinical drugs are not used, so the score does not know the answer.</td></tr>
+<tr><td>Biomarker</td><td>expression any</td><td>Like the expression column, counting increases and decreases.</td></tr>
+<tr><td>Biomarker</td><td>replication</td><td>As the replication column.</td></tr>
+<tr><td>Biomarker</td><td>activity</td><td>min(1, |ρ| ÷ 0.4) for the strongest significant correlation with the Mayo subscore.</td></tr>
+<tr><td>Biomarker</td><td>inflammation</td><td>As the inflammation column (inflamed vs non-inflamed).</td></tr>
+</tbody></table></div></div>
+{% for name in ["target", "biomarker"] %}{% if profiles[name] %}
+<h3>{{ name | capitalize }} profile, top 25 {{ q('profile_table') }}</h3>
+<div class="tw"><table>
+<thead><tr><th>#</th><th>Gene</th><th>Score</th>{% for k in profile_weights[name] %}<th>{{ k | replace("_", " ") }}</th>{% endfor %}<th>Rank 90 % interval</th><th>P(top 10)</th><th>Evidence</th></tr></thead>
+<tbody>{% for r in profiles[name][:25] %}{% set allids = [] %}{% for v in r.evidence_ids.values() %}{% for i in v %}{% set _ = allids.append(i) %}{% endfor %}{% endfor %}
+<tr class="claim" data-evidence="{{ allids | evattr }}"><td>{{ r.rank }}</td><td><strong>{{ r.gene }}</strong></td><td class="num">{{ r.score }}</td>
+{% for k in profile_weights[name] %}<td class="num">{{ r.components[k] | fmt }}</td>{% endfor %}
+<td class="num">{% if r.rank_interval_90 %}{{ r.rank_interval_90.rank_p05 }}–{{ r.rank_interval_90.rank_p95 }}{% else %}—{% endif %}</td>
+<td class="num">{% if r.rank_interval_90 %}{{ r.rank_interval_90.p_top10 }}{% else %}—{% endif %}</td>
+<td>{{ allids[:6] | cite | safe }}</td></tr>
+{% endfor %}</tbody></table></div>
+{% endif %}{% endfor %}
+
+<h2>Robustness to the weights</h2>
+{{ paras(f.narrative.sections.robustness or []) }}
+<p class="small">Each ranking is recomputed 1,000 times with weights drawn at random around the chosen ones (each multiplied by a factor between 0.5 and 2). Dots are median ranks and bars cover the 5th to 95th percentile. A short bar near the top means the gene stays there whatever the weights.</p>
+<div class="howbox"><h4>How to read the stability charts</h4><ul>
+<li>Each row is a gene. The weights are changed at random 1,000 times, and each time the genes are ranked again.</li>
+<li>The dot is the gene's median rank and the bar is the range from the 5th to the 95th percentile. The horizontal axis is rank on a log scale, so left is better.</li>
+<li>A short bar near the left is a robust call. A long bar means the gene's position depends on how the weights were chosen, so do not trust its exact rank.</li></ul></div>
+<div class="grid two">
+  {{ plot('rank_charts', figs.rank_target) }}
+  {{ plot('rank_charts', figs.rank_biomarker) }}
+</div>
+{{ plot('rank_charts', figs.rank_conv) }}
+
+<h2>Evaluation against outcomes the scores do not see {{ q('outcomes') }}</h2>
+<p class="small">Gold sets: {{ evals.gold_sets.uc_clinical_targets | length }} UC clinical targets (phase ≥ 2 with at least two trials or approval, drugs with ≤ 5 targets) and the {{ evals.gold_sets.temporal_wide_targets | length }} targets first tried in UC on or after {{ evals.gold_sets.cutoff_wide }} ({{ evals.gold_sets.temporal_wide_targets | join(", ") }}), with older UC targets removed from the universe. The convergence score includes literature and drug history, so its clinical-target AUROC is partly circular.</p>
+<div class="howbox"><h4>How to read this evaluation</h4><ul>
+<li>We take genes the clinic did use as targets in UC and ask whether each score ranks them above the other genes. AUROC is the chance that a true target outranks a random gene: 0.5 is a coin flip and 1.0 is perfect.</li>
+<li>Recall at 100 is the share of true targets among the top 100 genes. The 95 % interval comes from resampling the true targets.</li>
+<li>The target and biomarker profiles use no literature or drug history, so they could not simply look up the answer.</li>
+<li>Clinical targets are mostly druggable proteins, so a score that only flags druggability also does well. The tractability rows show how much of the result that explains.</li>
+<li>The post-2016 set is retrospective, because the data used today were not frozen in 2016. Read it as a hint, not as a proof.</li></ul></div>
+{{ plot('outcomes', figs.outcomes) }}
+<div class="tw"><table><thead><tr><th>Gold set</th><th>Score</th><th>n</th><th>AUROC (95 % CI)</th><th>Recall@100</th><th>Median rank</th></tr></thead><tbody>
+{% for key, label in [("clinical_targets", "UC clinical targets"), ("temporal_wide", "First UC trial ≥ " ~ (evals.gold_sets.cutoff_wide or "")[:4])] %}
+{% for sname, m in evals[key].items() %}<tr><td>{{ label }}</td><td>{{ sname }}</td><td class="num">{{ m.n_gold }}</td>
+<td class="num">{{ m.auroc }} ({{ m.auroc_ci95[0] }}–{{ m.auroc_ci95[1] }})</td><td class="num">{{ (m.recall_at_100 * 100) | round(0) | int }} %</td>
+<td class="num">{{ "{:,}".format(m.median_rank) if m.median_rank is not none else "—" }}</td></tr>{% endfor %}
+{% endfor %}</tbody></table></div>
+<p class="small">Known-answer questions answered by an agent with the tools: {{ extra.qa }}. MR as a check: among the {{ G.plasma.clinical_tested }} UC clinical targets with a plasma instrument, {{ G.plasma.clinical_significant | join(", ") or "none" }} significant.</p>
+
+{% set cb = baselines.closed_book %}{% set pl = baselines.pipeline %}
+<h2>What does the agentic layer add? {{ q('baseline_table') }}</h2>
+<div class="tw"><table><thead><tr><th></th><th>Closed-book LLM (no tools)</th><th>GraphRAG pipeline</th></tr></thead><tbody>
+<tr><td>Runs</td><td class="num">{{ cb.lists | length }}</td><td class="num">{{ pl.lists | length }}</td></tr>
+<tr><td>Mean pairwise Jaccard of candidate lists</td><td class="num">{{ cb.mean_pairwise_jaccard }}</td><td class="num">{{ pl.mean_pairwise_jaccard }}</td></tr>
+<tr><td>Candidates that are UC clinical targets</td><td>{% for x in cb.share_clinical_targets %}{{ (x * 100) | round(0) | int }} %{% if not loop.last %}, {% endif %}{% endfor %}</td><td>{% for x in pl.share_clinical_targets %}{{ (x * 100) | round(0) | int }} %{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+<tr><td>Candidates in the data-only target / biomarker top 500</td><td>{% for x in cb.share_in_data_top500 %}{{ (x * 100) | round(0) | int }} %{% if not loop.last %}, {% endif %}{% endfor %}</td><td>{% for x in pl.share_in_data_top500 %}{{ (x * 100) | round(0) | int }} %{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+<tr><td>Statements citing checkable evidence</td><td>0</td><td>{{ pl.statements_checked | join(", ") }} checked, {{ pl.unsupported | sum }} unsupported</td></tr>
+</tbody></table></div>
+<p class="small">Closed-book candidates: {% for c in cb.lists %}{{ c | join(", ") }}{% if not loop.last %}; {% endif %}{% endfor %}.
+Pipeline targets: {% for c in pl.lists %}{{ c | join(", ") }}{% if not loop.last %}; {% endif %}{% endfor %}.</p>
+<h3>Orchestrator decisions vs the numeric convergence rank {{ q('agents_table') }}</h3>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Decision</th><th>Agent position</th><th>Convergence rank</th><th>Meta log2FC</th><th>Change kept</th><th>Plasma MR q</th><th>Target score</th><th>Biomarker score</th></tr></thead><tbody>
+{% for r in agents_vs_ranking %}<tr><td><strong>{{ r.gene }}</strong></td><td>{{ r.category }}</td><td class="num">{{ r.position }}</td><td class="num">{{ r.rank | fmt }}</td>
+<td class="num">{{ r.log2fc | fmt }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.mr_q | fmt }}</td><td class="num">{{ r.target | fmt }}</td><td class="num">{{ r.biomarker | fmt }}</td></tr>{% endfor %}
+</tbody></table></div>
+</section>
+
+<!-- ================================================================ LITERATURE -->
+<section class="panel" id="tab-literature" data-name="literature">
+{{ plain('literature') }}
+<h2>Literature evidence (PubTator3 + verbatim-validated relations)</h2>
+{{ paras(f.narrative.sections.literature or []) }}
+<div class="grid two">{{ plot('lit_relations', figs.lit_relations) }}{{ plot('lit_years', figs.lit_years) }}</div>
+{{ findings('literature', 'Literature agent findings') }}
+<h2>Drugs, genetics and druggability (Open Targets, STRING, UniProt)</h2>
+{{ paras(f.narrative.sections.external or []) }}
+{{ plot('drug_stage', figs.drug_stage) }}
+</section>
+
+<!-- ================================================================ NETWORK -->
+<section class="panel" id="tab-network" data-name="network">
+{{ plain('network') }}
+<h2>Network of top candidates {{ q('network') }}</h2>
+<p class="small">● gene (top 30) · ◆ drug (Open Targets, max 3 per gene) · ■ ulcerative colitis. Edges: drug → target, STRING interactions (score ≥ 0.7), up- or down-regulation in UC (meta-analysis). Click an edge to see its evidence id.</p>
+<div id="cy"></div>
+<p class="small" id="cy-info">&nbsp;</p>
+</section>
+
+{% include "agents_tab.html.j2" %}
+
+<!-- ================================================================ METHODS -->
+<section class="panel" id="tab-methods" data-name="methods">
+{{ plain('methods') }}
+<h2>Provenance</h2>
+<div class="tw"><table><thead><tr><th>File</th><th>Source</th><th>Bytes</th><th>Downloaded (UTC)</th><th>sha256</th></tr></thead>
+<tbody>{% for d in datasets %}<tr><td>{% if d.url %}<a href="{{ d.url }}">{{ d.file }}</a>{% else %}{{ d.file }}{% endif %}</td><td>{{ d.host }}</td><td class="num">{{ "{:,}".format(d.bytes) if d.bytes else "—" }}</td><td>{{ d.retrieved or "—" }}</td><td><code>{{ (d.sha256 or "")[:16] }}…</code></td></tr>{% endfor %}</tbody></table></div>
+<p class="small">Also used (not stored as files): Europe PMC counts, Open Targets (GraphQL API for associations and colocalisation; 26.09 bulk tractability, clinical precedence, studies and credible sets), STRING, UniProt, Reactome, AlphaFold DB, PDBe-KB, Human Protein Atlas consensus RNA, OmniPath ligand-receptor pairs, PROGENy and CollecTRI. Models: orchestrator — {{ f.models.orchestrator }}; agents — {{ f.models.agents }}; relation extraction — {{ f.models.relation_extraction | default("claude-sonnet-5-5") }}.
+All statistics are computed by deterministic Python code; the language models only chose what to query and wrote the interpretive text.
+{% if verification %}Automatic checks: {{ verification.statements }} retained statements checked; {{ verification.unsupported }} failures, {{ verification.stale }} citing changed evidence.
+{% if verification.unsupported == 0 %}No failures detected by the automatic checks.{% endif %}
+These checks do not constitute complete scientific validation.{% endif %}
+{% for name, a in f.agent_findings.items() %} Agent {{ name }}: {{ a.findings | length }} verified findings.{% endfor %}</p>
+<h2>Limitations</h2>
+<ul>{% for l in f.narrative.limitations %}<li>{{ l.text }}</li>{% endfor %}</ul>
+<h2>What is still missing</h2>
+<ul class="roadmap">
+<li>Nothing here was tested in the laboratory or in patients; the first-in-class genes need knock-down or antibody experiments in organoids or colitis models.</li>
+<li>Protein in the gut wall is not measured: the causal genetics use blood protein and gut RNA. A mucosal proteomics cohort would close that gap.</li>
+<li>The Visium deconvolution relies on one single-cell atlas and cell groups that co-occur (inflammatory fibroblasts and neutrophils in ulcers) are hard to separate; Visium HD or more Xenium sections with a custom panel would resolve them.</li>
+<li>Treatment-response arms other than UNIFI are small, and no gene separates a drug from placebo after correction.</li>
+<li>"Undrugged" uses Open Targets, not company pipelines, trial registries or patents.</li>
+</ul>
+<h2>Evidence ({{ evidence | length }} records cited)</h2>
+<div class="filters"><input class="search" id="esearch" type="search" placeholder="Filter evidence (gene, type, id)" aria-label="Filter evidence records"><span class="small" id="ecount"></span></div>
+<div id="evlist">
+{% for e in evidence %}
+<div class="ev" id="{{ e.anchor }}"><strong>[{{ loop.index }}]</strong> <span class="tag">{{ e.type | replace("_"," ") }}</span>
+{% if e.link %}<a href="{{ e.link }}">{{ e.label }}</a>{% else %}{{ e.label }}{% endif %} — {{ e.detail }} <code>{{ e.id }}</code></div>
+{% endfor %}
+</div>
 </section>
 
 </main>
-<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661, GSE109142, GSE117993, GSE165512, GSE312420, GSE339323, GSE189184; UKB-PPP via Open Targets; GWAS Catalog GCST004133; PubTator3; Open Targets; STRING; UniProt; HGNC. Not medical advice.</footer></div>
+<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661, GSE109142, GSE117993, GSE165512 (biopsies), SCP259 and SCP3755 (single cell), GSE312420, GSE339323 and GSE189184 (spatial); UKB-PPP, GTEx v10, CEDAR and IBDverse via Open Targets 26.09; GWAS Catalog GCST004133; PubTator3; Europe PMC; Open Targets; STRING; UniProt; AlphaFold DB; PDBe-KB; Human Protein Atlas; HGNC. Not medical advice.</footer></div>
 
 <script>
 (function(){
-  var panels=[].slice.call(document.querySelectorAll('.panel')), tabs=[].slice.call(document.querySelectorAll('.tab'));
-  var nb=document.getElementById('navbtn'), nm=document.getElementById('navmenu'), cy=null, cyData={{ network_json | safe }};
-  function closeMenu(){if(!nm.hidden){nm.hidden=true; nb.setAttribute('aria-expanded','false');}}
+  var root=document.documentElement, panels=[].slice.call(document.querySelectorAll('.panel')), tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var cy=null, cyData={{ network_json | safe }};
+  function css(v){return getComputedStyle(root).getPropertyValue(v).trim();}
+  function resizePlots(p){[].slice.call(p.querySelectorAll('.js-plotly-plot')).forEach(function(d){try{Plotly.Plots.resize(d);}catch(e){}});}
   function initCy(){
-    if(cy) return;
+    if(cy||!document.getElementById('cy')) return;
     cy=cytoscape({container:document.getElementById('cy'),elements:cyData.nodes.concat(cyData.edges),
       layout:{name:'cose',animate:false,nodeRepulsion:9000,idealEdgeLength:90},
-      style:[{selector:'node',style:{'label':'data(label)','font-size':10,'text-valign':'bottom','text-margin-y':3}},
-        {selector:'node[kind="gene"]',style:{'background-color':'#2a78d6','width':18,'height':18}},
-        {selector:'node[kind="drug"]',style:{'background-color':'#1baf7a','shape':'diamond','width':12,'height':12,'font-size':8}},
+      style:[
+        {selector:'node',style:{'label':'data(label)','font-size':10,'color':css('--ink'),'text-valign':'bottom','text-margin-y':3}},
+        {selector:'node[kind="gene"]',style:{'background-color':css('--s1'),'width':18,'height':18}},
+        {selector:'node[kind="drug"]',style:{'background-color':css('--s3'),'shape':'diamond','width':12,'height':12,'font-size':8}},
+        {selector:'node[kind="disease"]',style:{'background-color':css('--s4'),'shape':'round-rectangle','width':34,'height':20,'font-size':12,'font-weight':'bold'}},
         {selector:'edge',style:{'width':1.2,'line-color':'#9aa0aa','curve-style':'bezier','opacity':0.7}},
-        {selector:'edge[kind="drug"]',style:{'line-color':'#1baf7a','target-arrow-shape':'triangle','target-arrow-color':'#1baf7a'}}]});
-    cy.on('tap','edge',function(e){var d=e.target.data(); document.getElementById('cy-info').textContent=d.kind+': '+cy.getElementById(d.source).data('label')+' → '+cy.getElementById(d.target).data('label')+' · evidence '+d.ev;});
+        {selector:'edge[kind="drug"]',style:{'line-color':css('--s3'),'target-arrow-shape':'triangle','target-arrow-color':css('--s3')}},
+        {selector:'edge[kind="upregulated_in"]',style:{'line-color':css('--s8'),'line-style':'dashed'}},
+        {selector:'edge[kind="downregulated_in"]',style:{'line-color':css('--s1'),'line-style':'dashed'}}]});
+    cy.on('tap','edge',function(evt){var d=evt.target.data();
+      document.getElementById('cy-info').textContent=d.kind+': '+cy.getElementById(d.source).data('label')+' → '+cy.getElementById(d.target).data('label')+' · evidence '+d.ev;});
   }
   function show(name,push){
     var p=document.getElementById('tab-'+name)||document.getElementById('tab-overview'); name=p.getAttribute('data-name');
     panels.forEach(function(x){x.classList.toggle('on',x===p);});
     tabs.forEach(function(t){t.setAttribute('aria-selected',t.getAttribute('data-tab')===name?'true':'false');});
     var cur=tabs.filter(function(t){return t.getAttribute('data-tab')===name;})[0], cr=document.getElementById('navcrumb');
-    if(cur){cr.innerHTML=''; var c=document.createElement('span'), b=document.createElement('b'); c.className='cat';
-      c.textContent=cur.getAttribute('data-cat')+' › '; b.textContent=cur.firstChild.textContent; cr.appendChild(c); cr.appendChild(b);}
+    if(cur&&cr){cr.innerHTML=''; var c=document.createElement('span'), b=document.createElement('b'); c.className='cat'; c.textContent=cur.getAttribute('data-cat')+' › ';
+      b.textContent=cur.firstChild.textContent; cr.appendChild(c); cr.appendChild(b);}
     closeMenu();
-    if(name==='network'){initCy(); cy.resize(); cy.fit(undefined,30);}
-    [].slice.call(p.querySelectorAll('.js-plotly-plot')).forEach(function(d){try{Plotly.Plots.resize(d);}catch(e){}});
+    if(name==='network'){initCy(); if(cy){cy.resize();cy.fit(undefined,30);}}
+    resizePlots(p); if(name==='viewer'&&window.viewerShow) window.viewerShow();
     if(push!==false){try{history.replaceState(null,'','#tab='+name);}catch(e){}}
   }
   tabs.forEach(function(t){t.addEventListener('click',function(){show(t.getAttribute('data-tab'));window.scrollTo(0,0);});});
-  nb.addEventListener('click',function(e){e.stopPropagation(); var open=nm.hidden; nm.hidden=!open; nb.setAttribute('aria-expanded',open?'true':'false');});
-  document.addEventListener('click',function(e){if(!nm.hidden&&!e.target.closest('#navmenu,#navbtn')) closeMenu();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!nm.hidden){closeMenu(); nb.focus();}});
-  function step(d){var i=tabs.map(function(t){return t.getAttribute('aria-selected');}).indexOf('true'); var t=tabs[(i+d+tabs.length)%tabs.length]; show(t.getAttribute('data-tab')); window.scrollTo(0,0);}
+  var nb=document.getElementById('navbtn'), nm=document.getElementById('navmenu');
+  function closeMenu(){if(nm&&!nm.hidden){nm.hidden=true; nb.setAttribute('aria-expanded','false');}}
+  if(nb){nb.addEventListener('click',function(e){e.stopPropagation(); var open=nm.hidden; nm.hidden=!open; nb.setAttribute('aria-expanded',open?'true':'false');
+    if(open){var sel=nm.querySelector('.tab[aria-selected="true"]')||nm.querySelector('.tab'); if(sel) sel.focus();}});}
+  document.addEventListener('click',function(e){if(nm&&!nm.hidden&&!e.target.closest('#navmenu,#navbtn')) closeMenu();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&nm&&!nm.hidden){closeMenu(); nb.focus();}});
+  function step(d){var i=tabs.map(function(t){return t.getAttribute('aria-selected');}).indexOf('true');
+    var t=tabs[(i+d+tabs.length)%tabs.length]; show(t.getAttribute('data-tab')); window.scrollTo(0,0);}
   document.getElementById('navprev').addEventListener('click',function(){step(-1);});
   document.getElementById('navnext').addEventListener('click',function(){step(1);});
-  document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#ev-"]'); if(!a) return; var el=document.getElementById(a.getAttribute('href').slice(1)); if(!el) return; e.preventDefault(); show('methods',false); el.scrollIntoView({behavior:'smooth',block:'center'});});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="#"]'); if(!a) return;
+    var id=a.getAttribute('href').slice(1); if(!id||id.indexOf('tab=')===0) return;
+    var el=document.getElementById(id); if(!el) return; e.preventDefault();
+    var p=el.closest('.panel'); if(p) show(p.getAttribute('data-name'),false);
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+    try{history.replaceState(null,'','#'+id);}catch(x){}
+  });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('button.q'); if(!b) return;
+    var host=b.closest('.plot,.kpi,.card,h2,h3'); if(!host) return;
+    var open=b.getAttribute('aria-expanded')==='true', box=host._help;
+    if(open){b.setAttribute('aria-expanded','false'); if(box) box.hidden=true; return;}
+    if(!box){box=document.createElement('div'); box.className='helpbox';
+      function esc(t){var d=document.createElement('div'); d.textContent=t; return d.innerHTML;}
+      box.innerHTML='<p><b>What it shows.</b> '+esc(b.dataset.what)+'</p><p><b>How to read it.</b> '+esc(b.dataset.read)+'</p><p><b>Keep in mind.</b> '+esc(b.dataset.watch)+'</p>';
+      if(host.matches('h2,h3')) host.insertAdjacentElement('afterend',box);
+      else if(host.classList.contains('plot')) host.insertBefore(box,host.children[1]);
+      else host.appendChild(box);
+      host._help=box;}
+    box.hidden=false; b.setAttribute('aria-expanded','true');
+  });
+  var rows=[].slice.call(document.querySelectorAll('#dtable tbody tr')), ft='all', fs='', q='';
+  function filt(){
+    var n=0;
+    rows.forEach(function(r){
+      var okT=ft==='all'||r.dataset.track===ft;
+      var st=r.dataset.status, okS=!fs||(fs==='novel'?(st.indexOf('novel')===0||st==='first-in-class opportunity'):st===fs);
+      var okQ=!q||r.dataset.text.indexOf(q)>=0, vis=okT&&okS&&okQ; r.style.display=vis?'':'none'; if(vis)n++;});
+    var c=document.getElementById('dcount'); if(c) c.textContent=n+' of '+rows.length+' shown';
+  }
+  [].slice.call(document.querySelectorAll('[data-ftrack]')).forEach(function(b){b.addEventListener('click',function(){
+    ft=b.dataset.ftrack; [].slice.call(document.querySelectorAll('[data-ftrack]')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');}); filt();});});
+  [].slice.call(document.querySelectorAll('[data-fstatus]')).forEach(function(b){b.addEventListener('click',function(){
+    var on=b.getAttribute('aria-pressed')==='true'; [].slice.call(document.querySelectorAll('[data-fstatus]')).forEach(function(x){x.setAttribute('aria-pressed','false');});
+    fs=on?'':b.dataset.fstatus; if(!on) b.setAttribute('aria-pressed','true'); filt();});});
+  var ds=document.getElementById('dsearch'); if(ds) ds.addEventListener('input',function(){q=ds.value.trim().toLowerCase();filt();});
+  filt();
+  var ev=[].slice.call(document.querySelectorAll('#evlist .ev')), es=document.getElementById('esearch');
+  function efilt(){var s=es.value.trim().toLowerCase(),n=0; ev.forEach(function(e){var v=!s||e.textContent.toLowerCase().indexOf(s)>=0; e.style.display=v?'':'none'; if(v)n++;});
+    document.getElementById('ecount').textContent=n+' of '+ev.length+' shown';}
+  if(es){es.addEventListener('input',efilt);efilt();}
   var h=(location.hash||'').replace('#tab=','').replace('#','');
-  show(document.getElementById('tab-'+h)?h:'overview',false);
-  window.addEventListener('hashchange',function(){var h2=(location.hash||'').replace('#tab=','').replace('#',''); if(document.getElementById('tab-'+h2)) show(h2,false);});
+  var he=h?document.getElementById(h):null;
+  var start=document.getElementById('tab-'+h)?h:(he&&he.closest('.panel')?he.closest('.panel').getAttribute('data-name'):'overview');
+  window.addEventListener('hashchange',function(){var h2=(location.hash||'').replace('#tab=','').replace('#','');
+    if(document.getElementById('tab-'+h2)) show(h2,false);});
+  show(start,false); window.addEventListener('load',function(){resizePlots(document.querySelector('.panel.on'));});
 })();
 </script>
 </body>

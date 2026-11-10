@@ -6,9 +6,10 @@
 
 ### [Open the live report →](https://rsolerortuno.github.io/agentic-colitis-atlas/)
 
-**Browse the candidate targets, inspect the evidence behind every sentence, and explore cells, tissue sections, immune
-pathways, human genetics and treatment response.** The report opens directly in your browser; no installation is
-needed. Use the Sections menu and the "How to read this chart" boxes to explore each analysis.
+**Browse the candidate targets, inspect the evidence behind every sentence, and explore cells, real tissue sections
+with their H&E picture, 3D protein structures, immune pathways, human genetics in blood and gut, and treatment
+response.** The report opens directly in your browser; no installation is needed. Use the Sections menu, the "?"
+buttons next to every chart and the "How to read this chart" boxes to explore each analysis.
 
 [![Open interactive report](https://img.shields.io/badge/OPEN_INTERACTIVE_ATLAS-GitHub_Pages-087f8c?style=for-the-badge)](https://rsolerortuno.github.io/agentic-colitis-atlas/)
 
@@ -33,8 +34,9 @@ This project screens about 26,500 human genes against that question. For each ge
 public evidence: how the gene changes in inflamed colon compared with healthy colon in eight patient cohorts, whether
 the change is a change of the tissue or the arrival of immune cells, which cell makes it and where it sits in tissue
 sections, which immune pathways and cell-to-cell signals it belongs to, whether people who carry genetic variants that
-raise its blood level get the disease more often, how it relates to response to four biologics, and what the
-literature and drug databases already say. A gene is a good candidate when several unrelated lines of evidence agree.
+raise its level in blood or in the colon wall get the disease more often, whether its protein has a pocket a small
+molecule could use, how it relates to response to four biologics, and what the literature and drug databases already
+say. A gene is a good candidate when several unrelated lines of evidence agree.
 
 All statistics are computed by code. AI agents (Claude) only choose what to look at and write short explanations, and a
 separate checker verifies every sentence against the stored evidence. The output is a ranked list and a self-contained
@@ -111,8 +113,9 @@ and described in [data/README.md](data/README.md).
 | Treatment response | UNIFI ustekinumab and placebo, PURSUIT golimumab and placebo, infliximab (GSE16879), vedolizumab (GSE73661) | Biopsies taken before treatment |
 | Disease activity | Mayo endoscopic score (MSCCR, GSE73661) | One value per patient |
 | Single cells | Smillie et al. 2019 (Broad SCP259); Garrido-Trigo et al. 2023 (CZ CELLxGENE); Gubatan et al. 2026, with neutrophils (Broad SCP3755) | 365,492, 46,700 and 408,930 cells |
-| Tissue sections | Xenium 5K (GSE312420, GSE339323); Visium whole transcriptome (GSE189184) | 6 Xenium sections (619,017 cells); 9 Visium sections (16,699 spots) |
-| Human genetics | UC GWAS (de Lange et al. 2017, GWAS Catalog GCST004133); UK Biobank plasma pQTL (UKB-PPP, fine-mapped by Open Targets 26.09) | 1,693 proteins with a cis-pQTL instrument |
+| Tissue sections | Xenium 5K (GSE312420, GSE339323); Visium whole transcriptome with H&E images (GSE189184) | 6 Xenium sections (619,017 cells); 9 Visium sections (16,699 spots, deconvolved into 12 cell groups) |
+| Human genetics | UC GWAS (de Lange et al. 2017, GWAS Catalog GCST004133); fine-mapped QTL from Open Targets 26.09: plasma pQTL (UKB-PPP), colon eQTL (GTEx v10 transverse and sigmoid colon, CEDAR colon and rectum), gut cell-type eQTL (IBDverse single cell) | 1,693 proteins; 5,852 genes in colon tissue; 6,895 genes in about 60 gut cell types |
+| Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 46 proteins (candidates and 10 UC small-molecule targets as controls) |
 | Pathways and signals | PROGENy, CollecTRI (decoupler), OmniPath ligand-receptor pairs | 14 pathways, transcription factors, cell-to-cell pairs |
 | Literature | PubTator3 | 299 publications; 203 relations checked word for word |
 | Drugs and druggability | Open Targets 26.09, STRING, UniProt, Reactome, Human Protein Atlas | Clinical stage, tractability for every gene, vital-organ expression |
@@ -134,10 +137,21 @@ and described in [data/README.md](data/README.md).
   that survives decides whether it is a tissue change.
 - **Cells and tissue.** Pseudobulk cell-type attribution in three single-cell datasets; in Xenium sections, the
   share of a gene's transcripts in each cell lineage and the lineages enriched around expressing cells (permutation
-  test); in Visium sections, the tissue compartment whose markers rise and fall with the gene across spots.
-- **Mendelian randomisation.** Cis-pQTL instruments for plasma proteins (UKB-PPP) on the UC GWAS: Wald ratio or
-  inverse-variance weighted estimate, Benjamini-Hochberg over proteins, and a colocalisation check with IBD GWAS
-  signals for the significant ones.
+  test). Visium spots hold several cells, so each spot is deconvolved into 12 cell groups with the single-cell
+  profiles (non-negative least squares on marker genes; candidate genes are never markers). A gene's spot expression
+  is then regressed on the spot shares to name the cell group that explains it in the tissue, and the cell groups
+  around its top-decile spots are tested against random spots (permutation test), as in the kidney atlas.
+- **Mendelian randomisation.** Fine-mapped cis instruments on the UC GWAS, in three layers: plasma protein (UKB-PPP),
+  gene expression in colon tissue (GTEx v10, CEDAR) and in single gut cell types (IBDverse). Wald ratio or
+  inverse-variance weighted estimate, Benjamini-Hochberg over genes, and a colocalisation check with IBD GWAS signals
+  for the significant ones.
+- **Protein structure.** AlphaFold models trimmed below pLDDT 50, cavities detected with pyKVFinder and ordered by a
+  pocket score (model confidence, geometry, hydrophobicity); cavity detection checked against ligand-binding residues of
+  experimental structures (PDBe-KB).
+- **Patients and drug types.** Paediatric against adult cohorts, rectum against proximal colon, and a neutrophil
+  activity axis by Mayo grade; a suitability score for antibodies and other biologics (surface or secreted, increase,
+  vital-organ expression, share of patients); an immune-target score (immune share, coupling with infiltration,
+  increase, tractability, response).
 - **Treatment response.** Responders against non-responders per arm, placebo arms included, and a drug × arm
   interaction, with the published infliximab non-response genes (Arijs 2009) as a positive control.
 - **Discovery screen.** Genes that rise in UC as a tissue change, are tractable, have no clinical drug, few UC papers
@@ -172,11 +186,21 @@ PD-L1 (CD274) are strongly protective, consistent with IL-10-deficiency colitis 
 TNFRSF6B and CD274, both in the target profile's top ten, are protective, so genetics supports activating rather than
 blocking them. The leading expression candidates (CXCL8, IDO1, MMP1, CHI3L1) are null where they can be tested, and
 CXCR2, OSM, DUOX2, JAK2 and TNF have no plasma instrument.
+Repeating the test with expression measured in the colon wall finds 135 genes with a causal estimate, 38 of them
+sharing the UC or IBD GWAS signal: established IBD risk genes such as IRF5, GSDMB, RGS14, NXPE1, IRF8 and GNA12, and
+the TNFRSF6B locus again. IDO1, MMP1 and CHI3L1 are null in the colon too. Where a gene has instruments in both blood
+and colon (509 genes), the two estimates point the same way in 61 %.
 
 **Unexplored candidates.**
 A separate screen looks for genes that rise in UC as a tissue change, are reachable by a drug, have no clinical drug,
 few UC papers and low expression in vital organs. 36 pass, for example CHRDL2, CPXM1 and FIBIN in stroma, XKR9 and
 LYPD5 in the epithelium, LAX1 in T cells. They are hypotheses for experimental validation, not discoveries.
+
+**Where the candidates sit in the tissue.**
+Deconvolving the Visium spots puts S100A8, CXCL8, AQP9 and IL1B in neutrophils, MMP1, MMP3 and MMP10 in inflammatory
+fibroblasts, and LCN2, DUOX2 and REG1A in the epithelium, matching the single-cell attribution. Neutrophil-gene hot
+spots are surrounded by neutrophils and inflammatory fibroblasts, the ulcer-bed niche. Neutrophils make up 1.7 % of the
+estimated transcripts in UC spots against 0.9 % in healthy colon.
 
 **Cell-to-cell circuits.**
 Neutrophils send OSM to OSMR on inflammatory fibroblasts, the neutrophil-stromal circuit described by Gubatan et al.
@@ -193,21 +217,24 @@ STC1, TNFRSF11B) are all higher in non-responders, as reported.
 
 | Check | Result |
 |---|---|
-| Agent text against its evidence | 117 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
+| Agent text against its evidence | 126 statements checked, no failures detected by the automatic checks; 31 of 31 key findings of the specialists reach the report |
 | Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (76/76), other-gene attributions (81/81) and swapped evidence (81/81); 72 % of flipped directions where the sentence cites expression evidence (23/32), 32 % of all flipped directions (literature, cell and treatment sentences are not direction-checked) |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.83, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.81; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100, none for predicted tractability alone. Retrospective: the data are not frozen at 2016 |
 | Convergence score (includes literature and drug history) | AUROC 0.88, partly circular; data-only version 0.78 |
 | Mendelian randomisation positive controls | IL12B (ustekinumab target) is the strongest of 1,693 proteins; IL10 and CD274 protective. Only 15 of the 59 clinical targets have a plasma instrument |
 | Visium compartments against single-cell attribution | Neutrophil, epithelial and fibroblast genes land in the expected compartment (automated test) |
+| Visium deconvolution, held-out genes (never markers) | S100A8, LCN2, DUOX2, MMP3 and CHI3L1 follow the share of their single-cell cell group (Spearman 0.18–0.61); low-count genes such as CXCR2 follow weakly (0.07) |
+| Gut eQTL Mendelian randomisation | Known IBD risk genes (IRF5, GSDMB, RGS14, NXPE1) come out significant and colocalise (automated test for IRF5) |
+| Pocket score against UC small-molecule targets | The 9 controls (JAK1, JAK3, TYK2, S1PR1, S1PR5, PDE4B, PTGS2, PPARG, DHODH) rank 4 to 25 of 45 proteins; detected cavities cover a median 53 % of experimentally ligand-bound residues (28 proteins) |
 | Biomarker profile against UC clinical targets | AUROC 0.79 (biomarkers are not meant to be drug targets; reported for completeness) |
 | Known-answer questions answered with the project's tools | 10 of 10 |
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
 | Repeat agent runs (2026-11-09 data) | Three team runs: 116–120 statements, 0 unsupported; target-list overlap (Jaccard) 0.65–0.87, CXCR2 first in all |
 | Single agent against multi-agent (2026-11-09 data) | Same quality (0 unsupported, 10 of 12 checklist facts in every run); the team was about 27 % cheaper ($4.38 vs $6.07) and 2.4 times faster |
-| Report validator | 43 claims, 120 evidence records, 222 citation links, all resolvable, no external resources |
-| Knowledge graph | 521,562 claims, 0 without a resolvable evidence record |
-| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (197 files, SHA-256) re-creates every table and the report |
+| Report validator | 432 claims, 1,014 evidence records, 1,129 citation links, all resolvable, no external resources |
+| Knowledge graph | 534,237 claims, 0 without a resolvable evidence record |
+| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (207 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
 change little in biopsies, so expression-led rankings put them low; the genetics layer recovers several of them.
@@ -246,11 +273,16 @@ The online report is published automatically from `reports/uc_report.html` by
   scores also rise when resident cells become activated, so it can over-correct.
 - **Only one single-cell dataset captures neutrophils**, and it has no healthy controls; the others miss neutrophil
   genes. Ligand-receptor scores are co-expression, not proof that a signal is used.
-- **Spatial data are partial.** Visium spots hold several cells, so they give a compartment, not a cell. Two of the six
-  Xenium sections (GSE312420) have too few transcripts per cell and stay out of the results.
-- **Mendelian randomisation tests plasma protein**, not mucosal protein, from one platform and European ancestry only.
-  1,693 proteins have an instrument; CXCR2, CXCR1, OSM, DUOX2, JAK2, TNF and IL23R do not. A significant estimate
-  without colocalisation can come from a neighbouring variant.
+- **Spatial deconvolution is an estimate.** Visium spots are deconvolved with one single-cell atlas; cell groups that
+  occur together (neutrophils and inflammatory fibroblasts in ulcer beds) are hard to separate, and low-count genes
+  follow their cell group only weakly. Two of the six Xenium sections (GSE312420) have too few transcripts per cell
+  and stay out of the results.
+- **Mendelian randomisation covers RNA in the gut, not protein in the gut.** Gut instruments measure expression in
+  colon tissue (GTEx, CEDAR: people without IBD) and gut cell types (IBDverse); plasma instruments measure blood
+  protein. No mucosal protein QTL resource exists. All layers are European ancestry. Many candidates (CXCR2, OSM,
+  DUOX2, TNF) have no instrument in any layer. A significant estimate without colocalisation can come from a
+  neighbouring variant.
+- **Pocket scores describe shape**, not binding; they are computed on predicted monomers.
 - **Treatment-response tests are weak.** Infliximab and vedolizumab arms are small, the Leuven infliximab patients of
   two cohorts probably overlap, and no gene separates a drug from placebo.
 - **Platforms differ.** Microarrays compress fold changes and GSE16879 is MAS5 data on a log2 scale; the meta-analysis
@@ -268,6 +300,8 @@ The online report is published automatically from `reports/uc_report.html` by
 - One grading pattern of the known-answer questions was widened ("13th" for "13").
 - The wider temporal set (2016 cutoff, one phase 2 trial) was added after the planned 2018 subset had only 4 genes.
 - Two sparse Xenium sections were complemented with sections from another study rather than re-typed.
+- The gut eQTL layer, the Visium deconvolution, the pocket score and the subgroup, biologic and immune scores were
+  added on 2026-11-10 after the first report; their designs and weights were fixed before running them.
 
 ## 9. Repository map
 
@@ -291,8 +325,10 @@ tests/               automated tests
 | `download.py`, `cohorts.py`, `reproducibility.py` | Downloads with manifests, the sample table of the eight cohorts, the frozen-input check |
 | `expression.py`, `activity.py` | Per-cohort differential expression, meta-analysis, replication; correlation with disease activity |
 | `singlecell.py`, `sc_replication.py`, `sc_neutrophil.py`, `composition.py` | Cell attribution in three single-cell datasets, tissue change vs cell influx |
-| `spatial.py`, `spatial_visium.py`, `spatial_download.py` | Xenium cell typing, attribution and neighbourhoods; Visium compartments; downloads that skip the images |
-| `mr.py` | Mendelian randomisation with plasma pQTL and the colocalisation check |
+| `spatial.py`, `spatial_visium.py`, `spatial_deconv.py`, `spatial_download.py` | Xenium cell typing, attribution and neighbourhoods; Visium compartments, spot deconvolution, in-situ expressers, neighbourhoods and the tissue-viewer data; range-request downloads |
+| `mr.py`, `mr_colon.py` | Mendelian randomisation with plasma pQTL and with gut eQTL (colon tissue, gut cell types), colocalisation check |
+| `structure.py`, `protein_viewer.py` | AlphaFold models, pocket detection and score, ligand-site check, 3D viewer data |
+| `report_layers.py` | Rank stability, patient subgroups, biologic suitability, immune microenvironment, discovery ordering, evidence coverage |
 | `pathways.py`, `treatment.py`, `discovery.py` | Pathway and TF activity, ligand-receptor pairs; treatment response; discovery screen |
 | `literature.py`, `literature_entities.py`, `external.py`, `enrich.py` | PubTator ingestion and checked relation extraction; Open Targets, STRING, UniProt |
 | `graph.py`, `kg_build.py`, `kg_cells.py` | The knowledge graph and its loaders |
@@ -300,7 +336,7 @@ tests/               automated tests
 | `verify.py`, `semantic.py`, `provenance.py`, `coverage.py`, `assemble.py` | Sentence checks, the stale-evidence guard, key-finding coverage |
 | `mcp_servers/` | The tools the agents use |
 | `evaluate.py`, `qa.py`, `baselines.py`, `sabotage.py`, `agent_benchmark.py` | Tests against clinical targets, known-answer questions, a memory-only model, corrupted statements, one agent vs the team |
-| `render.py`, `report_extra.py`, `report_assets/` | The HTML report |
+| `render.py`, `report_figures.py`, `report_extra.py`, `report_help.py`, `report_text.py`, `report_assets/` | The HTML report: figures, plain-language help, tissue and protein viewers |
 
 ## 10. Glossary
 
@@ -316,6 +352,9 @@ tests/               automated tests
 | Mendelian randomisation | Using inherited variants that change a protein's level as a natural experiment for its effect on disease |
 | pQTL, colocalisation | A variant that changes a protein's level; colocalisation asks whether that variant and a disease signal are the same |
 | Tractable | Looks reachable by a drug, either a small molecule or an antibody |
+| eQTL / pQTL | A DNA variant that changes how much RNA (eQTL) or protein (pQTL) of a gene a person makes |
+| Deconvolution | Estimating which cell types make up a spot of tissue from its RNA |
+| pLDDT | AlphaFold's confidence in each residue of a predicted structure (0–100) |
 | AUROC | How well a score separates true cases from the rest: 0.5 is chance, 1.0 is perfect |
 | Knowledge graph | A database of claims, each linked to the evidence behind it |
 | MCP server | A program that gives an AI agent a fixed set of tools (here: queries of the graph and the data) |

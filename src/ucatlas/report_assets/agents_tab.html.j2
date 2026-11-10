@@ -1,0 +1,78 @@
+{% from "macros.j2" import q, plot, plain with context %}
+{#- "Agent benchmark" tab: one agent vs a team, how it was tested and what the checks found.
+    Every number comes from AB = evals/agent_benchmark.json and the published run's session file. -#}
+<style>
+.ab-k{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.ab-T{background:var(--s1)}.ab-S{background:var(--s2)}.ab-C{background:var(--s3)}
+.ab-bars{display:grid;gap:5px;margin:8px 0}
+.ab-row{display:grid;grid-template-columns:minmax(120px,210px) 1fr 74px;gap:10px;align-items:center;font-size:.82rem}
+.ab-row .lab{color:var(--ink2)}.ab-row .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+.ab-row .track{background:var(--chip);border-radius:4px;height:14px;overflow:hidden}
+.ab-row .fill{height:100%;border-radius:0 4px 4px 0}
+@media (max-width:640px){.ab-row{grid-template-columns:1fr 64px;row-gap:2px}.ab-row .lab{grid-column:1/-1}}
+.ab-grp{font-size:.78rem;font-weight:600;color:var(--muted);margin:12px 0 2px;text-transform:uppercase;letter-spacing:.04em}
+.ab-steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.ab-steps>li{counter-increment:s;position:relative;padding-left:44px;max-width:100ch}
+.ab-steps>li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--s1);color:#fff;font-weight:700;display:grid;place-items:center;font-size:.9rem}
+.ab-steps h3{margin:.15em 0 .3em}
+.ab-yes{color:var(--good);font-weight:700}.ab-no{color:var(--bad);font-weight:700}
+</style>
+{% macro bars(rows, max, fmt) -%}
+<div class="ab-bars">{% for r in rows %}
+<div class="ab-row"><span class="lab"><span class="ab-k ab-{{ r[0] }}"></span>{{ r[1] }}</span>
+<span class="track"><span class="fill ab-{{ r[0] }}" style="display:block;width:{{ [100 * r[2] / max, 0.6] | max }}%"></span></span>
+<span class="val">{{ fmt.format(r[2]) }}</span></div>{% endfor %}</div>
+{%- endmacro %}
+<section class="panel" id="tab-agents" data-name="agents">
+{{ plain('agents') }}
+<h2>One agent or a team of agents?</h2>
+<p class="lede">This atlas is written by a team of AI agents: six specialists gather evidence with their own tools (expression, cells, pathways, literature, external knowledge and genetics, and clinical translation) and an orchestrator writes the report. A team makes more calls than one agent, so the same analysis was also run by one agent doing every job itself, and the reports were marked the same way. This tab explains each step in plain words.</p>
+<ol class="ab-steps">
+<li><h3>Two set-ups, same everything else</h3>
+<div class="grid"><div class="card"><h3><span class="ab-k ab-T"></span>Team</h3><p>An Opus orchestrator launches six Sonnet specialists in parallel. Each has only the MCP tools of its field, writes a findings file that a program verifies, and the orchestrator writes the narrative from the verified findings.</p></div>
+<div class="card"><h3><span class="ab-k ab-S"></span>One agent</h3><p>One Opus agent gets all the tools of all specialists and does the six jobs one after another, then writes the same narrative. Same data, same graph, same verifier, same report template.</p></div></div></li>
+<li><h3>Run it more than once</h3><p>The team ran three times on the same data ({{ AB.team | map(attribute='run') | join(", ") }}) to see how much the text varies, and the single agent once ({{ AB.single | map(attribute='run') | join(", ") }}). Text from a language model is not bit-for-bit repeatable; the numbers come from the graph and are.</p></li>
+<li><h3>Mark the reports</h3><p>Three things are measured by programs: how many sentences pass the verifier (each must cite an existing record about the same gene, with matching numbers, that has not changed since it was read), how many of the specialists' key findings reach the final text, and the cost, time and number of turns from the session logs. A checklist of {{ AB.team[0].checklist_max }} facts the data establish was written before the single-agent report was read, and each report is marked for each fact.</p></li>
+</ol>
+
+<h3>Results</h3>
+<div class="grid two">
+<div class="card">
+<div class="ab-grp">Statements checked (all passed)</div>
+{{ bars([("T", "Team, run 1", AB.team[0].statements), ("T", "Team, run 2", AB.team[1].statements), ("T", "Team, run 3", AB.team[2].statements), ("S", "One agent", AB.single[0].statements)], 170, "{:,}") }}
+<div class="ab-grp">Checklist facts present (of {{ AB.team[0].checklist_max }})</div>
+{{ bars([("T", "Team, run 1", AB.team[0].checklist_score), ("T", "Team, run 2", AB.team[1].checklist_score), ("T", "Team, run 3", AB.team[2].checklist_score), ("S", "One agent", AB.single[0].checklist_score)], AB.team[0].checklist_max, "{}") }}
+<div class="ab-grp">Key findings of the specialists cited in the text</div>
+{{ bars([("T", "Team, run 1", AB.team[0].key_findings), ("T", "Team, run 2", AB.team[1].key_findings), ("T", "Team, run 3", AB.team[2].key_findings), ("S", "One agent", AB.single[0].key_findings)], 30, "{}") }}
+</div>
+<div class="card">
+<div class="ab-grp">Cost (US dollars, subscription-equivalent)</div>
+{{ bars([("T", "Team, run 1", AB.team[0].cost_usd), ("T", "Team, run 2", AB.team[1].cost_usd), ("T", "Team, run 3", AB.team[2].cost_usd), ("S", "One agent", AB.single[0].cost_usd)], 7, "${:.2f}") }}
+<div class="ab-grp">Minutes, start to rendered report</div>
+{{ bars([("T", "Team, run 1", AB.team[0].minutes), ("T", "Team, run 2", AB.team[1].minutes), ("T", "Team, run 3", AB.team[2].minutes), ("S", "One agent", AB.single[0].minutes)], 18, "{}") }}
+<div class="ab-grp">Turns (model calls)</div>
+{{ bars([("T", "Team, run 1", AB.team[0].turns), ("T", "Team, run 2", AB.team[1].turns), ("T", "Team, run 3", AB.team[2].turns), ("S", "One agent", AB.single[0].turns)], 170, "{}") }}
+</div>
+</div>
+<div class="tw" style="margin-top:14px"><table><thead><tr><th>Checklist fact</th>{% for r in AB.team %}<th>Team {{ loop.index }}</th>{% endfor %}<th>One agent</th></tr></thead><tbody>
+{% for k in AB.team[0].checklist %}<tr><td>{{ k | replace("_", " ") }}</td>{% for r in AB.team %}<td>{% if r.checklist[k] %}<span class="ab-yes">yes</span>{% else %}<span class="ab-no">no</span>{% endif %}</td>{% endfor %}<td>{% if AB.single[0].checklist[k] %}<span class="ab-yes">yes</span>{% else %}<span class="ab-no">no</span>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">Target lists overlap (Jaccard) between runs: {% for k, v in AB.target_jaccard.items() %}{{ k | replace("2026-11-09_", "") }} {{ v }}{% if not loop.last %}; {% endif %}{% endfor %}. The same two facts were missed by every run: the OSM → OSMR circuit is in the pathway agent's findings but not in the final summary, and the published infliximab signature check is in the treatment table but was not named.</p>
+
+<h2>What the comparison says</h2>
+<ul class="roadmap">
+<li><strong>Same quality.</strong> Every run passed the verifier with no unsupported sentence and the same checklist score. The single agent wrote more sentences and cited a larger share of the evidence it collected; the team reached more of the specialists' key findings because a coverage step checks that each one is cited.</li>
+<li><strong>The team is cheaper and faster.</strong> ${{ "%.2f" | format(team_mean.cost) }} and {{ "%.1f" | format(team_mean.minutes) }} minutes on average against ${{ "%.2f" | format(AB.single[0].cost_usd) }} and {{ AB.single[0].minutes }} minutes: Sonnet specialists in parallel cost less than one Opus agent working in sequence.</li>
+<li><strong>Variation is in emphasis, not in facts.</strong> CXCR2 led every list; the runs differ in which second-tier genes they promote.</li>
+</ul>
+
+<h2>How the published run was checked</h2>
+<ol class="ab-steps">
+<li><h3>A checked format</h3><p>Each specialist writes JSON with a fixed schema: gene, role, statement and evidence ids. A program rejects records that do not exist, belong to another gene or carry numbers that do not match.</p></li>
+<li><h3>Key findings must reach the report</h3><p>After the narrative is written, a coverage step lists every key finding of the specialists that the text does not cite; the orchestrator adds them or explains why not. In the published run {{ session.coverage }}.</p></li>
+<li><h3>Evidence must be current</h3><p>Every record carries a fingerprint of the data it came from. When the data change (as they did when three cohorts were added), sentences citing old records are flagged as stale and the run is redone, which is why the published run is from {{ session.run }}.</p></li>
+<li><h3>Tools must be reachable</h3><p>A test starts every MCP server the way the agents do and checks that each tool is registered. It was added after the first run with the genetics tools found them missing: they were registered after the server had started.</p></li>
+<li><h3>Sabotage test</h3><p>Copies of the published sentences were corrupted on purpose (changed numbers, another gene, swapped evidence, flipped direction) to see what the verifier catches: {{ sabotage }}.</p></li>
+</ol>
+<p class="small">Published run: {{ session.run }}, {{ session.statements }} statements, {{ session.unsupported }} unsupported, cost ${{ session.cost }}, {{ session.minutes }} minutes. The benchmark runs were made on the 2026-11-09 data, before three cohorts were added; they are kept as they were.</p>
+</section>

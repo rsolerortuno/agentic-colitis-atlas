@@ -78,3 +78,39 @@ def test_enough_dense_xenium_sections():
 def test_wider_temporal_set_is_large_enough():
     ev = json.loads((PROCESSED.parents[1] / "evals" / "results.json").read_text(encoding="utf-8"))
     assert len(ev["gold_sets"]["temporal_wide_targets"]) >= 15
+
+
+# ------------------------------------------------------------------ 2026-11-10, second round
+def test_gut_mr_layers_and_positive_signals():
+    r = pd.read_parquet(PROCESSED / "mr_colon.parquet")
+    assert set(r.layer) == {"colon_tissue", "gut_cell"}
+    col = r[r.layer == "colon_tissue"].set_index("gene")
+    # IRF5 is an established IBD risk gene: genetically higher colon expression raises risk and colocalises
+    assert col.at["IRF5", "q"] < 0.05 and col.at["IRF5", "beta"] > 0 and col.at["IRF5", "colocalises"] is True
+
+
+def test_visium_deconvolution_attributes_known_cells():
+    import json
+    s = json.loads((PROCESSED / "spatial_visium_summary.json").read_text())
+    t = {x["gene"]: x for x in s["targets"]}
+    assert t["S100A8"]["top_in_situ_expresser"] == "Neutrophil"
+    assert t["MMP3"]["top_in_situ_expresser"] == "Inflammatory_fibroblast"
+    assert t["LCN2"]["top_in_situ_expresser"] == "Epithelial"
+    # candidates are never deconvolution markers
+    markers = {g for ms in s["marker_genes"].values() for g in ms}
+    assert not markers & {"S100A8", "MMP3", "LCN2", "DUOX2", "CXCR2", "IL11"}
+    assert s["mean_share_uc"]["Neutrophil"] > s["mean_share_healthy"]["Neutrophil"]
+
+
+def test_structure_controls_have_pockets():
+    import json
+    st = json.loads((PROCESSED / "structure_summary.json").read_text())
+    ctrl = [r for r in st["results"] if r.get("control") and r["modeled"]]
+    assert len(ctrl) >= 8 and all(r["pockets"] for r in ctrl)
+
+
+def test_fingerprint_ignores_float_noise_not_changes():
+    from ucatlas.provenance import fingerprint
+    r = {"evidence_id": "x", "gene": "G", "retained": 0.7976121951555426}
+    assert fingerprint(r) == fingerprint({**r, "retained": 0.7976121951555432})
+    assert fingerprint(r) != fingerprint({**r, "retained": 0.7977})

@@ -84,10 +84,20 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     if (spatial_visium.D / "manifest.json").exists():
         _step("spatial (Visium)", lambda: (spatial_visium.run(list(dict.fromkeys(expression_top(300) + extra))),
                                            spatial_visium.load_graph())[1])
+        from . import spatial_deconv
+        _step("spatial (Visium deconvolution)",
+              lambda: (spatial_deconv.run(list(dict.fromkeys(expression_top(300) + extra + spatial_deconv.EXTRA))),
+                       spatial_deconv.viewer(spatial_deconv.VIEWER_GENES), spatial_deconv.load_graph())[2])
     from . import mr
     if mr.EXTRACT.exists() and mr.GWAS.exists():
         _step("Mendelian randomisation (pQTL)", lambda: (mr.run(), mr.load())[0])
+    from . import mr_colon
+    if mr_colon.EXTRACT.exists() and mr.GWAS.exists():
+        _step("Mendelian randomisation (gut eQTL)", lambda: (mr_colon.run(), mr_colon.load())[0])
     _step("convergence", lambda: _rebuild_convergence(run))   # also loads the citable ranking records
+    from . import report_layers, structure
+    _step("structure (AlphaFold pockets)", lambda: (structure.run(structure.targets(run)), structure.load_graph())[1])
+    _step("report layers", lambda: list(report_layers.run()))
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))

@@ -3,13 +3,13 @@
  "findings": [
   {
    "gene": "CXCR2",
-   "role": "target_and_biomarker",
-   "statement": "CXCR2 leads the convergence ranking: up in UC biopsies (meta log2FC [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.814]), with Open Targets genetic association among the leading UC targets, tractable by small molecule and antibody, and several CXCR1 and CXCR2 antagonists in clinical development for other indications (reparixin up to phase three; navarixin, ladarixin, danirixin, elubrixin and SX-682 at phase two). It has no cis-pQTL, so MR is not tested, which is not evidence against it.",
+   "role": "target",
+   "statement": "CXCR2 is the top convergence candidate: up in all eight cohorts (meta log2FC [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.814]), Open Targets association score [gene=CXCR2; type=open_targets_association; source=Open Targets Platform; score=0.5345], and small-molecule antagonists in the clinic (reparixin, navarixin, ladarixin, danirixin, elubrixin, SX-682). Reactome places it in neutrophil degranulation and chemokine receptor signalling. It has no cis-pQTL or gut eQTL instrument, so MR is not tested (not evidence against).",
    "evidence_ids": [
     "EV:expression_meta:1fce9fb2531f",
     "EV:open_targets_assoc:7d06375723b1",
-    "EV:open_targets_tract:1fce9fb2531f",
-    "EV:open_targets_drug:b6ab97730b13"
+    "EV:open_targets_drug:b6ab97730b13",
+    "EV:open_targets_tract:1fce9fb2531f"
    ],
    "numeric_claims": [
     {
@@ -19,29 +19,25 @@
      ],
      "display": "2.814",
      "unit": "native"
+    },
+    {
+     "evidence_id": "EV:open_targets_assoc:7d06375723b1",
+     "field": [
+      "score"
+     ],
+     "display": "0.5345",
+     "unit": "native"
     }
    ],
    "key": true
   },
   {
-   "gene": "CXCR1",
-   "role": "target_and_biomarker",
-   "statement": "CXCR1, the second CXCL8 receptor, is second in the convergence ranking, up in seven of eight cohorts, with Open Targets genetic association and the same dual CXCR1 and CXCR2 antagonists (reparixin, ladarixin, navarixin, SX-682). Its signal is probably shared with CXCR2 and neutrophil infiltration, so the two are not independent.",
-   "evidence_ids": [
-    "EV:expression_meta:450a602fd6f8",
-    "EV:open_targets_assoc:b086d247accc"
-   ],
-   "numeric_claims": [],
-   "key": false
-  },
-  {
    "gene": "CXCL8",
-   "role": "biomarker",
-   "statement": "CXCL8 is strongly and consistently up in UC mucosa (meta log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.864]) with anti-CXCL8 antibodies in mid-stage clinical development. Genetic support is absent (no Open Targets genetic association) and plasma MR is null (p [gene=CXCL8; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.289]), so it is supported as an inflammation marker, not as a causal target.",
+   "role": "target_and_biomarker",
+   "statement": "CXCL8 (the ligand of CXCR1 and CXCR2, with a very high-confidence STRING link to CXCR2) is strongly up (meta log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.864]) in all eight cohorts, but has no Open Targets genetic association and its plasma-protein MR is null (p [gene=CXCL8; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.289]). The signal is expression/inflammation-led, not genetically supported; anti-CXCL8 antibodies reached only phase two.",
    "evidence_ids": [
     "EV:expression_meta:1e78b2f07f0c",
-    "EV:mendelian_randomization:1e78b2f07f0c",
-    "EV:open_targets_drug:505c7fa32e1a"
+    "EV:mendelian_randomization:1e78b2f07f0c"
    ],
    "numeric_claims": [
     {
@@ -64,13 +60,32 @@
    "key": true
   },
   {
+   "gene": "CXCL5",
+   "role": "mechanism",
+   "statement": "CXCL5 is up in biopsies, yet plasma-protein MR is significant in the opposite direction: higher protein lowers UC risk (OR per SD [gene=CXCL5; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.634]), using a tag variant and without colocalisation with the IBD GWAS. Blood genetics therefore do not support blocking this chemokine axis and the signal may come from a neighbouring variant.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:f16933725bec",
+    "EV:expression_meta:f16933725bec"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:f16933725bec",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "0.634",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
    "gene": "CD274",
-   "role": "target",
-   "statement": "CD274 (PD-L1) is up in biopsies and genetically supported; plasma MR shows higher protein lowers UC risk (OR per SD [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595]) and colocalises with an IBD GWAS signal. The direction implies that PD-L1 upregulation is protective or compensatory, so PD-L1 blockade (approved checkpoint antibodies, e.g. sugemalimab) would be the wrong direction for UC; agonism would be the logical approach.",
+   "role": "mechanism",
+   "statement": "CD274 (PD-L1) is up in the biopsies but plasma-protein MR shows higher protein lowers UC risk (OR per SD [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595]) with colocalisation to an IBD GWAS signal. It looks like a protective feedback response, so PD-L1 inhibitors (approved in oncology) would be expected to be unfavourable; agonism would be the direction suggested. No gut eQTL instrument.",
    "evidence_ids": [
     "EV:mendelian_randomization:822a01cbf7e8",
-    "EV:expression_meta:822a01cbf7e8",
-    "EV:open_targets_assoc:3cad6fefb485"
+    "EV:expression_meta:822a01cbf7e8"
    ],
    "numeric_claims": [
     {
@@ -87,13 +102,20 @@
   {
    "gene": "IL12B",
    "role": "target",
-   "statement": "IL12B is an established UC target (top Open Targets association, drugs ustekinumab and guselkumab-class IL-23 agents in the record) with the strongest MR signal: higher protein raises UC risk (OR per SD [gene=IL12B; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=1.539]), colocalising with IBD GWAS. In biopsies it changes only modestly (meta log2FC [gene=IL12B; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.436]; convergence rank 98), an example of a genetically supported gene that is weak in bulk expression.",
+   "statement": "IL12B is the top known UC target by Open Targets (association score [gene=IL12B; type=open_targets_association; source=Open Targets Platform; score=0.7424]) and the strongest plasma MR hit: higher protein raises UC risk (OR per SD [gene=IL12B; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=1.539]) with colocalisation, supporting the existing inhibition of the IL-12 and IL-23 axis (ustekinumab). It is a positive control for the MR design.",
    "evidence_ids": [
     "EV:mendelian_randomization:9dfc6633064a",
-    "EV:expression_meta:9dfc6633064a",
     "EV:open_targets_assoc:93c96b29b09a"
    ],
    "numeric_claims": [
+    {
+     "evidence_id": "EV:open_targets_assoc:93c96b29b09a",
+     "field": [
+      "score"
+     ],
+     "display": "0.7424",
+     "unit": "native"
+    },
     {
      "evidence_id": "EV:mendelian_randomization:9dfc6633064a",
      "field": [
@@ -101,33 +123,25 @@
      ],
      "display": "1.539",
      "unit": "native"
-    },
-    {
-     "evidence_id": "EV:expression_meta:9dfc6633064a",
-     "field": [
-      "log2fc"
-     ],
-     "display": "0.436",
-     "unit": "native"
     }
    ],
    "key": true
   },
   {
-   "gene": "IL10",
-   "role": "mechanism",
-   "statement": "IL10 has high Open Targets genetic association; MR indicates higher plasma IL-10 lowers UC risk (OR per SD [gene=IL10; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.071], a single instrument, colocalising with IBD GWAS), so the estimate is imprecise and the effect size should not be taken literally. It is a protective-axis gene with only a small biopsy change and no approved drug in the record.",
+   "gene": "JAK2",
+   "role": "target",
+   "statement": "JAK2 has the second-highest Open Targets association score ([gene=JAK2; type=open_targets_association; source=Open Targets Platform; score=0.7318]) and drugs in the clinic, but it changes only modestly in biopsies (small meta effect, lower expression component) and has no MR instrument. It is genetically/known-target supported rather than expression-led.",
    "evidence_ids": [
-    "EV:mendelian_randomization:dddeb2e6c55d",
-    "EV:open_targets_assoc:d5129675eae7"
+    "EV:open_targets_assoc:3c2fb97467a0",
+    "EV:expression_meta:c36b80d82ff8"
    ],
    "numeric_claims": [
     {
-     "evidence_id": "EV:mendelian_randomization:dddeb2e6c55d",
+     "evidence_id": "EV:open_targets_assoc:3c2fb97467a0",
      "field": [
-      "odds_ratio_per_sd"
+      "score"
      ],
-     "display": "0.071",
+     "display": "0.7318",
      "unit": "native"
     }
    ],
@@ -136,12 +150,22 @@
   {
    "gene": "IDO1",
    "role": "target_and_biomarker",
-   "statement": "IDO1 is strongly and consistently up across cohorts and has clinical-stage inhibitors (linrodostat Phase 3; epacadostat listed at approval stage by Open Targets, for other indications), but it has no genetic association with UC in Open Targets and plasma MR is null (p [gene=IDO1; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.111]). It is an expression-led candidate with drug availability but no genetic support.",
+   "statement": "IDO1 is strongly up (meta log2FC [gene=IDO1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.118]) in all eight cohorts with inhibitors in the clinic (epacadostat, linrodostat), but there is no Open Targets genetic association and plasma MR is null (p [gene=IDO1; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.111]); colon eQTL is also not significant. Tryptophan catabolism is the Reactome pathway.",
    "evidence_ids": [
+    "EV:expression_meta:2b76723dce27",
     "EV:mendelian_randomization:2b76723dce27",
-    "EV:open_targets_drug:c3b7dc4c3af0"
+    "EV:mendelian_randomization_gut:228b44455afc",
+    "EV:open_targets_drug:5b23b2c524fb"
    ],
    "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:2b76723dce27",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.118",
+     "unit": "native"
+    },
     {
      "evidence_id": "EV:mendelian_randomization:2b76723dce27",
      "field": [
@@ -154,64 +178,90 @@
    "key": false
   },
   {
-   "gene": "MMP1",
-   "role": "biomarker",
-   "statement": "MMP1 is one of the most consistently up genes (eight of eight cohorts) with broad-spectrum MMP inhibitors in the record (marimastat, doxycycline), but genetics are absent and plasma MR with many instruments is not significant after correction. The evidence supports a tissue-damage biomarker; MMP3, MMP7 and MMP10 follow the same pattern.",
-   "evidence_ids": [
-    "EV:mendelian_randomization:221893f3b477",
-    "EV:expression_meta:221893f3b477"
-   ],
-   "numeric_claims": [],
-   "key": false
-  },
-  {
-   "gene": "CHI3L1",
-   "role": "biomarker",
-   "statement": "CHI3L1 is among the strongest and most replicated expression changes (eight of eight cohorts, inflamed-versus-non-inflamed signal), with antibody and protein tractability predicted but no drug and no Open Targets genetic association. DUOX2 has the same profile, so both are best used as activity biomarkers.",
-   "evidence_ids": [
-    "EV:expression_meta:b3f7b3e784f8",
-    "EV:open_targets_tract:b3f7b3e784f8"
-   ],
-   "numeric_claims": [],
-   "key": false
-  },
-  {
-   "gene": "CXCL5",
+   "gene": "FCGR2A",
    "role": "mechanism",
-   "statement": "CXCL5 is up in biopsies, but plasma MR runs the other way: higher protein lowers UC risk (OR per SD [gene=CXCL5; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.634]), without colocalisation, from only two instruments. The mucosal increase may be reactive rather than causal, and inhibiting it is not supported.",
+   "statement": "FCGR2A has a high Open Targets genetic association score ([gene=FCGR2A; type=open_targets_association; source=Open Targets Platform; score=0.5543]) and is up in biopsies, but plasma MR is null (p [gene=FCGR2A; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.68]) and the gut cell-type test is also not significant; it has no drug in Open Targets. The expression change likely reflects infiltrating myeloid cells.",
    "evidence_ids": [
-    "EV:mendelian_randomization:f16933725bec",
-    "EV:expression_meta:f16933725bec"
+    "EV:mendelian_randomization:532320c14455",
+    "EV:open_targets_assoc:cb2f72bdfb24"
    ],
    "numeric_claims": [
     {
-     "evidence_id": "EV:mendelian_randomization:f16933725bec",
+     "evidence_id": "EV:open_targets_assoc:cb2f72bdfb24",
      "field": [
-      "odds_ratio_per_sd"
+      "score"
      ],
-     "display": "0.634",
+     "display": "0.5543",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:mendelian_randomization:532320c14455",
+     "field": [
+      "p"
+     ],
+     "display": "0.68",
      "unit": "native"
     }
    ],
    "key": false
   },
   {
-   "gene": "FCGR2A",
-   "role": "mechanism",
-   "statement": "FCGR2A combines high Open Targets genetic association (top 25 UC targets) with a significant but modest expression increase in biopsies (convergence rank 20), but it has no drug and only predicted tractability. It is genetically supported and expressed, a good candidate for follow-up.",
+   "gene": "IL2RA",
+   "role": "target",
+   "statement": "IL2RA has genetic association and approved/clinical drugs (basiliximab, aldesleukin), but plasma MR is null (p [gene=IL2RA; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.237]) and colon eQTL MR is also not significant, so genetic causality for UC is not shown in these layers.",
    "evidence_ids": [
-    "EV:open_targets_assoc:cb2f72bdfb24",
-    "EV:expression_meta:532320c14455"
+    "EV:mendelian_randomization:0d28c0dab75c",
+    "EV:mendelian_randomization_gut:aa6970fe6437"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:0d28c0dab75c",
+     "field": [
+      "p"
+     ],
+     "display": "0.237",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "biomarker",
+   "statement": "CHI3L1 is among the largest and most replicated biopsy increases (meta log2FC [gene=CHI3L1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.875]) but has no genetic association and no drug; tractability is predicted only. Better suited as a biomarker than a target.",
+   "evidence_ids": [
+    "EV:expression_meta:b3f7b3e784f8",
+    "EV:open_targets_tract:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:b3f7b3e784f8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.875",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "SLC26A3",
+   "role": "biomarker",
+   "statement": "SLC26A3 is down in biopsies and has Open Targets genetic association with no drug; epithelial transporter loss is a genetically supported tissue-change marker rather than an inhibitable target.",
+   "evidence_ids": [
+    "EV:expression_meta:6a7d4f43d1fa",
+    "EV:open_targets_assoc:0a80030df616"
    ],
    "numeric_claims": [],
    "key": false
   }
  ],
  "caveats": [
-  "Plasma protein MR is not mucosal protein; a null MR does not rule out a local role, and CXCR2, CXCR1 and IL1B have no cis-pQTL (not tested).",
-  "Drug stages come from Open Targets and are for any indication; they are not UC efficacy evidence.",
-  "MR was run only for a handful of leading candidates plus the mr_hits list; MR for the remaining ranked genes was not examined.",
-  "Pathway and STRING interaction data were not queried within the budget; CXCR2 Reactome pathways are neutrophil degranulation, chemokine receptors bind chemokines and G alpha(i) signalling.",
-  "The top-ranked expression genes may largely reflect neutrophil and myeloid infiltration; bulk biopsy data cannot separate this from epithelial change."
+  "Plasma MR is not tissue MR; many top candidates (CXCR2, JAK2, CXCL8 colon) have no instrument, which is not evidence against them.",
+  "Strongest gut eQTL hits (for example IRF8, IRF5, GSDMA and GSDMB) are not among the top expression-ranked genes, so blood/gut genetics and biopsy expression largely identify different genes.",
+  "Drug lists come from Open Targets and include trials in other indications; none is shown to be tested in UC here.",
+  "Genetically supported genes that barely change in biopsies (JAK2, FCGR2A, IL2RA) may act through immune cells or be diluted in bulk tissue.",
+  "The PubMed connector needed authorization and was not used."
  ]
 }

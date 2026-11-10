@@ -30,7 +30,7 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    {"summary":  [{"text": "...", "evidence_ids": ["..."]}],
     "sections": {"expression": [...], "inflammation": [...], "replication": [...], "literature": [...],
                  "external": [...], "cells": [...], "pathways": [...], "treatment": [...],
-                 "discovery": [...], "integration": [...]},
+                 "spatial": [...], "discovery": [...], "integration": [...]},
     "targets":  [{"gene": "OSM", "category": "target|biomarker|target_and_biomarker",
                   "rationale": "...", "evidence_ids": ["..."]}],
     "limitations": [{"text": "..."}]}
@@ -42,7 +42,8 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `replication` (1 paragraph): how well the discovery cohort's changes reproduce in the four microarray and three RNA-seq cohorts.
    - `literature`, `external` (1–2 paragraphs each) from the corresponding verified agent files; in `external`
      separate approved UC targets from expression-led candidates without a drug, and name genetic support (GWAS association and Mendelian
-     randomisation with plasma pQTL: direction and colocalisation).
+     randomisation with plasma pQTL and with gut eQTL in colon tissue and gut cell types: direction, colocalisation and
+     whether blood and gut agree).
    - `cells` (2–3 paragraphs) from the cell findings in `agent_single.verified.json`: which cell makes each leading candidate (epithelium,
      stroma, myeloid cells, neutrophils, lymphocytes), whether the attribution replicates, and which bulk changes are
      tissue changes vs. cell influx after the composition adjustment (with its over-correction caveat). Use this to
