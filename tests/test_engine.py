@@ -94,3 +94,16 @@ def test_engine_has_no_oncology_specific_terms():
     hits = [f"{p.name}:{i}" for p in files for i, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1)
             if bad.search(line)]
     assert not hits, hits
+
+
+def test_direction_check_reads_the_meta_analysis(toy):
+    st, up, _ = toy
+    with st.batch():
+        meta = st.add_evidence(evidence_id("expression_meta", "LCN2"), "expression_meta", "DATASET:META", gene="LCN2",
+                               layer="rna", log2fc=2.9, padj=1e-12, significant=True)
+        st.add_claim("gene:LCN2", "upregulated_in", "MONDO:0005101", meta)
+    v = verify.Verifier(store=st)
+    bad, _ = v.check_statement({"gene": "LCN2", "statement": "LCN2 is strongly down in UC.", "evidence_ids": [meta]})
+    ok, log = v.check_statement({"gene": "LCN2", "statement": "LCN2 is moved down the list; drugs reach up to phase 3.",
+                                 "evidence_ids": [meta]})
+    assert bad is None and ok is not None, log

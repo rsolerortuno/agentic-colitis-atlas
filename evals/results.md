@@ -85,3 +85,14 @@ single-agent report (`src/ucatlas/agent_benchmark.py`).
   writes more statements and cites more of the evidence it collected.
 - **Stability.** Target-list Jaccard between team runs 0.65–0.87; CXCR2 first in all three; the single agent's list
   overlaps the team's by 0.59–0.80.
+
+## (g) Verifier sabotage test (review of 2026-11-10)
+
+Every statement of the published run that passes verification was copied and corrupted one way at a time
+(`uv run python -m ucatlas.sabotage`, evals/verifier_sabotage.json): a wrong digit in a number 78/78 caught, the
+statement given to another gene 83/83, another gene's evidence 83/83, the direction word flipped 16/55 overall and
+16/25 when the statement cites significant bulk expression evidence for its gene. The direction check is narrow by
+design (it reads only significant per-cohort and meta-analysis changes); a flipped direction in a sentence about a
+paper or a cell type is not detected. Two fixes came from this test: the direction check now also reads the
+meta-analysis records (before, 1 of 55 flips was even eligible), and ordering words ("moved down") and "up to" are no
+longer read as expression directions.

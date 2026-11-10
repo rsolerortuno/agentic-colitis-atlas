@@ -25,13 +25,13 @@ EXEMPT_BEFORE = re.compile(r"(\b(phase|rank|ranked|top|grade|stage|tier|version|
 THRESHOLD_BEFORE = re.compile(r"(\bat|<|≤|<=|>|≥|>=|threshold|cut-?off|alpha|α|fdr|bh)\s*$", re.I)
 THRESHOLDS = {0.001, 0.01, 0.05, 0.1, 0.25}   # significance levels written as such ("not significant at 0.05")
 DRUG_AFTER = re.compile(r"^\s+[A-Z][A-Z0-9-]{3,}")   # "IODINE I 124 GIRENTUXIMAB": part of a drug name
-UP = re.compile(r"\b(up|upregulated|up-regulated|increased|elevated|higher|overexpress\w*|induced|gained|raised|rises?|rising)\b", re.I)
+UP = re.compile(r"\b(up(?!\s+to\b)|upregulated|up-regulated|increased|elevated|higher|overexpress\w*|induced|gained|raised|rises?|rising)\b", re.I)
 DOWN = re.compile(r"\b(down|downregulated|down-regulated|decreased|reduced|lower|lowered|depleted|suppressed|underexpress\w*|diminished)\b", re.I)
 # A negated sentence ("is not higher") states the opposite of its direction word; it is skipped, not read literally.
 NEGATION = re.compile(r"\b(not|no|never|neither|nor|without|n't)\b|n't\b", re.I)
 # ordering words: "placed lower", "listed higher" describe a position in a list, not expression
 DIRECTION_EXEMPT = re.compile(r"\b(survival|prognos\w*|hazard|dependency|rank\w*|score\w*|placed|listed|ordered|"
-                              r"positioned|priorit\w*)\b", re.I)
+                              r"positioned|priorit\w*|moved|demoted|promoted)\b", re.I)
 
 
 def numbers_in(text: str, *, with_spans: bool = False) -> list[dict]:
@@ -176,7 +176,8 @@ def _de_signs(evidence: list[dict]) -> dict[str, dict[str, set[int]]]:
     """gene -> layer -> signs of the significant omics_de changes cited (layer "*" pools all layers)."""
     signs: dict[str, dict[str, set[int]]] = {}
     for e in evidence:
-        if e.get("type") == "omics_de" and e.get("significant") and e.get("log2fc") is not None and e.get("gene"):
+        # bulk changes: per-cohort differential expression and the cross-cohort meta-analysis
+        if e.get("type") in ("omics_de", "expression_meta") and e.get("significant") and e.get("log2fc") is not None and e.get("gene"):
             sign = 1 if e["log2fc"] > 0 else -1
             g = signs.setdefault(e["gene"].upper(), {})
             g.setdefault("*", set()).add(sign)

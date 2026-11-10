@@ -1,0 +1,56 @@
+{
+ "run": "2026-11-09_full",
+ "statements_passing": 120,
+ "seed": 7,
+ "corruptions": {
+  "number": {
+   "applied": 78,
+   "caught": 78,
+   "missed_examples": [],
+   "rate": 1.0
+  },
+  "direction": {
+   "applied": 55,
+   "caught": 16,
+   "missed_examples": [
+    {
+     "location": "agent_findings.literature[2]",
+     "text": "IDO1 is the best mechanistically supported candidate: expression is reduced in UC patients and correlates with M1 macrophage polarization, IDO1 drives M1 polarization through the ER-stress GRP78-XBP1 pathway, and a methyl-tryptophan IDO inh"
+    },
+    {
+     "location": "agent_findings.literature[4]",
+     "text": "CHI3L1 is downregulated in UC and correlates with NLRP3 inflammasome expression; it promotes macrophage pyroptosis via the BCAT1/NF-kappaB axis, and its inhibition was protective in experimental work. Velpatasvir binding to recombinant CHI3"
+    },
+    {
+     "location": "agent_findings.literature[5]",
+     "text": "DUOX2 is among the most reduced proteins in inflamed UC biopsies versus healthy controls, and is named with S100A8, IL-1B, CXCL1, MMP10 and others as a credible biomarker for diagnosis and therapy. It is linked to ferroptosis and a herbal f"
+    },
+    {
+     "location": "agent_findings.literature[6]",
+     "text": "AQP9 is predominantly expressed in neutrophils, downregulated in mouse UC colon, and promotes NET formation through JAK2-STAT3-mediated pyroptosis, aggravating epithelial injury. Evidence is concentrated in a few recent papers using mouse m"
+    },
+    {
+     "location": "agent_findings.literature[7]",
+     "text": "S100A9 is underexpressed in colitis, reported to perform excellently in diagnosing active UC by ROC, and is upregulated in UC by ONT-RNA-seq. In a tofacitinib single-cell study, S100A9 was downregulated in resident macrophages in responders"
+    }
+   ],
+   "applied_with_de_evidence": 25,
+   "caught_with_de_evidence": 16,
+   "rate": 0.291,
+   "rate_with_de_evidence": 0.64
+  },
+  "gene": {
+   "applied": 83,
+   "caught": 83,
+   "missed_examples": [],
+   "rate": 1.0
+  },
+  "evidence": {
+   "applied": 83,
+   "caught": 83,
+   "missed_examples": [],
+   "rate": 1.0
+  }
+ },
+ "scope": "Detection of deliberately corrupted copies of statements that pass verification; a missed corruption is a statement the automatic checks would accept although it is wrong."
+}
