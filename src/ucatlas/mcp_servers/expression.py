@@ -1,4 +1,4 @@
-"""expression-mcp: differential expression of ulcerative colitis biopsies (five cohorts) and the meta-analysis.
+"""expression-mcp: differential expression of ulcerative colitis biopsies (eight cohorts) and the meta-analysis.
 
 Every record carries the evidence_id to cite. Values are those computed by ucatlas.expression (M2)."""
 from __future__ import annotations
@@ -15,7 +15,9 @@ from .common import canonical_gene, clean, existing
 mcp = FastMCP("expression-mcp")
 COHORT_TEXT = {"GSE193677": "MSCCR (Mount Sinai), RNA-seq, discovery", "GSE206285": "UNIFI (ustekinumab trial)",
                "GSE92415": "PURSUIT-SC (golimumab trial)", "GSE16879": "Leuven infliximab cohort",
-               "GSE73661": "Leuven infliximab/vedolizumab cohort"}
+               "GSE73661": "Leuven infliximab/vedolizumab cohort",
+               "GSE109142": "PROTECT, paediatric rectum at diagnosis, RNA-seq",
+               "GSE117993": "RISK, paediatric rectum at diagnosis, RNA-seq", "GSE165512": "adult colon, RNA-seq"}
 
 
 @lru_cache(maxsize=1)
@@ -38,8 +40,8 @@ def _de_row(r) -> dict:
 @mcp.tool()
 def get_de_results(gene: str) -> list[dict]:
     """Differential expression of one gene in every cohort and contrast: MSCCR inflamed vs control, non-inflamed vs
-    control and inflamed vs non-inflamed in the same patient (paired); UC vs healthy in UNIFI, PURSUIT, GSE16879 and
-    GSE73661. log2FC is disease minus control on each cohort's log2 scale (arrays compress fold changes)."""
+    control and inflamed vs non-inflamed in the same patient (paired); UC vs healthy in UNIFI, PURSUIT, GSE16879,
+    GSE73661, PROTECT, RISK and GSE165512. log2FC is disease minus control on each cohort's log2 scale (arrays compress fold changes)."""
     g = canonical_gene(gene)
     rows = _de()[_de()["gene"] == g]
     if rows.empty:
@@ -49,7 +51,7 @@ def get_de_results(gene: str) -> list[dict]:
 
 @mcp.tool()
 def meta_analysis(gene: str) -> dict:
-    """Random-effects meta-analysis (DerSimonian-Laird) of UC vs control across the five cohorts: pooled log2FC, BH
+    """Random-effects meta-analysis (DerSimonian-Laird) of UC vs control across the eight cohorts: pooled log2FC, BH
     padj, heterogeneity I2, cohorts with a significant change up / down. Cite the returned evidence_id."""
     g = canonical_gene(gene)
     if g not in _meta().index:
@@ -74,7 +76,7 @@ def top_genes(direction: str = "up", n: int = 25, min_cohorts: int = 2) -> list[
 
 @mcp.tool()
 def replication(gene: str) -> dict:
-    """Is the change reproduced across the five cohorts? Per cohort: direction, significance (padj < 0.05) and
+    """Is the change reproduced across the eight cohorts? Per cohort: direction, significance (padj < 0.05) and
     log2FC, with the evidence_id of each cohort's record."""
     g = canonical_gene(gene)
     d = _de()[(_de()["gene"] == g) & _de()["contrast"].isin(["inflamed_vs_control", "uc_vs_control"])]

@@ -20,7 +20,10 @@ DATASETS = {
     "GSE92415": "PURSUIT-SC golimumab trial, colon biopsies, Affymetrix",
     "GSE16879": "Infliximab cohort (Leuven), colon biopsies, Affymetrix",
     "GSE73661": "Infliximab and vedolizumab cohort (Leuven), colon biopsies, Affymetrix",
-    "META": "Random-effects meta-analysis of UC vs control across the five cohorts",
+    "GSE109142": "PROTECT, treatment-naive paediatric UC, rectal biopsies, RNA-seq",
+    "GSE117993": "RISK, paediatric UC at diagnosis, rectal biopsies, RNA-seq",
+    "GSE165512": "Adult UC and healthy colon biopsies, RNA-seq",
+    "META": "Random-effects meta-analysis of UC vs control across the eight cohorts",
 }
 CONTRAST_TEXT = {"inflamed_vs_control": "UC inflamed vs control", "noninflamed_vs_control": "UC non-inflamed vs control",
                  "inflamed_vs_noninflamed_paired": "UC inflamed vs non-inflamed, same patient",

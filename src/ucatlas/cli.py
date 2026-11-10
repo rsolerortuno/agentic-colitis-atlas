@@ -77,9 +77,16 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
                                          treatment.interaction(list(dict.fromkeys(expression_top(300) + TX_EXTRA))),
                                          treatment.response_pathways(), treatment.load())[3])
     from . import spatial
+    extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]
     if (spatial.D / "manifest.json").exists():
-        extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]
         _step("spatial", lambda: (spatial.run(list(dict.fromkeys(expression_top(300) + extra))), spatial.load())[1])
+    from . import spatial_visium
+    if (spatial_visium.D / "manifest.json").exists():
+        _step("spatial (Visium)", lambda: (spatial_visium.run(list(dict.fromkeys(expression_top(300) + extra))),
+                                           spatial_visium.load_graph())[1])
+    from . import mr
+    if mr.EXTRACT.exists() and mr.GWAS.exists():
+        _step("Mendelian randomisation (pQTL)", lambda: (mr.run(), mr.load())[0])
     _step("convergence", lambda: _rebuild_convergence(run))   # also loads the citable ranking records
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))

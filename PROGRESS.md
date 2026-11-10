@@ -2,7 +2,7 @@
 
 Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check passes; evidence is recorded below.
 
-**Current milestone:** M0-M18 passed; review of 2026-11-10 done
+**Current milestone:** M0-M18 passed; review of 2026-11-10 done; four documented limits closed (2026-11-10)
 
 | Milestone | Status | Evidence |
 |---|---|---|
@@ -55,9 +55,20 @@ Final check: `uv run ucatlas run-all --run 2026-11-09_full` from a cleaned folde
 rebuilt with the same counts, 0 unsupported, report valid, about 15 minutes); the other four runs re-verify with 0
 unsupported (116, 119, 157, 68 statements); 65 tests pass.
 
+## Closing the documented limits (2026-11-10)
+
+| Limit | What was done | Check |
+|---|---|---|
+| Genes measured only in the RNA-seq discovery cohort entered the meta-analysis with k = 1 | Three RNA-seq cohorts added (PROTECT GSE109142, RISK GSE117993, GSE165512; NCBI-generated counts). A pooled call now needs >= 2 cohorts | 13,840 genes in all eight cohorts; k = 1 genes 4,948 -> 3,610, none with pooled significance; MSCCR changes replicate in 95 % / 94 % / 50 % of tested genes |
+| No Mendelian randomisation with plasma pQTL | `mr.py`: UKB-PPP cis-pQTL credible sets (Open Targets 26.09) on the de Lange 2017 UC GWAS, Wald/IVW, BH, colocalisation check; MCP tools `mendelian_randomization`, `mr_hits` | 1,693 proteins, 64 significant, 17 colocalise; IL12B (ustekinumab target) OR 1.54, IL10 and CD274 protective (positive controls) |
+| Xenium panel lacked candidates; two of four sections too sparse | Xenium Prime 5K GSE339323 (two dense sections) and Visium GSE189184 (7 UC, 2 healthy, whole transcriptome; read out of the zips by HTTP range requests) | 4 of 6 Xenium sections pass the typed-cell rule; Visium compartments match single cell (S100A8 neutrophil, LCN2/DUOX2 epithelial, MMP3/IL11/OSMR fibroblast) |
+| Temporal subset had 4 genes | Wider temporal set (first UC trial >= 2016, phase 2+, one trial enough), logged as a post-hoc change | 20 genes; target profile AUROC 0.81 with 3 of 20 in its top 100 vs 0 for predicted tractability |
+
+Bug found on the way: the two new MR tools were defined after `mcp.run()` in `external.py`, so the server started
+without them and the first new agent run reported MR as unavailable. Fixed; the stdio test now checks every server's
+new tools, and the run was repeated.
+
 ## Blockers / notes
-- GitHub Pages needs the repository to be public (free plan): the owner will switch visibility, then enable
-  Settings -> Pages -> Source: GitHub Actions and run the "Publish report to GitHub Pages" workflow.
-- Known limits (README): no pQTL Mendelian randomisation; Xenium panel lacks several candidates and two of four
-  sections were too sparse; 4-gene temporal subset; GSE16879 is MAS5 data on a log2 scale (larger fold changes);
-  genes measured only in the RNA-seq cohort enter the meta-analysis with k = 1.
+- GitHub Pages is live (public repository); the workflow republishes the report whenever it changes on main.
+- Remaining limits (README section 8): plasma pQTL cover 1,693 proteins and not CXCR2, OSM, DUOX2, JAK2 or TNF;
+  Visium spots mix cells; two GSE312420 Xenium sections stay too sparse; GSE16879 is MAS5 data on a log2 scale.

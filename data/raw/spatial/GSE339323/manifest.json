@@ -1,0 +1,26 @@
+{
+ "GSM9893496_UC1_inf_cell_feature_matrix.h5": {
+  "bytes": 99386745,
+  "retrieved_utc": "2026-11-10T07:14:03+00:00",
+  "sha256": "b96c1c33e1925fb7c70b1a4e484de09b3d3159cb9f1ebe56278678a6d4b2a48b",
+  "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9893nnn/GSM9893496/suppl/GSM9893496_UC1_inf_cell_feature_matrix.h5"
+ },
+ "GSM9893496_UC1_inf_cells.parquet.gz": {
+  "bytes": 5580589,
+  "retrieved_utc": "2026-11-10T07:14:04+00:00",
+  "sha256": "f7ff39946c27eedcfae370d784984a03779198a6336c42959f02f40cce5fd89f",
+  "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9893nnn/GSM9893496/suppl/GSM9893496_UC1_inf_cells.parquet.gz"
+ },
+ "GSM9893497_UC1_noninf_cell_feature_matrix.h5": {
+  "bytes": 59473713,
+  "retrieved_utc": "2026-11-10T07:14:13+00:00",
+  "sha256": "c6853b84d1d1bca31c6a23d2337b894dd98d6dbdb2b1c6871340210f556baac0",
+  "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9893nnn/GSM9893497/suppl/GSM9893497_UC1_noninf_cell_feature_matrix.h5"
+ },
+ "GSM9893497_UC1_noninf_cells.parquet.gz": {
+  "bytes": 3694488,
+  "retrieved_utc": "2026-11-10T07:14:14+00:00",
+  "sha256": "59d6fbdead4bb2943359129e0ab20ece8b58a10a9aa3bfc61fc642ef7c307cb6",
+  "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9893nnn/GSM9893497/suppl/GSM9893497_UC1_noninf_cells.parquet.gz"
+ }
+}

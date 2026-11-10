@@ -1,8 +1,10 @@
-"""M11 spatial: what surrounds each candidate in UC rectum (Xenium, GSE312420).
+"""M11 spatial: what surrounds each candidate in UC colon (Xenium 5K panel).
 
-Sections used: the Xenium 5K panel (about 5,000 genes; healthy, non-inflamed UC and two inflamed UC rectum sections)
-for discovery, and the 337-gene multi-tissue panel (UC rectum: four inflamed, two non-inflamed) to check the cell
-attribution. Images are not used.
+Sections: GSE312420 (healthy, non-inflamed UC and two inflamed UC rectum sections) and, added 2026-11-10 because two
+GSE312420 sections had too few transcripts per cell to type most cells, GSE339323 (Xenium Prime 5K, one UC resection,
+most and least inflamed region; median about 300 transcripts per cell). Sections where fewer than half the cells
+can be typed are still analysed but left out of the knowledge graph (named in each record). Genes that are not on
+the 5K panel are covered by the whole-transcriptome Visium sections (spatial_visium.py). Images are not used.
 
 1. Cell typing without the candidate genes: each cell gets the lineage whose marker set (from the single-cell
    datasets, restricted to the panel) has the largest normalised sum; cells with no marker counts stay 'unassigned'.
@@ -10,7 +12,8 @@ attribution. Images are not used.
    candidate that is a marker is reported with that flag).
 2. Attribution in situ: share of a gene's transcripts in each lineage, per section.
 3. Neighbourhood: for the cells expressing a gene (>= 1 count), the lineage mix of their 10 nearest neighbours,
-   compared with the same number of random cells of the section (1,000 permutations, seed fixed per gene).
+   compared with the same number of random cells of the section (1,000 permutations, seed fixed per gene). When
+   more than 5,000 cells express a gene, a random subset of 5,000 of them is tested (same seed).
 Outputs: data/processed/spatial_attribution.parquet, spatial_neighbourhood.parquet, spatial_sections.parquet.
 """
 from __future__ import annotations
@@ -41,7 +44,24 @@ MARKERS = {  # lineage markers commonly present on Xenium panels (checked agains
     "neutrophil": ["FCGR3B", "CSF3R", "MNDA", "FPR1", "CMTM2", "PROK2", "MMP25"],
     "mast": ["TPSAB1", "TPSB2", "CPA3", "KIT", "MS4A2"],
 }
-SECTIONS_5K = {"GSM9345505": "healthy", "GSM9345506": "noninflamed", "GSM9345507": "inflamed", "GSM9345508": "inflamed"}
+SECTIONS_5K = {"GSM9345505": "healthy", "GSM9345506": "noninflamed", "GSM9345507": "inflamed", "GSM9345508": "inflamed",
+               "GSM9893496": "inflamed", "GSM9893497": "noninflamed"}
+D2 = RAW / "spatial" / "GSE339323"
+STUDY = {"GSM9345505": "GSE312420", "GSM9345506": "GSE312420", "GSM9345507": "GSE312420", "GSM9345508": "GSE312420",
+         "GSM9893496": "GSE339323", "GSM9893497": "GSE339323"}
+
+
+def read_10x_h5(path) -> tuple[sparse.csr_matrix, list[str], list[str], np.ndarray]:
+    """10x Genomics h5 (Xenium or Visium): cells x features CSR, feature names, barcodes, feature types."""
+    import h5py
+    with h5py.File(path, "r") as f:
+        g = f["matrix"]
+        shape = tuple(g["shape"][:])
+        m = sparse.csc_matrix((g["data"][:], g["indices"][:], g["indptr"][:]), shape=shape).T.tocsr()
+        names = [x.decode() for x in g["features/name"][:]]
+        types = np.array([x.decode() for x in g["features/feature_type"][:]])
+        bcs = [x.decode() for x in g["barcodes"][:]]
+    return m, names, bcs, types
 
 
 def _sample_files(gsm: str) -> dict:
@@ -59,6 +79,16 @@ def _read_gz(path) -> bytes:
 
 def load_section(gsm: str) -> tuple[sparse.csr_matrix, list[str], pd.DataFrame]:
     """cells x genes counts (CSR), gene names and the cell table (x, y), in the same cell order."""
+    from .expression import resolve_symbol
+    if STUDY[gsm] == "GSE339323":
+        h5 = next(D2.glob(f"{gsm}_*_cell_feature_matrix.h5"))
+        m, names, bcs, types = read_10x_h5(h5)
+        cells = pd.read_parquet(io.BytesIO(_read_gz(next(D2.glob(f"{gsm}_*_cells.parquet.gz")))))
+        cells["cell_id"] = cells["cell_id"].astype(str)
+        cells = cells.set_index("cell_id").reindex(bcs)
+        is_gene = types == "Gene Expression"
+        genes = [resolve_symbol(g) or g for g, k in zip(names, is_gene) if k]
+        return m[:, is_gene], genes, cells[["x_centroid", "y_centroid"]].reset_index(drop=True)
     f = _sample_files(gsm)
     m = mmread(io.BytesIO(_read_gz(f["matrix"]))).tocsr().T.tocsr()          # cells x features
     feats = pd.read_csv(io.BytesIO(_read_gz(f["features"])), sep="\t", header=None)
@@ -67,7 +97,6 @@ def load_section(gsm: str) -> tuple[sparse.csr_matrix, list[str], pd.DataFrame]:
     cells["cell_id"] = cells["cell_id"].astype(str)
     cells = cells.set_index("cell_id").reindex(bc)
     is_gene = feats[2].eq("Gene Expression").to_numpy()
-    from .expression import resolve_symbol
     genes = [resolve_symbol(g) or g for g in feats.loc[is_gene, 1]]
     return m[:, is_gene], genes, cells[["x_centroid", "y_centroid"]].reset_index(drop=True)
 
@@ -107,6 +136,9 @@ def attribution(m, genes, lab, targets) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+MAX_EXPRESSING = 5000  # added 2026-11-10 for the 190,000-280,000-cell GSE339323 sections
+
+
 def neighbourhood(m, genes, lab, xy, targets, k=10, n_perm=1000) -> pd.DataFrame:
     idx = {g: i for i, g in enumerate(genes)}
     ok = ~np.isnan(xy).any(axis=1)
@@ -122,18 +154,22 @@ def neighbourhood(m, genes, lab, xy, targets, k=10, n_perm=1000) -> pd.DataFrame
         if g not in idx:
             continue
         expr = np.asarray(m[:, idx[g]].todense()).ravel()[ok] > 0
-        n = int(expr.sum())
-        if n < 20:
+        n_all = int(expr.sum())
+        if n_all < 20:
             continue
-        obs = mix[expr].mean(axis=0)
         rng = np.random.default_rng(zlib.crc32(g.encode()))  # seed fixed per gene (reproducible)
+        where = np.flatnonzero(expr)
+        if n_all > MAX_EXPRESSING:  # large sections: a random subset of the expressing cells, same test
+            where = np.sort(rng.choice(where, MAX_EXPRESSING, replace=False))
+        n = len(where)
+        obs = mix[where].mean(axis=0)
         null = np.stack([mix[rng.choice(len(mix), n, replace=False)].mean(axis=0) for _ in range(n_perm)])
         for j, L in enumerate(lineages):
             p = (np.sum(null[:, j] >= obs[j]) + 1) / (n_perm + 1)
             rows.append({"gene": g, "neighbour_lineage": L, "observed": round(float(obs[j]), 4),
                          "expected": round(float(null[:, j].mean()), 4),
                          "enrichment": round(float(obs[j] / max(null[:, j].mean(), 1e-9)), 3),
-                         "p_enriched": round(float(p), 4), "n_expressing_cells": n})
+                         "p_enriched": round(float(p), 4), "n_expressing_cells": n_all, "n_tested_cells": n})
     return pd.DataFrame(rows)
 
 
@@ -143,7 +179,8 @@ def run(targets: list[str]) -> dict:
         m, genes, cells = load_section(gsm)
         lab = cell_types(m, genes)
         xy = cells[["x_centroid", "y_centroid"]].to_numpy(float)
-        sec.append({"gsm": gsm, "state": state, "cells": int(m.shape[0]), "genes": len(genes),
+        sec.append({"gsm": gsm, "study": STUDY[gsm], "state": state, "cells": int(m.shape[0]), "genes": len(genes),
+                    "median_counts_per_cell": float(np.median(np.asarray(m.sum(axis=1)).ravel())),
                     **{f"n_{k}": int(v) for k, v in zip(*np.unique(lab, return_counts=True))}})
         att.append(attribution(m, genes, lab, targets).assign(gsm=gsm, state=state))
         if state != "healthy":
@@ -179,14 +216,14 @@ def load(store=None, min_assigned: float = 0.5) -> int:
     nb = nb[nb["gsm"].isin(good)]
     n = 0
     with store.batch():
-        store.add_node("DATASET:GSE312420", "Dataset", "Xenium 5K panel, UC and healthy rectum (GSE312420)")
+        store.add_node("DATASET:GSE312420", "Dataset", "Xenium 5K panel, UC and healthy colon (GSE312420 and GSE339323)")
         for gene, d in a.groupby("gene"):
             node = store.resolve(gene)
             if not node or node["type"] != "Gene":
                 continue
             att = {st: dd.groupby("lineage")["share"].mean().round(3).nlargest(3).to_dict() for st, dd in d.groupby("state")}
             nn = nb[(nb["gene"] == gene) & (nb["p_enriched"] < 0.05) & (nb["enrichment"] > 1.2)]
-            rec = {"gene": gene, "attribution_by_state": att, "panel": "Xenium 5K",
+            rec = {"gene": gene, "attribution_by_state": att, "panel": "Xenium 5K", "studies": ["GSE312420", "GSE339323"],
                    "enriched_neighbours": [{"lineage": r.neighbour_lineage, "enrichment": r.enrichment,
                                             "p": r.p_enriched, "section_state": r.state, "n_cells": r.n_expressing_cells}
                                            for r in nn.itertuples()],

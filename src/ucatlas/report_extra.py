@@ -32,6 +32,22 @@ def cells_figure(genes: list[str]) -> str:
     return _fig(fig, max(420, 22 * len(genes) + 140))
 
 
+def mr_figure() -> str:
+    """Mendelian randomisation: log odds ratio per SD of plasma protein vs -log10 p, every tested protein."""
+    r = pd.read_parquet(PROCESSED / "mr_pqtl.parquet")
+    y = -np.log10(r["p"].clip(lower=1e-300))
+    sig = r["q"] < 0.05
+    col = np.where(~sig, "#c9c8c0", np.where(r["beta"] > 0, "#e34948", "#2a78d6"))
+    fig = go.Figure(go.Scattergl(x=r["beta"], y=y, mode="markers", marker=dict(size=5, color=col), text=r["gene"],
+                                 hovertemplate="%{text}<br>log OR per SD %{x:.2f}<br>-log10 p %{y:.1f}<extra></extra>"))
+    lab = r[sig].nsmallest(15, "p")
+    fig.add_trace(go.Scatter(x=lab["beta"], y=-np.log10(lab["p"].clip(lower=1e-300)), mode="markers+text", text=lab["gene"],
+                             textposition="top center", marker=dict(size=7, color="#1c1c1b"), hoverinfo="skip"))
+    fig.update_layout(showlegend=False, title=f"Plasma protein (UKB-PPP cis-pQTL) on UC risk: {len(r):,} proteins",
+                      xaxis_title="log odds ratio of UC per SD of protein", yaxis_title="-log10 p")
+    return _fig(fig, 460)
+
+
 def pathway_heatmap() -> str:
     d = pd.read_parquet(PROCESSED / "pathway_activity.parquet")
     m = d.pivot_table(index="source", columns="cohort", values="t")
@@ -52,7 +68,7 @@ def response_heatmap() -> str:
     return _fig(fig, 460)
 
 
-def tables() -> dict:
+def tables(genes: list[str] | None = None) -> dict:
     out = {}
     c = pd.read_parquet(PROCESSED / "communication.parquet")
     c = c[c.get("inflamed", 0) > 0].head(15)
@@ -85,5 +101,41 @@ def tables() -> dict:
                                                                      "minutes", "turns")}}
                                   for arm in ("team", "single") for r in b[arm]]
     sec = pd.read_parquet(PROCESSED / "spatial_sections.parquet")
-    out["spatial_sections"] = sec[["gsm", "state", "cells", "assigned_fraction"]].round(2).to_dict("records")
+    cols = [c for c in ("gsm", "study", "state", "cells", "median_counts_per_cell", "assigned_fraction") if c in sec]
+    out["spatial_sections"] = sec[cols].round(2).to_dict("records")
+    vp = PROCESSED / "spatial_visium.parquet"
+    if vp.exists():
+        v = pd.read_parquet(vp).set_index("gene")
+        keep = [g for g in (genes or []) if g in v.index][:20]
+        out["visium"] = [{"gene": g, "compartment": v.at[g, "compartment"], "rho": v.at[g, "compartment_rho"],
+                          "second": v.at[g, "second_compartment"], "first_in": int(v.at[g, "sections_compartment_first"]),
+                          "sections": int(v.at[g, "uc_sections"]), "log2_ratio": v.at[g, "log2_ratio_uc_vs_healthy"]}
+                         for g in keep]
+        vs = pd.read_parquet(PROCESSED / "spatial_visium_sections.parquet")
+        out["visium_sections"] = {"uc": int((vs.state == "UC_inflamed").sum()), "healthy": int((vs.state == "healthy").sum()),
+                                  "spots": int(vs.spots.sum())}
+    mp = PROCESSED / "mr_pqtl.parquet"
+    if mp.exists():
+        m = pd.read_parquet(mp)
+        mi = m.set_index("gene")
+        from .evaluate import clinical_targets
+        clin = set(clinical_targets()["gene"])
+        sig = m[m["q"] < 0.05]
+        out["mr_counts"] = {"tested": len(m), "significant": len(sig),
+                            "colocalising": int(sig["colocalises"].fillna(False).astype(bool).sum()),
+                            "clinical_tested": int(m["gene"].isin(clin).sum()),
+                            "clinical_significant": sorted(set(sig["gene"]) & clin)}
+        out["mr"] = [{"gene": x.gene, "or": round(float(x.or_per_sd), 2),
+                      "ci": [round(float(np.exp(x.beta - 1.96 * x.se)), 2), round(float(np.exp(x.beta + 1.96 * x.se)), 2)],
+                      "p": f"{x.p:.1e}", "q": f"{x.q:.1e}", "n": int(x.n_instruments),
+                      "coloc": "yes" if x.colocalises is True else ("no" if x.colocalises is False else "-"),
+                      "clinical": x.gene in clin} for x in sig.sort_values("p").head(25).itertuples()]
+        out["mr_candidates"] = [{"gene": g, "tested": g in mi.index,
+                                 "or": round(float(mi.at[g, "or_per_sd"]), 2) if g in mi.index else None,
+                                 "q": f"{mi.at[g, 'q']:.1e}" if g in mi.index else None}
+                                for g in (genes or [])[:15]]
+    if "temporal_wide" in ev:
+        out["temporal_wide"] = [{"score": k, **{x: v[x] for x in ("n_gold", "auroc", "auroc_ci95", "recall_at_100")}}
+                                for k, v in ev["temporal_wide"].items()]
+        out["temporal_cutoff"] = ev["gold_sets"].get("cutoff_wide")
     return out

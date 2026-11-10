@@ -22,7 +22,7 @@ def _ensembl(symbol: str) -> str | None:
 @mcp.tool()
 def open_targets_association(gene: str) -> dict:
     """Open Targets Platform overall association score between a gene and ulcerative colitis
-    (MONDO_0005005), its rank among associated targets, and the evidence_id."""
+    (MONDO_0005101), its rank among associated targets, and the evidence_id."""
     g = canonical_gene(gene)
     ot = pd.read_parquet(PROCESSED / "external_ot_associations.parquet").reset_index(drop=True)
     sub = ot[ot["symbol"] == g]
@@ -78,6 +78,39 @@ def disease_top_targets(n: int = 25) -> list[dict]:
     ot = pd.read_parquet(PROCESSED / "external_ot_associations.parquet").head(min(n, 200))
     return clean([{"gene": r.symbol, "score": round(r.score, 4),
                    "evidence_id": existing(evidence_id("open_targets_assoc", r.ensembl))} for r in ot.itertuples()])
+
+
+
+@mcp.tool()
+def mendelian_randomization(gene: str) -> dict:
+    """Mendelian randomisation of plasma protein level on ulcerative colitis risk: UKB-PPP cis-pQTL instruments (Open
+    Targets 26.09 fine-mapped credible sets) on the de Lange 2017 UC GWAS. Returns the Wald ratio or IVW estimate
+    (log odds of UC per SD of protein), odds ratio, p, BH q over all tested proteins, number of instruments, and, for
+    significant proteins, whether the pQTL colocalises with an IBD/UC GWAS signal (coloc H4 >= 0.8 or CLPP >= 0.01).
+    beta > 0: genetically higher protein raises UC risk (inhibition would be protective); beta < 0: it lowers risk.
+    A significant estimate without colocalisation may come from a neighbouring causal variant. Cite the evidence_id."""
+    from ..graph import evidence_id as _eid
+    from .common import store as _store
+    g = canonical_gene(gene)
+    eid = _eid("mendelian_randomization", g)
+    rec = _store().get_evidence([eid])
+    if not rec:
+        return {"gene": g, "message": "no cis-pQTL instrument for this protein in UKB-PPP (not tested)"}
+    out = {k: v for k, v in rec[0].items() if k not in ("source", "retrieved", "date", "type")}
+    return clean({**out, "evidence_id": eid})
+
+
+@mcp.tool()
+def mr_hits(n: int = 25) -> list[dict]:
+    """Proteins with the strongest Mendelian-randomisation evidence for ulcerative colitis (q < 0.05 first, ordered by
+    p): gene, odds ratio per SD, q, direction, instruments and colocalisation. Each row carries its evidence_id."""
+    from ..graph import evidence_id as _eid
+    r = pd.read_parquet(PROCESSED / "mr_pqtl.parquet").sort_values("p").head(max(1, min(n, 100)))
+    return clean([{"gene": x.gene, "odds_ratio_per_sd": round(x.or_per_sd, 3), "p": float(f"{x.p:.3g}"),
+                   "q": float(f"{x.q:.3g}"), "n_instruments": int(x.n_instruments),
+                   "direction": "higher protein raises UC risk" if x.beta > 0 else "higher protein lowers UC risk",
+                   "colocalises_with_ibd_gwas": None if x.colocalises is None or pd.isna(x.colocalises) else bool(x.colocalises),
+                   "evidence_id": existing(_eid("mendelian_randomization", x.gene))} for x in r.itertuples()])
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ pytestmark = pytest.mark.skipif(not (PROCESSED / "communication.parquet").exists
 @pytest.mark.parametrize("name", ["TNFa", "NFkB", "JAK-STAT"])
 def test_inflammatory_pathways_up_everywhere(name):
     r = p.pathway_activity(name)[0]
-    assert r["cohorts_up"] == 5 and r["evidence_id"].startswith("EV:pathway_activity:")
+    assert r["cohorts_up"] == 8 and r["evidence_id"].startswith("EV:pathway_activity:")
 
 
 def test_osm_osmr_circuit():

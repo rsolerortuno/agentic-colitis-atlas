@@ -1,6 +1,5 @@
 name: Publish report to GitHub Pages
-# Publishes reports/uc_report.html as the site index. GitHub Pages on a private repository needs a paid plan, so the
-# job is skipped while the repository is private.
+# Publishes reports/uc_report.html as the site index every time the report changes on main (or on demand).
 on:
   push:
     branches: [main]
@@ -15,7 +14,6 @@ concurrency:
   cancel-in-progress: true
 jobs:
   deploy:
-    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

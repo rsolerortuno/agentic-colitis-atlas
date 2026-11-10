@@ -131,10 +131,11 @@ def freeze(run: str = "2026-11-09_full") -> dict:
     for sub in ("scp259", "scp3755"):
         m = json.loads((raw / sub / "manifest.json").read_text(encoding="utf-8"))
         files += [{"path": f"raw/{sub}/{k}", "sha256": v["sha256"], "bytes": v["bytes"]} for k, v in sorted(m["files"].items())]
-    sp = raw / "spatial" / "GSE312420" / "manifest.json"
-    if sp.exists():
-        m = json.loads(sp.read_text(encoding="utf-8"))
-        files += [{"path": f"raw/spatial/GSE312420/{k}", "sha256": v["sha256"], "bytes": v["bytes"]} for k, v in sorted(m.items())]
+    for gse in ("GSE312420", "GSE339323", "GSE189184"):
+        sp = raw / "spatial" / gse / "manifest.json"
+        if sp.exists():
+            m = json.loads(sp.read_text(encoding="utf-8"))
+            files += [{"path": f"raw/spatial/{gse}/{k}", "sha256": v["sha256"], "bytes": v["bytes"]} for k, v in sorted(m.items())]
     run_dir = ROOT / "runs" / run
     project = [{"path": p.relative_to(ROOT).as_posix(), "sha256": sha256(p)}
                for p in sorted(run_dir.glob("agent_*.json")) + [run_dir / "narrative.json"]

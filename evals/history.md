@@ -36,3 +36,40 @@
   tractability table (same strong buckets as the kidney atlas). Target profile AUROC 0.80 -> 0.84, predicted
   tractability alone 0.81 -> 0.83, recall@100 14 % vs 2 %. Weights unchanged. Convergence v1 keeps its biased
   tractability stream (documented) because the published narratives were written from it.
+
+## 2026-11-10, closing four documented limits (decided before measuring unless marked)
+- **Meta-analysis, single-cohort genes.** About 4,900 genes were measured only in MSCCR (k = 1) and 2,522 of them
+  were "significant" on that one cohort. Two changes: (1) three RNA-seq cohorts were added as replication cohorts,
+  UC vs healthy controls, from NCBI-generated raw counts (one pipeline for every series): PROTECT GSE109142 (206 UC,
+  20 controls, paediatric rectum at diagnosis), RISK GSE117993 (43 UC, 55 controls, paediatric rectum; Crohn's left
+  out) and GSE165512 (40 UC, 35 healthy adult colon; ileum and Crohn's left out). Every HGNC locus group is mapped, as
+  for the MSCCR Ensembl ids. (2) A pooled estimate needs at least two cohorts: genes with k = 1 keep their single
+  estimate but get no pooled adjusted p-value (BH over k >= 2 genes only), so they cannot enter the expression stream
+  on one cohort. Remaining k = 1 genes are mostly pseudogenes, small RNAs and lowly expressed genes. The replication
+  stream is a share of cohorts, so its scale is unchanged. Weights unchanged.
+- **Mendelian randomisation with plasma pQTL (new layer).** Exposure: UKB-PPP (European) fine-mapped cis-pQTL credible
+  sets from Open Targets 26.09; instrument = lead variant of each cis credible set with p < 5e-8, outside the MHC,
+  not palindromic; when the lead is absent from the GWAS, the variant of the same 95 % credible set with the highest
+  posterior probability that the GWAS has, with its own pQTL beta. Outcome: de Lange 2017 UC GWAS (GCST004133,
+  harmonised GRCh38). Wald ratio or fixed-effect IVW; one Olink assay per protein (most instruments, then strongest);
+  BH over proteins; colocalisation (coloc H4 >= 0.8 or CLPP >= 0.01 with any UC/IBD/Crohn's GWAS credible set in
+  Open Targets) fetched for q < 0.05 proteins only. MR is reported and given to the agents; it is NOT added to the
+  convergence score or the profiles, whose weights were fixed earlier.
+- **Spatial.** Two GSE312420 Xenium sections had too few transcripts per cell to type most cells. Added (a) the
+  Xenium Prime 5K sections of GSE339323 (one UC resection, most and least inflamed region) and (b) whole-transcriptome
+  Visium sections of GSE189184 (7 inflamed UC, 2 healthy colon; checkpoint-inhibitor colitis left out) for genes
+  that are not on the 5K panel. Visium compartment = lineage whose marker score has the highest median Spearman rho
+  with the gene across spots of the UC sections (markers never include the gene; a section counts only if >= 20
+  spots express the gene). The 50 %-typed rule for Xenium sections is unchanged.
+- **Temporal subset (changed after seeing the 4-gene result).** The strict subset (first UC trial >= 2018, >= 2
+  trials or approval) is kept for continuity. A wider set is added: targets of a drug with <= 5 targets that reached
+  phase 2+ in UC (one trial is enough) and whose first UC trial of any phase started on or after 2016-01-01 with
+  complete dates; earlier UC trial targets are removed from the universe. Decided after the strict subset proved too
+  small, so it is logged here; the cutoff was not tuned on the result.
+
+## 2026-11-10, new published run
+- After the rebuild with eight cohorts, MR and the new spatial layers, the saved run of 2026-11-09 cited evidence that
+  had changed (the verifier flagged it as stale, as designed). A new team run (runs/2026-11-10) is the published one:
+  117 statements, 0 unsupported, 0 stale, 29 of 29 key findings cited, $4.08, 6.6 minutes. A first attempt the same
+  day ran without the two MR tools (they were registered after `mcp.run()` in the server file) and was discarded.
+- The benchmark runs of 2026-11-09 (three team runs, one single agent) stay as they were, on the earlier data.

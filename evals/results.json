@@ -67,86 +67,107 @@
    "PPARA",
    "SLC5A2"
   ],
-  "cutoff": "2018-01-01"
+  "cutoff": "2018-01-01",
+  "temporal_wide_targets": [
+   "CD40LG",
+   "EPCAM",
+   "GIPR",
+   "GLP1R",
+   "HMGCR",
+   "HRH1",
+   "IL1A",
+   "IL1B",
+   "IL1RAP",
+   "IL36R",
+   "IL4R",
+   "MAP3K8",
+   "NR1H4",
+   "OSMR",
+   "PPARA",
+   "PTAFR",
+   "SELPLG",
+   "SLC5A2",
+   "SLC6A2",
+   "XDH"
+  ],
+  "cutoff_wide": "2016-01-01"
  },
  "clinical_targets": {
   "convergence v1 (incl. literature + drugs)": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.858,
+   "universe": 26551,
+   "auroc": 0.88,
    "auroc_ci95": [
-    0.815,
-    0.905
+    0.842,
+    0.919
    ],
    "recall_at_100": 0.169,
    "recall_at_500": 0.339,
-   "median_rank": 1052,
-   "fold_enrichment_at_100": 42.0,
+   "median_rank": 1119,
+   "fold_enrichment_at_100": 45.0,
    "top_hits": [
     "CXCR2",
     "MMP1",
     "MMP7",
-    "JAK2",
     "IL2RA",
-    "MMP9",
+    "JAK2",
+    "CXCL10",
     "PTGS2",
     "CCL11",
-    "CXCL10",
-    "ICAM1"
+    "MMP9",
+    "IL12B"
    ]
   },
   "convergence without literature/tractability": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.744,
+   "universe": 26551,
+   "auroc": 0.781,
    "auroc_ci95": [
-    0.672,
-    0.819
+    0.715,
+    0.85
    ],
-   "recall_at_100": 0.102,
-   "recall_at_500": 0.203,
-   "median_rank": 2348,
-   "fold_enrichment_at_100": 25.2,
+   "recall_at_100": 0.085,
+   "recall_at_500": 0.22,
+   "median_rank": 2742,
+   "fold_enrichment_at_100": 22.5,
    "top_hits": [
     "CXCR2",
     "MMP7",
-    "MMP1",
     "IL2RA",
-    "JAK2",
-    "PTGS2"
+    "MMP1",
+    "JAK2"
    ]
   },
   "expression alone": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.722,
+   "universe": 26551,
+   "auroc": 0.764,
    "auroc_ci95": [
-    0.655,
-    0.791
+    0.695,
+    0.829
    ],
-   "recall_at_100": 0.068,
-   "recall_at_500": 0.186,
-   "median_rank": 4003,
-   "fold_enrichment_at_100": 16.8,
+   "recall_at_100": 0.051,
+   "recall_at_500": 0.169,
+   "median_rank": 3318,
+   "fold_enrichment_at_100": 13.5,
    "top_hits": [
     "MMP1",
     "MMP7",
-    "PTGS2",
-    "CCL11"
+    "CXCR2"
    ]
   },
   "genetics alone": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.625,
+   "universe": 26551,
+   "auroc": 0.552,
    "auroc_ci95": [
-    0.55,
-    0.707
+    0.474,
+    0.636
    ],
    "recall_at_100": 0.068,
    "recall_at_500": 0.085,
-   "median_rank": 7967,
-   "fold_enrichment_at_100": 16.8,
+   "median_rank": 12514,
+   "fold_enrichment_at_100": 18.0,
    "top_hits": [
     "IL12B",
     "JAK2",
@@ -156,106 +177,107 @@
   },
   "tractability alone": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.805,
+   "universe": 26551,
+   "auroc": 0.822,
    "auroc_ci95": [
-    0.728,
-    0.871
+    0.751,
+    0.885
    ],
-   "recall_at_100": 0.61,
-   "recall_at_500": 0.61,
-   "median_rank": 78,
-   "fold_enrichment_at_100": 151.2,
+   "recall_at_100": 0.593,
+   "recall_at_500": 0.593,
+   "median_rank": 75,
+   "fold_enrichment_at_100": 157.5,
    "top_hits": [
-    "MC2R",
-    "FKBP1A",
-    "MMP9",
+    "MADCAM1",
+    "IL12B",
+    "IL12A",
+    "PDE4A",
     "MMP1",
-    "TYK2",
-    "PPAT",
     "CCL11",
-    "ICAM1",
-    "PTGS1",
-    "S1PR4",
+    "PPARG",
     "PDE4D",
-    "IL23A",
-    "NCBP2",
-    "TNF",
-    "S1PR5"
+    "PDE4B",
+    "IL2RA",
+    "CXCR2",
+    "CXCL10",
+    "ITGA4",
+    "ITGB7",
+    "PPAT"
    ]
   },
   "target profile (M14)": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.843,
+   "universe": 26551,
+   "auroc": 0.848,
    "auroc_ci95": [
-    0.799,
-    0.885
+    0.803,
+    0.886
    ],
-   "recall_at_100": 0.136,
-   "recall_at_500": 0.271,
-   "median_rank": 2871,
-   "fold_enrichment_at_100": 33.6,
+   "recall_at_100": 0.119,
+   "recall_at_500": 0.237,
+   "median_rank": 2730,
+   "fold_enrichment_at_100": 31.5,
    "top_hits": [
     "CXCR2",
     "JAK2",
     "CCL11",
     "MMP1",
-    "MMP7",
     "IL2RA",
-    "CXCL10",
-    "PTGS2"
+    "MMP7",
+    "CXCL10"
    ]
   },
   "target profile without tractability": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.714,
+   "universe": 26551,
+   "auroc": 0.747,
    "auroc_ci95": [
-    0.648,
-    0.786
+    0.684,
+    0.811
    ],
-   "recall_at_100": 0.102,
-   "recall_at_500": 0.22,
-   "median_rank": 4392,
-   "fold_enrichment_at_100": 25.2,
+   "recall_at_100": 0.136,
+   "recall_at_500": 0.169,
+   "median_rank": 4575,
+   "fold_enrichment_at_100": 36.0,
    "top_hits": [
     "CXCR2",
     "JAK2",
     "IL2RA",
     "CCL11",
     "MMP1",
-    "MMP7"
+    "MMP7",
+    "IL12B",
+    "CXCL10"
    ]
   },
   "predicted tractability alone": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.829,
+   "universe": 26551,
+   "auroc": 0.828,
    "auroc_ci95": [
-    0.779,
-    0.881
+    0.774,
+    0.869
    ],
    "recall_at_100": 0.017,
-   "recall_at_500": 0.136,
-   "median_rank": 2635,
-   "fold_enrichment_at_100": 4.2,
+   "recall_at_500": 0.085,
+   "median_rank": 3126,
+   "fold_enrichment_at_100": 4.5,
    "top_hits": [
-    "MMP8"
+    "DHODH"
    ]
   },
   "biomarker profile (M14)": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.757,
+   "universe": 26551,
+   "auroc": 0.792,
    "auroc_ci95": [
-    0.693,
-    0.822
+    0.728,
+    0.849
    ],
    "recall_at_100": 0.068,
    "recall_at_500": 0.203,
-   "median_rank": 3279,
-   "fold_enrichment_at_100": 16.8,
+   "median_rank": 2977,
+   "fold_enrichment_at_100": 18.0,
    "top_hits": [
     "MMP7",
     "MMP1",
@@ -265,196 +287,382 @@
   },
   "target profile, tractability without ligand history": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.814,
+   "universe": 26551,
+   "auroc": 0.828,
    "auroc_ci95": [
-    0.766,
-    0.866
+    0.778,
+    0.871
    ],
    "recall_at_100": 0.119,
    "recall_at_500": 0.22,
-   "median_rank": 3396,
-   "fold_enrichment_at_100": 29.4,
+   "median_rank": 3536,
+   "fold_enrichment_at_100": 31.5,
    "top_hits": [
-    "JAK2",
     "CXCR2",
+    "JAK2",
     "CCL11",
     "MMP1",
-    "MMP7",
     "IL2RA",
+    "MMP7",
     "CXCL10"
    ]
   },
   "predicted tractability without ligand history, alone": {
    "n_gold": 59,
-   "universe": 24788,
-   "auroc": 0.751,
+   "universe": 26551,
+   "auroc": 0.744,
    "auroc_ci95": [
-    0.685,
-    0.819
+    0.672,
+    0.814
    ],
-   "recall_at_100": 0.034,
-   "recall_at_500": 0.153,
-   "median_rank": 3219,
-   "fold_enrichment_at_100": 8.4,
+   "recall_at_100": 0.017,
+   "recall_at_500": 0.085,
+   "median_rank": 3214,
+   "fold_enrichment_at_100": 4.5,
    "top_hits": [
-    "MMP8",
-    "MC2R"
+    "DHODH"
    ]
   }
  },
  "temporal_holdout": {
   "convergence v1 (incl. literature + drugs)": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.773,
+   "universe": 26496,
+   "auroc": 0.757,
    "auroc_ci95": [
-    0.572,
-    0.934
+    0.581,
+    0.919
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 4653,
+   "median_rank": 6353,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "convergence without literature/tractability": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.72,
+   "universe": 26496,
+   "auroc": 0.698,
    "auroc_ci95": [
-    0.529,
-    0.877
+    0.535,
+    0.848
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 6053,
+   "median_rank": 7767,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "expression alone": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.714,
+   "universe": 26496,
+   "auroc": 0.581,
    "auroc_ci95": [
-    0.554,
-    0.855
+    0.222,
+    0.816
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 6431,
+   "median_rank": 7637,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "genetics alone": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.536,
+   "universe": 26496,
+   "auroc": 0.602,
    "auroc_ci95": [
-    0.126,
-    0.946
+    0.244,
+    0.903
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 10251,
+   "median_rank": 8762,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "tractability alone": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.349,
+   "universe": 26496,
+   "auroc": 0.495,
    "auroc_ci95": [
-    0.054,
-    0.716
+    0.209,
+    0.774
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 19376,
+   "median_rank": 13103,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "target profile (M14)": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.777,
+   "universe": 26496,
+   "auroc": 0.751,
    "auroc_ci95": [
-    0.734,
-    0.823
+    0.714,
+    0.79
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 5337,
+   "median_rank": 6329,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "target profile without tractability": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.505,
+   "universe": 26496,
+   "auroc": 0.5,
    "auroc_ci95": [
     0.329,
-    0.687
+    0.672
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 10983,
+   "median_rank": 11397,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "predicted tractability alone": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.863,
+   "universe": 26496,
+   "auroc": 0.9,
    "auroc_ci95": [
-    0.8,
-    0.942
+    0.844,
+    0.956
    ],
    "recall_at_100": 0.0,
-   "recall_at_500": 0.25,
-   "median_rank": 4083,
+   "recall_at_500": 0.0,
+   "median_rank": 2598,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "biomarker profile (M14)": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.708,
+   "universe": 26496,
+   "auroc": 0.694,
    "auroc_ci95": [
-    0.485,
-    0.854
+    0.508,
+    0.831
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 5221,
+   "median_rank": 6480,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "target profile, tractability without ligand history": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.794,
+   "universe": 26496,
+   "auroc": 0.768,
    "auroc_ci95": [
-    0.759,
-    0.832
+    0.737,
+    0.8
    ],
    "recall_at_100": 0.0,
    "recall_at_500": 0.0,
-   "median_rank": 4967,
+   "median_rank": 5971,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   },
   "predicted tractability without ligand history, alone": {
    "n_gold": 4,
-   "universe": 24733,
-   "auroc": 0.898,
+   "universe": 26496,
+   "auroc": 0.925,
    "auroc_ci95": [
-    0.85,
-    0.957
+    0.883,
+    0.967
    ],
    "recall_at_100": 0.0,
-   "recall_at_500": 0.25,
-   "median_rank": 3063,
+   "recall_at_500": 0.0,
+   "median_rank": 1953,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  }
+ },
+ "temporal_wide": {
+  "convergence v1 (incl. literature + drugs)": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.814,
+   "auroc_ci95": [
+    0.722,
+    0.904
+   ],
+   "recall_at_100": 0.15,
+   "recall_at_500": 0.2,
+   "median_rank": 2204,
+   "fold_enrichment_at_100": 39.7,
+   "top_hits": [
+    "IL1B",
+    "OSMR",
+    "MAP3K8"
+   ]
+  },
+  "convergence without literature/tractability": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.746,
+   "auroc_ci95": [
+    0.625,
+    0.855
+   ],
+   "recall_at_100": 0.15,
+   "recall_at_500": 0.2,
+   "median_rank": 3088,
+   "fold_enrichment_at_100": 39.7,
+   "top_hits": [
+    "OSMR",
+    "IL1B",
+    "MAP3K8"
+   ]
+  },
+  "expression alone": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.708,
+   "auroc_ci95": [
+    0.573,
+    0.824
+   ],
+   "recall_at_100": 0.05,
+   "recall_at_500": 0.15,
+   "median_rank": 4857,
+   "fold_enrichment_at_100": 13.2,
+   "top_hits": [
+    "IL1B"
+   ]
+  },
+  "genetics alone": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.625,
+   "auroc_ci95": [
+    0.492,
+    0.736
+   ],
+   "recall_at_100": 0.1,
+   "recall_at_500": 0.15,
+   "median_rank": 8979,
+   "fold_enrichment_at_100": 26.5,
+   "top_hits": [
+    "MAP3K8",
+    "OSMR"
+   ]
+  },
+  "tractability alone": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.608,
+   "auroc_ci95": [
+    0.482,
+    0.732
+   ],
+   "recall_at_100": 0.2,
+   "recall_at_500": 0.2,
+   "median_rank": 9942,
+   "fold_enrichment_at_100": 52.9,
+   "top_hits": [
+    "MAP3K8",
+    "IL1A",
+    "IL1B",
+    "OSMR"
+   ]
+  },
+  "target profile (M14)": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.809,
+   "auroc_ci95": [
+    0.728,
+    0.884
+   ],
+   "recall_at_100": 0.15,
+   "recall_at_500": 0.2,
+   "median_rank": 5253,
+   "fold_enrichment_at_100": 39.7,
+   "top_hits": [
+    "MAP3K8",
+    "OSMR",
+    "IL1B"
+   ]
+  },
+  "target profile without tractability": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.702,
+   "auroc_ci95": [
+    0.593,
+    0.811
+   ],
+   "recall_at_100": 0.1,
+   "recall_at_500": 0.2,
+   "median_rank": 5656,
+   "fold_enrichment_at_100": 26.5,
+   "top_hits": [
+    "OSMR",
+    "MAP3K8"
+   ]
+  },
+  "predicted tractability alone": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.787,
+   "auroc_ci95": [
+    0.671,
+    0.88
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 2830,
+   "fold_enrichment_at_100": 0.0,
+   "top_hits": []
+  },
+  "biomarker profile (M14)": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.724,
+   "auroc_ci95": [
+    0.604,
+    0.834
+   ],
+   "recall_at_100": 0.05,
+   "recall_at_500": 0.15,
+   "median_rank": 4547,
+   "fold_enrichment_at_100": 13.2,
+   "top_hits": [
+    "IL1B"
+   ]
+  },
+  "target profile, tractability without ligand history": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.821,
+   "auroc_ci95": [
+    0.744,
+    0.892
+   ],
+   "recall_at_100": 0.15,
+   "recall_at_500": 0.2,
+   "median_rank": 4992,
+   "fold_enrichment_at_100": 39.7,
+   "top_hits": [
+    "OSMR",
+    "IL1B",
+    "MAP3K8"
+   ]
+  },
+  "predicted tractability without ligand history, alone": {
+   "n_gold": 20,
+   "universe": 26460,
+   "auroc": 0.796,
+   "auroc_ci95": [
+    0.688,
+    0.885
+   ],
+   "recall_at_100": 0.0,
+   "recall_at_500": 0.0,
+   "median_rank": 2660,
    "fold_enrichment_at_100": 0.0,
    "top_hits": []
   }

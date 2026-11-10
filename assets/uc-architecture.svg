@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 980" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Architecture of the ulcerative colitis agentic atlas</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#5f6b7a"/>
+    </marker>
+    <style>
+      .h{font-size:17px;font-weight:700;fill:#1c2430}
+      .t{font-size:13px;fill:#2e3a48}
+      .s{font-size:12px;fill:#4a5666}
+      .ar{stroke:#5f6b7a;stroke-width:2;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1200" height="980" fill="#ffffff"/>
+  <text x="600" y="38" text-anchor="middle" font-size="27" font-weight="800" fill="#1c2430">Ulcerative colitis agentic GraphRAG</text>
+  <text x="600" y="64" text-anchor="middle" font-size="15" fill="#3b4756">Evidence integration, candidate prioritisation and verified narrative</text>
+
+  <!-- row 1: data -->
+  <rect x="20" y="84" width="370" height="150" rx="12" fill="#e8f3fc" stroke="#7fb4e0"/>
+  <text x="36" y="110" class="h">Biopsy cohorts (8, GEO)</text>
+  <text x="36" y="134" class="t">• MSCCR RNA-seq: inflamed, non-inflamed, control</text>
+  <text x="36" y="154" class="t">• UNIFI, PURSUIT, two Leuven arrays</text>
+  <text x="36" y="174" class="t">• PROTECT, RISK, GSE165512 RNA-seq</text>
+  <text x="36" y="194" class="t">• Response to 4 biologics + placebo arms</text>
+  <text x="36" y="214" class="t">• Mayo endoscopic score</text>
+
+  <rect x="410" y="84" width="380" height="150" rx="12" fill="#fdecf3" stroke="#e59bbb"/>
+  <text x="426" y="110" class="h">Single cell and tissue sections</text>
+  <text x="426" y="134" class="t">• Smillie 2019, Garrido-Trigo 2023</text>
+  <text x="426" y="154" class="t">• Gubatan 2026 (with neutrophils)</text>
+  <text x="426" y="174" class="t">• Xenium 5K: 6 sections, 2 studies</text>
+  <text x="426" y="194" class="t">• Visium whole transcriptome: 9 sections</text>
+  <text x="426" y="214" class="t">• Composition adjustment of biopsies</text>
+
+  <rect x="810" y="84" width="370" height="150" rx="12" fill="#e9f7ee" stroke="#86c99c"/>
+  <text x="826" y="110" class="h">Genetics, literature, databases</text>
+  <text x="826" y="134" class="t">• UC GWAS + UKB-PPP plasma pQTL (MR)</text>
+  <text x="826" y="154" class="t">• Open Targets 26.09, STRING, UniProt</text>
+  <text x="826" y="174" class="t">• PubTator3 relations, checked verbatim</text>
+  <text x="826" y="194" class="t">• Human Protein Atlas (vital organs)</text>
+  <text x="826" y="214" class="t">• Clinical precedence (evaluation only)</text>
+
+  <path class="ar" d="M205 236v24"/><path class="ar" d="M600 236v24"/><path class="ar" d="M995 236v24"/>
+
+  <!-- row 2: deterministic analysis -->
+  <rect x="20" y="264" width="1160" height="118" rx="12" fill="#f1eefc" stroke="#a796e0"/>
+  <text x="36" y="290" class="h">Deterministic analysis (Python, no language model)</text>
+  <text x="36" y="316" class="t">• Per-cohort DE, random-effects meta-analysis (≥ 2 cohorts)</text>
+  <text x="36" y="338" class="t">• Replication, disease activity, inflamed vs non-inflamed</text>
+  <text x="36" y="360" class="t">• Convergence score, target and biomarker profiles</text>
+  <text x="430" y="316" class="t">• Cell attribution, tissue change vs cell influx</text>
+  <text x="430" y="338" class="t">• In-situ compartments and neighbourhoods</text>
+  <text x="430" y="360" class="t">• PROGENy / CollecTRI activity, ligand-receptor pairs</text>
+  <text x="820" y="316" class="t">• Treatment response with placebo arms</text>
+  <text x="820" y="338" class="t">• Mendelian randomisation + colocalisation</text>
+  <text x="820" y="360" class="t">• Discovery screen of untargeted genes</text>
+
+  <path class="ar" d="M600 384v22"/>
+
+  <!-- row 3: graph -->
+  <rect x="20" y="410" width="1160" height="76" rx="12" fill="#e6f4f8" stroke="#79bfd3"/>
+  <text x="36" y="438" class="h">Evidence-linked knowledge graph (SQLite)</text>
+  <text x="36" y="464" class="t">Every claim points to an evidence record with the value, dataset and date; a claim without evidence is refused.</text>
+
+  <path class="ar" d="M600 488v22"/>
+
+  <!-- row 4: MCP -->
+  <rect x="20" y="514" width="1160" height="78" rx="12" fill="#eef7f9" stroke="#79bfd3"/>
+  <text x="36" y="542" class="h">MCP servers</text>
+  <text x="36" y="566" class="s">FastMCP · stdio</text>
+  <g class="t">
+    <rect x="180" y="530" width="186" height="46" rx="8" fill="#fff" stroke="#9cc9d6"/><text x="273" y="558" text-anchor="middle">expression-mcp</text>
+    <rect x="380" y="530" width="186" height="46" rx="8" fill="#fff" stroke="#9cc9d6"/><text x="473" y="558" text-anchor="middle">cell-mcp</text>
+    <rect x="580" y="530" width="186" height="46" rx="8" fill="#fff" stroke="#9cc9d6"/><text x="673" y="558" text-anchor="middle">pathway-mcp</text>
+    <rect x="780" y="530" width="186" height="46" rx="8" fill="#fff" stroke="#9cc9d6"/><text x="873" y="558" text-anchor="middle">kg-mcp</text>
+    <rect x="980" y="530" width="186" height="46" rx="8" fill="#fff" stroke="#9cc9d6"/><text x="1073" y="558" text-anchor="middle">external-mcp</text>
+  </g>
+
+  <path class="ar" d="M600 594v22"/>
+
+  <!-- row 5: agents -->
+  <rect x="20" y="620" width="1160" height="196" rx="12" fill="#fdf3e6" stroke="#e3b06a"/>
+  <text x="36" y="648" class="h">Claude Code orchestration</text>
+  <text x="36" y="668" class="s">Opus orchestrator</text>
+  <text x="36" y="685" class="s">six Sonnet specialists in parallel</text>
+  <g class="t">
+    <rect x="300" y="636" width="140" height="44" rx="8" fill="#fff" stroke="#e3b06a"/><text x="370" y="663" text-anchor="middle">Expression</text>
+    <rect x="450" y="636" width="140" height="44" rx="8" fill="#fff" stroke="#e3b06a"/><text x="520" y="663" text-anchor="middle">Literature</text>
+    <rect x="600" y="636" width="140" height="44" rx="8" fill="#fff" stroke="#e3b06a"/><text x="670" y="663" text-anchor="middle">External + MR</text>
+    <rect x="750" y="636" width="140" height="44" rx="8" fill="#fff" stroke="#e3b06a"/><text x="820" y="663" text-anchor="middle">Cells + space</text>
+    <rect x="900" y="636" width="130" height="44" rx="8" fill="#fff" stroke="#e3b06a"/><text x="965" y="663" text-anchor="middle">Pathways</text>
+    <rect x="1040" y="636" width="130" height="44" rx="8" fill="#fff" stroke="#e3b06a"/><text x="1105" y="663" text-anchor="middle">Translational</text>
+  </g>
+  <rect x="36" y="696" width="550" height="82" rx="10" fill="#e8f3fc" stroke="#7fb4e0"/>
+  <text x="54" y="722" class="h" font-size="15">Coverage and integration</text>
+  <text x="54" y="746" class="t">• Every key specialist finding must reach the report</text>
+  <text x="54" y="766" class="t">• Ranking and profiles come from code, not from the agents</text>
+  <rect x="614" y="696" width="550" height="82" rx="10" fill="#e9f7ee" stroke="#86c99c"/>
+  <text x="632" y="722" class="h" font-size="15">Sentence verification</text>
+  <text x="632" y="746" class="t">• Evidence exists, same gene, number, sign and unit match</text>
+  <text x="632" y="766" class="t">• Direction agrees with the data; stale evidence rejected</text>
+  <text x="600" y="804" text-anchor="middle" class="s">Passing the automatic checks is not complete scientific validation</text>
+
+  <path class="ar" d="M600 818v22"/>
+
+  <!-- row 6: report -->
+  <rect x="20" y="844" width="1160" height="80" rx="12" fill="#f4f0fb" stroke="#a796e0"/>
+  <text x="36" y="872" class="h">Interactive HTML report</text>
+  <text x="36" y="898" class="t">Candidates · Discovery · Expression · Cells and tissue · Pathways · Genetics (MR) · Treatment · Literature · Network · Validation · Methods</text>
+
+  <rect x="20" y="934" width="1160" height="36" rx="10" fill="#f1f3f5" stroke="#c4cad1"/>
+  <text x="600" y="957" text-anchor="middle" class="t">Reproducibility: frozen inputs with SHA-256 · saved model outputs · offline clean rebuild · tests in CI</text>
+</svg>

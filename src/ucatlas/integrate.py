@@ -3,7 +3,7 @@
 Each stream is a component in [0, 1]; score = sum(stream_weight * component), weights in config.yaml. Every component
 carries the evidence ids that justify it; only ids present in the graph are kept. Streams (v1):
 - expression: meta-analysis change, min(1, |log2FC| / cap) when significant in the meta-analysis
-- replication: share of the five cohorts with a significant change in the same direction as the meta-analysis
+- replication: share of the eight cohorts with a significant change in the same direction as the meta-analysis
 - inflammation: paired inflamed vs non-inflamed change within the same patient (local, not between people)
 - genetics: Open Targets germline genetic association with the disease
 - literature: max(min(1, validated relations / 3), Open Targets literature)
@@ -23,7 +23,7 @@ from .literature_entities import resolve_gene
 from .paths import LITERATURE, PROCESSED
 from .runs import run_dir
 
-COHORTS = ["GSE193677", "GSE206285", "GSE92415", "GSE16879", "GSE73661"]
+from .expression import COHORTS  # noqa: E402  (eight bulk cohorts)
 
 
 def compute() -> pd.DataFrame:

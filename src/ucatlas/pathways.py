@@ -21,7 +21,7 @@ from statsmodels.stats.multitest import multipletests
 
 from .paths import PROCESSED, RAW
 
-COHORTS = ["GSE193677", "GSE206285", "GSE92415", "GSE16879", "GSE73661"]
+from .expression import COHORTS  # noqa: E402  (eight bulk cohorts)
 
 
 def _cohort_matrix(cohort: str) -> tuple[pd.DataFrame, list[str], list[str]]:
@@ -126,7 +126,7 @@ def load(store=None) -> int:
     today = date.today().isoformat()
     n = 0
     with store.batch():
-        store.add_node("ANALYSIS:pathways", "Dataset", "Pathway (PROGENy) and TF (CollecTRI) activity, five cohorts")
+        store.add_node("ANALYSIS:pathways", "Dataset", "Pathway (PROGENy) and TF (CollecTRI) activity, eight cohorts")
         store.add_node("ANALYSIS:communication", "Dataset", "Ligand-receptor communication, Gubatan 2026 single cell")
         for kind, f in (("pathway", "pathway_activity"), ("tf", "tf_activity")):
             d = pd.read_parquet(PROCESSED / f"{f}.parquet")

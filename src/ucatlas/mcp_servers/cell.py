@@ -68,12 +68,18 @@ def composition_effect(gene: str) -> dict:
 
 @mcp.tool()
 def spatial_context(gene: str) -> dict:
-    """In-situ view from Xenium 5K sections of UC and healthy rectum (GSE312420): share of the gene's transcripts per
-    cell lineage by state, and lineages enriched among the 10 nearest neighbours of expressing cells (permutation
-    p < 0.05, enrichment > 1.2). Sections with few typed cells are left out and named. Panel sensitivity is low:
-    absence of enrichment is not evidence of absence."""
+    """In-situ view of a gene in UC and healthy colon, from two platforms (cite each record's evidence_id).
+    xenium: Xenium 5K sections (GSE312420 and GSE339323; single cells): share of the gene's transcripts per cell
+    lineage by state, and lineages enriched among the 10 nearest neighbours of expressing cells (permutation p < 0.05,
+    enrichment > 1.2); sections with few typed cells are left out and named. Many candidates are not on the panel.
+    visium: Visium whole transcriptome (GSE189184; 55 um spots of several cells; 7 UC inflamed, 2 healthy sections):
+    the lineage whose marker score co-varies most with the gene across spots (median Spearman rho over UC sections,
+    and in how many sections it ranks first), and the UC vs healthy ratio of mean CPM. Spot co-variation is weaker
+    evidence of the producing cell than single-cell data; absence of enrichment is not evidence of absence."""
     g = canonical_gene(gene)
-    return _record("spatial_summary", g) or {"gene": g, "message": "not on the Xenium 5K panel or too few counts"}
+    out = {"gene": g, "xenium": _record("spatial_summary", g) or {"message": "not on the Xenium 5K panel or too few counts"},
+           "visium": _record("spatial_visium", g) or {"message": "not analysed in Visium (not a top candidate) or expressed in < 20 spots"}}
+    return out
 
 
 @mcp.tool()

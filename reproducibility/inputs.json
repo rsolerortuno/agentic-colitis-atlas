@@ -1,7 +1,37 @@
 {
- "config_sha256": "d515fbbbd0f6f2245543e9d4a1dc9ab4db5dd7a09c7bdaf90ea36ab1147234eb",
+ "config_sha256": "54fc8c8b4f603189a1fa78e8f4131a9305683ef3c0a6b8bab75c32998c09f70f",
  "uv_lock_sha256": "6aca0f6a73e275e067759a1da000f89963ee285280911c771443657d43be6b78",
  "files": [
+  {
+   "path": "raw/GSE109142/GSE109142_raw_counts_GRCh38.p13_NCBI.tsv.gz",
+   "sha256": "5c45b213bdee248f203229fc5aa0db5d7d41bad5c60a8b78fd22f57693d671d8",
+   "bytes": 9794369
+  },
+  {
+   "path": "raw/GSE109142/GSE109142_series_matrix.txt.gz",
+   "sha256": "f4a54de3c90095a3ae59e91190fc2f1efe7cab337aac5e096504d40fba24702a",
+   "bytes": 14243
+  },
+  {
+   "path": "raw/GSE117993/GSE117993_raw_counts_GRCh38.p13_NCBI.tsv.gz",
+   "sha256": "66d65b9d0b64140eb7d69c33004cb819be7db0230aafa51e23dc2c5ab226c68c",
+   "bytes": 6824654
+  },
+  {
+   "path": "raw/GSE117993/GSE117993_series_matrix.txt.gz",
+   "sha256": "f9480b9a9ecbf194f8b79df9e0d2b70f738858cdb60f8157ba75a7d997d8f7df",
+   "bytes": 9846
+  },
+  {
+   "path": "raw/GSE165512/GSE165512_raw_counts_GRCh38.p13_NCBI.tsv.gz",
+   "sha256": "6e10066469b502b8f862a32c1764d1b9d9527ec80656d5db4d5da59046ed9aa0",
+   "bytes": 6074452
+  },
+  {
+   "path": "raw/GSE165512/GSE165512_series_matrix.txt.gz",
+   "sha256": "cc4dfcc1a5adc2fb691d6b12fa0636251d419fcfe295287ed5ca616f3d4d1a5c",
+   "bytes": 6097
+  },
   {
    "path": "raw/GSE16879/GSE16879_series_matrix.txt.gz",
    "sha256": "8874d0d40217c3b92c44cead29bf15a0b157e45f62825c95b3c5183c0f513602",
@@ -48,6 +78,16 @@
    "bytes": 39436998
   },
   {
+   "path": "raw/extra/ot_pqtl_credible_sets.parquet",
+   "sha256": "39d271ab20ae0ac64fa9cc9514c6f6e252188fab2d11e66f304617c172ddb7d0",
+   "bytes": 13643451
+  },
+  {
+   "path": "raw/extra/ot_study.parquet",
+   "sha256": "158296ab630ae2dbedc14d5a7c0393f92837d99ba59fd76d3c2f363327e48d40",
+   "bytes": 97748879
+  },
+  {
    "path": "raw/extra/ot_target_tractability_0.parquet",
    "sha256": "c81b9d1c61d3fa1e23e67a5b91c082e7d20829aba578ffe95adc9ea1ef2332fe",
    "bytes": 55708
@@ -56,6 +96,11 @@
    "path": "raw/extra/ot_target_tractability_1.parquet",
    "sha256": "ebc49a49ae182dee29be43664dfc61c21897bf3d776d9df18f7e0e73bc0990ea",
    "bytes": 72189
+  },
+  {
+   "path": "raw/gwas/GCST004133_uc_delange2017.h.tsv.gz",
+   "sha256": "dafed0dbff579e7a131a095ba8db7927c9d266f64ef9b35a496a7c380e57970f",
+   "bytes": 299230653
   },
   {
    "path": "raw/hgnc_complete_set.txt",
@@ -786,37 +831,192 @@
    "path": "raw/spatial/GSE312420/GSM9345508_Xenium_5k_I0387R_matrix.mtx.gz",
    "sha256": "22c3076099abf99212dcca77adfb1cdf289caeb0f76594aea4853e6ed515a208",
    "bytes": 21231616
+  },
+  {
+   "path": "raw/spatial/GSE339323/GSM9893496_UC1_inf_cell_feature_matrix.h5",
+   "sha256": "b96c1c33e1925fb7c70b1a4e484de09b3d3159cb9f1ebe56278678a6d4b2a48b",
+   "bytes": 99386745
+  },
+  {
+   "path": "raw/spatial/GSE339323/GSM9893496_UC1_inf_cells.parquet.gz",
+   "sha256": "f7ff39946c27eedcfae370d784984a03779198a6336c42959f02f40cce5fd89f",
+   "bytes": 5580589
+  },
+  {
+   "path": "raw/spatial/GSE339323/GSM9893497_UC1_noninf_cell_feature_matrix.h5",
+   "sha256": "c6853b84d1d1bca31c6a23d2337b894dd98d6dbdb2b1c6871340210f556baac0",
+   "bytes": 59473713
+  },
+  {
+   "path": "raw/spatial/GSE339323/GSM9893497_UC1_noninf_cells.parquet.gz",
+   "sha256": "59d6fbdead4bb2943359129e0ab20ece8b58a10a9aa3bfc61fc642ef7c307cb6",
+   "bytes": 3694488
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695828_filtered_feature_bc_matrix.h5",
+   "sha256": "0fe4bdad933beccd40a98c4cdd8aaf83da262fc6ac0dd0d1ffb8b9e7c4f66d63",
+   "bytes": 1226556
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695828_scalefactors_json.json",
+   "sha256": "6c16969e6274dd962e09f68dd56cae059e32b04d14f7b42b62d598da178f4f59",
+   "bytes": 164
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695828_tissue_positions_list.csv",
+   "sha256": "924d44b88b991d5218fbba1fc1ea03110ae3b279cdac8a4c0b3bb32c1ffcbe28",
+   "bytes": 188900
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695829_filtered_feature_bc_matrix.h5",
+   "sha256": "d9d1be4261515cae4f6fcf08cda5e587d0ae0f9bd1061aae1fcdc999d6184bbc",
+   "bytes": 3416462
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695829_scalefactors_json.json",
+   "sha256": "ba8f8e53f595a5f1cb331ceaaf4ca8684fcf7cd2e0fab2984afa27e75785ac2d",
+   "bytes": 165
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695829_tissue_positions_list.csv",
+   "sha256": "97a468c73adf8dec283a92cce204b9a7f0a154f9818f4938ff60ce70f64f83a9",
+   "bytes": 188831
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695834_filtered_feature_bc_matrix.h5",
+   "sha256": "bff72d85bb13c6ea9864d6893ad5a8a4d590875efeb1ac65f7c930fe6e5a38b8",
+   "bytes": 4716474
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695834_scalefactors_json.json",
+   "sha256": "921fbaedfb041766d816540480ada7afe6bd67c40f8c2fa17be70c8f32b29b93",
+   "bytes": 158
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695834_tissue_positions_list.csv",
+   "sha256": "2e79fc8e98178d193bb3c4ca2c96827260c3343bb3c5329bde59be1630379d1d",
+   "bytes": 184688
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695835_filtered_feature_bc_matrix.h5",
+   "sha256": "9d531c0b98b67b950b0279ed8ca7538651b833922b1ec12f2a3f556a2d8bd2c2",
+   "bytes": 4218441
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695835_scalefactors_json.json",
+   "sha256": "cd87ae853b872fff39db4dc13b84692104992b486f55045cdf3ec10b32ee64ff",
+   "bytes": 150
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695835_tissue_positions_list.csv",
+   "sha256": "91a4fa66b11fe45d48545b6eccffce425ee6b3c66758ac3a5b1f77d2e6d2ab5a",
+   "bytes": 184688
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695837_filtered_feature_bc_matrix.h5",
+   "sha256": "33e86959821f4d667df56c93493e527e2fbfda9676f7aed87a26f074c3317989",
+   "bytes": 2411488
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695837_scalefactors_json.json",
+   "sha256": "820a012b22d227151ef6f388b7681be033927645632483568472f2b7775f3f6a",
+   "bytes": 165
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695837_tissue_positions_list.csv",
+   "sha256": "432e4480be281a70449a3ed396cdd52115eb3436967506d160b89bc8867d1887",
+   "bytes": 189304
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695838_filtered_feature_bc_matrix.h5",
+   "sha256": "8b97a367f4e7b2fdea58dd5703a34d4aadeeb7cda867fe5499e66ee845043227",
+   "bytes": 2398799
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695838_scalefactors_json.json",
+   "sha256": "07219a5c7c525b1a83d1ed4af17bee4294c21ebaf6b8af6bc41b1289b49ee01f",
+   "bytes": 166
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695838_tissue_positions_list.csv",
+   "sha256": "5da6969b1b760837395530ee1d2c9ed58c598017b2b80a73c0dd4af2657e824c",
+   "bytes": 189432
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695839_filtered_feature_bc_matrix.h5",
+   "sha256": "95037b5fd841049dd5d676ad4d81fc022e439e8e71605d4b639cb15fd9cc5b0c",
+   "bytes": 2147106
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695839_scalefactors_json.json",
+   "sha256": "37d350a1ab5caddfb7bae6338f4087de378c964899d08a895e420672a803d8dd",
+   "bytes": 163
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695839_tissue_positions_list.csv",
+   "sha256": "f9b89ae9ae3ff77a6363d30e734d938f1cd5f20c22e0bd4e503fba0859ddae9c",
+   "bytes": 189457
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695840_filtered_feature_bc_matrix.h5",
+   "sha256": "6d26e37e39ff1c0e8e3fe5328545f892aec335619aed9597093098cc5fe94165",
+   "bytes": 3770891
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695840_scalefactors_json.json",
+   "sha256": "d25fce636ef5f1612b59102424ea78c2429f6bc6f509883006c2ac4be4f7cbab",
+   "bytes": 165
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695840_tissue_positions_list.csv",
+   "sha256": "e52b534f5c009033e4c8288186c072577f8a2bcdb09a2b751532fb5a7bb07753",
+   "bytes": 188182
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695843_filtered_feature_bc_matrix.h5",
+   "sha256": "e0c015f9dc30d684885d27bc8fd304b8edb5006f419af35597e4331f78d638d8",
+   "bytes": 6765869
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695843_scalefactors_json.json",
+   "sha256": "d247951c98a442db3f011cc4dfffa8beb03f09e9f726922565d13697642a2415",
+   "bytes": 166
+  },
+  {
+   "path": "raw/spatial/GSE189184/GSM5695843_tissue_positions_list.csv",
+   "sha256": "e51514fdf7502ad091d18e6461e4f9dd09bce58acb6e5b6c0f73d0ba42994848",
+   "bytes": 188413
   }
  ],
  "project_files": [
   {
-   "path": "runs/2026-11-09_full/agent_applied.json",
-   "sha256": "7cbf85c14d8abbdbeabcd28d1675dc4f8555e56fbbdcc4e9b9e7fb5a8865a32c"
+   "path": "runs/2026-11-10/agent_applied.json",
+   "sha256": "daf3ac7323df1dd15de22a135bf8b30fb45110d027d3c5de43b187b07c714e22"
   },
   {
-   "path": "runs/2026-11-09_full/agent_cells.json",
-   "sha256": "040815663ce3cd37b127f7de425d32bbe348b4dbbe48cfdf1d7b7c4a6f71ce01"
+   "path": "runs/2026-11-10/agent_cells.json",
+   "sha256": "273d7208489f2e6e85bebb7f95c13aec451721246733d84d107ebdff7df51f16"
   },
   {
-   "path": "runs/2026-11-09_full/agent_expression.json",
-   "sha256": "6eda434f8e77969111b0d1883f5b50b868a84d8215a4364f5abe500e331019a5"
+   "path": "runs/2026-11-10/agent_expression.json",
+   "sha256": "a146e829e14f4982d5531aa4d9e23a324bb9051ad10193ef04428763aab87016"
   },
   {
-   "path": "runs/2026-11-09_full/agent_external.json",
-   "sha256": "d4f25cb2c9377005c89c01e0aa43db2e2dade6b3b786785174457a0ebf237e8e"
+   "path": "runs/2026-11-10/agent_external.json",
+   "sha256": "77639e4a437c60ae9cf1d45ce71b154a2212be1eecda44b3106cd3d214d3ac32"
   },
   {
-   "path": "runs/2026-11-09_full/agent_literature.json",
-   "sha256": "3c8bb2b7a71847cf440b549378ffdcfc70b9e3b999c971936f3b3aaafbd17792"
+   "path": "runs/2026-11-10/agent_literature.json",
+   "sha256": "487d546491d8d051a185169c5df0d109d7eebe25a3fa11a3170b894a96da803d"
   },
   {
-   "path": "runs/2026-11-09_full/agent_pathways.json",
-   "sha256": "eb38e067c0664454900faae0d00d2a8fc01d80e71679d77672540a1dddf49f76"
+   "path": "runs/2026-11-10/agent_pathways.json",
+   "sha256": "6c3eb32379d94f5097c1b9e28a279ef4c2932e8c2286c19a8a684982f9cbbcd1"
   },
   {
-   "path": "runs/2026-11-09_full/narrative.json",
-   "sha256": "f258cfadbcaebaa2170907d343705d14d952995aa6bb3f1d143ad7dab2c686a1"
+   "path": "runs/2026-11-10/narrative.json",
+   "sha256": "69be9c69601c14acedcb5df5a9a003df32764401572d6974dce61adc8892b1e7"
   }
  ],
- "analysis_run": "runs/2026-11-09_full"
+ "analysis_run": "runs/2026-11-10"
 }

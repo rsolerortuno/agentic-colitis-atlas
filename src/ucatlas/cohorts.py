@@ -1,4 +1,4 @@
-"""M1: one tidy sample table for the five bulk cohorts (data/processed/samples.parquet).
+"""M1: one tidy sample table for the eight bulk cohorts (data/processed/samples.parquet).
 
 Columns: sample, cohort, patient, group (UC_inflamed | UC_noninflamed | UC | healthy | other), region, timepoint,
 treatment, response (True/False/None, the cohort's own endpoint), mayo (endoscopic or total, see column note),
@@ -134,8 +134,46 @@ def _gse73661() -> pd.DataFrame:
     return out
 
 
+def _gse109142() -> pd.DataFrame:
+    """PROTECT: treatment-naive paediatric UC at diagnosis and non-IBD controls, rectal biopsies (RNA-seq)."""
+    m = series_meta("GSE109142")
+    out = pd.DataFrame({"sample": m["geo_accession"], "geo": m["geo_accession"], "cohort": "GSE109142",
+                        "patient": m["geo_accession"],
+                        "group": m["diagnosis"].map({"Ulcerative Colitis": "UC", "Control": "healthy"}).fillna("other"),
+                        "region": "Rectum", "timepoint": "baseline", "treatment": None, "response": None,
+                        "mayo": pd.to_numeric(m["total mayo score"], errors="coerce"),
+                        "age": pd.to_numeric(m["age at diagnosis"], errors="coerce"), "sex": m["Sex"]})
+    out["response_endpoint"] = None
+    return out
+
+
+def _gse117993() -> pd.DataFrame:
+    """RISK: paediatric UC at diagnosis and non-IBD controls, rectal biopsies (RNA-seq); Crohn's disease left out."""
+    m = series_meta("GSE117993")
+    out = pd.DataFrame({"sample": m["geo_accession"], "geo": m["geo_accession"], "cohort": "GSE117993",
+                        "patient": m["geo_accession"],
+                        "group": m["diagnosis"].map({"UC": "UC", "Control": "healthy"}).fillna("other"),
+                        "region": "Rectum", "timepoint": "baseline", "treatment": None, "response": None,
+                        "mayo": None, "age": None, "sex": None})
+    out["response_endpoint"] = None
+    return out
+
+
+def _gse165512() -> pd.DataFrame:
+    """Adult UC and healthy colon biopsies (RNA-seq); ileum and Crohn's disease left out."""
+    m = series_meta("GSE165512")
+    colon = m["tissue"].eq("colon")
+    grp = m["disease state"].map({"Ulcerative colitis": "UC", "Healthy": "healthy"}).where(colon).fillna("other")
+    out = pd.DataFrame({"sample": m["geo_accession"], "geo": m["geo_accession"], "cohort": "GSE165512",
+                        "patient": "GSE165512_" + m["title"].str.extract(r"^(R\d+)")[0].fillna(m["geo_accession"]),
+                        "group": grp, "region": "Colon", "timepoint": "baseline", "treatment": None, "response": None,
+                        "mayo": None, "age": None, "sex": None})
+    out["response_endpoint"] = None
+    return out
+
+
 def build() -> pd.DataFrame:
-    parts = [_mssccr(), _unifi(), _pursuit(), _gse16879(), _gse73661()]
+    parts = [_mssccr(), _unifi(), _pursuit(), _gse16879(), _gse73661(), _gse109142(), _gse117993(), _gse165512()]
     df = pd.concat(parts, ignore_index=True)
     df["response"] = df["response"].astype("object").where(df["response"].notna(), None)
     keep = [c for c in df.columns if not c.startswith("_")]

@@ -8,6 +8,9 @@ Contrasts
 - GSE193677 (RNA-seq): UC inflamed vs control, UC non-inflamed vs control, and inflamed vs non-inflamed within the
   same patient (paired; 135 patients).
 - Microarray cohorts: UC at baseline vs healthy controls.
+- RNA-seq replication cohorts (added 2026-11-10): PROTECT (GSE109142) and RISK (GSE117993), paediatric rectum at
+  diagnosis, and GSE165512, adult colon; UC vs healthy controls, NCBI-generated raw counts. They let genes that are not
+  on the arrays (mostly lncRNAs and newer genes) meet more than one cohort.
 Outputs: data/processed/de_results.parquet, meta.parquet, symbol_map.parquet, expr_<cohort>.parquet (gene x sample).
 """
 from __future__ import annotations
@@ -23,6 +26,8 @@ from .literature_entities import symbol_lookup
 from .paths import PROCESSED, RAW
 
 ARRAYS = {"GSE206285": "GPL13158", "GSE92415": "GPL13158", "GSE16879": "GPL570", "GSE73661": "GPL6244"}
+RNASEQ = ["GSE109142", "GSE117993", "GSE165512"]
+COHORTS = ["GSE193677", *ARRAYS, *RNASEQ]
 
 
 # ------------------------------------------------------------------ gene identifiers
@@ -87,7 +92,21 @@ def rnaseq_genes() -> pd.DataFrame:
     sym = c.index.map(ensembl_to_symbol())
     c = c[sym.notna()]
     c.index = sym[sym.notna()]
-    c = c.groupby(level=0).sum()
+    return _normalise(c.groupby(level=0).sum())
+
+
+def ncbi_counts(gse: str) -> pd.DataFrame:
+    """NCBI-generated raw counts (Entrez GeneID rows, GSM columns) -> log2 normalised counts on HGNC symbols."""
+    c = pd.read_csv(RAW / gse / f"{gse}_raw_counts_GRCh38.p13_NCBI.tsv.gz", sep="	", index_col=0)
+    # every HGNC locus group, as for the MSCCR Ensembl ids
+    hg = pd.read_csv(RAW / "hgnc_complete_set.txt", sep="	", usecols=["symbol", "entrez_id"], dtype=str).dropna()
+    sym = c.index.astype(str).map(dict(zip(hg["entrez_id"], hg["symbol"])))
+    c = c[sym.notna()]
+    c.index = sym[sym.notna()]
+    return _normalise(c.groupby(level=0).sum())
+
+
+def _normalise(c: pd.DataFrame) -> pd.DataFrame:
     c = c[(c >= 10).sum(axis=1) >= 0.1 * c.shape[1]]  # expressed in at least 10 % of biopsies
     logc = np.log(c.replace(0, np.nan))
     geo_mean = logc.mean(axis=1)
@@ -185,13 +204,22 @@ def run() -> dict:
         xa_all, _ = array_genes(gse)  # every sample (incl. post-treatment) on the gene level, for later milestones
         xa_all.astype("float32").to_parquet(PROCESSED / f"expr_{gse}.parquet")
 
+    # replication: RNA-seq cohorts, UC vs healthy (one biopsy per patient)
+    for gse in RNASEQ:
+        xr = ncbi_counts(gse)
+        s = base[(base["cohort"] == gse)].set_index("geo")
+        uc = [c for c in xr.columns if c in s.index and s.loc[c, "group"] == "UC"]
+        hc = [c for c in xr.columns if c in s.index and s.loc[c, "group"] == "healthy"]
+        results.append(welch(xr, uc, hc).assign(cohort=gse, contrast="uc_vs_control"))
+        xr.astype("float32").to_parquet(PROCESSED / f"expr_{gse}.parquet")
+
     de = pd.concat(results).rename_axis("gene").reset_index()
     de["padj"] = de.groupby(["cohort", "contrast"])["p"].transform(lambda p: _bh(p))
     de.to_parquet(PROCESSED / "de_results.parquet", index=False)
     pd.DataFrame({"dataset_symbol": list(smap_all), "symbol": list(smap_all.values())}).to_parquet(
         PROCESSED / "symbol_map.parquet", index=False)
 
-    # meta-analysis of disease vs control: MSCCR inflamed vs control + the four array cohorts
+    # meta-analysis of disease vs control: MSCCR inflamed vs control + the four array and three RNA-seq cohorts
     use = de[de["contrast"].isin(["inflamed_vs_control", "uc_vs_control"])]
     rows = []
     for gene, g in use.groupby("gene"):
@@ -200,7 +228,11 @@ def run() -> dict:
         rows.append({"gene": gene, "meta_log2fc": est, "meta_se": se, "meta_p": p, "i2": i2, "k": k,
                      "n_sig_up": int((sig["log2fc"] > 0).sum()), "n_sig_down": int((sig["log2fc"] < 0).sum())})
     meta = pd.DataFrame(rows)
-    meta["meta_padj"] = _bh(meta["meta_p"])
+    # A pooled estimate needs at least two cohorts (review 2026-11-10): a gene measured in one cohort keeps that
+    # cohort's estimate but gets no pooled significance, so it cannot enter the expression stream on one cohort alone.
+    meta["meta_padj"] = np.nan
+    multi = meta["k"] >= 2
+    meta.loc[multi, "meta_padj"] = _bh(meta.loc[multi, "meta_p"])
     meta.to_parquet(PROCESSED / "meta.parquet", index=False)
     replication(de).to_parquet(PROCESSED / "replication.parquet", index=False)
     return {"de": de, "meta": meta}
@@ -211,7 +243,7 @@ def replication(de: pd.DataFrame, padj: float = 0.05, min_fc: float = 1.0) -> pd
     d = de[(de.cohort == "GSE193677") & (de.contrast == "inflamed_vs_control")].set_index("gene")
     disc = d[(d.padj < padj) & (d.log2fc.abs() >= min_fc)]
     out = []
-    for gse in ARRAYS:
+    for gse in COHORTS[1:]:
         r = de[(de.cohort == gse)].set_index("gene").reindex(disc.index)
         tested = r["padj"].notna()
         same = tested & (r["padj"] < padj) & (np.sign(r["log2fc"]) == np.sign(disc["log2fc"]))

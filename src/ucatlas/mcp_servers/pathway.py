@@ -1,4 +1,4 @@
-"""pathway-mcp: pathway and transcription-factor activity in UC mucosa (five cohorts) and ligand-receptor
+"""pathway-mcp: pathway and transcription-factor activity in UC mucosa (eight cohorts) and ligand-receptor
 communication between cell states (single cell with neutrophils). Every record carries the evidence_id to cite."""
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ def _rec(ev_id: str) -> dict | None:
 @mcp.tool()
 def pathway_activity(pathway: str | None = None) -> list[dict]:
     """PROGENy pathway activity (Androgen, EGFR, Estrogen, Hypoxia, JAK-STAT, MAPK, NFkB, PI3K, TGFb, TNFa, Trail,
-    VEGF, WNT, p53), inflamed or UC vs control in each of five cohorts (t, BH padj) and the number of cohorts with a
+    VEGF, WNT, p53), inflamed or UC vs control in each of eight cohorts (t, BH padj) and the number of cohorts with a
     significant increase or decrease. Without an argument, all 14 pathways."""
     d = pd.read_parquet(PROCESSED / "pathway_activity.parquet")
     names = [pathway] if pathway else sorted(d["source"].unique())
@@ -37,7 +37,7 @@ def _tf() -> pd.DataFrame:
 @mcp.tool()
 def tf_activity(tf: str) -> dict:
     """Transcription-factor activity (CollecTRI regulons, decoupler ulm) of one TF, inflamed or UC vs control in
-    five cohorts. Activity is inferred from the TF's target genes, not from its own mRNA."""
+    eight cohorts. Activity is inferred from the TF's target genes, not from its own mRNA."""
     g = canonical_gene(tf)
     return _rec(evidence_id("tf_activity", g)) or {"tf": g, "message": "no CollecTRI regulon for this TF"}
 

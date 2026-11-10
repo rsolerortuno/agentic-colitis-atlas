@@ -30,12 +30,22 @@ def _platform(gpl: str) -> tuple[str, str]:
     return f"{GEO}/platforms/{stub}/{gpl}/annot/{gpl}.annot.gz", f"platforms/{gpl}.annot.gz"
 
 
+def _ncbi_counts(gse: str) -> tuple[str, str]:
+    f = f"{gse}_raw_counts_GRCh38.p13_NCBI.tsv.gz"
+    return f"https://www.ncbi.nlm.nih.gov/geo/download/?type=rnaseq_counts&acc={gse}&format=file&file={f}", f"{gse}/{f}"
+
+
+OT = "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output"
+
 SOURCES: list[tuple[str, str]] = [
     *_series("GSE193677", "GSE193677_MSCCR_Biopsy_counts.txt.gz"),           # Mount Sinai MSCCR, RNA-seq (discovery)
     *_series("GSE206285", "GSE206285_additional_sample_metadata.tsv.gz"),     # UNIFI, ustekinumab
     *_series("GSE92415"),                                                     # PURSUIT-SC, golimumab
     *_series("GSE16879"),                                                     # infliximab, UC + CD
     *_series("GSE73661"),                                                     # infliximab + vedolizumab, UC
+    # RNA-seq replication cohorts (added 2026-11-10 so that genes not on the arrays meet more than one cohort);
+    # NCBI-generated raw counts (GRCh38.p13, one pipeline for every series)
+    *[x for g in ("GSE109142", "GSE117993", "GSE165512") for x in (_series(g) + [_ncbi_counts(g)])],
     _platform("GPL13158"), _platform("GPL570"), _platform("GPL6244"),
     ("https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt", "hgnc_complete_set.txt"),
     # second single-cell dataset for replication of the cell attribution (Garrido-Trigo et al. 2023, CZ CELLxGENE)
@@ -49,6 +59,11 @@ SOURCES: list[tuple[str, str]] = [
     # Open Targets 26.09 clinical precedence (all diseases, one part): gold set of the M8 evaluation
     ("https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_clinical_precedence/"
      "part-00000-c18648ed-1b6a-4490-aecf-bfadcf459516-c000.zstd.parquet", "extra/ot_clinical_precedence.parquet"),
+    # Mendelian randomisation (added 2026-11-10): UC GWAS summary statistics (de Lange et al. 2017, GWAS Catalog
+    # harmonised, GRCh38) and the Open Targets 26.09 study index (to find the UKB-PPP plasma pQTL studies)
+    ("https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST004001-GCST005000/GCST004133/harmonised/"
+     "28067908-GCST004133-EFO_0000729.h.tsv.gz", "gwas/GCST004133_uc_delange2017.h.tsv.gz"),
+    (f"{OT}/study/part-00000-90d9a8f0-e00a-492e-b961-40b56a21dbd0-c000.zstd.parquet", "extra/ot_study.parquet"),
 ]
 
 

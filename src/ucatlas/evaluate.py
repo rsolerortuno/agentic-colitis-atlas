@@ -4,7 +4,10 @@ Gold set: UC clinical targets from Open Targets 26.09 clinical precedence: targe
 colitis in phase 2 or later, with >= 2 trials or an approval. Drugs whose mechanism maps to more than 5 targets are
 removed so one drug does not contribute a block of genes (same rule as the earlier oncology atlas).
 Temporal subset: targets whose first UC trial (any phase) started on or after 2018-01-01. This is retrospective:
-the features are not frozen at the cutoff.
+the features are not frozen at the cutoff. That rule left 4 genes, too few to conclude. Wider temporal set (added
+2026-11-10, after seeing the 4-gene result; logged in history.md): targets of a drug with <= 5 targets that reached
+phase 2 or later in UC (one trial is enough), whose first UC trial of any phase started on or after 2016-01-01 with
+complete dates. Earlier UC clinical targets are removed from the universe, as for the strict subset.
 
 Scores compared: the convergence score (includes literature and drug history, so partly circular), the same score
 without literature and tractability ("data only"), expression alone, genetics alone and tractability alone.
@@ -25,6 +28,7 @@ from .paths import PROCESSED, RAW
 UC = re.compile(r"ulcerative colitis", re.I)
 ADVANCED = {"PHASE_2", "PHASE_2_3", "PHASE_3", "PHASE_4", "APPROVAL"}
 CUTOFF = "2018-01-01"
+CUTOFF_WIDE = "2016-01-01"
 MAX_TARGETS_PER_DRUG = 5
 
 
@@ -47,6 +51,24 @@ def clinical_targets() -> pd.DataFrame:
     g = g[(g["trials"] >= 2) | g["approved"]].join(dates)
     g["holdout"] = (g["first_trial"] >= pd.Timestamp(CUTOFF)) & ~g["date_incomplete"]
     return g.reset_index()
+
+
+def temporal_targets() -> tuple[set[str], set[str]]:
+    """Wider temporal set: (new targets with first UC trial >= CUTOFF_WIDE, earlier UC targets to exclude)."""
+    cp = pd.read_parquet(RAW / "extra" / "ot_clinical_precedence.parquet",
+                         columns=["targetId", "drugId", "clinicalStage", "studyStartDate", "diseaseFromSource"])
+    hg = pd.read_csv(RAW / "hgnc_complete_set.txt", sep="	", usecols=["symbol", "ensembl_gene_id"], dtype=str).dropna()
+    n_targets = cp.groupby("drugId")["targetId"].nunique()
+    r = cp[cp["diseaseFromSource"].fillna("").str.contains(UC) & (cp["drugId"].map(n_targets) <= MAX_TARGETS_PER_DRUG)].copy()
+    r["gene"] = r["targetId"].map(dict(zip(hg["ensembl_gene_id"], hg["symbol"])))
+    r = r.dropna(subset=["gene"])
+    r["start"] = pd.to_datetime(r["studyStartDate"], errors="coerce")
+    first = r.groupby("gene")["start"].min()
+    incomplete = r.groupby("gene")["start"].apply(lambda x: x.isna().any())
+    advanced = set(r.loc[r["clinicalStage"].isin(ADVANCED), "gene"])
+    new = {g for g in advanced if not incomplete[g] and first[g] >= pd.Timestamp(CUTOFF_WIDE)}
+    earlier = set(r["gene"]) - new
+    return new, earlier
 
 
 def auroc(score: np.ndarray, gold: np.ndarray) -> float:
@@ -108,9 +130,12 @@ def run() -> dict:
                        "predicted tractability alone": "only_tractability_predicted", "biomarker profile (M14)": "score_biomarker",
                        "target profile, tractability without ligand history": "score_target_no_ligand",
                        "predicted tractability without ligand history, alone": "only_tractability_no_ligand"})
-    out = {"gold_sets": {"uc_clinical_targets": sorted(allc), "temporal_holdout_targets": sorted(hold), "cutoff": CUTOFF},
+    wide, earlier = temporal_targets()
+    out = {"gold_sets": {"uc_clinical_targets": sorted(allc), "temporal_holdout_targets": sorted(hold), "cutoff": CUTOFF,
+                         "temporal_wide_targets": sorted(wide), "cutoff_wide": CUTOFF_WIDE},
            "clinical_targets": {k: metrics(t, c, allc) for k, c in scores.items()},
            "temporal_holdout": {k: metrics(t, c, hold, exclude=pre) for k, c in scores.items()},
+           "temporal_wide": {k: metrics(t, c, wide, exclude=earlier | (allc - wide)) for k, c in scores.items()},
            "clinical_table": clin.assign(first_trial=clin["first_trial"].dt.date.astype(str)).to_dict("records")}
     (PROCESSED.parents[1] / "evals").mkdir(exist_ok=True)
     (PROCESSED.parents[1] / "evals" / "results.json").write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
@@ -120,7 +145,8 @@ def run() -> dict:
 if __name__ == "__main__":
     r = run()
     print(len(r["gold_sets"]["uc_clinical_targets"]), "clinical targets;", len(r["gold_sets"]["temporal_holdout_targets"]), "after", CUTOFF)
-    for key in ("clinical_targets", "temporal_holdout"):
+    print(len(r["gold_sets"]["temporal_wide_targets"]), "after", CUTOFF_WIDE, "(wide):", r["gold_sets"]["temporal_wide_targets"])
+    for key in ("clinical_targets", "temporal_holdout", "temporal_wide"):
         print(key)
         for k, v in r[key].items():
             print(f"  {k}: AUROC {v['auroc']} {v['auroc_ci95']} recall@100 {v['recall_at_100']} median rank {v['median_rank']}")

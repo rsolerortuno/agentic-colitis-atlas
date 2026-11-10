@@ -14,6 +14,10 @@ Only colon and rectum biopsies of ulcerative colitis (UC) patients and non-IBD c
 | GSE16879 (infliximab; PMID 19956723) | Replication; response | Affymetrix HG-U133 Plus 2, GPL570 | 133 (UC, CD, control; before and after) | UC 24 before infliximab (8 responders, 16 non-responders), control 12 (CD excluded) | Matches the paper (24 UC, 8 responders) |
 | GSE73661 (infliximab and vedolizumab; PMID 27802155) | Replication; response | Affymetrix HuGene 1.0 ST, GPL6244 | 178 | UC 67 at week 0 (infliximab 23, vedolizumab 41, placebo 3), control 12 | Response is the label of each patient's earliest post-treatment biopsy (W4–6 infliximab, W6 or W12 vedolizumab): infliximab 8 R / 15 NR, vedolizumab 9 R / 32 NR. A third-party summary reported 15 R / 8 NR for infliximab; GEO titles say 8 R / 15 NR, and GEO is used |
 
+| GSE109142 (PROTECT; PMID 30604764) | Replication (added 2026-11-10) | RNA-seq, NCBI-generated raw counts (GRCh38.p13) | 226 rectal biopsies | UC 206 (treatment-naive, paediatric), control 20 | As expected (206 + 20) |
+| GSE117993 (RISK) | Replication (added 2026-11-10) | RNA-seq, NCBI-generated raw counts | 190 rectal biopsies | UC 43, control 55 (Crohn's disease 92 excluded) | As expected |
+| GSE165512 (IL23-IL17 axis in IBD) | Replication (added 2026-11-10) | RNA-seq, NCBI-generated raw counts | 170 (colon and ileum) | UC colon 40, healthy colon 35 (31 in the count file); ileum and Crohn's excluded | Four control samples of the series are missing from the NCBI count file |
+
 **Caveat: infliximab patients probably overlap.** GSE16879 and GSE73661 come from the same Leuven group, with
 nearly the same infliximab split (8 R / 16 NR and 8 R / 15 NR). They are not treated as independent replication
 cohorts for infliximab response: GSE16879 is used for infliximab, GSE73661 for vedolizumab.
@@ -39,3 +43,21 @@ installed: the RDS is parsed in Python (`rdata`); the RNA count matrix is the on
 
 MONDO:0005101 (cross-referenced to EFO_0000729 and DOID:8577). Open Targets (2026) uses MONDO_0005101; a query
 with EFO_0000729 returns no disease, checked 2026-11-09.
+
+## Mendelian randomisation (added 2026-11-10)
+
+- `data/raw/gwas/GCST004133_uc_delange2017.h.tsv.gz`: UC GWAS of de Lange et al. 2017 (Nat Genet), GWAS Catalog
+  harmonised file (GRCh38), 300 MB.
+- `data/raw/extra/ot_study.parquet`: Open Targets 26.09 study index (to map UKB-PPP pQTL studies to genes).
+- `data/raw/extra/ot_pqtl_credible_sets.parquet`: extract of the Open Targets 26.09 credible sets (200 parts, about
+  1.8 GB streamed and filtered by `uv run python -m ucatlas.mr download`) keeping the UKB-PPP European pQTL credible
+  sets, with each 95 % credible set's variants and betas. The manifest records the source and the filter.
+
+## Spatial (Xenium and Visium)
+
+- `data/raw/spatial/GSE312420/`: Xenium 5K and 337-gene panel expression files (M11).
+- `data/raw/spatial/GSE339323/` (added 2026-11-10): Xenium Prime 5K, one UC resection, most and least inflamed region;
+  cell x gene h5 and cell table only (the archive is 25 GB, mostly images and transcripts).
+- `data/raw/spatial/GSE189184/` (added 2026-11-10): 10x Visium, 7 inflamed UC and 2 healthy colon sections; only the
+  filtered spot x gene matrix, the spot positions and the scale factors are read out of each sample zip with HTTP range
+  requests (`uv run python -c "from ucatlas.spatial_download import run_extra; run_extra()"`).

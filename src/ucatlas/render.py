@@ -21,13 +21,15 @@ from .paths import PROCESSED, REPORTS
 
 ASSETS = Path(__file__).parent / "report_assets"
 COHORT = {"GSE193677": "MSCCR (RNA-seq)", "GSE206285": "UNIFI", "GSE92415": "PURSUIT", "GSE16879": "GSE16879",
-          "GSE73661": "GSE73661"}
+          "GSE73661": "GSE73661", "GSE109142": "PROTECT (RNA-seq)", "GSE117993": "RISK (RNA-seq)",
+          "GSE165512": "GSE165512 (RNA-seq)"}
 NAV = [("Start", [("Overview", "overview", "The question, the answer in brief and the prioritised candidates.")]),
        ("Findings", [("Candidates", "candidates", "The convergence ranking, target and biomarker profiles."),
                      ("Discovery", "discovery", "New, untargeted candidates that pass composition, novelty and safety filters.")]),
-       ("Evidence", [("Expression", "expression", "What changes in inflamed colon, how it replicates across five cohorts."),
+       ("Evidence", [("Expression", "expression", "What changes in inflamed colon, how it replicates across eight cohorts."),
                      ("Cells & space", "cells", "Which cell makes each gene, neutrophils, composition and the tissue view."),
-                     ("Pathways", "pathways", "Immune pathways, transcription factors and cell-cell circuits.")]),
+                     ("Pathways", "pathways", "Immune pathways, transcription factors and cell-cell circuits."),
+                     ("Genetics", "genetics", "Does genetically higher plasma protein change UC risk? (Mendelian randomisation)")]),
        ("Clinical use", [("Treatment response", "treatment", "What separates responders to four biologics, and placebo."),
                          ("Literature & drugs", "literature", "What the papers and the drug databases say."),
                          ("Network", "network", "Candidate genes, drugs and interactions as a graph.")]),
@@ -74,6 +76,15 @@ def evidence_view(e: dict) -> dict:
     elif t == "expression_meta":
         detail = (f"{e['gene']} · meta-analysis of {e['cohorts']} cohorts: log2FC {e['log2fc']}, padj {e['padj']}, "
                   f"I² {e['i2']}; significant up in {e['cohorts_significant_up']}, down in {e['cohorts_significant_down']}")
+    elif t == "mendelian_randomization":
+        coloc = e.get("colocalises_with_ibd_gwas")
+        detail = (f"{e['gene']} · plasma protein (UKB-PPP cis-pQTL) on UC risk: OR per SD {e['odds_ratio_per_sd']}, "
+                  f"p {e['p']}, q {e['q']}, {e['n_instruments']} instrument(s), {e['method']}"
+                  + ("" if coloc is None else f"; colocalises with IBD GWAS: {'yes' if coloc else 'no'}"))
+    elif t == "spatial_visium":
+        detail = (f"{e['gene']} · Visium (GSE189184): co-varies most with {e['compartment']} (rho {e['compartment_rho']}, "
+                  f"first in {e['sections_compartment_first']} of {e['uc_sections']} UC sections); UC vs healthy "
+                  f"log2 ratio {e['log2_ratio_uc_vs_healthy']}")
     elif t == "literature_relation":
         detail = f"“{e['sentence']}” ({e['subject_text']} → {e['object_text']})"
     else:
@@ -113,7 +124,7 @@ def replication_heatmap(de: pd.DataFrame, genes: list[str]) -> str:
     fig = go.Figure(go.Heatmap(z=m.values, x=[COHORT[c] for c in m.columns], y=m.index, colorscale="RdBu_r", zmid=0,
                                colorbar=dict(title="log2FC"),
                                hovertemplate="%{y} · %{x}<br>log2FC %{z:.2f}<extra></extra>"))
-    fig.update_layout(title="Top candidates across the five cohorts (UC vs control)")
+    fig.update_layout(title="Top candidates across the eight cohorts (UC vs control)")
     return _fig(fig, max(380, 18 * len(genes) + 120))
 
 
@@ -170,7 +181,9 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     from . import report_extra as X
     figs.update({"cells": X.cells_figure(list(dict.fromkeys(targets + top[:20]))[:25]),
                  "pathways": X.pathway_heatmap(), "response": X.response_heatmap()})
-    extra = X.tables()
+    if (PROCESSED / "mr_pqtl.parquet").exists():
+        figs["mr"] = X.mr_figure()
+    extra = X.tables(list(dict.fromkeys(targets + top)))
     rep = pd.read_parquet(PROCESSED / "replication.parquet").to_dict("records") if (PROCESSED / "replication.parquet").exists() else []
     vpath = findings_path.parent / "verification_final.json"
 

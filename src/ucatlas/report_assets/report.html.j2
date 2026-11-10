@@ -36,13 +36,13 @@
 <section class="panel" id="tab-overview" data-name="overview">
 <div class="plainbox"><b>In plain words.</b> Ulcerative colitis is a chronic inflammation of the colon lining. This
 report asks which genes and immune pathways have the strongest agreeing evidence to be drug targets or measurable
-markers. It combines biopsy data from five public patient cohorts, the published literature and drug and genetics
-databases. AI agents read the evidence through tools and write the text; every sentence cites records that a program
+markers. It combines biopsy data from eight public patient cohorts, single-cell and tissue-section data, the published
+literature, drug databases and human genetics. AI agents read the evidence through tools and write the text; every sentence cites records that a program
 checks, and numbers are matched to their source.</div>
 <h2>Summary of the findings</h2>
 {{ paras(f.narrative.summary) }}
 <div class="kpis">
-  <div class="kpi"><b>5</b><span>biopsy cohorts (1 RNA-seq, 4 microarray)</span></div>
+  <div class="kpi"><b>8</b><span>biopsy cohorts (4 RNA-seq, 4 microarray)</span></div>
   <div class="kpi"><b>{{ "{:,}".format(f.convergence.universe_size) }}</b><span>genes scored</span></div>
   <div class="kpi"><b>{{ "{:,}".format(graph_stats.claims_total) }}</b><span>evidence-backed claims in the graph</span></div>
   <div class="kpi"><b>{{ verification.statements if verification else "—" }}</b><span>statements checked, {{ verification.unsupported if verification else "—" }} unsupported</span></div>
@@ -59,7 +59,7 @@ checks, and numbers are matched to their source.</div>
 
 <section class="panel" id="tab-candidates" data-name="candidates">
 <div class="plainbox"><b>In plain words.</b> Each gene gets a score from six independent kinds of evidence: how much it
-changes in UC biopsies (pooled over five cohorts), in how many cohorts the change repeats, whether it differs between
+changes in UC biopsies (pooled over eight cohorts), in how many cohorts the change repeats, whether it differs between
 inflamed and non-inflamed mucosa of the same patient, human genetics, the literature and whether a drug exists. The
 weights are fixed in the configuration file before the results are seen.</div>
 <h2>The convergence ranking</h2>
@@ -82,7 +82,7 @@ four more cohorts, and in non-inflamed mucosa of the same patients.</div>
   <div class="plot">{{ figs.volcano | safe }}</div>
 <details class="howbox"><summary><b>How to read this chart</b></summary><p>Each dot is a gene. Horizontal: how much higher (right) or lower (left) it is in inflamed UC colon than in control colon (log2 fold change; 1 = twice). Vertical: how sure that is (higher = more certain). Red and blue dots pass both thresholds.</p></details>
   <div class="plot">{{ figs.replication | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Rows are the top candidates, columns the five cohorts. Red = higher in UC, blue = lower. A row of one colour means the change repeats in every cohort. Microarray cohorts show smaller numbers than RNA-seq for the same change.</p></details>
+<details class="howbox"><summary><b>How to read this chart</b></summary><p>Rows are the top candidates, columns the eight cohorts. Red = higher in UC, blue = lower. A row of one colour means the change repeats in every cohort. Microarray cohorts show smaller numbers than RNA-seq for the same change.</p></details>
 </div>
 <h2>Local inflammation or disease-wide?</h2>
 {{ paras(f.narrative.sections.inflammation or []) }}
@@ -110,28 +110,57 @@ test, not proven targets.</div>
 <div class="plainbox"><b>In plain words.</b> Inflamed colon is full of cells that came in from the blood, above all
 neutrophils. A gene that looks higher in a biopsy may simply belong to those cells. This tab says which cell makes each
 candidate (three single-cell datasets, one of them with neutrophils), how much of each bulk change survives once the
-mix of cells is accounted for, and what the tissue looks like around the candidates (Xenium).</div>
+mix of cells is accounted for, and what the tissue looks like around the candidates (Xenium single cells for the genes on
+its 5,000-gene panel, Visium spots for every gene).</div>
 <h2>Which cell makes each candidate?</h2>
 {{ paras(f.narrative.sections.cells or []) }}
 <div class="plot">{{ figs.cells | safe }}</div>
 <details class="howbox"><summary><b>How to read this chart</b></summary><p>Orange: share of the gene's RNA made by neutrophils in inflamed mucosa. Blue: share of the bulk change left after accounting for the mix of cells. A long orange bar with a short blue bar means the bulk increase is mostly neutrophils arriving.</p></details>
-<p class="small">Spatial sections (Xenium 5K panel): {% for s in extra.spatial_sections %}{{ s.state }} {{ s.gsm }} ({{ s.cells }} cells, {{ "%.0f" | format(100 * s.assigned_fraction) }} % typed){{ "; " if not loop.last }}{% endfor %}. Sections with fewer than half the cells typed are left out of the in-situ results.</p>
+{% if extra.visium %}<h3>Where the candidates sit in the tissue (Visium, whole transcriptome)</h3>
+<p class="small">{{ extra.visium_sections.uc }} inflamed UC and {{ extra.visium_sections.healthy }} healthy colon sections (GSE189184, {{ "{:,}".format(extra.visium_sections.spots) }} spots). One spot holds several cells, so this shows the tissue compartment a gene follows, not the single cell that makes it.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Compartment it follows</th><th class="num">rho</th><th>Next</th><th class="num">UC sections where first</th><th class="num">log2 UC / healthy</th></tr></thead><tbody>
+{% for r in extra.visium %}<tr><td><b>{{ r.gene }}</b></td><td>{{ r.compartment }}</td><td class="num">{{ r.rho }}</td><td>{{ r.second }}</td><td class="num">{{ r.first_in }} of {{ r.sections }}</td><td class="num">{{ r.log2_ratio }}</td></tr>
+{% endfor %}</tbody></table></div>
+<details class="howbox"><summary><b>How to read this table</b></summary><p>For each gene, the cell lineage whose marker genes rise and fall together with it across the spots of inflamed UC sections (median Spearman rho; marker sets never contain the gene itself). "UC sections where first" counts the sections in which that lineage came top; a gene expressed in fewer than 20 spots of a section is not scored there. The last column compares the gene's level in inflamed UC with healthy colon.</p></details>{% endif %}
+<p class="small">Xenium 5K sections: {% for s in extra.spatial_sections %}{{ s.state }} {{ s.gsm }}{% if s.study %} ({{ s.study }}{% endif %}, {{ "{:,}".format(s.cells) }} cells{% if s.median_counts_per_cell is defined %}, median {{ "%.0f" | format(s.median_counts_per_cell) }} transcripts per cell{% endif %}, {{ "%.0f" | format(100 * s.assigned_fraction) }} % typed){{ "; " if not loop.last }}{% endfor %}. Sections with fewer than half the cells typed are left out of the in-situ results.</p>
 </section>
 
 <section class="panel" id="tab-pathways" data-name="pathways">
 <div class="plainbox"><b>In plain words.</b> Genes act in pathways and cells talk to each other. This tab shows which
-signalling pathways are switched on in inflamed mucosa in all five cohorts, and which cell sends which signal to which
+signalling pathways are switched on in inflamed mucosa in all eight cohorts, and which cell sends which signal to which
 cell (a ligand on one cell, its receptor on another). Co-expression is not proof that the signal is used.</div>
 <h2>Immune pathways and cell-cell circuits</h2>
 {{ paras(f.narrative.sections.pathways or []) }}
 <div class="plot">{{ figs.pathways | safe }}</div>
-<details class="howbox"><summary><b>How to read this chart</b></summary><p>Rows are signalling pathways, columns the five cohorts. Red = more active in UC than in controls (t statistic). Inflamed mucosa switches on many pathways at once.</p></details>
+<details class="howbox"><summary><b>How to read this chart</b></summary><p>Rows are signalling pathways, columns the eight cohorts. Red = more active in UC than in controls (t statistic). Inflamed mucosa switches on many pathways at once.</p></details>
 <h3>Strongest ligand-receptor pairs in inflamed mucosa</h3>
 <div class="tw"><table><thead><tr><th>Ligand</th><th>Receptor</th><th>Sender</th><th>Receiver</th><th class="num">Score</th><th class="num">log2 change vs uninflamed</th></tr></thead><tbody>
 {% for r in extra.communication + extra.osm %}<tr><td>{{ r.ligand }}</td><td>{{ r.receptor }}</td><td>{{ r.sender }}</td><td>{{ r.receiver }}</td><td class="num">{{ r.score }}</td><td class="num">{{ r.log2_change if r.log2_change is defined else "" }}</td></tr>
 {% endfor %}</tbody></table></div>
 <p class="small">The last rows show the neutrophil OSM → OSMR pair, whose top receiver is the inflammatory fibroblast.</p>
 </section>
+
+{% if figs.mr %}<section class="panel" id="tab-genetics" data-name="genetics">
+<div class="plainbox"><b>In plain words.</b> People inherit small DNA differences that raise or lower the level of a
+protein in their blood all their life. If the people with the higher-level version also get ulcerative colitis more
+often, the protein is more likely to be a cause than a consequence of the disease (Mendelian randomisation). A drug that
+lowers a protein whose genetically higher level raises risk should protect. Blood levels are not levels in the gut
+wall, and a nearby variant can mimic the effect, so each hit is checked for a shared genetic signal (colocalisation).</div>
+<h2>Does genetically higher plasma protein change UC risk?</h2>
+<div class="kpis"><div class="kpi"><b>{{ "{:,}".format(extra.mr_counts.tested) }}</b><span>proteins with a cis-pQTL instrument</span></div>
+<div class="kpi"><b>{{ extra.mr_counts.significant }}</b><span>significant (BH q &lt; 0.05)</span></div>
+<div class="kpi"><b>{{ extra.mr_counts.colocalising }}</b><span>of these colocalise with an IBD GWAS signal</span></div>
+<div class="kpi"><b>{{ extra.mr_counts.clinical_significant | length }} / {{ extra.mr_counts.clinical_tested }}</b><span>UC clinical targets tested that are significant</span></div></div>
+<div class="plot">{{ figs.mr | safe }}</div>
+<details class="howbox"><summary><b>How to read this chart</b></summary><p>Each dot is a protein. Right of zero: genetically higher protein, higher UC risk (red when significant); left: lower risk (blue). Higher dots have stronger evidence. Grey dots are not significant after correction for testing every protein.</p></details>
+<h3>Significant proteins</h3>
+<div class="tw"><table><thead><tr><th>Protein (gene)</th><th class="num">OR per SD</th><th class="num">95 % CI</th><th class="num">p</th><th class="num">q</th><th class="num">Instruments</th><th>Colocalises</th><th>UC clinical target</th></tr></thead><tbody>
+{% for r in extra.mr %}<tr><td><b>{{ r.gene }}</b></td><td class="num">{{ r.or }}</td><td class="num">{{ r.ci[0] }}–{{ r.ci[1] }}</td><td class="num">{{ r.p }}</td><td class="num">{{ r.q }}</td><td class="num">{{ r.n }}</td><td>{{ r.coloc }}</td><td>{{ "yes" if r.clinical else "" }}</td></tr>
+{% endfor %}</tbody></table></div>
+<h3>The leading candidates</h3>
+<p class="small">{% for r in extra.mr_candidates %}<b>{{ r.gene }}</b> {% if r.tested %}OR {{ r.or }} (q {{ r.q }}){% else %}not tested{% endif %}{{ "; " if not loop.last }}{% endfor %}. "Not tested" means the protein has no cis-pQTL in UKB-PPP (or is not on the Olink panel); it is not evidence against the gene.</p>
+<p class="small">Exposure: UK Biobank Pharma Proteomics Project, European ancestry, fine-mapped cis-pQTL credible sets from Open Targets 26.09. Outcome: UC GWAS of de Lange et al. 2017 (GCST004133). Wald ratio or inverse-variance weighted estimate; MHC region and palindromic variants excluded.</p>
+</section>{% endif %}
 
 <section class="panel" id="tab-treatment" data-name="treatment">
 <div class="plainbox"><b>In plain words.</b> Biopsies taken before treatment in four trials and cohorts are compared
@@ -152,6 +181,11 @@ colitis, which it was never shown? And can an agent answer factual questions abo
 {% for r in extra.eval %}<tr><td>{{ r.score }}</td><td class="num">{{ r.auroc }}</td><td class="num">{{ r.auroc_ci95[0] }}–{{ r.auroc_ci95[1] }}</td><td class="num">{{ "%.0f" | format(100 * r.recall_at_100) }} %</td><td class="num">{{ r.median_rank }}</td></tr>
 {% endfor %}</tbody></table></div>
 <p class="small">Known UC targets are mostly druggable cytokines, receptors and integrins whose mRNA changes little in biopsies. Predicted tractability alone reaches almost the same AUROC as the target profile, but the profile places far more of them in its top 100: the gain is in early enrichment. Known-answer questions answered by an agent with the tools: {{ extra.qa }}.</p>
+{% if extra.temporal_wide %}<h3>Targets first tried in UC from {{ extra.temporal_cutoff[:4] }} on ({{ extra.temporal_wide[0].n_gold }} genes)</h3>
+<p class="small">Targets of drugs whose first UC trial started on or after {{ extra.temporal_cutoff }} and that reached phase 2; older UC targets are removed from the ranking. The data are not frozen at that date, so this is a retrospective check.</p>
+<div class="tw"><table><thead><tr><th>Score</th><th class="num">AUROC</th><th class="num">95 % CI</th><th class="num">Recall@100</th></tr></thead><tbody>
+{% for r in extra.temporal_wide %}<tr><td>{{ r.score }}</td><td class="num">{{ r.auroc }}</td><td class="num">{{ r.auroc_ci95[0] }}–{{ r.auroc_ci95[1] }}</td><td class="num">{{ "%.0f" | format(100 * r.recall_at_100) }} %</td></tr>
+{% endfor %}</tbody></table></div>{% endif %}
 {% if extra.agent_benchmark %}<h3>One agent or a team of agents?</h3>
 <p class="small">The same analysis run by the team (an Opus orchestrator and six Sonnet specialists working in parallel; three independent runs) and by one Opus agent doing all six jobs itself (one run). Checklist: 12 facts the data establish, fixed before reading the single-agent report.</p>
 <div class="tw"><table><thead><tr><th>Set-up</th><th>Run</th><th class="num">Statements</th><th class="num">Unsupported</th><th class="num">Checklist</th><th class="num">Specialist evidence cited</th><th class="num">Cost</th><th class="num">Minutes</th><th class="num">Turns</th></tr></thead><tbody>
@@ -182,9 +216,10 @@ protein interactions between them. It helps to see clusters; it is not proof of 
 <section class="panel" id="tab-methods" data-name="methods">
 <h2>How the report was built and checked</h2>
 <div class="howbox"><ul>
-<li><strong>Data.</strong> Five public biopsy cohorts (GEO), each analysed on its own scale; patients with several biopsies
-count once; changes combined by random-effects meta-analysis. Literature from PubTator3; external knowledge from Open
-Targets, STRING and UniProt.</li>
+<li><strong>Data.</strong> Eight public biopsy cohorts (GEO; four microarray, four RNA-seq), each analysed on its own
+scale; patients with several biopsies count once; changes combined by random-effects meta-analysis (a pooled estimate
+needs at least two cohorts). Three single-cell datasets; Xenium and Visium tissue sections; Mendelian randomisation with
+UKB-PPP plasma pQTL on the UC GWAS. Literature from PubTator3; external knowledge from Open Targets, STRING and UniProt.</li>
 <li><strong>Agents.</strong> {{ f.models.agents }}; orchestrator: {{ f.models.orchestrator }}.</li>
 <li><strong>Verification.</strong> {% if verification %}{{ verification.statements }} statements checked, {{ verification.unsupported }} unsupported, {{ verification.stale }} citing changed evidence. {{ verification.interpretation }}. {{ verification.scope }}.{% endif %}</li>
 </ul></div>
@@ -200,7 +235,7 @@ Targets, STRING and UniProt.</li>
 </section>
 
 </main>
-<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661; PubTator3; Open Targets; STRING; UniProt; HGNC. Not medical advice.</footer></div>
+<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661, GSE109142, GSE117993, GSE165512, GSE312420, GSE339323, GSE189184; UKB-PPP via Open Targets; GWAS Catalog GCST004133; PubTator3; Open Targets; STRING; UniProt; HGNC. Not medical advice.</footer></div>
 
 <script>
 (function(){
