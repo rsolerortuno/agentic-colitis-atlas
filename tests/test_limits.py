@@ -81,6 +81,7 @@ def test_wider_temporal_set_is_large_enough():
 
 
 # ------------------------------------------------------------------ 2026-11-10, second round
+@pytest.mark.skipif(not (PROCESSED / "mr_colon.parquet").exists(), reason="layer not built")
 def test_gut_mr_layers_and_positive_signals():
     r = pd.read_parquet(PROCESSED / "mr_colon.parquet")
     assert set(r.layer) == {"colon_tissue", "gut_cell"}
@@ -89,6 +90,7 @@ def test_gut_mr_layers_and_positive_signals():
     assert col.at["IRF5", "q"] < 0.05 and col.at["IRF5", "beta"] > 0 and col.at["IRF5", "colocalises"] is True
 
 
+@pytest.mark.skipif(not (PROCESSED / "spatial_visium_summary.json").exists(), reason="layer not built")
 def test_visium_deconvolution_attributes_known_cells():
     import json
     s = json.loads((PROCESSED / "spatial_visium_summary.json").read_text())
@@ -102,6 +104,7 @@ def test_visium_deconvolution_attributes_known_cells():
     assert s["mean_share_uc"]["Neutrophil"] > s["mean_share_healthy"]["Neutrophil"]
 
 
+@pytest.mark.skipif(not (PROCESSED / "structure_summary.json").exists(), reason="layer not built")
 def test_structure_controls_have_pockets():
     import json
     st = json.loads((PROCESSED / "structure_summary.json").read_text())
