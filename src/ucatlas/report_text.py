@@ -7,6 +7,7 @@ PLAIN: dict[str, str] = {
     "candidates": "This tab ranks every gene by how many separate lines of evidence point to it. A gene scores high when different kinds of data agree: it changes in UC biopsies, the change repeats across eight patient cohorts, it differs between inflamed and non-inflamed mucosa of the same patient, human genetics points to it, papers support it and a drug exists or looks possible. The table lists the top 25 and the plots show where each score comes from.",
     "expression": "This tab is the starting point of the analysis. It compares colon biopsies of people with ulcerative colitis with colon of people without inflammatory bowel disease, in eight public cohorts. A gene much higher in inflamed tissue may be a target or a marker. A gene much lower is usually a normal colon gene the inflamed lining has lost.",
     "cells": "A biopsy is a mix of lining cells, connective tissue, vessels and immune cells, and inflamed colon fills with neutrophils from the blood. A gene that looks high in the mix may come from any of them. This tab uses single-cell data to say which cell makes each gene, a composition adjustment to say how much of the change is cells arriving, and tissue sections to say where the gene sits and what is next to it.",
+    "shortlist": "If you want to pick a new target to test in the laboratory, start here. Each first-in-class gene is checked against the questions you would ask before an experiment: is the increase reproducible and seen as protein, is it a change of the tissue, do we know which cell makes it, does genetics say it is a cause, can a drug reach it, is it safe, and has anyone tried it in mice. Each gene also gets a suggested first experiment.",
     "viewer": "This is the one place where you can look at real tissue. Pick a gene and see where it is switched on across a colon section, then click a spot to see which cells are around it.",
     "pathways": "Genes act in pathways and cells talk to each other. This tab shows which signalling pathways and transcription factors are switched on in inflamed mucosa in all eight cohorts, and which cell sends which signal to which cell. Co-expression is not proof that a signal is used.",
     "genetics": "People inherit small DNA differences that raise or lower how much of a protein or an RNA they make, all their life. If people with the higher-level version get ulcerative colitis more often, the gene is more likely a cause than a consequence of the disease (Mendelian randomisation). This tab does that with protein levels in blood and with gene expression measured in the colon wall and in single gut cells.",
@@ -23,6 +24,7 @@ PLAIN: dict[str, str] = {
 
 TOUR: list[tuple[str, str, str]] = [
     ("candidates", "Candidates", "Which genes have the most agreeing evidence? The ranking, how each score is built and how stable the order is."),
+    ("shortlist", "Validation shortlist", "New targets to test: a traffic light per criterion and a proposed first experiment for each."),
     ("expression", "Expression", "What changes in inflamed colon, how it repeats across eight cohorts and how it follows disease activity."),
     ("cells", "Cells & space", "Which cell makes each gene, how much of the change is neutrophils arriving, and what sits next to it in tissue."),
     ("viewer", "Tissue viewer", "Real colon sections with their H&E picture. Pick a gene, click a spot, see its neighbours."),
@@ -41,7 +43,7 @@ TOUR: list[tuple[str, str, str]] = [
 
 NAV: list[tuple[str, list[tuple[str, list[str]]]]] = [
     ("Start", [("Start here", ["overview"])]),
-    ("Findings", [("Ranking", ["candidates"]), ("New targets", ["discovery"])]),
+    ("Findings", [("Ranking", ["candidates"]), ("New targets", ["discovery", "shortlist"])]),
     ("Evidence", [("Molecular data", ["expression", "pathways"]), ("Cells and tissue", ["cells", "viewer"]),
                   ("Causal genetics", ["genetics"]), ("Protein structure", ["structure"])]),
     ("Clinical use", [("Patients and trials", ["response"]), ("Drug types", ["biologics"]),

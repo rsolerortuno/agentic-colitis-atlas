@@ -208,3 +208,15 @@ def test_ranking_not_explained_by_expression_level():
 def test_antitnf_atlas_counts():
     s = json.loads((PROCESSED / "antitnf_summary.json").read_text())
     assert s["uc_remission"] == 6 and s["uc_non_remission"] == 14
+
+
+@pytest.mark.skipif(not (PROCESSED / "validation_shortlist.parquet").exists(), reason="layer not built")
+def test_validation_shortlist_covers_first_in_class():
+    sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
+    d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
+    assert set(sl.gene) == set(d.gene[d.status == "first-in-class opportunity"])
+    assert sl.score.is_monotonic_decreasing and list(sl["rank"]) == list(range(1, len(sl) + 1))
+    for c in sl.criteria:
+        lights = json.loads(c)
+        assert set(lights) == {"reproducible", "protein", "tissue", "cell", "genetics", "druggable", "safety", "mouse"}
+        assert all(v[0] in ("green", "amber", "red", "grey") and v[1] for v in lights.values())

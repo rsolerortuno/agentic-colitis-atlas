@@ -540,6 +540,15 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         third["mouse_lit_fic"] = int(ml.gene.isin(fic_).sum())
         third["mouse_lit_rows"] = [{"gene": r_.gene, "papers": int(r_.papers), "pmids": ", ".join(list(r_.top_pmids)[:3])}
                                    for r_ in ml[~ml.gene.isin(fic_)].itertuples()]
+    SL = {"rows": [], "criteria": []}
+    if (PROCESSED / "validation_shortlist.parquet").exists():
+        sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
+        SL["criteria"] = [("reproducible", "Reproducible"), ("protein", "Protein"), ("tissue", "Tissue change"),
+                          ("cell", "Cell source"), ("genetics", "Causal genetics"), ("druggable", "Druggable"),
+                          ("safety", "Safety"), ("mouse", "Mouse")]
+        SL["rows"] = [{"rank": int(r.rank), "gene": r.gene, "lineage": r.lineage, "meta_log2fc": r.meta_log2fc,
+                       "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria), "experiment": r.experiment,
+                       "evidence_ids": [evidence_id("discovery_profile", r.gene)]} for r in sl.itertuples()]
     lit_rel = PROCESSED.parents[0] / "literature" / "pubtator_relations.parquet"
     if lit_rel.exists():
         pubs = pd.read_parquet(PROCESSED.parents[0] / "literature" / "publications.parquet")
@@ -588,7 +597,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     extra_ids = []
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
-              third.get("safety_rows", []), third.get("antitnf_rows", [])]
+              third.get("safety_rows", []), third.get("antitnf_rows", []), SL["rows"]]
     for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]
@@ -616,7 +625,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), cell=cell, third=third,
+        badges=badges(f, cell), cell=cell, third=third, SL=SL,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,

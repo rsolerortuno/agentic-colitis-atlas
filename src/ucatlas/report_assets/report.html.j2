@@ -360,6 +360,8 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <div class="note"><strong>Caveats.</strong> Literature volume is a Europe PMC title/abstract count for the gene symbol and UC terms; ambiguous or recently renamed symbols can under- or over-count. "No clinical drug" and tractability come from Open Targets (predicted tractability, not experimental). Vital-organ expression is RNA (HPA consensus), not protein. The composition adjustment uses marker-gene scores and can over-correct activated resident cells.</div>
 </section>
 
+{% include "shortlist_tab.html.j2" %}
+
 {% include "tabs_clinical.html.j2" %}
 
 <!-- ================================================================ VALIDATION -->

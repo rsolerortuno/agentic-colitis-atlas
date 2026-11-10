@@ -118,6 +118,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("mouse colitis literature", lambda: (mouse_models.literature_check(mouse_models.literature_genes(run)),
                                                mouse_models.load_literature())[1])
     _step("target safety", lambda: (safety.run(), safety.load())[0])
+    from . import validation_shortlist
+    _step("validation shortlist", validation_shortlist.run)
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))

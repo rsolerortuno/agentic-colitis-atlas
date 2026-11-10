@@ -163,7 +163,8 @@ def _uniprot() -> dict[str, str]:
 
 
 def targets(run: Path | None = None) -> list[str]:
-    """Report candidates, the top 25 of the convergence ranking and the first 10 first-in-class genes."""
+    """Report candidates, the top 25 of the convergence ranking and every first-in-class gene (all 36 since the
+    validation shortlist of 2026-11-10)."""
     from .runs import current_run
     out = []
     run = run or current_run()
@@ -172,7 +173,7 @@ def targets(run: Path | None = None) -> list[str]:
         out += [t["gene"] for t in f.get("targets", [])]
         out += [r["gene"] for r in f["convergence"]["ranking"][:25]]
     d = pd.read_parquet(PROCESSED / "discovery.parquet")
-    out += d[d.status == "first-in-class opportunity"].sort_values("meta_log2fc", ascending=False)["gene"].head(10).tolist()
+    out += d[d.status == "first-in-class opportunity"].sort_values("meta_log2fc", ascending=False)["gene"].tolist()
     return list(dict.fromkeys(out))
 
 

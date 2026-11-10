@@ -237,3 +237,13 @@ pockets 24 %: the detector finds real sites better than the score ranks them fir
 | One agent | single | 141 | 0 | 10/12 | 82 % | $7.52 | 19.3 |
 
 Target-list overlap: team runs 0.87-1.0; single agent vs team 0.56 (it leads with IL12B, TNF and ITGB7).
+
+## (r) Validation shortlist (added 2026-11-11)
+
+The 36 first-in-class genes, each with a light per criterion (rules in `src/ucatlas/validation_shortlist.py`, written
+before the table was looked at; the tissue and cell criteria reuse the sources of the discovery screen so the two tabs
+cannot disagree). Structure now covers every first-in-class gene (72 proteins modelled, up from the top targets only).
+No gene has a green causal-genetics light: plasma pQTL and gut eQTL instruments exist for few of them and none of the
+tested ones has a significant estimate. None has ever been perturbed in mouse colitis (title and abstract search).
+The first five by points are CCNO, OSBPL3, ERO1A, EHD3 and CYP4X1. The table is a way to read the other layers, not a
+new estimate.

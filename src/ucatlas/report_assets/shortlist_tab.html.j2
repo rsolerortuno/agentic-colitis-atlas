@@ -1,0 +1,41 @@
+{% from "macros.j2" import q, plain with context %}
+<style>
+.lt{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;border:1px solid rgba(0,0,0,.08)}
+.lt.green{background:#1baf7a}.lt.amber{background:#eda100}.lt.red{background:#e34948}.lt.grey{background:#d4d3cd}
+table.sl td.c{text-align:center}
+table.sl td.c .lt{cursor:help}
+.sl-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--ink2);margin:8px 0 12px}
+.sl-card h3{margin:.1em 0 .3em}.sl-card dl{display:grid;grid-template-columns:max-content 1fr;gap:3px 12px;font-size:.84rem;margin:.4em 0}
+.sl-card dt{color:var(--muted)}.sl-card dd{margin:0}
+</style>
+<section class="panel" id="tab-shortlist" data-name="shortlist">
+{{ plain('shortlist') }}
+<h2>Candidates for experimental validation {{ q('shortlist') }}</h2>
+<p class="lede">The {{ SL.rows | length }} first-in-class genes of the Discovery tab, each checked against the questions a laboratory would ask before testing it. A light per criterion: green meets it, amber partly, red fails it, grey not measured. Hover over a light for the values. The rows are ordered by points: green 2, amber 1, grey 0, red −1 (the mouse column is not scored). Every value comes from the other tabs; nothing here is a new estimate.</p>
+<div class="sl-legend"><span><i class="lt green"></i> meets</span><span><i class="lt amber"></i> partly</span><span><i class="lt red"></i> fails</span><span><i class="lt grey"></i> not measured</span></div>
+<div class="howbox"><h4>The criteria</h4><ul>
+<li><strong>Reproducible:</strong> significant increase in at least 6 of 8 cohorts (amber 4–5), and the change holds after adjusting for colon segment, age and sex.</li>
+<li><strong>Protein:</strong> the protein also rises in the independent proteomics study. Grey when mass spectrometry did not quantify it.</li>
+<li><strong>Tissue change:</strong> the change survives the composition adjustment entirely (green) or in part (amber): the tissue itself changes, not only the cells arriving. Every first-in-class gene passed this filter, so there is no red.</li>
+<li><strong>Cell source:</strong> at least half of the gene's RNA comes from one cell family in inflamed single cells (amber 30–50 %), and the second single-cell atlas agrees (otherwise amber): you know which cell to test.</li>
+<li><strong>Causal genetics:</strong> genetically higher level raises UC risk (green, supports inhibition) or lowers it (red); amber when tested without effect; grey when no genetic instrument exists, which is the case for almost all new genes.</li>
+<li><strong>Druggable:</strong> surface or secreted protein (antibody route) or a pocket score ≥ 0.6 (small molecule); amber with a predicted tractability bucket only.</li>
+<li><strong>Safety:</strong> no expression above 50 nTPM in vital organs, not loss-of-function constrained, no known safety events; amber with one flag, red with constraint plus another.</li>
+<li><strong>Mouse:</strong> whether the gene was ever perturbed in mouse colitis (information only: none of these has been, which is why a mouse model is the second experiment).</li></ul></div>
+<div class="tw"><table class="sl"><thead><tr><th>#</th><th>Gene</th><th>Cell family</th><th class="num">Meta log2FC</th><th class="num">UC papers</th>
+{% for k, label in SL.criteria %}<th>{{ label }}</th>{% endfor %}<th>Evidence</th></tr></thead><tbody>
+{% for r in SL.rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td>{{ r.rank }}</td><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }}</td><td class="num">{{ r.meta_log2fc }}</td><td class="num">{{ r.uc_papers }}</td>
+{% for k, label in SL.criteria %}{% set v = r.criteria[k] %}<td class="c"><i class="lt {{ v[0] }}" title="{{ label }}: {{ v[1] }}" aria-label="{{ label }}: {{ v[0] }}, {{ v[1] }}"></i></td>{% endfor %}
+<td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>
+
+<h3>The first ten, with the proposed first experiment</h3>
+<div class="grid">
+{% for r in SL.rows[:10] %}
+<div class="card sl-card"><h3>{{ r.rank }}. {{ r.gene }} <span class="small">{{ r.lineage }}</span></h3>
+<dl>{% for k, label in SL.criteria %}{% set v = r.criteria[k] %}<dt><i class="lt {{ v[0] }}"></i> {{ label }}</dt><dd>{{ v[1] }}</dd>{% endfor %}</dl>
+<p class="small"><strong>Proposed:</strong> {{ r.experiment }}</p></div>
+{% endfor %}
+</div>
+<div class="note"><strong>How to read this.</strong> No new gene meets every criterion: causal genetics is missing for almost all of them, because few genes have a genetic instrument, and none has been tested in a mouse colitis model. These are hypotheses ranked by data, to be tested in human cells first. The experiments are suggestions that follow from the cell source and the drug route; they are not designed protocols.</div>
+</section>

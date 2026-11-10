@@ -165,3 +165,9 @@ Designs fixed before running. Nothing below changes the convergence score or the
 - **Published run (final)**: runs/2026-11-10 redone on the closing graph: 119 statements, 0 unsupported, 0 stale,
   24 of 24 key findings cited, $4.61, 7.5 minutes. Targets: CXCR2, IL12B, JAK2, IDO1, CXCR1, MMP1 (targets or both);
   DUOX2, CHI3L1, CXCL8, HMGCS2, CD274, S100A8 (biomarkers); CHRDL2 and XKR9 (exploratory).
+
+- **Validation shortlist tab (2026-11-11)**: new tab under Findings → New targets. First version scored the tissue
+  criterion on the retained share with its own thresholds and the cell criterion on a different single-cell atlas
+  than the discovery screen; both disagreed with the screen (19 reds on genes the screen had passed; EHD3 labelled
+  stromal but "B cell" as source). Fixed before publishing by reusing the screen's composition verdict and the
+  Smillie 2019 lineage shares.
