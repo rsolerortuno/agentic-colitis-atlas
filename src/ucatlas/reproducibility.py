@@ -119,3 +119,28 @@ def offline_inputs():
 
     with patch("requests.sessions.Session.request", reject_request):
         yield
+
+
+def freeze(run: str = "2026-11-09_full") -> dict:
+    """Write reproducibility/inputs.json from the download manifests (no re-hashing of raw files), the config and lock
+    hashes and the frozen agent outputs of the published run. `run-all` checks it before rebuilding."""
+    raw = DATA / "raw"
+    files = []
+    top = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))
+    files += [{"path": f"raw/{k}", "sha256": v["sha256"], "bytes": v["bytes"]} for k, v in sorted(top.items())]
+    for sub in ("scp259", "scp3755"):
+        m = json.loads((raw / sub / "manifest.json").read_text(encoding="utf-8"))
+        files += [{"path": f"raw/{sub}/{k}", "sha256": v["sha256"], "bytes": v["bytes"]} for k, v in sorted(m["files"].items())]
+    sp = raw / "spatial" / "GSE312420" / "manifest.json"
+    if sp.exists():
+        m = json.loads(sp.read_text(encoding="utf-8"))
+        files += [{"path": f"raw/spatial/GSE312420/{k}", "sha256": v["sha256"], "bytes": v["bytes"]} for k, v in sorted(m.items())]
+    run_dir = ROOT / "runs" / run
+    project = [{"path": p.relative_to(ROOT).as_posix(), "sha256": sha256(p)}
+               for p in sorted(run_dir.glob("agent_*.json")) + [run_dir / "narrative.json"]
+               if not p.name.endswith(".verified.json")]
+    out = {"config_sha256": sha256(ROOT / "config.yaml"), "uv_lock_sha256": sha256(ROOT / "uv.lock"),
+           "files": files, "project_files": project, "analysis_run": f"runs/{run}"}
+    MANIFEST.parent.mkdir(exist_ok=True)
+    MANIFEST.write_text(json.dumps(out, indent=1), encoding="utf-8")
+    return {"files": len(files), "project_files": len(project)}

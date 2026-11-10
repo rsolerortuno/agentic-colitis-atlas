@@ -1,0 +1,822 @@
+{
+ "config_sha256": "d515fbbbd0f6f2245543e9d4a1dc9ab4db5dd7a09c7bdaf90ea36ab1147234eb",
+ "uv_lock_sha256": "6aca0f6a73e275e067759a1da000f89963ee285280911c771443657d43be6b78",
+ "files": [
+  {
+   "path": "raw/GSE16879/GSE16879_series_matrix.txt.gz",
+   "sha256": "8874d0d40217c3b92c44cead29bf15a0b157e45f62825c95b3c5183c0f513602",
+   "bytes": 13614374
+  },
+  {
+   "path": "raw/GSE193677/GSE193677_MSCCR_Biopsy_counts.txt.gz",
+   "sha256": "94c85e2f97b5151292cf52f0792011521f11c456b9d4d9d3cdb9722683a8ced3",
+   "bytes": 107824100
+  },
+  {
+   "path": "raw/GSE193677/GSE193677_series_matrix.txt.gz",
+   "sha256": "7b155e6b1c7d1c39343c06f39b1ca4cff8af2d6ea7e92ed2e057f42c49bac362",
+   "bytes": 116251
+  },
+  {
+   "path": "raw/GSE206285/GSE206285_additional_sample_metadata.tsv.gz",
+   "sha256": "3b4ef2e061af0338e4e9194bd2652e91356bc2768056157f7dc529c23d8c8649",
+   "bytes": 8447
+  },
+  {
+   "path": "raw/GSE206285/GSE206285_series_matrix.txt.gz",
+   "sha256": "a1d11a5234712e813f5c4f1eb3bdb6695f5c99283610f7ee31ad7552bd3b3f82",
+   "bytes": 80780481
+  },
+  {
+   "path": "raw/GSE73661/GSE73661_series_matrix.txt.gz",
+   "sha256": "3e988a71e35c69bfdc3dcaabb96554acf9e644d4ab7140ed770a958b2185437d",
+   "bytes": 32063527
+  },
+  {
+   "path": "raw/GSE92415/GSE92415_series_matrix.txt.gz",
+   "sha256": "61cd218f97a47c94902fc4094284424041203f7c809447bf45aae321749c8bf1",
+   "bytes": 27037708
+  },
+  {
+   "path": "raw/extra/hpa_rna_tissue_consensus.tsv.zip",
+   "sha256": "b001903da23f802c8dfbd1b6b3a8c20b831fedd4932f4bb721b06622d83ae60b",
+   "bytes": 5293680
+  },
+  {
+   "path": "raw/extra/ot_clinical_precedence.parquet",
+   "sha256": "df235108bff0a9db4a313ae7c6997c6edeb30f9e74bf719c47753757bf6e1f47",
+   "bytes": 39436998
+  },
+  {
+   "path": "raw/extra/ot_target_tractability_0.parquet",
+   "sha256": "c81b9d1c61d3fa1e23e67a5b91c082e7d20829aba578ffe95adc9ea1ef2332fe",
+   "bytes": 55708
+  },
+  {
+   "path": "raw/extra/ot_target_tractability_1.parquet",
+   "sha256": "ebc49a49ae182dee29be43664dfc61c21897bf3d776d9df18f7e0e73bc0990ea",
+   "bytes": 72189
+  },
+  {
+   "path": "raw/hgnc_complete_set.txt",
+   "sha256": "3944cdad7affce5bc2c7d63d7079d7e68762ed28ef414fc287cc0f57c4b0d78f",
+   "bytes": 16994064
+  },
+  {
+   "path": "raw/platforms/GPL13158.annot.gz",
+   "sha256": "d9eddd653c200c9ac1b282b441079a19e890914929b35792a4e99ce4eba3b0d0",
+   "bytes": 8313277
+  },
+  {
+   "path": "raw/platforms/GPL570.annot.gz",
+   "sha256": "d7cd44352127b1e34f3a720ebea86093ef255a38f1612a85a2962b71bde8f394",
+   "bytes": 8471521
+  },
+  {
+   "path": "raw/platforms/GPL6244.annot.gz",
+   "sha256": "99ee70f87e02c75ff1c8dc57b6c40c0482c7ef2760e004301315ac34344ac6dc",
+   "bytes": 7193437
+  },
+  {
+   "path": "raw/sc_garrido2023/ibd_hc_10x.h5ad",
+   "sha256": "64b5595c7c5375353918a2728c0f82c118cdfb731e4543e7cce43c461a20f1e9",
+   "bytes": 183688176
+  },
+  {
+   "path": "raw/scp259/Epi.barcodes2.tsv",
+   "sha256": "e9f0407a8f663103efb0598da4f2189c95f2095f7536f2e77436c39e291555cc",
+   "bytes": 3104379
+  },
+  {
+   "path": "raw/scp259/Epi.genes.tsv",
+   "sha256": "16aaf68c66c86aed9993b76231f2f268c9f5b1ae4ee21706d713d3042e7995e1",
+   "bytes": 154607
+  },
+  {
+   "path": "raw/scp259/Fib.barcodes2.tsv",
+   "sha256": "3e584ead83ec7c83c0712b4a9d0ee0c28acff618aa3f185bb0c3c2e2dd559c67",
+   "bytes": 796527
+  },
+  {
+   "path": "raw/scp259/Fib.genes.tsv",
+   "sha256": "52bc05012822a5f9eecefb78794379c73b1c552ca2ca6097f3960741e9e2a2b3",
+   "bytes": 144640
+  },
+  {
+   "path": "raw/scp259/Imm.barcodes2.tsv",
+   "sha256": "7a7b9efb875e4c4f68ad34a6b48bdfcbe18d34dee4642af02584024b8fc071a3",
+   "bytes": 5356374
+  },
+  {
+   "path": "raw/scp259/Imm.genes.tsv",
+   "sha256": "84414cb13169f7701faeb483cc3fa5fb6ff72c4578577379d4fc63ae174b4803",
+   "bytes": 159297
+  },
+  {
+   "path": "raw/scp259/all.meta2.txt",
+   "sha256": "ac09198b7acf05c28ca9baa4fc20cd8c6e39fd797e6d321b42b4fdf07ceab23d",
+   "bytes": 26391092
+  },
+  {
+   "path": "raw/scp259/gene_sorted-Epi.matrix.mtx",
+   "sha256": "269d297ec20f0967e284b11661644918ce5224e61fe8cb26eaf7e5dd952c0c92",
+   "bytes": 2384706723
+  },
+  {
+   "path": "raw/scp259/gene_sorted-Fib.matrix.mtx",
+   "sha256": "0e06ee08c6507eb5ab7bec7199f53fbc05e65c5a567bcd2a0021e5551687b835",
+   "bytes": 516067003
+  },
+  {
+   "path": "raw/scp259/gene_sorted-Imm.matrix.mtx",
+   "sha256": "7ab9c8ca18b8d7954dfafb66c42e26e779970654aee411f69623161b2ca97583",
+   "bytes": 2441236789
+  },
+  {
+   "path": "raw/scp3755/UC.tissue.merged.annotated.all.objects.harmonized.finalversion.updated.metadata.09.18.2023_upload_ready.RDS",
+   "sha256": "9233dd34e30d96d9a0767db5ff3ef288e5a3d5a78ca3ccdde09dc15b27607cb1",
+   "bytes": 1863387810
+  },
+  {
+   "path": "raw/scp3755/UC.tissue.merged.annotated.all.objects.harmonized.finalversion.updated.metadata.09.18.2023_upload_ready.csv",
+   "sha256": "4324a067b62a30378adbb3a58c35664c7264285723e2f048c65e1fd818d128ec",
+   "bytes": 102998696
+  },
+  {
+   "path": "raw/scp3755/manifest.txt",
+   "sha256": "b4661f6f34d36123ecc155bbadd879090e03047825135f50809dc6c40e6a1ca8",
+   "bytes": 447
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345477_Xenium_I0294I_barcodes.tsv.gz",
+   "sha256": "deb182cfe764e0342c8736de4f7608760adf2a77f212eb6aa4726b2f1a2bff2e",
+   "bytes": 88010
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345477_Xenium_I0294I_cells.parquet.gz",
+   "sha256": "0cb9a5a2c543753d32a690a910a06a60509f3bc432582c7cc15efa7359c7c285",
+   "bytes": 346546
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345477_Xenium_I0294I_features.tsv.gz",
+   "sha256": "b7e47ba6b86251852cc58c9203ef278234969215ba920b0e0cf8f01a723ef497",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345477_Xenium_I0294I_matrix.mtx.gz",
+   "sha256": "211fadba567a4f1924e906d87f5679159182a809b5e62434e36b7b2db339d3cd",
+   "bytes": 357304
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345478_Xenium_I0278I_barcodes.tsv.gz",
+   "sha256": "6a9b4ac1f9dda91c10374e991cf2abbb3841a596edf3a021efc0045f892395f1",
+   "bytes": 198184
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345478_Xenium_I0278I_cells.parquet.gz",
+   "sha256": "be76ea356a047aa807e9bf955e6f174844677cf9028b92214134b075623e68ff",
+   "bytes": 802191
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345478_Xenium_I0278I_features.tsv.gz",
+   "sha256": "67c9a2faa2ace1363d61c1ff1e94eb7104a6a2ffdc026eb7d4b5b66499f2bf03",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345478_Xenium_I0278I_matrix.mtx.gz",
+   "sha256": "d5fee65178ac19a712c583203a0d453299a3d3d402473de9441869de343f2f4a",
+   "bytes": 2103665
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345479_Xenium_I0262I_barcodes.tsv.gz",
+   "sha256": "4b3659997f1b346078b7ad98ff72906be2e6b114e87d4da340ba6cfa923eef6d",
+   "bytes": 70360
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345479_Xenium_I0262I_cells.parquet.gz",
+   "sha256": "ed576bff48a706f6a98a253e5a4085addedd3666d35a0d49d06f0490a4278169",
+   "bytes": 283883
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345479_Xenium_I0262I_features.tsv.gz",
+   "sha256": "8ce89e7e07b9dd178ff81572da8c3d98f063d38bdf79960eea3c6226da622f34",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345479_Xenium_I0262I_matrix.mtx.gz",
+   "sha256": "9278c113ff61dd5a602b91bd9a622584636264275b8b043cc147e83dfc098ed4",
+   "bytes": 1425890
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345480_Xenium_I0275I_barcodes.tsv.gz",
+   "sha256": "9cc3d766c8acd102bd57175d4e4fc8826ff4dbe10179dfdf9c808a2c7cd13f87",
+   "bytes": 179877
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345480_Xenium_I0275I_cells.parquet.gz",
+   "sha256": "4632ad725bb9d4583bbfbc037ae5b89a2f758c718ab1f48b3ee90fb91428edf2",
+   "bytes": 722234
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345480_Xenium_I0275I_features.tsv.gz",
+   "sha256": "5a3b53d832295c395eaa22bdf0ea71995f39e34a4f551fdf9865e6a260e16c61",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345480_Xenium_I0275I_matrix.mtx.gz",
+   "sha256": "03fb18a2bf117d7758a06c8a6158651bf0f93895bd5f66ef22c75c212efc8354",
+   "bytes": 1650976
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345481_Xenium_I0262R_barcodes.tsv.gz",
+   "sha256": "7f6200d3cd4d5860a6c40722fc83817f87bac8d3362f0517c392d066a450feaf",
+   "bytes": 171511
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345481_Xenium_I0262R_cells.parquet.gz",
+   "sha256": "5c2a0c65565cf8ba133dda6ca220f3c4dde56d499497e273ed396f5e83982223",
+   "bytes": 677789
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345481_Xenium_I0262R_features.tsv.gz",
+   "sha256": "d80bb9ad7711146d68094b57a7bcb4bc75a9726853bbedbbfeaec8b0b65a8c8f",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345481_Xenium_I0262R_matrix.mtx.gz",
+   "sha256": "f1dc4dae77bf7c3254807be34ddf9b7a666b102e4137792b2ec23a1d0dc12552",
+   "bytes": 2704332
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345482_Xenium_I0303R_barcodes.tsv.gz",
+   "sha256": "0da6da6e942092ad9765a2e890835eab76712840f8d5ad127b5d178db45c82a2",
+   "bytes": 85480
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345482_Xenium_I0303R_cells.parquet.gz",
+   "sha256": "946e322779efccb916cebc13830909c36e79b51c8bbc17dc8bbe705e9308bce1",
+   "bytes": 338622
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345482_Xenium_I0303R_features.tsv.gz",
+   "sha256": "624408ce24da85baa74553a701ffbe5aa94ba03411b1df6a35a186ea608024c5",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345482_Xenium_I0303R_matrix.mtx.gz",
+   "sha256": "eacdaa886d9fb02316e5a27a62ffe9221574b9ca78fd30e0ef6ebe70324bdf8e",
+   "bytes": 676635
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345483_Xenium_I0275R_barcodes.tsv.gz",
+   "sha256": "561d55205bca2fece7d7223e8c020b5105bf25b3b09a662224d0e76f9a66b100",
+   "bytes": 136185
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345483_Xenium_I0275R_cells.parquet.gz",
+   "sha256": "3ed06b047c0b19b68d85491f8a5ff549ecf695125bde0b21af789e1215ced370",
+   "bytes": 558770
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345483_Xenium_I0275R_features.tsv.gz",
+   "sha256": "4c00f4964533e43cfcf0021273bc69c868aa7092140a09b57b7a0fc452511ff2",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345483_Xenium_I0275R_matrix.mtx.gz",
+   "sha256": "bcf9df54a70ab62fc8562388182ea30eec8cdfab2e26c374f4a0a181cd0064e8",
+   "bytes": 3128419
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345484_Xenium_I0294R_barcodes.tsv.gz",
+   "sha256": "1564e92807b8af3832613e9a6052817f9974ce250bcb3624d314dd1b32836072",
+   "bytes": 156272
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345484_Xenium_I0294R_cells.parquet.gz",
+   "sha256": "8eea339bdab6f641d1080399bab68a52cc83c19d2759f5c49c6ac111fe9867ab",
+   "bytes": 620223
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345484_Xenium_I0294R_features.tsv.gz",
+   "sha256": "503e71bf87ed8bb210f6f117fc5427c4e18e12af3bb34ce0c10bba21c9f3d522",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345484_Xenium_I0294R_matrix.mtx.gz",
+   "sha256": "c0634deaf0437b2dcb20bc08e0135cd1571cfca4b587811aeb2a9a9e47c99c8e",
+   "bytes": 1932834
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345485_Xenium_I0321I_barcodes.tsv.gz",
+   "sha256": "ef3064a4e8ba1d6d85286a0903f0e41452744a528d3b18e405c2b57f975b1525",
+   "bytes": 151431
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345485_Xenium_I0321I_cells.parquet.gz",
+   "sha256": "b4db9d9a67018f2505d52a958311231ae1a49548d41e5253463c5af815284f27",
+   "bytes": 606255
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345485_Xenium_I0321I_features.tsv.gz",
+   "sha256": "a7db28b6857aa2409b6b40847bc6669dc56b1d4a7d82d2f2143a4a3a589d60df",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345485_Xenium_I0321I_matrix.mtx.gz",
+   "sha256": "50e0b7045039d0052809c939e5af57f95f224add8b24a96619ac5cc69b1ecb68",
+   "bytes": 1076131
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345486_Xenium_I0310I_barcodes.tsv.gz",
+   "sha256": "9e458d86f61fac5191f43787431d6bbce0e639bc3b44981760d918d02884bb7c",
+   "bytes": 175959
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345486_Xenium_I0310I_cells.parquet.gz",
+   "sha256": "1e9591be4be50aaca08b5c53e389aa1ce9e74f5ccc81b0f7b7a9bf8442ba30ea",
+   "bytes": 723242
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345486_Xenium_I0310I_features.tsv.gz",
+   "sha256": "d14dd9d519900f34fd824f7ca207029988233706bc0875114d183a1f2fd0f318",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345486_Xenium_I0310I_matrix.mtx.gz",
+   "sha256": "85057b13db0648b253bc3d5ae15c0faa94a5640c11b0d26fb5d71fc74ba3226d",
+   "bytes": 4213034
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345487_Xenium_I0310R_barcodes.tsv.gz",
+   "sha256": "fb1d6090532a1af9c70e1fcc5ffb61ac6fc20be37c8b4be5dcb6d3ccf0dad490",
+   "bytes": 228471
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345487_Xenium_I0310R_cells.parquet.gz",
+   "sha256": "6e3b8fab7b3fa6c557caae106dd3704291c8d221a531143d99e9f6f393e97d4f",
+   "bytes": 945067
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345487_Xenium_I0310R_features.tsv.gz",
+   "sha256": "5c359d5d4fe088a9713d96348fdbe8a1601bb2c03a9ddb682a59853b9569dfc1",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345487_Xenium_I0310R_matrix.mtx.gz",
+   "sha256": "164a85a431d970299510c4ebd045b9c7bd9f57df76fc004491bf3486a1e97ec6",
+   "bytes": 7001120
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345488_Xenium_I0321R_barcodes.tsv.gz",
+   "sha256": "082bb6cc9d37ea05125aa4b6b91eb592f158e15ce68cc2e53636db7130dc987a",
+   "bytes": 272771
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345488_Xenium_I0321R_cells.parquet.gz",
+   "sha256": "f06b129c0b33fc2e13c4cf0aa4b6bb1774de5562705d6903442f9acd0c864100",
+   "bytes": 1069550
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345488_Xenium_I0321R_features.tsv.gz",
+   "sha256": "602f77fd2edc6eddb5bb2bfffc5bd6ab442055703cce04538d8929d95da84789",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345488_Xenium_I0321R_matrix.mtx.gz",
+   "sha256": "c11830d6375cf9fb75e10d318d86046ffa2b0cc1a692dd88bc034a316b6370b3",
+   "bytes": 808224
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345489_Xenium_I0286R_barcodes.tsv.gz",
+   "sha256": "2e785550fb41aaf85fc7de2bd7bbeee047dcf2bb335c0e8f861f4d298ecc062c",
+   "bytes": 151932
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345489_Xenium_I0286R_cells.parquet.gz",
+   "sha256": "0f0933e3a02ef8ba8f9aaaeefe05b224955475976db9c784d87be0629e6a6a7b",
+   "bytes": 604349
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345489_Xenium_I0286R_features.tsv.gz",
+   "sha256": "da84b37a57c6779d24dc2cac278401f9cc952e29d62ab67410a0214ce0e4c043",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345489_Xenium_I0286R_matrix.mtx.gz",
+   "sha256": "c6910b75b1f4bff1b47c7bcacbef8fc800a428f78b61e6f24b6a44c7d2ab092e",
+   "bytes": 1140470
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345490_Xenium_I0276R_barcodes.tsv.gz",
+   "sha256": "f94a4826ca82f4096918077b9bce912cd6ee23a64d9c16651cd1660c59074717",
+   "bytes": 111533
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345490_Xenium_I0276R_cells.parquet.gz",
+   "sha256": "80141e07bfded53bbf92a767128f4dfaeb9cf8eef6f1fdea067a12b8c1e6b76e",
+   "bytes": 448623
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345490_Xenium_I0276R_features.tsv.gz",
+   "sha256": "f80fb749f5eb4c9aedec84d6aef58c004014c899f610c07c3399014e547bccc1",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345490_Xenium_I0276R_matrix.mtx.gz",
+   "sha256": "9984cb34e826f3af89008c5297e23b111db3f253371f70cf14a1f786c85bc9e6",
+   "bytes": 1908128
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345491_Xenium_I0284R_barcodes.tsv.gz",
+   "sha256": "8c6d533fae033aab41a764c845b5bc4e21724ae146cd376d69fbf99a95d5f148",
+   "bytes": 91241
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345491_Xenium_I0284R_cells.parquet.gz",
+   "sha256": "6ab243a3c0a72a56bde24549032e6c5724de7cce687f54359b1926b8e700e2b5",
+   "bytes": 382495
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345491_Xenium_I0284R_features.tsv.gz",
+   "sha256": "b10f81bab0b827725772587e7128e9a9637f2b22050e406627fd9918e8d642a8",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345491_Xenium_I0284R_matrix.mtx.gz",
+   "sha256": "fa8574022bb2cc0841875d1a72d56841006a6ecfe6957a94600eac5935c633fd",
+   "bytes": 2458802
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345492_Xenium_I0277R_barcodes.tsv.gz",
+   "sha256": "01f2a032262a3a5acd21e2b676408258910d5985a4b8b8f9457298ba1b982d18",
+   "bytes": 251481
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345492_Xenium_I0277R_cells.parquet.gz",
+   "sha256": "4f64907e40350e19e4e28611b68dfcd180cadcffa9951f643d7340ea860e4858",
+   "bytes": 1020679
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345492_Xenium_I0277R_features.tsv.gz",
+   "sha256": "02a7e769ec14099bf5650e3dffe6e615462afc8a97bf0c16a0f1fe64460bf998",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345492_Xenium_I0277R_matrix.mtx.gz",
+   "sha256": "1e2c091a4054dc12af9cdb3f0cb45b6f7875010a10cde88a5c3709e7666ed3ff",
+   "bytes": 5668861
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345493_Xenium_337_NoSegment_I0400_barcodes.tsv.gz",
+   "sha256": "dc6aa6891a8f5afac7e2243a8be1f5b770ca190c3b766259a26f5ef62cc0ceb1",
+   "bytes": 148326
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345493_Xenium_337_NoSegment_I0400_cells.parquet.gz",
+   "sha256": "6bf8a224a469d33ec731900e94c06c6d9a1c140690912cfa0e4355fe5db5fb8f",
+   "bytes": 590601
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345493_Xenium_337_NoSegment_I0400_features.tsv.gz",
+   "sha256": "242f5f7a937ef1e61ce57f9b4cbd73c8d4c7700e37313547cdfdcce07d0a6c79",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345493_Xenium_337_NoSegment_I0400_matrix.mtx.gz",
+   "sha256": "227e1f134df2c3daa04bc8663a6b7a5a28d2095ec4daa2c19bc877e55260d133",
+   "bytes": 2958150
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345494_Xenium_337_NoSegment_I0355_barcodes.tsv.gz",
+   "sha256": "3b430581bde99a7103ce87399a917af12ebcae6eb95362cfeefc9800ac403edb",
+   "bytes": 127989
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345494_Xenium_337_NoSegment_I0355_cells.parquet.gz",
+   "sha256": "1ac9be328619c0e1980f125306f1c188f7a83df93a77fa8880125cb90761a569",
+   "bytes": 486974
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345494_Xenium_337_NoSegment_I0355_features.tsv.gz",
+   "sha256": "5b18a36c41c1a163af3c2fcebd13efccf09b568d138a390d88d6a32b8093b7ea",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345494_Xenium_337_NoSegment_I0355_matrix.mtx.gz",
+   "sha256": "9513218722b5d1d44a677a166c746ced6f3ff47fbc3847b05af2487f4aba7be8",
+   "bytes": 365352
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345495_Xenium_337_NoSegment_I0380_barcodes.tsv.gz",
+   "sha256": "06dd0bd0e0868bccb27da542ec8337124a25a3901b2f82973f50bb5be240f858",
+   "bytes": 223566
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345495_Xenium_337_NoSegment_I0380_cells.parquet.gz",
+   "sha256": "530675b0afa081851bc823e4476b0ba099fa7cdf4eae39c2b5f7b78d2c183163",
+   "bytes": 856842
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345495_Xenium_337_NoSegment_I0380_features.tsv.gz",
+   "sha256": "9b24ef1706b5afb5d5e768b3f1830198ecb8e1dd21d687fef7e463a26897b429",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345495_Xenium_337_NoSegment_I0380_matrix.mtx.gz",
+   "sha256": "1788b7cf2a21f03cf428982f8a2606712597281cbf366301403c34d05f10f359",
+   "bytes": 779600
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345496_Xenium_337_NoSegment_I0387_barcodes.tsv.gz",
+   "sha256": "825e9d81084adef5dc09d2643d7aa81b0bb9365feae15277852404336b55959e",
+   "bytes": 122291
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345496_Xenium_337_NoSegment_I0387_cells.parquet.gz",
+   "sha256": "832eb236666b26b4f204766b72c14d0f9ade61571877209bba4ef6ea9806f98c",
+   "bytes": 478558
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345496_Xenium_337_NoSegment_I0387_features.tsv.gz",
+   "sha256": "ab0870e7c166068e79d138a0a5854f3b2e5b513b973c7abdfac2ee0aec084a0a",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345496_Xenium_337_NoSegment_I0387_matrix.mtx.gz",
+   "sha256": "85c8eb7804efcfa03038ebd42573bef702e2f05a02686524ffbf8b6471b8cb77",
+   "bytes": 1017762
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345497_Xenium_337_withSegment_I0400_barcodes.tsv.gz",
+   "sha256": "6c93750a649152372fd737699f38110f0f4502093835e6b68f2f8c708b828ef1",
+   "bytes": 155799
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345497_Xenium_337_withSegment_I0400_cells.parquet.gz",
+   "sha256": "3a0cd46f04a8ea0d52d0f21c0630d78a81bc76c6b7f358bd9671e38c2242233c",
+   "bytes": 626440
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345497_Xenium_337_withSegment_I0400_features.tsv.gz",
+   "sha256": "c37f62b81a4adee16f3d8f242b214e70801b63161b571d053ba5ef8b26e3ec89",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345497_Xenium_337_withSegment_I0400_matrix.mtx.gz",
+   "sha256": "bfcf27c2e087839eb211f36392735fb58ede089cb742d3e1962e2863e2521323",
+   "bytes": 3711022
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345498_Xenium_337_withSegment_I0355_barcodes.tsv.gz",
+   "sha256": "9c8c654e26d3db09cc03bfcf7add2a64010ff6c2ab54c4456d464716b4d657a7",
+   "bytes": 131187
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345498_Xenium_337_withSegment_I0355_cells.parquet.gz",
+   "sha256": "2fa7cfb64a171c414fbc4495e80e908ade2eb62f897adffa986917a7985df369",
+   "bytes": 515865
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345498_Xenium_337_withSegment_I0355_features.tsv.gz",
+   "sha256": "12ccef3633c7925778628adfd94046a3dbd7bbbe4d7d26bd818ca88d6cc465a6",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345498_Xenium_337_withSegment_I0355_matrix.mtx.gz",
+   "sha256": "34baca31e19ab9a97d5b2568fa42427a530723b6c84a48d4275f83dac3834fe5",
+   "bytes": 1391652
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345499_Xenium_337_withSegment_I0380_barcodes.tsv.gz",
+   "sha256": "4d3ad45a5d32f22dbd2ada553e2f27a1b5b80b09db9751917e5635733e29e241",
+   "bytes": 221655
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345499_Xenium_337_withSegment_I0380_cells.parquet.gz",
+   "sha256": "5adf0677be4e32d1a72047523e2dda0c30e0fcd1592cc4524e14c6037eac5a26",
+   "bytes": 863229
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345499_Xenium_337_withSegment_I0380_features.tsv.gz",
+   "sha256": "65f81e6de3dcc494e51fafbcd1f6f1ba997c2ad1344675fbd5933f3a9312e811",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345499_Xenium_337_withSegment_I0380_matrix.mtx.gz",
+   "sha256": "6e8f1e71e9766e13ad960d849965e6d7268d1afd6954db0222ffc590b3d8408c",
+   "bytes": 1018042
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345500_Xenium_337_withSegment_I0387_barcodes.tsv.gz",
+   "sha256": "7da17138380c19d85ba001157d0ad3c529b4be76c20fe342029957554690e634",
+   "bytes": 113987
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345500_Xenium_337_withSegment_I0387_cells.parquet.gz",
+   "sha256": "aa8727ea67c423b22c732aa3b871cfc648ad65700f81ae5f9b1854b1f17b73e9",
+   "bytes": 468156
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345500_Xenium_337_withSegment_I0387_features.tsv.gz",
+   "sha256": "b8080913b1555a0ee2c3fe67831f62759f730b784b31c715d2d52956099820f1",
+   "bytes": 4068
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345500_Xenium_337_withSegment_I0387_matrix.mtx.gz",
+   "sha256": "6ae45585ca46bb8c8895d92b448940c21c63f22f1afa3c6ec00d34468caa8a2d",
+   "bytes": 3889763
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345501_Xenium_337_Colon_I0400_barcodes.tsv.gz",
+   "sha256": "15095658380afd0105fa0b218b664460fc4303223e9d858912561088b8ce43a8",
+   "bytes": 124499
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345501_Xenium_337_Colon_I0400_cells.parquet.gz",
+   "sha256": "44b78278067db71e8f879ec5a32b6c2b5e354357b3770912544d2d7b2ba3a04a",
+   "bytes": 509353
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345501_Xenium_337_Colon_I0400_features.tsv.gz",
+   "sha256": "bc4c6917b36563ab605770a4d7792672bbf336b033471d924b54e6ac6f3c8970",
+   "bytes": 4044
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345501_Xenium_337_Colon_I0400_matrix.mtx.gz",
+   "sha256": "9dc5c596a72e606e8e643423385b9252e4854ff146f2afa069831ea0e3de045b",
+   "bytes": 4054124
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345502_Xenium_337_Colon_I0355_barcodes.tsv.gz",
+   "sha256": "b9d5c55eca5cb7f93432997a546e900db37ed85aeb2e7dc5b592368e011f3f55",
+   "bytes": 116084
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345502_Xenium_337_Colon_I0355_cells.parquet.gz",
+   "sha256": "d10c1611e8ee05e10c90a25ecc8509751b05595d6c892baa478efa06d64a9d02",
+   "bytes": 456672
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345502_Xenium_337_Colon_I0355_features.tsv.gz",
+   "sha256": "69781f3cc579c2f62afb1e23699028ffc552019f64feccefeb5143dd009e877d",
+   "bytes": 4044
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345502_Xenium_337_Colon_I0355_matrix.mtx.gz",
+   "sha256": "3bcc88952a6b65d5ed6ff7253e730605a9d31fcf4bcec4ed5e6eb9e52bcbcdd8",
+   "bytes": 1086337
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345503_Xenium_337_Colon_I0380_barcodes.tsv.gz",
+   "sha256": "83ae65807395f5666bab27c3e98f7fd1c8b2c7ba8b62298284f2ab39d836b707",
+   "bytes": 168264
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345503_Xenium_337_Colon_I0380_cells.parquet.gz",
+   "sha256": "253bd1a5d489ea339118e6c6590f2210d757dbff5bcc6bc557683a2ea35cdefc",
+   "bytes": 652637
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345503_Xenium_337_Colon_I0380_features.tsv.gz",
+   "sha256": "096c8d53e74bfcf6e89acc4aff6f43b393bc2de464b73dd60b14b9e494526fa4",
+   "bytes": 4044
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345503_Xenium_337_Colon_I0380_matrix.mtx.gz",
+   "sha256": "a20d4c2aac71cd025b032d9d943677e73f41268ff60f5fc3b00eabef89ebf5de",
+   "bytes": 741566
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345504_Xenium_337_Colon_I0387_barcodes.tsv.gz",
+   "sha256": "99069862690cbe8fbc6b110cb9a02556d04aa983ec23a84608f4ad05e8b7354b",
+   "bytes": 111295
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345504_Xenium_337_Colon_I0387_cells.parquet.gz",
+   "sha256": "b3d6f4c7458ab81b6d4723a98fda3342daedd436294e36381fb2428b18426a15",
+   "bytes": 453647
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345504_Xenium_337_Colon_I0387_features.tsv.gz",
+   "sha256": "0126abc49d7101a27134b22c7a3f5e5091f341df2789fd466e9f6db96b69c9f6",
+   "bytes": 4044
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345504_Xenium_337_Colon_I0387_matrix.mtx.gz",
+   "sha256": "a1236750ef2ccad7ae1e89653df3804a040deb16e4658423ad563216a0ee4a5a",
+   "bytes": 3292706
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345505_Xenium_5k_I0400R_barcodes.tsv.gz",
+   "sha256": "4bbf6a62198e7328bd48c6b2de0d84ef5dbd0a078e5517c670938cda66bb481c",
+   "bytes": 171570
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345505_Xenium_5k_I0400R_cells.parquet.gz",
+   "sha256": "74639deeaaf9544872e0c9cca8e3ba7c42aa27a33149e0d871ba9675e3bd6054",
+   "bytes": 744745
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345505_Xenium_5k_I0400R_features.tsv.gz",
+   "sha256": "dce65f4f43cc01b4e2fc764088a5753368445ee3588481f72312d3f5ae6df3fe",
+   "bytes": 66107
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345505_Xenium_5k_I0400R_matrix.mtx.gz",
+   "sha256": "d771bc1111a4810c0c36e142824273314d1e7a8d7137fd5ece99c10411019c52",
+   "bytes": 29938483
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345506_Xenium_5k_I0355R_barcodes.tsv.gz",
+   "sha256": "d9446d06fd1269c6811f82809c9150639bfb67306f7c29f51b9fc09dc98d58b0",
+   "bytes": 165250
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345506_Xenium_5k_I0355R_cells.parquet.gz",
+   "sha256": "fcd2d79edf5d5a56ff2523d02011ad6c4526034df90e5d7ff09361f951e70d4d",
+   "bytes": 685317
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345506_Xenium_5k_I0355R_features.tsv.gz",
+   "sha256": "057cfafda52f64e48b341ce04337b96636e5e2934d00d6bf3564e89f710bc51f",
+   "bytes": 66107
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345506_Xenium_5k_I0355R_matrix.mtx.gz",
+   "sha256": "840ca7f6b66d023bcf7da8d1b0fc282c4e1d7e6a552579040a468e35bd8f1ea1",
+   "bytes": 15258575
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345507_Xenium_5k_I0380R_barcodes.tsv.gz",
+   "sha256": "85de72d59c3503d15325b1118bb55d9959a06912979b8f3b394349eb48d4b6e1",
+   "bytes": 182617
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345507_Xenium_5k_I0380R_cells.parquet.gz",
+   "sha256": "b7c141ec8a90a14d78c2bec0dafcf66aa3816a131a727ce940221b2bee80c233",
+   "bytes": 732608
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345507_Xenium_5k_I0380R_features.tsv.gz",
+   "sha256": "5a19e37cb9d67e49583e010f5b8e5600b6d6ed00ec23a56b35a3399a0ba55ef9",
+   "bytes": 66107
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345507_Xenium_5k_I0380R_matrix.mtx.gz",
+   "sha256": "4974d35cd6e42914fa0e14df9c3d3a61c489e6d4941c4adb0c59c8db6b279342",
+   "bytes": 3446939
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345508_Xenium_5k_I0387R_barcodes.tsv.gz",
+   "sha256": "7c58906c67d1246e293ab3380a1f01aef848d90e5b56e9d7c65c8d1220a4dc1f",
+   "bytes": 156672
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345508_Xenium_5k_I0387R_cells.parquet.gz",
+   "sha256": "d5f0b4784d1c4285158da948aed10511ae3a5d0bc46107610ebc2cafc130f36e",
+   "bytes": 673401
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345508_Xenium_5k_I0387R_features.tsv.gz",
+   "sha256": "c5630e17f4d86783f3e75b4a31b2bd9303e53be623a15a6682cb5edfa4d1acb6",
+   "bytes": 66107
+  },
+  {
+   "path": "raw/spatial/GSE312420/GSM9345508_Xenium_5k_I0387R_matrix.mtx.gz",
+   "sha256": "22c3076099abf99212dcca77adfb1cdf289caeb0f76594aea4853e6ed515a208",
+   "bytes": 21231616
+  }
+ ],
+ "project_files": [
+  {
+   "path": "runs/2026-11-09_full/agent_applied.json",
+   "sha256": "7cbf85c14d8abbdbeabcd28d1675dc4f8555e56fbbdcc4e9b9e7fb5a8865a32c"
+  },
+  {
+   "path": "runs/2026-11-09_full/agent_cells.json",
+   "sha256": "040815663ce3cd37b127f7de425d32bbe348b4dbbe48cfdf1d7b7c4a6f71ce01"
+  },
+  {
+   "path": "runs/2026-11-09_full/agent_expression.json",
+   "sha256": "6eda434f8e77969111b0d1883f5b50b868a84d8215a4364f5abe500e331019a5"
+  },
+  {
+   "path": "runs/2026-11-09_full/agent_external.json",
+   "sha256": "d4f25cb2c9377005c89c01e0aa43db2e2dade6b3b786785174457a0ebf237e8e"
+  },
+  {
+   "path": "runs/2026-11-09_full/agent_literature.json",
+   "sha256": "3c8bb2b7a71847cf440b549378ffdcfc70b9e3b999c971936f3b3aaafbd17792"
+  },
+  {
+   "path": "runs/2026-11-09_full/agent_pathways.json",
+   "sha256": "eb38e067c0664454900faae0d00d2a8fc01d80e71679d77672540a1dddf49f76"
+  },
+  {
+   "path": "runs/2026-11-09_full/narrative.json",
+   "sha256": "f258cfadbcaebaa2170907d343705d14d952995aa6bb3f1d143ad7dab2c686a1"
+  }
+ ],
+ "analysis_run": "runs/2026-11-09_full"
+}

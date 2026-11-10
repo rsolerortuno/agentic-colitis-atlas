@@ -44,6 +44,9 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         GRAPH_DB.unlink(missing_ok=True)
     from .runs import RUNS
     run = RUNS / run_name if run_name else current_run()
+    from . import reproducibility
+    if reproducibility.MANIFEST.exists():   # frozen inputs: fail before rebuilding if any input changed
+        _step("frozen inputs", lambda: f"{reproducibility.require_verified()['checked']} files verified")
     _step("download", lambda: f"{len(download.run())} files checked")
     _step("samples", lambda: f"{len(cohorts.build())} samples")
     _step("expression", lambda: f"{len(expression.run()['meta'])} genes in the meta-analysis")
