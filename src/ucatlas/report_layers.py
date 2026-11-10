@@ -28,6 +28,7 @@ All deterministic, from data/processed; designs fixed before looking at the resu
 - novelty(): an ordering score for the discovery pool (kidney: novelty score), used only to order the table and the
   cards; status filters are unchanged.
 - candidate_evidence(): per candidate, which evidence layers are measured, meet the criterion, or contradict it.
+- score_sensitivity(): rank stability of the biologic, immune, novelty and pocket scores under random re-weighting.
 Outputs: data/processed/report_layers.json and a few parquet tables (see each function).
 """
 from __future__ import annotations
@@ -428,9 +429,48 @@ def candidate_evidence(genes: list[str]) -> list[dict]:
     return cards
 
 
+# ------------------------------------------------------------------ stability of the newer scores
+def score_sensitivity() -> dict:
+    """Rank stability of the biologic, immune, novelty and pocket scores under the same 1,000 random re-weightings
+    as the convergence score (each weight x log-uniform [0.5, 2]). Outputs sensitivity_<score>.parquet (top 200 by
+    the configured weights) and, per score, how many of its configured top 10 stay in the top 10 in >= 80 % of
+    re-weightings and the median Spearman correlation between the configured and re-weighted scores."""
+    from .profiles import sensitivity as sens
+    from .structure import WEIGHTS as POCKET
+    tables = {
+        "biologics": (pd.read_parquet(PROCESSED / "biologics.parquet"),
+                      {"surface": 0.30, "increase": 0.25, "vital_low": 0.25, "carriers": 0.20}),
+        "immune": (pd.read_parquet(PROCESSED / "immune_targets.parquet"),
+                   {"immune_share": 0.3, "coupling": 0.25, "up": 0.2, "tractable": 0.15, "response": 0.1}),
+        "novelty": (pd.read_parquet(PROCESSED / "discovery_scored.parquet"), NOVELTY_WEIGHTS),
+    }
+    pk = PROCESSED / "structure_pockets.parquet"
+    if pk.exists():
+        d = pd.read_parquet(pk)
+        d = d[d["rank"] == 1].rename(columns={f"comp_{k}": f"c_{k}" for k in POCKET})
+        tables["pockets"] = (d, POCKET)
+    out = {}
+    rng = np.random.default_rng(11)
+    for name, (t, w) in tables.items():
+        t = t.dropna(subset=[f"c_{k}" for k in w]).reset_index(drop=True)
+        r = sens(t, w)
+        base = sum(v * t[f"c_{k}"] for k, v in w.items())
+        r["base_rank"] = r["gene"].map(dict(zip(t["gene"], base.rank(ascending=False, method="first").astype(int))))
+        r = r.sort_values("base_rank")
+        r.to_parquet(PROCESSED / f"sensitivity_{name}.parquet", index=False)
+        C = t[[f"c_{k}" for k in w]].to_numpy(float)
+        w0 = np.array(list(w.values()))
+        rhos = [stats.spearmanr(C @ w0, C @ (w0 * np.exp(rng.uniform(np.log(0.5), np.log(2), len(w0))))).statistic
+                for _ in range(200)]
+        out[name] = {"top10_stable": int((r.head(10)["p_top10"] >= 0.8).sum()), "median_rho": round(float(np.median(rhos)), 3),
+                     "n": int(len(t))}
+    return out
+
+
 def run(genes: list[str] | None = None) -> dict:
     out = {"sensitivity": sensitivity(), "subgroups": subgroups(), "biologics": biologics(), "immune": immune(),
            "novelty": novelty()}
+    out["score_sensitivity"] = score_sensitivity()
     (PROCESSED / "report_layers.json").write_text(json.dumps(out, indent=1, default=_json_default), encoding="utf-8")
     return out
 

@@ -72,12 +72,16 @@ def evidence_view(e: dict) -> dict:
         coloc = e.get("colocalises_with_ibd_gwas")
         detail = (f"{e['gene']} · plasma protein (UKB-PPP cis-pQTL) on UC risk: OR per SD {e['odds_ratio_per_sd']}, "
                   f"p {e['p']}, q {e['q']}, {e['n_instruments']} instrument(s), {e['method']}"
-                  + ("" if coloc is None else f"; colocalises with IBD GWAS: {'yes' if coloc else 'no'}"))
+                  + ("" if coloc is None else f"; colocalises with IBD GWAS: {'yes' if coloc else 'no'}")
+                  + (f"; FinnGen OR {e['finngen_odds_ratio_per_sd']} (p {e['finngen_p']}), combined q {e['combined_q']}"
+                     if "finngen_p" in e else ""))
     elif t == "mendelian_randomization_gut":
         coloc = e.get("colocalises_with_ibd_gwas")
         detail = (f"{e['gene']} · {e['exposure']} ({e['tissue_or_cell']}) on UC risk: OR per SD {e['odds_ratio_per_sd']}, "
                   f"p {e['p']}, q {e['q']}, {e['n_instruments']} instrument(s)"
-                  + ("" if coloc is None else f"; colocalises with IBD GWAS: {'yes' if coloc else 'no'}"))
+                  + ("" if coloc is None else f"; colocalises with IBD GWAS: {'yes' if coloc else 'no'}")
+                  + (f"; FinnGen OR {e['finngen_odds_ratio_per_sd']} (p {e['finngen_p']}), combined q {e['combined_q']}"
+                     if "finngen_p" in e else ""))
     elif t == "spatial_visium":
         detail = (f"{e['gene']} · Visium (GSE189184): co-varies most with {e['compartment']} (rho {e['compartment_rho']}, "
                   f"first in {e['sections_compartment_first']} of {e['uc_sections']} UC sections); UC vs healthy "
@@ -91,6 +95,24 @@ def evidence_view(e: dict) -> dict:
         detail = (f"{e['gene']} ({e['accession']}) AlphaFold {e['model']} v{e['version']}: mean pLDDT {e['mean_plddt']}, "
                   f"{e['n_cavities']} cavities, best pocket score {e['best_pocket_score']}; ligand-site recall "
                   f"{e.get('ligand_site_recall')}")
+    elif t == "proteomics_de":
+        detail = (f"{e['gene']} · protein in UC colon mucosa ({e['study']}): log2 UC/healthy {e['log2_ratio']}, padj "
+                  f"{e['padj']}; RNA meta log2FC {e.get('rna_meta_log2fc')}; replicates the RNA change: "
+                  f"{e.get('replicates_rna_change') or 'not tested'}")
+    elif t == "mouse_colitis":
+        detail = (f"{e['gene']} · mouse models (MGI): {e['direction']}; spontaneous colitis "
+                  f"{e['spontaneous_colitis_genotypes']}, more severe induced colitis "
+                  f"{e['more_severe_induced_colitis_genotypes']}, protected {e['protected_from_induced_colitis_genotypes']} "
+                  f"genotype(s); PMIDs {', '.join(e.get('pmids', [])[:4])}")
+    elif t == "spatial_cosmx":
+        det = "; ".join(f"{x['panel']} panel: best {x['best_lineage']} {x['pct_cells_best']} % vs {x['pct_cells_other_median']} % "
+                        f"of other cells ({'above background' if x['above_background'] else 'background level'})"
+                        for x in e.get("detection", []))
+        detail = f"{e['gene']} · CosMx single cells, inflamed UC rectum (GSE312415): {det}"
+    elif t == "pubtator_relations":
+        uc = ", ".join(f"{k} {v}" for k, v in e.get("with_uc_or_ibd", {}).items()) or "none"
+        detail = (f"{e['gene']} · PubTator3 machine-extracted relations: {e['relations']} in {e['publications']} "
+                  f"publications; with UC/IBD/colitis: {uc}")
     elif t == "literature_relation":
         detail = f"“{e['sentence']}” ({e['subject_text']} → {e['object_text']})"
     else:
@@ -214,7 +236,16 @@ def genetics_tables(genes: list[str]) -> dict:
 
     def coloc(x):
         return "yes" if x is True else ("no" if x is False else "-")
-    out["colon_rows"] = [{"gene": x.gene, "label": x.label, "or": _num(x.or_per_sd), "q": f"{x.q:.1e}",
+    def fg(x):
+        if pd.isna(getattr(x, "p_finngen", np.nan)):
+            return "—"
+        return f"OR {np.exp(x.beta_finngen):.2f}, p {x.p_finngen:.1e}" + (" ✓" if x.replicates_finngen is True else "")
+    for key, d in (("plasma", p), ("colon", c[c.layer == "colon_tissue"]), ("cell", c[c.layer == "gut_cell"])):
+        s_ = d[d.q < 0.05]
+        out[key]["finngen_replicated"] = int((s_.get("replicates_finngen", pd.Series(dtype=object)) == True).sum())  # noqa: E712
+        out[key]["combined_significant"] = int((d.get("q_combined", pd.Series(dtype=float)) < 0.05).sum())
+    out["plasma_finngen"] = {x.gene: fg(x) for x in p.itertuples()}
+    out["colon_rows"] = [{"gene": x.gene, "label": x.label, "or": _num(x.or_per_sd), "q": f"{x.q:.1e}", "finngen": fg(x),
                           "n": int(x.n_instruments), "coloc": coloc(x.colocalises),
                           "plasma": f"OR {pi.at[x.gene, 'or_per_sd']:.2f}, q {pi.at[x.gene, 'q']:.1e}" if x.gene in pi.index else None}
                          for x in col.itertuples()]
@@ -287,12 +318,14 @@ def treatment_tables() -> dict:
     r = pd.read_parquet(PROCESSED / "response_genes.parquet")
     n = r.groupby("arm")[["n_nonresponders", "n_responders"]].first().sum(axis=1)
     top = {}
-    for arm in ("ustekinumab", "placebo (UNIFI)", "golimumab", "vedolizumab"):
+    for arm in ("ustekinumab", "placebo (UNIFI)", "infliximab (ACT1)", "placebo (ACT1)", "etrolizumab", "golimumab", "vedolizumab"):
         d = r[r.arm == arm].sort_values("p").head(8)
         top[arm] = [{"gene": x.gene, "t": _num(x.t), "q": f"{x.padj:.1e}",
                      "direction": "higher in non-responders" if x.t > 0 else "higher in responders"} for x in d.itertuples()]
     it = pd.read_parquet(PROCESSED / "response_interaction.parquet").sort_values("p_interaction").head(10)
-    return {"n": {"ustekinumab": int(n.get("ustekinumab", 0)), "placebo_unifi": int(n.get("placebo (UNIFI)", 0))},
+    return {"n": {"ustekinumab": int(n.get("ustekinumab", 0)), "placebo_unifi": int(n.get("placebo (UNIFI)", 0)),
+                  "infliximab_act1": int(n.get("infliximab (ACT1)", 0)), "placebo_act1": int(n.get("placebo (ACT1)", 0)),
+                  "etrolizumab": int(n.get("etrolizumab", 0))},
             "significant": {a: int((d.padj < 0.05).sum()) for a, d in r.groupby("arm")},
             "interaction_significant": int((pd.read_parquet(PROCESSED / "response_interaction.parquet").padj_interaction < 0.05).sum()),
             "top": top, "check_genes": F.CHECK_GENES[:5],
@@ -426,6 +459,41 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         "drug_stage": F.drug_stage(ranking),
     }
     figs["sc_replication"], cell["sc_rep"] = F.sc_replication_figure()
+    figs.update({"proteomics": F.proteomics_scatter(hl), "finngen": F.finngen_scatter(), "pubtator": F.pubtator_chart()})
+    third = {}
+    if (PROCESSED / "proteomics_summary.json").exists():
+        pr = pd.read_parquet(PROCESSED / "proteomics.parquet").set_index("gene")
+        third["proteomics"] = json.loads((PROCESSED / "proteomics_summary.json").read_text())
+        third["proteomics_rows"] = [{"gene": g, "rna": _num(pr.at[g, "meta_log2fc"]), "protein": _num(pr.at[g, "log2_ratio"]),
+                                     "padj": f"{pr.at[g, 'padj']:.1e}" if pd.notna(pr.at[g, "padj"]) else "—",
+                                     "replicates": pr.at[g, "replicates"] or "not tested",
+                                     "evidence_ids": [evidence_id("proteomics_de", g)]}
+                                    for g in report_genes[:30] if g in pr.index]
+    if (PROCESSED / "mouse_colitis_summary.json").exists():
+        ms = json.loads((PROCESSED / "mouse_colitis_summary.json").read_text())
+        mc = pd.read_parquet(PROCESSED / "mouse_colitis.parquet").set_index("gene")
+        third["mouse"] = ms
+        figs["mouse"] = F.mouse_rates(ms)
+        third["mouse_rows"] = [{"gene": g, "direction": mc.at[g, "direction"], "spont": int(mc.at[g, "spontaneous_genotypes"]),
+                                "worse": int(mc.at[g, "worse_induced_genotypes"]), "protected": int(mc.at[g, "protected_genotypes"]),
+                                "evidence_ids": [evidence_id("mouse_colitis", g)]}
+                               for g in list(dict.fromkeys(report_genes + sorted(ms["clinical_targets_with_phenotype"]))) if g in mc.index]
+        third["mouse_candidates_without"] = [g for g in report_genes[:25] if g not in mc.index]
+    if (PROCESSED / "cosmx_detection.parquet").exists():
+        cd = pd.read_parquet(PROCESSED / "cosmx_detection.parquet")
+        cs = pd.read_parquet(PROCESSED / "cosmx_sections.parquet")
+        third["cosmx_sections"] = cs.round(3).to_dict("records")
+        cd6 = cd[cd.panel == "6k"].set_index("gene")
+        third["cosmx_rows"] = [{"gene": g, "best": cd6.at[g, "best_lineage"], "pct_best": cd6.at[g, "pct_best"],
+                                "pct_other": cd6.at[g, "pct_others_median"], "spec": cd6.at[g, "specificity"],
+                                "above": bool(cd6.at[g, "above_background"]), "evidence_ids": [evidence_id("spatial_cosmx", g)]}
+                               for g in report_genes[:30] if g in cd6.index]
+        third["cosmx_detected"] = cd6[cd6.above_background].sort_values("specificity", ascending=False).index.tolist()[:15]
+        third["cosmx_counts"] = {"tested": int(len(cd6)), "above": int(cd6.above_background.sum())}
+    lit_rel = PROCESSED.parents[0] / "literature" / "pubtator_relations.parquet"
+    if lit_rel.exists():
+        pubs = pd.read_parquet(PROCESSED.parents[0] / "literature" / "publications.parquet")
+        third["literature"] = {"publications": len(pubs), "pubtator_relations": len(pd.read_parquet(lit_rel))}
     lit1, lit2 = F.literature_charts()
     figs.update({"lit_relations": lit1, "lit_years": lit2})
     evals = json.loads((ROOT / "evals" / "results.json").read_text(encoding="utf-8"))
@@ -468,11 +536,13 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
             "proteins": S["modeled"], "fic": D["status"].get("first-in-class opportunity", 0), "pool": D["pool"]}
     # table evidence must be numbered too
     extra_ids = []
-    for block in (cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"]):
+    blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
+              third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", [])]
+    for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]
     present = {e["evidence_id"] for e in store.get_evidence(list(dict.fromkeys(extra_ids)))}
-    for block in (cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"]):
+    for block in blocks:
         for r in block:   # a table row cites only records that exist (not every gene has every layer)
             r["evidence_ids"] = [i for i in r["evidence_ids"] if i in present]
     extra_ids = [i for i in extra_ids if i in present]
@@ -495,7 +565,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), cell=cell, G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
+        badges=badges(f, cell), cell=cell, third=third,
+        score_sens=layers.get("score_sensitivity", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,
         bio_top=bio_top.to_dict("records"), imm_top=imm_top.to_dict("records"),

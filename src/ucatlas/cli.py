@@ -54,6 +54,10 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("relations", literature.validate_extractions)
     _step("enrichment", enrich.run)
     _step("graph", lambda: kg_build.build()["claims_without_resolvable_evidence"])
+    _step("PubTator3 relations", literature.load_pubtator_relations)
+    from . import proteomics
+    if proteomics.SRC.exists():
+        _step("protein-level replication", lambda: (proteomics.run(), proteomics.load())[0])
     from . import composition, kg_cells, sc_replication, sc_neutrophil, singlecell
     if not (PROCESSED / "sc_celltype_share.parquet").exists() and (singlecell.SC / "manifest.json").exists():
         _step("single cell (Smillie 2019)", lambda: singlecell.run(expression_top(None)))
@@ -88,6 +92,10 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         _step("spatial (Visium deconvolution)",
               lambda: (spatial_deconv.run(list(dict.fromkeys(expression_top(300) + extra + spatial_deconv.EXTRA))),
                        spatial_deconv.viewer(spatial_deconv.VIEWER_GENES), spatial_deconv.load_graph())[2])
+    from . import spatial_cosmx
+    if (spatial_cosmx.D / "manifest.json").exists():
+        _step("spatial (CosMx)", lambda: (spatial_cosmx.run(list(dict.fromkeys(expression_top(300) + extra + spatial_deconv.EXTRA))),
+                                          spatial_cosmx.load())[0])
     from . import mr
     if mr.EXTRACT.exists() and mr.GWAS.exists():
         _step("Mendelian randomisation (pQTL)", lambda: (mr.run(), mr.load())[0])
@@ -98,6 +106,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     from . import report_layers, structure
     _step("structure (AlphaFold pockets)", lambda: (structure.run(structure.targets(run)), structure.load_graph())[1])
     _step("report layers", lambda: list(report_layers.run()))
+    from . import mouse_models
+    _step("mouse models (MGI)", lambda: (mouse_models.run(), mouse_models.load())[1])
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))

@@ -1,9 +1,10 @@
 name: Publish report to GitHub Pages
-# Publishes reports/uc_report.html as the site index every time the report changes on main (or on demand).
+# Publishes reports/uc_report.html every time the report changes on main (or on demand). The page is split by
+# scripts/split_site.py: libraries and the 3D and tissue data become files that load only when needed.
 on:
   push:
     branches: [main]
-    paths: [reports/uc_report.html, .github/workflows/pages.yml]
+    paths: [reports/uc_report.html, scripts/split_site.py, .github/workflows/pages.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,9 +23,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build the site folder
         run: |
-          mkdir site
-          cp reports/uc_report.html site/index.html
-          touch site/.nojekyll
+          python3 scripts/split_site.py reports/uc_report.html site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

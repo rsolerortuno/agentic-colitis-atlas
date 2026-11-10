@@ -4,7 +4,8 @@
   {
    "gene": "CXCR2",
    "role": "biomarker",
-   "statement": "CXCR2, the top-ranked candidate, is almost entirely a neutrophil transcript in inflamed UC mucosa (Gubatan neutrophil share [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965]). In Smillie, which lacks neutrophils, the small residual signal sits in T/NK and macrophage clusters and the second dataset says myeloid, so the lineage attribution is not replicated. After adjusting for cell composition, the change is only partly retained [gene=CXCR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4409]. It is best read as a marker of neutrophil influx, and a CXCR2 antagonist would act on arriving neutrophils rather than on resident tissue cells.",
+   "key": true,
+   "statement": "CXCR2 is the top convergence gene, but in Gubatan 2026 neutrophils make nearly all of its inflamed-mucosa transcripts [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965]. Smillie (no neutrophils) assigns it to T/NK cells and the second dataset to myeloid, so the attribution does not replicate and the Smillie call is an artefact of missing neutrophils. After composition adjustment the change falls from [gene=CXCR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; unadjusted_log2fc=2.5984] to [gene=CXCR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4409] (partly_composition, still significant): mainly a marker of neutrophil influx; drug action would be on neutrophil recruitment, not a tissue-intrinsic change.",
    "evidence_ids": [
     "EV:sc_summary:1fce9fb2531f",
     "EV:composition_effect:1fce9fb2531f"
@@ -21,18 +22,44 @@
     {
      "evidence_id": "EV:composition_effect:1fce9fb2531f",
      "field": [
+      "unadjusted_log2fc"
+     ],
+     "display": "2.5984",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:1fce9fb2531f",
+     "field": [
       "adjusted_log2fc"
      ],
      "display": "0.4409",
      "unit": "native"
     }
+   ]
+  },
+  {
+   "gene": "CXCR1",
+   "role": "biomarker",
+   "statement": "CXCR1 is also almost entirely neutrophil-derived in inflamed UC mucosa [gene=CXCR1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.962]; its bulk rise should be read as neutrophil influx, like CXCR2.",
+   "evidence_ids": [
+    "EV:sc_summary:450a602fd6f8"
    ],
-   "key": true
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:450a602fd6f8",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.962",
+     "unit": "native"
+    }
+   ]
   },
   {
    "gene": "CXCL8",
-   "role": "biomarker",
-   "statement": "CXCL8 is made by myeloid cells in Smillie (macrophages, inflammatory monocytes, DC2) and the second dataset agrees, but in Gubatan neutrophils carry most transcripts [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873]. The composition-adjusted change is no longer significant [gene=CXCL8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0523], verdict composition. Treat it as a marker of myeloid/neutrophil influx; the adjustment may over-correct when resident cells are activated, so this is not proof of pure influx.",
+   "role": "composition",
+   "key": true,
+   "statement": "CXCL8 is made mostly by myeloid cells in Smillie (replicated in the second dataset), and neutrophils carry a large share in Gubatan [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873]. After composition adjustment the change is no longer significant (verdict composition) [gene=CXCL8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0523]: a marker of myeloid/neutrophil influx; the adjustment may over-correct if resident cells are activated, so this is not proof of pure influx.",
    "evidence_ids": [
     "EV:sc_summary:1e78b2f07f0c",
     "EV:composition_effect:1e78b2f07f0c"
@@ -54,153 +81,13 @@
      "display": "0.0523",
      "unit": "native"
     }
-   ],
-   "key": true
-  },
-  {
-   "gene": "IL1B",
-   "role": "biomarker",
-   "statement": "IL1B is a myeloid gene (macrophages, inflammatory monocytes, DC2; second dataset agrees) with a large neutrophil contribution in inflamed mucosa [gene=IL1B; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.702]. Its bulk increase does not survive composition adjustment [gene=IL1B; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0728], verdict composition, so the bulk rise mostly tracks myeloid influx.",
-   "evidence_ids": [
-    "EV:sc_summary:8fc39aea69af",
-    "EV:composition_effect:8fc39aea69af"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:sc_summary:8fc39aea69af",
-     "field": [
-      "neutrophil_share_inflamed"
-     ],
-     "display": "0.702",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:composition_effect:8fc39aea69af",
-     "field": [
-      "adjusted_padj"
-     ],
-     "display": "0.0728",
-     "unit": "native"
-    }
-   ],
-   "key": true
-  },
-  {
-   "gene": "S100A8",
-   "role": "biomarker",
-   "statement": "S100A8 is made by macrophages and inflammatory monocytes in Smillie (second dataset concordant) and mostly by neutrophils in Gubatan [gene=S100A8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.909]. A significant part of the change remains after adjustment [gene=S100A8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.9231], verdict partly_composition: a myeloid-influx biomarker with some activation signal.",
-   "evidence_ids": [
-    "EV:sc_summary:6ff831ae12f7",
-    "EV:composition_effect:6ff831ae12f7"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:sc_summary:6ff831ae12f7",
-     "field": [
-      "neutrophil_share_inflamed"
-     ],
-     "display": "0.909",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:composition_effect:6ff831ae12f7",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "0.9231",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
-   "gene": "AQP9",
-   "role": "biomarker",
-   "statement": "AQP9 transcripts in inflamed mucosa come overwhelmingly from neutrophils [gene=AQP9; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.92]. It retains a smaller positive change after composition adjustment that stays significant [gene=AQP9; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8551], verdict partly_composition. It is a neutrophil-influx marker with no drug in the ranking.",
-   "evidence_ids": [
-    "EV:sc_summary:324a25b2f283",
-    "EV:composition_effect:324a25b2f283"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:sc_summary:324a25b2f283",
-     "field": [
-      "neutrophil_share_inflamed"
-     ],
-     "display": "0.92",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:composition_effect:324a25b2f283",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "0.8551",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
-   "gene": "CD274",
-   "role": "mechanism",
-   "statement": "CD274 (PD-L1) is spread across plasma cells, macrophages and enterocytes in Smillie with a modest myeloid lineage share, and neutrophils contribute heavily in Gubatan [gene=CD274; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.687]. The change is partly retained after adjustment [gene=CD274; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4978]. The signal is diffuse, so cell-type-specific targeting is unclear; checkpoint agonism rather than blockade would be the direction of interest.",
-   "evidence_ids": [
-    "EV:sc_summary:822a01cbf7e8",
-    "EV:composition_effect:822a01cbf7e8"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:sc_summary:822a01cbf7e8",
-     "field": [
-      "neutrophil_share_inflamed"
-     ],
-     "display": "0.687",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:composition_effect:822a01cbf7e8",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "0.4978",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
-   "gene": "IDO1",
-   "role": "target_and_biomarker",
-   "statement": "IDO1 is a myeloid gene (DC1, macrophages; second dataset agrees) with an epithelial contribution in Gubatan and little neutrophil contribution [gene=IDO1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.072]. The change is retained after adjustment [gene=IDO1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8505], verdict partly_composition, so it is a tissue-level change that does not depend on neutrophil influx.",
-   "evidence_ids": [
-    "EV:sc_summary:2b76723dce27",
-    "EV:composition_effect:2b76723dce27"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:sc_summary:2b76723dce27",
-     "field": [
-      "neutrophil_share_inflamed"
-     ],
-     "display": "0.072",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:composition_effect:2b76723dce27",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "0.8505",
-     "unit": "native"
-    }
-   ],
-   "key": false
+   ]
   },
   {
    "gene": "MMP1",
-   "role": "target",
-   "statement": "MMP1 is a stromal gene, made chiefly by inflammatory fibroblasts and WNT5B+ fibroblasts, with the second dataset also stromal [gene=MMP1; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.871]. It keeps a strong change after composition adjustment [gene=MMP1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.2636], so it is a replicated fibroblast-derived tissue change, not neutrophil influx.",
+   "role": "target_and_biomarker",
+   "key": true,
+   "statement": "MMP1 comes from stromal cells, mainly inflammatory fibroblasts [gene=MMP1; type=sc_summary; source=DATASET:SCP259; top_clusters_inflamed.0.share=0.531], and the stromal attribution replicates in the second dataset. Little is neutrophil-derived and the change stays significant after adjustment [gene=MMP1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.2636] (partly_composition): a tissue-intrinsic fibroblast programme.",
    "evidence_ids": [
     "EV:sc_summary:221893f3b477",
     "EV:composition_effect:221893f3b477"
@@ -209,9 +96,11 @@
     {
      "evidence_id": "EV:sc_summary:221893f3b477",
      "field": [
-      "dominant_lineage_share"
+      "top_clusters_inflamed",
+      0,
+      "share"
      ],
-     "display": "0.871",
+     "display": "0.531",
      "unit": "native"
     },
     {
@@ -222,41 +111,13 @@
      "display": "1.2636",
      "unit": "native"
     }
-   ],
-   "key": true
-  },
-  {
-   "gene": "CHI3L1",
-   "role": "target_and_biomarker",
-   "statement": "CHI3L1 is stromal, concentrated in inflammatory fibroblasts, and the second dataset agrees [gene=CHI3L1; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.941]. A large change persists after adjustment [gene=CHI3L1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3967]. Neutrophils also contribute in Gubatan, so part of the bulk signal is influx, but the fibroblast change is intrinsic.",
-   "evidence_ids": [
-    "EV:sc_summary:b3f7b3e784f8",
-    "EV:composition_effect:b3f7b3e784f8"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:sc_summary:b3f7b3e784f8",
-     "field": [
-      "dominant_lineage_share"
-     ],
-     "display": "0.941",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:composition_effect:b3f7b3e784f8",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "1.3967",
-     "unit": "native"
-    }
-   ],
-   "key": false
+   ]
   },
   {
    "gene": "DUOX2",
    "role": "target_and_biomarker",
-   "statement": "DUOX2 is epithelial (enterocytes and immature enterocytes) and replicated in the second dataset [gene=DUOX2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.947]. It retains a clear change after adjustment [gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161], with almost no neutrophil contribution, so it reflects an epithelial-intrinsic inflammatory program.",
+   "key": true,
+   "statement": "DUOX2 is almost wholly epithelial (enterocytes) and replicated in the second dataset [gene=DUOX2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.947]. It keeps a significant change after adjustment [gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161] (partly_composition), supporting an intrinsic epithelial change.",
    "evidence_ids": [
     "EV:sc_summary:69eb34ed119c",
     "EV:composition_effect:69eb34ed119c"
@@ -278,19 +139,158 @@
      "display": "1.3161",
      "unit": "native"
     }
+   ]
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "target_and_biomarker",
+   "statement": "CHI3L1 is attributed to inflammatory fibroblasts in Smillie [gene=CHI3L1; type=sc_summary; source=DATASET:SCP259; top_clusters_inflamed.0.share=0.652], replicated as stromal in the second dataset, though neutrophils also carry a sizeable share in Gubatan (caveat). The change survives adjustment [gene=CHI3L1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3967] (partly_composition).",
+   "evidence_ids": [
+    "EV:sc_summary:b3f7b3e784f8",
+    "EV:composition_effect:b3f7b3e784f8"
    ],
-   "key": true
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:b3f7b3e784f8",
+     "field": [
+      "top_clusters_inflamed",
+      0,
+      "share"
+     ],
+     "display": "0.652",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:b3f7b3e784f8",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "1.3967",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "IDO1",
+   "role": "target_and_biomarker",
+   "statement": "IDO1 is myeloid (macrophages, DC1; replicated) with epithelial contribution and almost no neutrophil origin [gene=IDO1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.072]. The change stays significant after adjustment [gene=IDO1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8505] (partly_composition).",
+   "evidence_ids": [
+    "EV:sc_summary:2b76723dce27",
+    "EV:composition_effect:2b76723dce27"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:2b76723dce27",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.072",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:2b76723dce27",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.8505",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CD274",
+   "role": "mechanism",
+   "statement": "CD274 (PD-L1) is dispersed in Smillie (plasma, macrophages, enterocytes; myeloid replicated) but neutrophils make a large share in Gubatan [gene=CD274; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.687]. A modest change remains after adjustment [gene=CD274; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4978] (partly_composition); cell-of-origin is ambiguous.",
+   "evidence_ids": [
+    "EV:sc_summary:822a01cbf7e8",
+    "EV:composition_effect:822a01cbf7e8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:822a01cbf7e8",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.687",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:822a01cbf7e8",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.4978",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "S100A8",
+   "role": "biomarker",
+   "key": true,
+   "statement": "S100A8 is predominantly neutrophil-derived [gene=S100A8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.909]; a reduced but significant change remains after adjustment [gene=S100A8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.9231] (partly_composition). It is a neutrophil-influx marker rather than a cell-type target.",
+   "evidence_ids": [
+    "EV:sc_summary:6ff831ae12f7",
+    "EV:composition_effect:6ff831ae12f7"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:6ff831ae12f7",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.909",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:6ff831ae12f7",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.9231",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "AQP9",
+   "role": "biomarker",
+   "statement": "AQP9 is overwhelmingly neutrophil-derived [gene=AQP9; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.92], so its high rank reflects neutrophil arrival.",
+   "evidence_ids": [
+    "EV:sc_summary:324a25b2f283"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:324a25b2f283",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.92",
+     "unit": "native"
+    }
+   ]
   },
   {
    "gene": "CXCR2",
    "role": "biomarker",
-   "statement": "In situ, CXCR2 is explained by neutrophils in the deconvolved Visium spots [gene=CXCR2; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.386], the composition-corrected source is also neutrophil, and neutrophils are the only cell group enriched around its high spots. In Xenium single cells, inflamed-section attribution is led by neutrophils and neutrophils are the most enriched neighbours of expressing cells (also endothelial cells). This agrees with the Gubatan neutrophil attribution and contradicts the T/NK label in Smillie, which lacks neutrophils. Visium sections with data were few, so this is moderate evidence.",
+   "key": true,
+   "statement": "In situ, CXCR2 agrees with the neutrophil attribution and contradicts the Smillie T/NK call: in Xenium inflamed sections neutrophils carry [gene=CXCR2; type=spatial_summary; source=DATASET:GSE312420; attribution_by_state.inflamed.neutrophil=0.365] of its transcripts, and in deconvolved Visium spots Neutrophil is the top expresser [gene=CXCR2; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.386]. High spots are significantly enriched for neutrophil neighbours and Xenium neighbours are neutrophil-enriched. Negatives: raw Visium spot correlation is weak and neutrophil is first in only one of two UC sections, and CosMx detects CXCR2 only at background (best lineage T_NK, not above background), so spatial support rests on Xenium and deconvolution.",
    "evidence_ids": [
-    "EV:spatial_visium_cell:1fce9fb2531f",
     "EV:spatial_summary:1fce9fb2531f",
-    "EV:spatial_visium:1fce9fb2531f"
+    "EV:spatial_visium_cell:1fce9fb2531f",
+    "EV:spatial_cosmx:1fce9fb2531f"
    ],
    "numeric_claims": [
+    {
+     "evidence_id": "EV:spatial_summary:1fce9fb2531f",
+     "field": [
+      "attribution_by_state",
+      "inflamed",
+      "neutrophil"
+     ],
+     "display": "0.365",
+     "unit": "native"
+    },
     {
      "evidence_id": "EV:spatial_visium_cell:1fce9fb2531f",
      "field": [
@@ -299,15 +299,15 @@
      "display": "0.386",
      "unit": "native"
     }
-   ],
-   "key": true
+   ]
   },
   {
    "gene": "CXCL8",
-   "role": "biomarker",
-   "statement": "CXCL8 is explained mainly by neutrophils in Visium spots [gene=CXCL8; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.609], followed by inflammatory fibroblasts and myeloid cells; the composition-corrected source is myeloid, and neutrophils, inflammatory fibroblasts and myeloid cells are enriched around high spots. Not on the Xenium panel. This agrees with Gubatan (neutrophil-heavy) and partly with Smillie (myeloid), but the fibroblast contribution is not seen at single-cell level.",
+   "role": "composition",
+   "statement": "In Visium, deconvolution assigns most CXCL8 signal to neutrophils [gene=CXCL8; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.609], while the composition-corrected source is Myeloid (consistent with Smillie macrophages); high spots are surrounded by neutrophils, inflammatory fibroblasts and myeloid cells. The raw spot-level lineage association (myeloid first, fibroblast second) is not consistent across sections [gene=CXCL8; type=spatial_visium; source=DATASET:GSE189184; p_sections=0.142], CosMx is at background and the gene is not on the Xenium panel: the in-situ source is neutrophil/myeloid but only weakly resolved.",
    "evidence_ids": [
-    "EV:spatial_visium_cell:1e78b2f07f0c"
+    "EV:spatial_visium_cell:1e78b2f07f0c",
+    "EV:spatial_visium:1e78b2f07f0c"
    ],
    "numeric_claims": [
     {
@@ -317,14 +317,21 @@
      ],
      "display": "0.609",
      "unit": "native"
+    },
+    {
+     "evidence_id": "EV:spatial_visium:1e78b2f07f0c",
+     "field": [
+      "p_sections"
+     ],
+     "display": "0.142",
+     "unit": "native"
     }
-   ],
-   "key": false
+   ]
   },
   {
    "gene": "MMP1",
-   "role": "target",
-   "statement": "In Visium spots MMP1 is explained by inflammatory fibroblasts [gene=MMP1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.579], the composition-corrected source is also inflammatory fibroblast, and high spots are surrounded by inflammatory fibroblasts and neutrophils. Not on the Xenium panel. This agrees with the stromal single-cell attribution in both datasets; the neutrophil neighbourhood fits the inflamed niche rather than neutrophil production.",
+   "role": "target_and_biomarker",
+   "statement": "MMP1 in situ agrees with the single-cell fibroblast attribution: the deconvolved Visium top expresser and composition-corrected source is Inflammatory_fibroblast [gene=MMP1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.579]; its high spots are enriched for inflammatory fibroblasts and also neutrophils, consistent with a fibroblast-neutrophil niche. Not on the Xenium panel and CosMx is at background.",
    "evidence_ids": [
     "EV:spatial_visium_cell:221893f3b477"
    ],
@@ -337,13 +344,41 @@
      "display": "0.579",
      "unit": "native"
     }
+   ]
+  },
+  {
+   "gene": "DUOX2",
+   "role": "target_and_biomarker",
+   "statement": "DUOX2 is the best-confirmed gene in situ: epithelial cells carry [gene=DUOX2; type=spatial_summary; source=DATASET:GSE312420; attribution_by_state.inflamed.epithelial=0.921] of its Xenium transcripts in inflamed sections, and Epithelial is the sole deconvolved Visium expresser [gene=DUOX2; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.812]; Visium lineage association is epithelial-first in all UC sections analysed. Xenium, Visium and single-cell all agree.",
+   "evidence_ids": [
+    "EV:spatial_summary:69eb34ed119c",
+    "EV:spatial_visium_cell:69eb34ed119c"
    ],
-   "key": false
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:spatial_summary:69eb34ed119c",
+     "field": [
+      "attribution_by_state",
+      "inflamed",
+      "epithelial"
+     ],
+     "display": "0.921",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:spatial_visium_cell:69eb34ed119c",
+     "field": [
+      "in_situ_contribution"
+     ],
+     "display": "0.812",
+     "unit": "native"
+    }
+   ]
   },
   {
    "gene": "CHI3L1",
    "role": "target_and_biomarker",
-   "statement": "In Visium spots the largest raw contributor to CHI3L1 is plasma cells [gene=CHI3L1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.258], but the composition-corrected source is inflammatory fibroblast and inflammatory fibroblasts are the most enriched neighbours of high spots. Not on the Xenium panel. After correction this agrees with the single-cell fibroblast attribution; the plasma signal likely reflects spatial co-location.",
+   "statement": "CHI3L1 in situ only partly agrees with the fibroblast attribution: the raw top deconvolved expresser is Plasma [gene=CHI3L1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.258], with Inflammatory_fibroblast a close second, but the composition-corrected source and the neighbours of high spots favour inflammatory fibroblasts, with endothelial, plasma and myeloid cells also enriched. CosMx shows fibroblast as best lineage but not above background; not on Xenium. Fibroblast origin is supported, not exclusive.",
    "evidence_ids": [
     "EV:spatial_visium_cell:b3f7b3e784f8"
    ],
@@ -356,38 +391,28 @@
      "display": "0.258",
      "unit": "native"
     }
-   ],
-   "key": false
-  },
-  {
-   "gene": "DUOX2",
-   "role": "target_and_biomarker",
-   "statement": "DUOX2 is the cleanest in-situ agreement: Visium deconvolution assigns it to epithelial cells [gene=DUOX2; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.812], with epithelial cells also the corrected source and the enriched neighbour. In Xenium single cells the inflamed-section attribution is epithelial and expressing cells are surrounded by epithelium. This matches the epithelial single-cell attribution in both datasets.",
-   "evidence_ids": [
-    "EV:spatial_visium_cell:69eb34ed119c",
-    "EV:spatial_summary:69eb34ed119c"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:spatial_visium_cell:69eb34ed119c",
-     "field": [
-      "in_situ_contribution"
-     ],
-     "display": "0.812",
-     "unit": "native"
-    }
-   ],
-   "key": false
+   ]
   },
   {
    "gene": "IDO1",
    "role": "mechanism",
-   "statement": "In situ IDO1 is ambiguous. Visium deconvolution gives epithelial cells the largest raw share [gene=IDO1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.349], T/NK second, but the composition-corrected source is myeloid. Xenium inflamed-section attribution is led by epithelial cells, with immune cells (T/NK, B, neutrophils, myeloid) enriched among neighbours. This agrees with the myeloid single-cell label only after correction; an epithelial source (also seen in Gubatan) is plausible.",
+   "key": true,
+   "statement": "IDO1 in situ disagrees with the myeloid attribution from single-cell data: Xenium inflamed sections give epithelium the largest share [gene=IDO1; type=spatial_summary; source=DATASET:GSE312420; attribution_by_state.inflamed.epithelial=0.371], and the Visium top expresser is Epithelial [gene=IDO1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.349] with T_NK close behind, although the composition-corrected source is Myeloid. Xenium neighbours are lymphoid and neutrophil rich. Visium spot correlations are weak, so the producing cell (epithelial versus myeloid) is unresolved and an epithelial IDO1 programme is plausible.",
    "evidence_ids": [
-    "EV:spatial_visium_cell:2b76723dce27",
-    "EV:spatial_summary:2b76723dce27"
+    "EV:spatial_summary:2b76723dce27",
+    "EV:spatial_visium_cell:2b76723dce27"
    ],
    "numeric_claims": [
+    {
+     "evidence_id": "EV:spatial_summary:2b76723dce27",
+     "field": [
+      "attribution_by_state",
+      "inflamed",
+      "epithelial"
+     ],
+     "display": "0.371",
+     "unit": "native"
+    },
     {
      "evidence_id": "EV:spatial_visium_cell:2b76723dce27",
      "field": [
@@ -396,32 +421,12 @@
      "display": "0.349",
      "unit": "native"
     }
-   ],
-   "key": false
-  },
-  {
-   "gene": "CD274",
-   "role": "mechanism",
-   "statement": "CD274 has no clear in-situ source: Visium deconvolution gives epithelial and neutrophil cells similar shares [gene=CD274; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.234], the composition-corrected source is myeloid, and no cell group is enriched around high spots. It is not on the Xenium panel. This neither confirms nor refutes the diffuse single-cell attribution.",
-   "evidence_ids": [
-    "EV:spatial_visium_cell:822a01cbf7e8"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:spatial_visium_cell:822a01cbf7e8",
-     "field": [
-      "in_situ_contribution"
-     ],
-     "display": "0.234",
-     "unit": "native"
-    }
-   ],
-   "key": false
+   ]
   },
   {
    "gene": "S100A8",
    "role": "biomarker",
-   "statement": "In Visium spots S100A8 is explained by neutrophils [gene=S100A8; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.632], the composition-corrected source is neutrophil, and neutrophils are the most enriched neighbours of high spots, followed by inflammatory fibroblasts and myeloid cells. Not on the Xenium panel. This agrees with the Gubatan neutrophil attribution and with the myeloid lineage in Smillie.",
+   "statement": "S100A8 in situ agrees with the neutrophil origin: Neutrophil is the top deconvolved Visium expresser and composition-corrected source [gene=S100A8; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.632], and high spots are surrounded by neutrophils, inflammatory fibroblasts and myeloid cells. Not on Xenium; CosMx is at background.",
    "evidence_ids": [
     "EV:spatial_visium_cell:6ff831ae12f7"
    ],
@@ -434,91 +439,33 @@
      "display": "0.632",
      "unit": "native"
     }
-   ],
-   "key": false
+   ]
   },
   {
-   "gene": "CXCR1",
-   "role": "biomarker",
-   "statement": "CXCR1 loses most of its bulk change after composition adjustment but stays significant [gene=CXCR1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.5702], verdict partly_composition. Together with its neutrophil-dominated transcripts it behaves as a neutrophil-influx marker.",
+   "gene": "CD274",
+   "role": "mechanism",
+   "key": true,
+   "statement": "CD274 has no resolved in-situ source: it is not analysed in Visium spot analysis (too few spots), not on Xenium, CosMx is at background, and deconvolution gives a weak epithelial top contribution [gene=CD274; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.234] against a composition-corrected source of Myeloid, with no cell group enriched around high spots. Negative result: the spatial data neither confirm nor refute the myeloid/neutrophil attribution.",
    "evidence_ids": [
-    "EV:composition_effect:450a602fd6f8",
-    "EV:sc_summary:450a602fd6f8"
+    "EV:spatial_visium_cell:822a01cbf7e8",
+    "EV:spatial_cosmx:822a01cbf7e8"
    ],
    "numeric_claims": [
     {
-     "evidence_id": "EV:composition_effect:450a602fd6f8",
+     "evidence_id": "EV:spatial_visium_cell:822a01cbf7e8",
      "field": [
-      "adjusted_log2fc"
+      "in_situ_contribution"
      ],
-     "display": "0.5702",
+     "display": "0.234",
      "unit": "native"
     }
-   ],
-   "key": false
-  },
-  {
-   "gene": "CXCL1",
-   "role": "biomarker",
-   "statement": "CXCL1 retains only a small adjusted change [gene=CXCL1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.3314], verdict partly_composition: mostly cell influx with a minor tissue component.",
-   "evidence_ids": [
-    "EV:composition_effect:b36f0e2e423a"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:composition_effect:b36f0e2e423a",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "0.3314",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
-   "gene": "MMP3",
-   "role": "target_and_biomarker",
-   "statement": "MMP3 keeps a sizeable change after adjustment [gene=MMP3; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8727], verdict partly_composition, indicating a substantial tissue-intrinsic component.",
-   "evidence_ids": [
-    "EV:composition_effect:de1e9e07b063"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:composition_effect:de1e9e07b063",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "0.8727",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
-   "gene": "MMP10",
-   "role": "target_and_biomarker",
-   "statement": "MMP10 has the largest retained change among the genes checked [gene=MMP10; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.5838], verdict partly_composition, so it is mostly a change inside the tissue rather than cell arrival.",
-   "evidence_ids": [
-    "EV:composition_effect:43ccd4c18cba"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:composition_effect:43ccd4c18cba",
-     "field": [
-      "adjusted_log2fc"
-     ],
-     "display": "1.5838",
-     "unit": "native"
-    }
-   ],
-   "key": false
+   ]
   }
  ],
  "caveats": [
-  "Composition adjustment can over-correct when resident cells become activated, so a lost change (CXCL8, IL1B) is not proof of pure influx.",
-  "Shares compare cell types, not tissue abundance; Smillie did not capture neutrophils, so neutrophil genes are attributed to other clusters there.",
-  "Visium spots hold several cells and only a few UC sections express each gene; deconvolution and spot co-variation are weaker than single-cell evidence. Many genes are not on the Xenium panel.",
-  "TREM1 was not assessed individually; it is strongly neutrophil-dominated in Gubatan."
+  "Composition adjustment can over-correct when resident cells become activated; loss of significance (CXCL8) is not proof of pure influx.",
+  "Shares compare cell types, not tissue abundance; Smillie lacks neutrophils so its lineage calls for neutrophil genes (CXCR2) are unreliable.",
+  "Composition was checked only for CXCR2, CXCL8, IDO1, MMP1, DUOX2, CHI3L1, CD274 and S100A8.",
+  "Spatial data are limited: Visium spots hold several cells and only a few UC sections support each gene; CosMx detects all eight queried genes only at background, so it was not used to attribute cells; Xenium covers only CXCR2, DUOX2 and IDO1 of the genes queried (two sections left out for low counts)."
  ]
 }

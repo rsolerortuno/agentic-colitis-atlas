@@ -85,3 +85,10 @@ Views of the kidney atlas added or adapted: protein structure and pockets (46 Al
 45), patient subgroups, biologic suitability, immune microenvironment, rank stability, candidate evidence cards, tissue
 and protein viewers, help on every chart, agent benchmark tab. Not copied because the biology differs: tumour
 mutations, copy number, cell-line dependency and the molecular-glue degrader score.
+
+## 2026-11-10 (third round): independent checks and robustness
+
+Done: licence; one BLAS thread; weight stability of every score; lighter published site; protein-level replication;
+FinnGen MR replication; ACT1 and EUCALYPTUS response cohorts; CosMx sections; MGI mouse models; wider literature with
+PubTator3 relations. Numbers in evals/results.md (o). Left for later on request: the one-agent vs team benchmark on the
+new data.

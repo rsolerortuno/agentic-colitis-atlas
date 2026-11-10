@@ -36,6 +36,9 @@ from .paths import PROCESSED, RAW
 
 OT = "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output"
 GWAS = RAW / "gwas" / "GCST004133_uc_delange2017.h.tsv.gz"
+# replication outcome (added 2026-11-10, third round): FinnGen R12 UC (strict definition), GRCh38, beta for ALT,
+# no sample overlap with the de Lange 2017 meta-analysis
+FINNGEN = RAW / "gwas" / "finngen_R12_K11_UC_STRICT2.gz"
 EXTRACT = RAW / "extra" / "ot_pqtl_credible_sets.parquet"
 PROJECT = "UKB_PPP_EUR"
 P_INSTRUMENT = 5e-8
@@ -156,6 +159,63 @@ def outcome(keys: set[str]) -> pd.DataFrame:
     return g.dropna(subset=["beta", "se"])
 
 
+def outcome_finngen(keys: set[str]) -> pd.DataFrame:
+    """FinnGen rows for the instrument variants (same columns as outcome(); the effect allele is ALT)."""
+    want = {tuple(k.split("_")[:2]) for k in keys}
+    rows = []
+    with gzip.open(FINNGEN, "rt") as f:
+        f.readline()
+        for line in f:
+            x = line.split("\t", 10)
+            if (x[0], x[1]) in want:
+                rows.append({"chrom": x[0], "pos": x[1], "effect": x[3], "other": x[2], "beta": x[8], "se": x[9],
+                             "p": x[6], "rsid": x[4]})
+    g = pd.DataFrame(rows)
+    for c in ("beta", "se", "p"):
+        g[c] = pd.to_numeric(g[c], errors="coerce")
+    return g.dropna(subset=["beta", "se"])
+
+
+def per_study(h: pd.DataFrame) -> pd.DataFrame:
+    """Wald ratio or IVW per gene and study (no collapse to one study per gene)."""
+    out = []
+    for (gene, study), d in h.groupby(["gene", "studyId"]):
+        ratio = d["beta_outcome"] / d["beta_exposure"]
+        se = d["se_outcome"] / d["beta_exposure"].abs()
+        w = 1 / se ** 2
+        b = float((w * ratio).sum() / w.sum())
+        s = float(np.sqrt(1 / w.sum()))
+        out.append({"gene": gene, "studyId": study, "beta": b, "se": s, "p": float(2 * stats.norm.sf(abs(b / s))),
+                    "n_instruments": len(d)})
+    return pd.DataFrame(out)
+
+
+def attach_finngen(r: pd.DataFrame, cs: pd.DataFrame, p_factor: pd.Series | None = None) -> pd.DataFrame:
+    """Repeat each selected estimate (gene, study) with FinnGen as outcome and combine the two outcomes by inverse
+    variance (fixed effect; the samples do not overlap). BH over genes for the combined p. p_factor (the cell layer's
+    Bonferroni factor) multiplies the combined p before BH, as for the primary estimate."""
+    from statsmodels.stats.multitest import multipletests
+    if not FINNGEN.exists():
+        return r
+    g2 = outcome_finngen(_variant_keys(cs))
+    e2 = per_study(harmonise(cs, g2)).rename(columns={"beta": "beta_finngen", "se": "se_finngen", "p": "p_finngen",
+                                                       "n_instruments": "n_instruments_finngen"})
+    r = r.drop(columns=[c for c in e2.columns if c not in ("gene", "studyId") and c in r], errors="ignore")
+    r = r.merge(e2, on=["gene", "studyId"], how="left")
+    w1, w2 = 1 / r["se"] ** 2, 1 / r["se_finngen"] ** 2
+    has = r["beta_finngen"].notna()
+    r["beta_combined"] = np.where(has, (w1 * r["beta"] + w2 * r["beta_finngen"]) / (w1 + w2), r["beta"])
+    r["se_combined"] = np.where(has, np.sqrt(1 / (w1 + w2)), r["se"])
+    pc = 2 * stats.norm.sf(np.abs(r["beta_combined"] / r["se_combined"]))
+    if p_factor is not None:
+        pc = np.clip(pc * p_factor.reindex(r.index).fillna(1).to_numpy(), 0, 1)
+    r["p_combined"] = pc
+    r["q_combined"] = multipletests(r["p_combined"], method="fdr_bh")[1]
+    r["replicates_finngen"] = np.where(has, (np.sign(r["beta_finngen"]) == np.sign(r["beta"])) & (r["p_finngen"] < 0.05), None)
+    r["replicates_finngen"] = r["replicates_finngen"].astype(object)
+    return r
+
+
 def _lookup(gw: dict, vid: str):
     """GWAS effect of the variant's ALT allele (Open Targets variant ids are chr_pos_ref_alt, beta for alt)."""
     c, p, ref, alt = vid.split("_")
@@ -224,10 +284,32 @@ COLOC_Q = """query($id:String!){ credibleSet(studyLocusId:$id){ colocalisation(s
 IBD = re.compile(r"ulcerative colitis|inflammatory bowel|crohn", re.I)
 
 
+COLOC_CACHE = RAW / "extra" / "ot_coloc_cache.json"   # API answers kept, so a rebuild does not depend on the network
+
+
+def _coloc_query(sl: str) -> dict:
+    import time
+    cache = json.loads(COLOC_CACHE.read_text(encoding="utf-8")) if COLOC_CACHE.exists() else {}
+    if sl in cache:
+        return cache[sl]
+    for attempt in range(5):
+        try:
+            r = requests.post(API, json={"query": COLOC_Q, "variables": {"id": sl}}, timeout=120)
+            if r.status_code == 200 and r.text.strip():
+                data = r.json()
+                cache[sl] = data
+                COLOC_CACHE.write_text(json.dumps(cache), encoding="utf-8")
+                return data
+        except (requests.RequestException, ValueError):
+            pass
+        time.sleep(5 * (attempt + 1))
+    raise RuntimeError(f"Open Targets colocalisation query failed for {sl}")
+
+
 def coloc(study_locus_ids: list[str]) -> dict[str, dict]:
     out = {}
     for sl in study_locus_ids:
-        r = requests.post(API, json={"query": COLOC_Q, "variables": {"id": sl}}, timeout=120).json()
+        r = _coloc_query(sl)
         rows = (((r.get("data") or {}).get("credibleSet") or {}).get("colocalisation") or {}).get("rows") or []
         best = {"h4": None, "clpp": None, "trait": None, "study": None}
         for x in rows:
@@ -265,6 +347,7 @@ def run(q_coloc: float = 0.05) -> dict:
     r["coloc_trait"] = r["gene"].map(lambda x: best.get(x, {}).get("coloc_trait"))
     coloc_yes = (r["coloc_h4"].astype(float).fillna(0) >= 0.8) | (r["coloc_clpp"].astype(float).fillna(0) >= 0.01)
     r["colocalises"] = pd.Series(np.where(r["q"] < q_coloc, coloc_yes, None), index=r.index, dtype=object)
+    r = attach_finngen(r, cs)
     r.to_parquet(PROCESSED / "mr_pqtl.parquet", index=False)
     h.to_parquet(PROCESSED / "mr_instruments.parquet", index=False)
     return {"proteins_tested": len(r), "instruments": len(h), "significant_q05": int((r["q"] < 0.05).sum()),
@@ -295,6 +378,12 @@ def load(store=None) -> int:
                    "colocalisation_clpp": None if pd.isna(x.coloc_clpp) else float(x.coloc_clpp),
                    "colocalises_with_ibd_gwas": None if x.colocalises is None or pd.isna(x.colocalises) else bool(x.colocalises),
                    "study": x.studyId}
+            if hasattr(x, "beta_finngen") and pd.notna(x.beta_finngen):
+                rec.update({"finngen_odds_ratio_per_sd": round(float(np.exp(x.beta_finngen)), 3),
+                            "finngen_p": float(f"{x.p_finngen:.3g}"),
+                            "replicates_in_finngen": bool(x.replicates_finngen),
+                            "combined_odds_ratio_per_sd": round(float(np.exp(x.beta_combined)), 3),
+                            "combined_q": float(f"{x.q_combined:.3g}")})
             ev = store.add_evidence(evidence_id("mendelian_randomization", x.gene), "mendelian_randomization",
                                     "DATASET:MR_UKBPPP_UC", date.today().isoformat(), **rec)
             store.add_claim(node["id"], "causal_estimate_for", "DATASET:MR_UKBPPP_UC", ev)

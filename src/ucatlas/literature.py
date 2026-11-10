@@ -13,7 +13,7 @@ import pandas as pd
 import requests
 
 from .config import load
-from .paths import LITERATURE, PROCESSED
+from .paths import LITERATURE, PROCESSED, RAW
 
 API = "https://www.ncbi.nlm.nih.gov/research/pubtator3-api"
 PUBTATOR_DIR = LITERATURE / "pubtator"
@@ -88,10 +88,25 @@ def _parse(doc: dict) -> tuple[dict, list[dict]]:
 SENT_SPLIT = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9(])")
 
 
+def _relations(doc: dict) -> list[dict]:
+    """PubTator3's own machine-extracted relations (entity pairs with a type and a score), kept apart from the
+    verbatim-checked relations of the local extractor."""
+    out = []
+    for r in doc.get("relations") or []:
+        inf = r.get("infons", {})
+        a, b = inf.get("role1") or {}, inf.get("role2") or {}
+        out.append({"pmid": int(doc["id"]), "relation_type": inf.get("type"), "score": float(inf.get("score") or 0),
+                    "type1": a.get("type"), "id1": str(a.get("identifier")), "name1": a.get("name"),
+                    "type2": b.get("type"), "id2": str(b.get("identifier")), "name2": b.get("name")})
+    return out
+
+
 def build_tables() -> dict:
-    pubs, anns, chunks = [], [], []
+    pubs, anns, chunks, rels = [], [], [], []
     for f in sorted(PUBTATOR_DIR.glob("[0-9]*.json")):
-        pub, a = _parse(json.loads(f.read_text()))
+        doc = json.loads(f.read_text())
+        pub, a = _parse(doc)
+        rels.extend(_relations(doc))
         pubs.append(pub)
         anns.extend(a)
         text = (pub["title"] + " " + pub["abstract"]).strip()
@@ -101,7 +116,8 @@ def build_tables() -> dict:
     pd.DataFrame(pubs).to_parquet(LITERATURE / "publications.parquet", index=False)
     pd.DataFrame(anns).to_parquet(LITERATURE / "annotations.parquet", index=False)
     pd.DataFrame(chunks).to_parquet(LITERATURE / "chunks.parquet", index=False)
-    return {"publications": len(pubs), "annotations": len(anns), "chunks": len(chunks)}
+    pd.DataFrame(rels).to_parquet(LITERATURE / "pubtator_relations.parquet", index=False)
+    return {"publications": len(pubs), "annotations": len(anns), "chunks": len(chunks), "pubtator_relations": len(rels)}
 
 
 def top_expression_genes(n: int) -> list[str]:
@@ -120,7 +136,8 @@ def ingest(refresh: bool = False) -> dict:
     log_path = LITERATURE / "query_log.json"
     if log_path.exists() and not refresh:
         log = json.loads(log_path.read_text())
-        all_pmids = sorted(set(log["disease_pmids"]) | {p for v in log["gene_pmids"].values() for p in v})
+        all_pmids = sorted(set(log["disease_pmids"]) | {p for v in log["gene_pmids"].values() for p in v}
+                           | {p for v in log.get("extra_gene_pmids", {}).values() for p in v})
         fetch_biocjson(all_pmids)
         stats = build_tables()
         stats["top_genes"] = len(log["top_genes"])
@@ -143,6 +160,68 @@ def ingest(refresh: bool = False) -> dict:
     stats = build_tables()
     stats["top_genes"] = len(genes)
     return stats
+
+
+def extend_corpus(genes: list[str], n: int = 10) -> dict:
+    """Add up to n PubTator3 hits for '<gene> ulcerative colitis' for genes outside the original top-gene list (report
+    candidates, convergence top 40, first-in-class genes; added 2026-11-10, third round). The PMID lists are frozen in
+    query_log.json under extra_gene_pmids, so a rebuild fetches the same corpus. No new LLM extraction: the extra
+    abstracts contribute PubTator3 annotations and relations and BM25 sentences."""
+    log_path = LITERATURE / "query_log.json"
+    log = json.loads(log_path.read_text())
+    extra = log.setdefault("extra_gene_pmids", {})
+    cfg = load()["literature"]
+    for g in genes:
+        if g in log["gene_pmids"] or g in extra:
+            continue
+        extra[g] = search(f"{g} {cfg['disease_query']}", n)
+    log_path.write_text(json.dumps(log, indent=1))
+    fetch_biocjson(sorted({p for v in extra.values() for p in v}))
+    return {"extra_genes": len(extra), "extra_pmids": len({p for v in extra.values() for p in v}), **build_tables()}
+
+
+UC_MESH = {"MESH:D003093", "MESH:D015212", "MESH:D003092"}   # ulcerative colitis, IBD, colitis
+
+
+def load_pubtator_relations(store=None) -> int:
+    """One pubtator_relations record per gene: PubTator3 relations in the local corpus that involve the gene, with the
+    relation types to UC/IBD/colitis and the most frequent partners (machine-extracted; not verbatim-checked)."""
+    from collections import Counter
+    from datetime import date
+    from .graph import GraphStore, evidence_id
+    store = store or GraphStore()
+    rel = pd.read_parquet(LITERATURE / "pubtator_relations.parquet")
+    hg = pd.read_csv(RAW / "hgnc_complete_set.txt", sep="\t",
+                     usecols=["symbol", "entrez_id"], dtype=str).dropna()
+    ent = dict(zip(hg.entrez_id, hg.symbol))
+    rows = []
+    for side, other in (("1", "2"), ("2", "1")):
+        d = rel[rel[f"type{side}"] == "Gene"].copy()
+        d["gene"] = d[f"id{side}"].map(ent)
+        d["partner"] = d[f"name{other}"]
+        d["partner_id"] = d[f"id{other}"]
+        d["partner_type"] = d[f"type{other}"]
+        rows.append(d.dropna(subset=["gene"])[["gene", "pmid", "relation_type", "score", "partner", "partner_id", "partner_type"]])
+    g = pd.concat(rows, ignore_index=True)
+    n = 0
+    with store.batch():
+        store.add_node("DATASET:PUBTATOR3_RELATIONS", "Dataset", "PubTator3 machine-extracted relations in the local corpus")
+        for gene, d in g.groupby("gene"):
+            node = store.resolve(gene)
+            if not node or node["type"] != "Gene":
+                continue
+            uc = d[d.partner_id.isin(UC_MESH)]
+            rec = {"gene": gene, "relations": int(len(d)), "publications": int(d.pmid.nunique()),
+                   "with_uc_or_ibd": {k: int(v) for k, v in Counter(uc.relation_type).most_common()},
+                   "uc_or_ibd_pmids": sorted(set(int(x) for x in uc.pmid))[:15],
+                   "top_partners": [{"partner": p, "type": t, "n": int(c)} for (p, t), c in
+                                    Counter(zip(d.partner, d.partner_type)).most_common(8)],
+                   "method": "PubTator3 relation extraction (machine), not verbatim-checked"}
+            ev = store.add_evidence(evidence_id("pubtator_relations", gene), "pubtator_relations",
+                                    "DATASET:PUBTATOR3_RELATIONS", date.today().isoformat(), **rec)
+            store.add_claim(node["id"], "mentioned_with", "DATASET:PUBTATOR3_RELATIONS", ev)
+            n += 1
+    return n
 
 
 def write_extraction_batches() -> list[str]:

@@ -104,6 +104,7 @@ def mendelian_randomization(gene: str) -> dict:
     else:
         plasma = {**{k: v for k, v in rec[0].items() if k not in ("source", "retrieved", "date", "type")}, "evidence_id": eid}
     gut = {}
+    # each block also carries the FinnGen R12 replication (independent UC GWAS) and the combined estimate
     for layer in ("colon_tissue", "gut_cell"):
         e2 = _eid("mendelian_randomization_gut", f"{g}|{layer}")
         r2 = _store().get_evidence([e2])
@@ -124,6 +125,23 @@ def mr_hits(n: int = 25) -> list[dict]:
                    "direction": "higher protein raises UC risk" if x.beta > 0 else "higher protein lowers UC risk",
                    "colocalises_with_ibd_gwas": None if x.colocalises is None or pd.isna(x.colocalises) else bool(x.colocalises),
                    "evidence_id": existing(_eid("mendelian_randomization", x.gene))} for x in r.itertuples()])
+
+
+@mcp.tool()
+def mouse_phenotype(gene: str) -> dict:
+    """Mouse models (MGI): single-gene genotypes (conditional knockouts included) with spontaneous colitis, more
+    severe or less severe induced colitis; direction 'loss gives or worsens colitis' (the gene protects the mucosa;
+    inhibiting it is a risk) or 'loss protects from colitis' (the gene drives colitis; inhibition is the therapeutic
+    direction). Cite the evidence_id. No record means no colitis phenotype recorded, which includes genes never
+    tested in colitis models."""
+    from ..graph import evidence_id as _eid
+    from .common import store as _store
+    g = canonical_gene(gene)
+    eid = _eid("mouse_colitis", g)
+    r = _store().get_evidence([eid])
+    if not r:
+        return {"gene": g, "message": "no colitis phenotype recorded in MGI for a single-gene mouse model"}
+    return clean({**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid})
 
 
 @mcp.tool()

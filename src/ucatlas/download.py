@@ -64,6 +64,21 @@ SOURCES: list[tuple[str, str]] = [
     ("https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST004001-GCST005000/GCST004133/harmonised/"
      "28067908-GCST004133-EFO_0000729.h.tsv.gz", "gwas/GCST004133_uc_delange2017.h.tsv.gz"),
     (f"{OT}/study/part-00000-90d9a8f0-e00a-492e-b961-40b56a21dbd0-c000.zstd.parquet", "extra/ot_study.parquet"),
+    # --- added 2026-11-10 (third round) ---
+    # treatment response: etrolizumab EUCALYPTUS baseline RNA-seq (NCBI counts) and infliximab ACT1 with placebo and
+    # three time points (Toedter 2011, GPL570)
+    # (GSE12251, Arijs 2009, was checked and not used: its 22 patients are ACT1 patients also in GSE23597)
+    *_series("GSE72819"), _ncbi_counts("GSE72819"), *_series("GSE23597"),
+    # second, independent UC GWAS for Mendelian randomisation: FinnGen R12 (GRCh38)
+    ("https://storage.googleapis.com/finngen-public-data-r12/summary_stats/release/finngen_R12_K11_UC_STRICT2.gz",
+     "gwas/finngen_R12_K11_UC_STRICT2.gz"),
+    # mucosal proteomics, UC inflamed vs healthy colon (Schniers et al. 2019, Clin Proteomics 16:4; additional file 2)
+    ("https://static-content.springer.com/esm/art%3A10.1186%2Fs12014-019-9224-6/MediaObjects/12014_2019_9224_MOESM2_ESM.xlsx",
+     "extra/proteomics_schniers2019.xlsx"),
+    # mouse phenotypes (MGI): genotype-phenotype calls, ontology names and human orthologs
+    ("https://www.informatics.jax.org/downloads/reports/MGI_PhenoGenoMP.rpt", "extra/mgi_phenogenomp.rpt"),
+    ("https://www.informatics.jax.org/downloads/reports/VOC_MammalianPhenotype.rpt", "extra/mgi_voc_mp.rpt"),
+    ("https://www.informatics.jax.org/downloads/reports/HMD_HumanPhenotype.rpt", "extra/mgi_hmd_human.rpt"),
 ]
 
 

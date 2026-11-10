@@ -131,7 +131,7 @@ def freeze(run: str = "2026-11-09_full") -> dict:
     for sub in ("scp259", "scp3755"):
         m = json.loads((raw / sub / "manifest.json").read_text(encoding="utf-8"))
         files += [{"path": f"raw/{sub}/{k}", "sha256": v["sha256"], "bytes": v["bytes"]} for k, v in sorted(m["files"].items())]
-    for gse in ("GSE312420", "GSE339323", "GSE189184"):
+    for gse in ("GSE312420", "GSE339323", "GSE189184", "GSE312415"):
         sp = raw / "spatial" / gse / "manifest.json"
         if sp.exists():
             m = json.loads(sp.read_text(encoding="utf-8"))

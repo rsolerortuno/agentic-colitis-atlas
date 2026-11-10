@@ -1,6 +1,6 @@
 {
  "config_sha256": "54fc8c8b4f603189a1fa78e8f4131a9305683ef3c0a6b8bab75c32998c09f70f",
- "uv_lock_sha256": "1329eff5ce9316c87bf21d40d776d96a5b902b7f117d55064bfbb85646954239",
+ "uv_lock_sha256": "8b23d6392bd6a16778ac61101b0484c096994c0c04e8f4293d496a0164501def",
  "files": [
   {
    "path": "raw/GSE109142/GSE109142_raw_counts_GRCh38.p13_NCBI.tsv.gz",
@@ -58,6 +58,21 @@
    "bytes": 80780481
   },
   {
+   "path": "raw/GSE23597/GSE23597_series_matrix.txt.gz",
+   "sha256": "d36fe4df1b6903c2be9de761a66deb92598cce84105d26be48e956ea5a26ce50",
+   "bytes": 31357273
+  },
+  {
+   "path": "raw/GSE72819/GSE72819_raw_counts_GRCh38.p13_NCBI.tsv.gz",
+   "sha256": "a95ee9602b0fecc4d45e4e134b9e713017bfc3d8c58ee65c7a7f8471de8922b1",
+   "bytes": 2927382
+  },
+  {
+   "path": "raw/GSE72819/GSE72819_series_matrix.txt.gz",
+   "sha256": "3205162e2a07bbe40aa3ca857a5fc2ab903a69a869036f85c8b8fa1f2a6656fb",
+   "bytes": 7756
+  },
+  {
    "path": "raw/GSE73661/GSE73661_series_matrix.txt.gz",
    "sha256": "3e988a71e35c69bfdc3dcaabb96554acf9e644d4ab7140ed770a958b2185437d",
    "bytes": 32063527
@@ -71,6 +86,21 @@
    "path": "raw/extra/hpa_rna_tissue_consensus.tsv.zip",
    "sha256": "b001903da23f802c8dfbd1b6b3a8c20b831fedd4932f4bb721b06622d83ae60b",
    "bytes": 5293680
+  },
+  {
+   "path": "raw/extra/mgi_hmd_human.rpt",
+   "sha256": "5cd812b1825038859ae1d18b7073ed5590d6f8303fa442df8a4d9772139a7dcb",
+   "bytes": 1991561
+  },
+  {
+   "path": "raw/extra/mgi_phenogenomp.rpt",
+   "sha256": "9da483fe0d119655758e636a2a951384b5f308d4f53af0a0a40876ae6653fdd6",
+   "bytes": 54182559
+  },
+  {
+   "path": "raw/extra/mgi_voc_mp.rpt",
+   "sha256": "6dc9d3ae41492e9725258ee7e2b99489d66192455848915efac967500538d37c",
+   "bytes": 630615
   },
   {
    "path": "raw/extra/ot_clinical_precedence.parquet",
@@ -103,9 +133,19 @@
    "bytes": 72189
   },
   {
+   "path": "raw/extra/proteomics_schniers2019.xlsx",
+   "sha256": "c4b38a309d76b6932cc8d3b67d94415bd1c97d17c8a0b588ccc7f5da3313dd56",
+   "bytes": 12188304
+  },
+  {
    "path": "raw/gwas/GCST004133_uc_delange2017.h.tsv.gz",
    "sha256": "dafed0dbff579e7a131a095ba8db7927c9d266f64ef9b35a496a7c380e57970f",
    "bytes": 299230653
+  },
+  {
+   "path": "raw/gwas/finngen_R12_K11_UC_STRICT2.gz",
+   "sha256": "1bd90b5a430a70bc3acc338f17f3f7cf776908b1bd42e2edf7e5e7a20af25a76",
+   "bytes": 813163082
   },
   {
    "path": "raw/hgnc_complete_set.txt",
@@ -1036,36 +1076,111 @@
    "path": "raw/spatial/GSE189184/GSM5695843_tissue_positions_list.csv",
    "sha256": "e51514fdf7502ad091d18e6461e4f9dd09bce58acb6e5b6c0f73d0ba42994848",
    "bytes": 188413
+  },
+  {
+   "path": "raw/spatial/GSE312415/310R321R228_exprMat_file.csv",
+   "sha256": "e1e3911ba5ba4bc1fb1e9923470ebf94f3c8d25db507fde635c9004ad04d3f9e",
+   "bytes": 214392449
+  },
+  {
+   "path": "raw/spatial/GSE312415/310R321R228_fov_positions_file.csv",
+   "sha256": "368f192e26e4282676638548dcf63fdddc478117a80916e98d57b9b922f58551",
+   "bytes": 2350
+  },
+  {
+   "path": "raw/spatial/GSE312415/310R321R228_metadata_file.csv",
+   "sha256": "ae65c3dda37bb2fb452e70cc6a14eb88de773e87dc35d35e026e17e6d4d74fdc",
+   "bytes": 24588268
+  },
+  {
+   "path": "raw/spatial/GSE312415/Cos1380R387RRNA6K4u2716_exprMat_file.csv",
+   "sha256": "122f453eb4957948b0acf2f5dbde69d41f285b541de4fe227c1dc19e4348bf54",
+   "bytes": 574871938
+  },
+  {
+   "path": "raw/spatial/GSE312415/Cos1380R387RRNA6K4u2716_fov_positions_file.csv",
+   "sha256": "184b0c1e7950f6ee79ab699bba16d83d6a737ac55c80da95314bfeb3f36d2f32",
+   "bytes": 1052
+  },
+  {
+   "path": "raw/spatial/GSE312415/Cos1380R387RRNA6K4u2716_metadata_file.csv",
+   "sha256": "88410a81f6dbc2f1fd0834aabc58dff1834a77c543be536b727a59b598788781",
+   "bytes": 19691827
+  },
+  {
+   "path": "raw/spatial/GSE312415/Cos1400R355RRNA6K4u1716_exprMat_file.csv",
+   "sha256": "260f2a27b90459ccb098c2328bc7bca06bd6655a441a157880b9fffc16e0e124",
+   "bytes": 606726342
+  },
+  {
+   "path": "raw/spatial/GSE312415/Cos1400R355RRNA6K4u1716_fov_positions_file.csv",
+   "sha256": "f2c151009c3f079713c128fd4094207490a856088222d9744f55b77a14f9ab1b",
+   "bytes": 1686
+  },
+  {
+   "path": "raw/spatial/GSE312415/Cos1400R355RRNA6K4u1716_metadata_file.csv",
+   "sha256": "e37c18751e7a505889a33bbd32a6456888975b63adab9e3af3be8825f9278127",
+   "bytes": 20048830
+  },
+  {
+   "path": "raw/spatial/GSE312415/I0284RI0276R2119_exprMat_file.csv",
+   "sha256": "e073a4ed4db90fd8b9f34c932c0f03fee0403396a3f623f497842562cd95b924",
+   "bytes": 33747786
+  },
+  {
+   "path": "raw/spatial/GSE312415/I0284RI0276R2119_fov_positions_file.csv",
+   "sha256": "f665761a9ba360e80523bc3b5efdf0fc5a5bcbb485515c73a172f21c3d7629ae",
+   "bytes": 715
+  },
+  {
+   "path": "raw/spatial/GSE312415/I0284RI0276R2119_metadata_file.csv",
+   "sha256": "33c63bb3c217ed4b8087a050283f6540fb5191c3bc3056bd63688cc0bf32933c",
+   "bytes": 3864616
+  },
+  {
+   "path": "raw/spatial/GSE312415/I0286RI0277R1119_exprMat_file.csv",
+   "sha256": "be5853199e86690c1faca415a6c54d47a2ecc56d8dcc5e60c517841742f246f8",
+   "bytes": 109833197
+  },
+  {
+   "path": "raw/spatial/GSE312415/I0286RI0277R1119_fov_positions_file.csv",
+   "sha256": "3fda420bec4ea4712dc60ec058fce2f7eed34dcb09bd644bc867552050f96665",
+   "bytes": 1967
+  },
+  {
+   "path": "raw/spatial/GSE312415/I0286RI0277R1119_metadata_file.csv",
+   "sha256": "381fddd5e673717eb3a378e1bf6fddf452e40c3ffa714309f03a990a00256977",
+   "bytes": 12578137
   }
  ],
  "project_files": [
   {
    "path": "runs/2026-11-10/agent_applied.json",
-   "sha256": "739a5ad7960febeafb6a164eb9657224755968ff05567e8f4c2f52e9e50ef870"
+   "sha256": "9912be647003ecbfeff65ff18fb7cbfd410310e0bd97dd12d6195cfb77a96893"
   },
   {
    "path": "runs/2026-11-10/agent_cells.json",
-   "sha256": "79b59bc8482181d571f65cd67c598a9db0219b900089692ac627b7ec19f150e1"
+   "sha256": "112922b771b8473ed3ce20e1e25a88285c6ed108ffee52451900b3176158526f"
   },
   {
    "path": "runs/2026-11-10/agent_expression.json",
-   "sha256": "72b59564da085601c48cd5419fa15a46ac3c8b17261ba1b6a4706a06eed10cda"
+   "sha256": "ad5a485a28b22af45c69dac52d4a72e9cc31ed2fd75288d4661d66cf50e3f317"
   },
   {
    "path": "runs/2026-11-10/agent_external.json",
-   "sha256": "38ddfca16bddf28d00e60b3e8edf6acb219a32c0b592ecf1072b4b5b09b855aa"
+   "sha256": "a8f4c08a83599b70f42f0a4f8128d2c94db67b3654925b82131c1a417ba2a44e"
   },
   {
    "path": "runs/2026-11-10/agent_literature.json",
-   "sha256": "200acd6a9a75b379ef21a655a23b8a412d2f1fb21e2c256d562b56d540345a76"
+   "sha256": "34a85e9ee3a1dc2070e5b3fe7d330c18211313081e43c3fcd68ad3b4aab2c41b"
   },
   {
    "path": "runs/2026-11-10/agent_pathways.json",
-   "sha256": "9aef3570dca674a88a17eb9297d934ecd82d34c9a15354fff283217ae3f77c1a"
+   "sha256": "7028789eb83bc136bb13b0e20949bde6a7a0e95cc4abe2413d85450f583a72ef"
   },
   {
    "path": "runs/2026-11-10/narrative.json",
-   "sha256": "f280aa9d251d6bb81d92bb171b68038358e15eae8af98aab7d986f6305e28343"
+   "sha256": "7afcc2945089f615864a6b8e7b4dbf94739bc390b9b876ce010e3402694f1f17"
   }
  ],
  "analysis_run": "runs/2026-11-10"

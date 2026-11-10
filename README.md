@@ -110,10 +110,12 @@ and described in [data/README.md](data/README.md).
 |---|---|---|
 | Inflamed vs non-inflamed vs healthy colon | Mount Sinai MSCCR registry, RNA-seq (GEO GSE193677) | 293 inflamed, 391 non-inflamed UC and 340 control biopsies; 135 patients with both inflamed and non-inflamed biopsies |
 | UC vs healthy colon, replication | UNIFI (GSE206285), PURSUIT (GSE92415), two Leuven cohorts (GSE16879, GSE73661): microarrays; PROTECT (GSE109142), RISK (GSE117993), GSE165512: RNA-seq | 1,017 UC and 169 control biopsies analysed |
-| Treatment response | UNIFI ustekinumab and placebo, PURSUIT golimumab and placebo, infliximab (GSE16879), vedolizumab (GSE73661) | Biopsies taken before treatment |
+| Treatment response | UNIFI ustekinumab and placebo, PURSUIT golimumab and placebo, ACT1 infliximab and placebo (GSE23597), EUCALYPTUS etrolizumab (GSE72819, RNA-seq), infliximab (GSE16879), vedolizumab (GSE73661) | Biopsies taken before treatment |
+| Protein in mucosa | Schniers et al. 2019 (Clin Proteomics), label-free proteomics of untreated UC vs healthy colon | 7,416 proteins mapped to genes |
+| Mouse models | MGI genotype-phenotype calls (colitis terms), single-gene models including conditional knockouts | 236 genes with a colitis phenotype |
 | Disease activity | Mayo endoscopic score (MSCCR, GSE73661) | One value per patient |
 | Single cells | Smillie et al. 2019 (Broad SCP259); Garrido-Trigo et al. 2023 (CZ CELLxGENE); Gubatan et al. 2026, with neutrophils (Broad SCP3755) | 365,492, 46,700 and 408,930 cells |
-| Tissue sections | Xenium 5K (GSE312420, GSE339323); Visium whole transcriptome with H&E images (GSE189184) | 6 Xenium sections (619,017 cells); 9 Visium sections (16,699 spots, deconvolved into 12 cell groups) |
+| Tissue sections | Xenium 5K (GSE312420, GSE339323); CosMx 6K and 1K (GSE312415); Visium whole transcriptome with H&E images (GSE189184) | 6 Xenium sections (619,017 cells); 2 CosMx slides of inflamed UC (88,409 cells); 9 Visium sections (16,699 spots, deconvolved into 12 cell groups) |
 | Human genetics | UC GWAS (de Lange et al. 2017, GWAS Catalog GCST004133); fine-mapped QTL from Open Targets 26.09: plasma pQTL (UKB-PPP), colon eQTL (GTEx v10 transverse and sigmoid colon, CEDAR colon and rectum), gut cell-type eQTL (IBDverse single cell) | 1,693 proteins; 5,852 genes in colon tissue; 6,895 genes in about 60 gut cell types |
 | Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 46 proteins (candidates and 10 UC small-molecule targets as controls) |
 | Pathways and signals | PROGENy, CollecTRI (decoupler), OmniPath ligand-receptor pairs | 14 pathways, transcription factors, cell-to-cell pairs |
@@ -144,7 +146,9 @@ and described in [data/README.md](data/README.md).
 - **Mendelian randomisation.** Fine-mapped cis instruments on the UC GWAS, in three layers: plasma protein (UKB-PPP),
   gene expression in colon tissue (GTEx v10, CEDAR) and in single gut cell types (IBDverse). Wald ratio or
   inverse-variance weighted estimate, Benjamini-Hochberg over genes, and a colocalisation check with IBD GWAS signals
-  for the significant ones.
+  for the significant ones. Every estimate is repeated with FinnGen R12 as an independent outcome and combined.
+- **Independent checks.** Protein-level replication in a separate proteomics study; mouse knockouts with colitis
+  phenotypes (MGI); CosMx single-cell sections; machine-extracted PubTator3 relations next to the checked ones.
 - **Protein structure.** AlphaFold models trimmed below pLDDT 50, cavities detected with pyKVFinder and ordered by a
   pocket score (model confidence, geometry, hydrophobicity); cavity detection checked against ligand-binding residues of
   experimental structures (PDBe-KB).
@@ -189,7 +193,9 @@ CXCR2, OSM, DUOX2, JAK2 and TNF have no plasma instrument.
 Repeating the test with expression measured in the colon wall finds 135 genes with a causal estimate, 38 of them
 sharing the UC or IBD GWAS signal: established IBD risk genes such as IRF5, GSDMB, RGS14, NXPE1, IRF8 and GNA12, and
 the TNFRSF6B locus again. IDO1, MMP1 and CHI3L1 are null in the colon too. Where a gene has instruments in both blood
-and colon (509 genes), the two estimates point the same way in 61 %.
+and colon (509 genes), the two estimates point the same way in 61 %. In FinnGen, an independent Finnish GWAS, 34 of
+the 64 significant plasma proteins and 168 of 296 significant gut estimates replicate (same sign, p < 0.05), including
+IL12B, IL10, CD274, TNFRSF6B, IRF5, GSDMB and NXPE1.
 
 **Unexplored candidates.**
 A separate screen looks for genes that rise in UC as a tissue change, are reachable by a drug, have no clinical drug,
@@ -202,6 +208,13 @@ fibroblasts, and LCN2, DUOX2 and REG1A in the epithelium, matching the single-ce
 spots are surrounded by neutrophils and inflammatory fibroblasts, the ulcer-bed niche. Neutrophils make up 1.7 % of the
 estimated transcripts in UC spots against 0.9 % in healthy colon.
 
+**Protein and mouse models.**
+In an independent proteomics study, 75 % of the clear RNA changes (281 of 373 tested) change again as protein in the
+same direction, among them DUOX2, CHI3L1, IDO1, LCN2, S100A8 and the lost AQP8, HMGCS2 and SLC26A2. In mice, 24 % of
+UC clinical targets have a colitis phenotype against 1.2 % of all genes, and 15 % of the convergence top 100: the
+ranking is enriched about tenfold without using mouse data. Most leading candidates have never been tested in a mouse
+colitis model.
+
 **Cell-to-cell circuits.**
 Neutrophils send OSM to OSMR on inflammatory fibroblasts, the neutrophil-stromal circuit described by Gubatan et al.
 2026; OSMR is one of the targets that entered UC trials recently.
@@ -211,13 +224,15 @@ In UNIFI, about 3,500 genes separate ustekinumab non-healers from healers before
 separate placebo non-healers: the signal is mostly disease severity. TNF and NF-κB activity is higher before
 treatment in non-responders to infliximab, ustekinumab and vedolizumab and also in placebo non-responders. No gene
 separates a drug from placebo after correction. The published infliximab non-response genes (IL11, IL13RA2, PTGS2,
-STC1, TNFRSF11B) are all higher in non-responders, as reported.
+STC1, TNFRSF11B) are all higher in non-responders, as reported; in ACT1 they are higher in infliximab non-responders
+and not in the 13 placebo patients, a lead for a drug-specific signal that the interaction test cannot confirm.
+Etrolizumab remission (EUCALYPTUS, 12 of 70) is not predicted by any single gene.
 
 ## 6. How the results were checked
 
 | Check | Result |
 |---|---|
-| Agent text against its evidence | 126 statements checked, no failures detected by the automatic checks; 31 of 31 key findings of the specialists reach the report |
+| Agent text against its evidence | 125 statements checked, no failures detected by the automatic checks; 31 of 31 key findings of the specialists reach the report |
 | Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (76/76), other-gene attributions (81/81) and swapped evidence (81/81); 72 % of flipped directions where the sentence cites expression evidence (23/32), 32 % of all flipped directions (literature, cell and treatment sentences are not direction-checked) |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.83, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.81; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100, none for predicted tractability alone. Retrospective: the data are not frozen at 2016 |
@@ -226,15 +241,20 @@ STC1, TNFRSF11B) are all higher in non-responders, as reported.
 | Visium compartments against single-cell attribution | Neutrophil, epithelial and fibroblast genes land in the expected compartment (automated test) |
 | Visium deconvolution, held-out genes (never markers) | S100A8, LCN2, DUOX2, MMP3 and CHI3L1 follow the share of their single-cell cell group (Spearman 0.18–0.61); low-count genes such as CXCR2 follow weakly (0.07) |
 | Gut eQTL Mendelian randomisation | Known IBD risk genes (IRF5, GSDMB, RGS14, NXPE1) come out significant and colocalise (automated test for IRF5) |
+| MR replication in FinnGen R12 | 34 of 64 significant plasma proteins and 168 of 296 significant gut estimates replicate (same sign, p < 0.05) |
+| Protein-level replication (Schniers 2019) | 75 % of clear RNA changes replicate as protein (281 of 373); RNA-protein rho 0.61 over 6,112 genes |
+| Mouse colitis models (MGI) | 24 % of UC clinical targets and 15 % of the convergence top 100 have a colitis phenotype, against 1.2 % of all genes |
+| CosMx single cells | 22 of 108 candidate genes on the 6K panel above background (epithelial, myeloid, plasma genes); the neutrophil and stromal candidates are not resolved |
+| Weight stability of the other scores | Biologic, immune and pocket scores: median rank correlation 0.97-0.99 under random weights; the novelty ordering's exact top 10 is unstable (it only orders the table) |
 | Pocket score against UC small-molecule targets | The 9 controls (JAK1, JAK3, TYK2, S1PR1, S1PR5, PDE4B, PTGS2, PPARG, DHODH) rank 4 to 25 of 45 proteins; detected cavities cover a median 53 % of experimentally ligand-bound residues (28 proteins) |
 | Biomarker profile against UC clinical targets | AUROC 0.79 (biomarkers are not meant to be drug targets; reported for completeness) |
 | Known-answer questions answered with the project's tools | 10 of 10 |
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
 | Repeat agent runs (2026-11-09 data) | Three team runs: 116–120 statements, 0 unsupported; target-list overlap (Jaccard) 0.65–0.87, CXCR2 first in all |
 | Single agent against multi-agent (2026-11-09 data) | Same quality (0 unsupported, 10 of 12 checklist facts in every run); the team was about 27 % cheaper ($4.38 vs $6.07) and 2.4 times faster |
-| Report validator | 432 claims, 1,014 evidence records, 1,129 citation links, all resolvable, no external resources |
-| Knowledge graph | 534,237 claims, 0 without a resolvable evidence record |
-| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (207 files, SHA-256) re-creates every table and the report |
+| Report validator | 479 claims, 1,067 evidence records, 1,151 citation links, all resolvable, no external resources |
+| Knowledge graph | 547,860 claims, 0 without a resolvable evidence record |
+| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (230 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
 change little in biopsies, so expression-led rankings put them low; the genetics layer recovers several of them.
@@ -283,6 +303,10 @@ The online report is published automatically from `reports/uc_report.html` by
   DUOX2, TNF) have no instrument in any layer. A significant estimate without colocalisation can come from a
   neighbouring variant.
 - **Pocket scores describe shape**, not binding; they are computed on predicted monomers.
+- **CosMx cannot resolve most candidates.** Two usable slides (the others mix biopsies of different states on one
+  slide without a cell-to-biopsy key), and most candidate genes sit at background level on this platform.
+- **Mouse and protein checks are incomplete.** Most leading candidates have no mouse colitis model and some proteins
+  are not quantified by mass spectrometry: untested is not negative.
 - **Treatment-response tests are weak.** Infliximab and vedolizumab arms are small, the Leuven infliximab patients of
   two cohorts probably overlap, and no gene separates a drug from placebo.
 - **Platforms differ.** Microarrays compress fold changes and GSE16879 is MAS5 data on a log2 scale; the meta-analysis
@@ -290,7 +314,8 @@ The online report is published automatically from `reports/uc_report.html` by
 - **Gold sets are small** and clinical targets are druggable by construction; the temporal check is retrospective.
 - **Agent text is not bit-for-bit repeatable.** Its outputs are saved and checked, and the checks have the limits
   described in [docs/numeric-claims.md](docs/numeric-claims.md).
-- **No licence file yet.** Add one before reusing the code or the report.
+- **Licence.** Code under MIT, report and documentation under CC BY 4.0 ([LICENSE](LICENSE)); third-party data keep
+  their providers' terms.
 
 **Decisions made after seeing data** (not pre-registered, logged with their effect in
 [evals/history.md](evals/history.md)):
@@ -328,6 +353,7 @@ tests/               automated tests
 | `spatial.py`, `spatial_visium.py`, `spatial_deconv.py`, `spatial_download.py` | Xenium cell typing, attribution and neighbourhoods; Visium compartments, spot deconvolution, in-situ expressers, neighbourhoods and the tissue-viewer data; range-request downloads |
 | `mr.py`, `mr_colon.py` | Mendelian randomisation with plasma pQTL and with gut eQTL (colon tissue, gut cell types), colocalisation check |
 | `structure.py`, `protein_viewer.py` | AlphaFold models, pocket detection and score, ligand-site check, 3D viewer data |
+| `proteomics.py`, `mouse_models.py`, `spatial_cosmx.py` | Protein-level replication, MGI mouse colitis phenotypes, CosMx single-cell sections |
 | `report_layers.py` | Rank stability, patient subgroups, biologic suitability, immune microenvironment, discovery ordering, evidence coverage |
 | `pathways.py`, `treatment.py`, `discovery.py` | Pathway and TF activity, ligand-receptor pairs; treatment response; discovery screen |
 | `literature.py`, `literature_entities.py`, `external.py`, `enrich.py` | PubTator ingestion and checked relation extraction; Open Targets, STRING, UniProt |

@@ -79,11 +79,16 @@ def spatial_context(gene: str) -> dict:
     visium_cells: the same Visium spots deconvolved into 12 cell groups with single-cell profiles (NNLS; candidate
     genes are never deconvolution markers): the cell group that explains the gene's spot expression in situ (share of
     the in-situ signal), the composition-corrected source, and cell groups enriched around the gene's top-decile spots
-    (ring of 6 neighbouring spots, permutation test, BH). This resolves the cell type, not only the compartment."""
+    (ring of 6 neighbouring spots, permutation test, BH). This resolves the cell type, not only the compartment.
+    cosmx: CosMx single cells (GSE312415, two slides of inflamed UC rectum, 6K and 1K panels): lineage shares of the
+    gene's transcripts, enriched neighbours, and whether the gene is detected above background (its best lineage
+    expresses it in >= 2x the cells of the median other lineage). Most candidates are at background on CosMx; say so
+    rather than reading lineage shares of a background-level gene."""
     g = canonical_gene(gene)
     out = {"gene": g, "xenium": _record("spatial_summary", g) or {"message": "not on the Xenium 5K panel or too few counts"},
            "visium": _record("spatial_visium", g) or {"message": "not analysed in Visium (not a top candidate) or expressed in < 20 spots"},
-           "visium_cells": _record("spatial_visium_cell", g) or {"message": "not deconvolved (not a top candidate or expressed in < 20 spots)"}}
+           "visium_cells": _record("spatial_visium_cell", g) or {"message": "not deconvolved (not a top candidate or expressed in < 20 spots)"},
+           "cosmx": _record("spatial_cosmx", g) or {"message": "not on the CosMx panels or not analysed"}}
     return out
 
 

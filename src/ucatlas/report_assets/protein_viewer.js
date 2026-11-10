@@ -4,9 +4,7 @@
   // it is inflated the first time the explorer starts, so page load and the observers below stay synchronous
   let proteins = null, unpacking = false;
   async function unpack() {
-    const packed = Uint8Array.from(atob(document.getElementById('protein-data').textContent.trim()), c => c.charCodeAt(0));
-    const inflated = new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'));
-    proteins = JSON.parse(await new Response(inflated).text()).proteins;
+    proteins = (await window.atlasPayload('protein-data')).proteins;   // inline, or fetched on the published site
   }
   const el = id => document.getElementById(id);
   const status = text => {el('protein-status').textContent = text;};

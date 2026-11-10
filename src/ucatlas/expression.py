@@ -27,6 +27,10 @@ from .paths import PROCESSED, RAW
 
 ARRAYS = {"GSE206285": "GPL13158", "GSE92415": "GPL13158", "GSE16879": "GPL570", "GSE73661": "GPL6244"}
 RNASEQ = ["GSE109142", "GSE117993", "GSE165512"]
+# treatment-response cohorts without controls (added 2026-11-10, third round): expression matrices only, not in the
+# UC vs control meta-analysis
+TREATMENT_ARRAYS = {"GSE23597": "GPL570"}
+TREATMENT_RNASEQ = ["GSE72819"]
 COHORTS = ["GSE193677", *ARRAYS, *RNASEQ]
 
 
@@ -74,7 +78,7 @@ def array_genes(gse: str) -> tuple[pd.DataFrame, dict[str, str]]:
     x = series_table(gse)
     if np.nanmax(x.values) > 100:  # not yet on log2 scale
         x = np.log2(x.clip(lower=1))
-    sym = platform_symbols(ARRAYS[gse]).reindex(x.index)
+    sym = platform_symbols({**ARRAYS, **TREATMENT_ARRAYS}[gse]).reindex(x.index)
     approved = sym.map(resolve_symbol)
     smap = {s: a for s, a in zip(sym, approved) if isinstance(s, str) and isinstance(a, str)}
     x = x[approved.notna()]
@@ -212,6 +216,12 @@ def run() -> dict:
         hc = [c for c in xr.columns if c in s.index and s.loc[c, "group"] == "healthy"]
         results.append(welch(xr, uc, hc).assign(cohort=gse, contrast="uc_vs_control"))
         xr.astype("float32").to_parquet(PROCESSED / f"expr_{gse}.parquet")
+
+    for gse in TREATMENT_ARRAYS:
+        xa, _ = array_genes(gse)
+        xa.astype("float32").to_parquet(PROCESSED / f"expr_{gse}.parquet")
+    for gse in TREATMENT_RNASEQ:
+        ncbi_counts(gse).astype("float32").to_parquet(PROCESSED / f"expr_{gse}.parquet")
 
     de = pd.concat(results).rename_axis("gene").reset_index()
     de["padj"] = de.groupby(["cohort", "contrast"])["p"].transform(lambda p: _bh(p))

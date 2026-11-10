@@ -117,3 +117,58 @@ def test_fingerprint_ignores_float_noise_not_changes():
     r = {"evidence_id": "x", "gene": "G", "retained": 0.7976121951555426}
     assert fingerprint(r) == fingerprint({**r, "retained": 0.7976121951555432})
     assert fingerprint(r) != fingerprint({**r, "retained": 0.7977})
+
+
+# ------------------------------------------------------------------ 2026-11-10, third round
+@pytest.mark.skipif(not (PROCESSED / "proteomics_summary.json").exists(), reason="layer not built")
+def test_protein_level_replication():
+    s = json.loads((PROCESSED / "proteomics_summary.json").read_text())
+    assert s["replication_rate"] > 0.6 and s["spearman_log2fc"] > 0.4
+    d = pd.read_parquet(PROCESSED / "proteomics.parquet").set_index("gene")
+    assert d.at["S100A8", "log2_ratio"] > 1 and d.at["AQP8", "log2_ratio"] < 0
+
+
+@pytest.mark.skipif(not (PROCESSED / "mr_pqtl.parquet").exists(), reason="MR not run")
+def test_mr_controls_replicate_in_finngen():
+    r = pd.read_parquet(PROCESSED / "mr_pqtl.parquet").set_index("gene")
+    if "replicates_finngen" not in r:
+        pytest.skip("FinnGen not attached")
+    for g in ("IL12B", "IL10", "CD274"):
+        assert r.at[g, "replicates_finngen"] is True
+
+
+@pytest.mark.skipif(not (PROCESSED / "mouse_colitis_summary.json").exists(), reason="layer not built")
+def test_mouse_models_enrich_clinical_targets():
+    s = json.loads((PROCESSED / "mouse_colitis_summary.json").read_text())
+    assert s["clinical_targets_rate"] > 5 * s["background_rate"]
+    d = pd.read_parquet(PROCESSED / "mouse_colitis.parquet").set_index("gene")
+    assert d.at["IL10", "direction"] == "loss gives or worsens colitis"
+
+
+@pytest.mark.skipif(not (PROCESSED / "cosmx_detection.parquet").exists(), reason="layer not built")
+def test_cosmx_detects_epithelial_lcn2():
+    d = pd.read_parquet(PROCESSED / "cosmx_detection.parquet")
+    r = d[(d.gene == "LCN2") & (d.panel == "6k")].iloc[0]
+    assert r.best_lineage == "epithelial" and bool(r.above_background)
+
+
+@pytest.mark.skipif(not (PROCESSED / "samples.parquet").exists(), reason="samples not built")
+def test_new_response_cohorts_have_labels_and_no_controls():
+    s = pd.read_parquet(PROCESSED / "samples.parquet")
+    for c in ("GSE72819", "GSE23597"):
+        d = s[(s.cohort == c) & (s.timepoint == "baseline")]
+        assert len(d) > 20 and (d.group == "UC").all() and d.response.notna().sum() > 20
+
+
+def test_split_site_moves_marked_blocks(tmp_path):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("split_site", PROCESSED.parents[1] / "scripts" / "split_site.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    html = ('<html><script data-asset="lib.js">var a=1;</script>'
+            '<script id="d" type="application/gzip-base64" data-asset="d.b64">QUJD</script></html>')
+    (tmp_path / "r.html").write_text(html, encoding="utf-8")
+    mod.split(tmp_path / "r.html", tmp_path / "site")
+    out = (tmp_path / "site" / "index.html").read_text(encoding="utf-8")
+    assert 'src="assets/lib.js"' in out and 'data-src="assets/d.b64"' in out and "QUJD" not in out
+    assert (tmp_path / "site" / "assets" / "d.b64").read_text() == "QUJD"

@@ -65,6 +65,24 @@
   "sha256": "a1d11a5234712e813f5c4f1eb3bdb6695f5c99283610f7ee31ad7552bd3b3f82",
   "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE206nnn/GSE206285/matrix/GSE206285_series_matrix.txt.gz"
  },
+ "GSE23597/GSE23597_series_matrix.txt.gz": {
+  "bytes": 31357273,
+  "retrieved_utc": "2026-11-10T14:43:34+00:00",
+  "sha256": "d36fe4df1b6903c2be9de761a66deb92598cce84105d26be48e956ea5a26ce50",
+  "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE23nnn/GSE23597/matrix/GSE23597_series_matrix.txt.gz"
+ },
+ "GSE72819/GSE72819_raw_counts_GRCh38.p13_NCBI.tsv.gz": {
+  "bytes": 2927382,
+  "retrieved_utc": "2026-11-10T14:43:26+00:00",
+  "sha256": "a95ee9602b0fecc4d45e4e134b9e713017bfc3d8c58ee65c7a7f8471de8922b1",
+  "url": "https://www.ncbi.nlm.nih.gov/geo/download/?type=rnaseq_counts&acc=GSE72819&format=file&file=GSE72819_raw_counts_GRCh38.p13_NCBI.tsv.gz"
+ },
+ "GSE72819/GSE72819_series_matrix.txt.gz": {
+  "bytes": 7756,
+  "retrieved_utc": "2026-11-10T14:43:25+00:00",
+  "sha256": "3205162e2a07bbe40aa3ca857a5fc2ab903a69a869036f85c8b8fa1f2a6656fb",
+  "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE72nnn/GSE72819/matrix/GSE72819_series_matrix.txt.gz"
+ },
  "GSE73661/GSE73661_series_matrix.txt.gz": {
   "bytes": 32063527,
   "retrieved_utc": "2026-11-09T12:40:58+00:00",
@@ -82,6 +100,24 @@
   "retrieved_utc": "2026-11-09T14:50:14+00:00",
   "sha256": "b001903da23f802c8dfbd1b6b3a8c20b831fedd4932f4bb721b06622d83ae60b",
   "url": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip"
+ },
+ "extra/mgi_hmd_human.rpt": {
+  "bytes": 1991561,
+  "retrieved_utc": "2026-11-10T14:44:49+00:00",
+  "sha256": "5cd812b1825038859ae1d18b7073ed5590d6f8303fa442df8a4d9772139a7dcb",
+  "url": "https://www.informatics.jax.org/downloads/reports/HMD_HumanPhenotype.rpt"
+ },
+ "extra/mgi_phenogenomp.rpt": {
+  "bytes": 54182559,
+  "retrieved_utc": "2026-11-10T14:44:46+00:00",
+  "sha256": "9da483fe0d119655758e636a2a951384b5f308d4f53af0a0a40876ae6653fdd6",
+  "url": "https://www.informatics.jax.org/downloads/reports/MGI_PhenoGenoMP.rpt"
+ },
+ "extra/mgi_voc_mp.rpt": {
+  "bytes": 630615,
+  "retrieved_utc": "2026-11-10T14:44:47+00:00",
+  "sha256": "6dc9d3ae41492e9725258ee7e2b99489d66192455848915efac967500538d37c",
+  "url": "https://www.informatics.jax.org/downloads/reports/VOC_MammalianPhenotype.rpt"
  },
  "extra/ot_clinical_precedence.parquet": {
   "bytes": 39436998,
@@ -119,11 +155,23 @@
   "sha256": "ebc49a49ae182dee29be43664dfc61c21897bf3d776d9df18f7e0e73bc0990ea",
   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_tractability/part-00001-e2201205-916c-4b28-971d-6511ae9ea691-c000.zstd.parquet"
  },
+ "extra/proteomics_schniers2019.xlsx": {
+  "bytes": 12188304,
+  "retrieved_utc": "2026-11-10T14:44:42+00:00",
+  "sha256": "c4b38a309d76b6932cc8d3b67d94415bd1c97d17c8a0b588ccc7f5da3313dd56",
+  "url": "https://static-content.springer.com/esm/art%3A10.1186%2Fs12014-019-9224-6/MediaObjects/12014_2019_9224_MOESM2_ESM.xlsx"
+ },
  "gwas/GCST004133_uc_delange2017.h.tsv.gz": {
   "bytes": 299230653,
   "retrieved_utc": "2026-11-10T07:13:31+00:00",
   "sha256": "dafed0dbff579e7a131a095ba8db7927c9d266f64ef9b35a496a7c380e57970f",
   "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST004001-GCST005000/GCST004133/harmonised/28067908-GCST004133-EFO_0000729.h.tsv.gz"
+ },
+ "gwas/finngen_R12_K11_UC_STRICT2.gz": {
+  "bytes": 813163082,
+  "retrieved_utc": "2026-11-10T14:44:25+00:00",
+  "sha256": "1bd90b5a430a70bc3acc338f17f3f7cf776908b1bd42e2edf7e5e7a20af25a76",
+  "url": "https://storage.googleapis.com/finngen-public-data-r12/summary_stats/release/finngen_R12_K11_UC_STRICT2.gz"
  },
  "hgnc_complete_set.txt": {
   "bytes": 16994064,

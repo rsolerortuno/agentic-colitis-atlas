@@ -29,6 +29,6 @@
 <div class="pv-legend" id="pv-legend"><span><i class="pv-dot" style="background:#bcc3cc"></i>Protein surface</span><span><i class="pv-dot" style="background:#e05454"></i>Selected pocket walls</span></div>
 <div id="protein-status" role="status" aria-live="polite">Open the Structure tab to load the 3D explorer. Drag to rotate; scroll to zoom.</div>
 </div>
-<script>{{ protein_library_js | safe }}</script>
-<script id="protein-data" type="application/gzip-base64">{{ protein_b64 }}</script>
+<script data-asset="3Dmol-min.js">{{ protein_library_js | safe }}</script>
+<script id="protein-data" type="application/gzip-base64" data-asset="protein.b64">{{ protein_b64 }}</script>
 <script>{{ protein_viewer_js | safe }}</script>

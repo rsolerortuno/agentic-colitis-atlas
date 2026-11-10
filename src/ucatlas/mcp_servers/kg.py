@@ -143,5 +143,19 @@ def gene_scores(gene: str) -> dict:
     return clean(out)
 
 
+@mcp.tool()
+def pubtator_relations(gene: str) -> dict:
+    """PubTator3's machine-extracted relations for a gene in the local literature corpus (585 abstracts): number of
+    relations and publications, relation types to ulcerative colitis / IBD / colitis with their PMIDs, and the most
+    frequent partners. Machine extraction, not verbatim-checked: cite it as literature context, and prefer the
+    verbatim-checked relations (evidence_for with evidence_type literature_relation) for specific claims."""
+    g = canonical_gene(gene)
+    eid = evidence_id("pubtator_relations", g)
+    r = store().get_evidence([eid])
+    if not r:
+        return {"gene": g, "message": "no PubTator3 relation for this gene in the local corpus"}
+    return clean({**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid})
+
+
 if __name__ == "__main__":
     mcp.run()

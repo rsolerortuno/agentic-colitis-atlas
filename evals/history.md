@@ -105,3 +105,32 @@ Designs and weights below were written into the code before the step was run; no
   place; a least-squares fit repeated in another process). Evidence fingerprints now round floats to 10 significant
   digits; the basis of runs/2026-11-10 was migrated (2,525 records unchanged, 4 float-noise only, 0 left stale; listed
   in its basis.json). A real change of a value is still caught (tests/test_limits.py).
+
+## 2026-11-10, third round: independent checks
+Designs fixed before running; none changes the convergence score or the profiles (they are reported as checks).
+- **Proteomics** (Schniers 2019, additional file 2): authors' ratios and p as published, BH over proteins in > 70 %
+  of samples; replication = same sign and padj < 0.05 for genes with meta padj < 0.05 and |log2FC| >= 1.
+- **FinnGen R12 UC (strict)** as a second outcome for every MR estimate (same instruments; FinnGen beta for ALT);
+  fixed-effect combination with de Lange 2017; replication = same sign and p < 0.05. Colocalisation API answers are
+  now cached and retried (an empty API answer stopped one run).
+- **Treatment cohorts**: EUCALYPTUS etrolizumab (GSE72819, remission week 10) and ACT1 infliximab and placebo
+  (GSE23597, response week 8, baseline biopsies). GSE12251 was downloaded and dropped: its 22 patients are in GSE23597.
+- **CosMx (GSE312415)**: slides hold two biopsies without a cell-to-biopsy key, so only the two slides whose biopsies
+  are both inflamed UC are used. The Xenium marker-score typing gave lineages of equal size (background counts); a
+  z-score rule typed 34 % with implausible proportions; final typing is by correlation with the single-cell reference
+  profiles (r >= 0.1, margin 0.02). Both earlier rules are reported here because they were tried. Detection above
+  background (best lineage >= 2x the median other lineage in % expressing cells) is the reported result.
+- **Mouse models (MGI)**: single-gene genotypes, first with one marker (205 genes); then counting only markers with a
+  human ortholog so that conditional knockouts (Cre transgene as second marker) count (236 genes; STAT3 enters).
+- **Literature**: ten PubTator3 hits per report candidate, convergence top-40 and first-in-class gene (frozen in
+  query_log.json, extra_gene_pmids); PubTator3's own relations summarised per gene. The 100-abstract cap of the
+  checked extraction is unchanged.
+- **Weight stability** of the biologic, immune, novelty and pocket scores; **thread pinning** (one BLAS thread) after
+  the float-noise difference between two rebuilds; **licence** MIT + CC BY 4.0.
+- **Report**: the published site is split (scripts/split_site.py): libraries cached, 3D structures and tissue images
+  fetched when their tab opens; the single file stays self-contained for offline use.
+- **Published run redone** with the new evidence and tools (protein_level, mouse_phenotype, pubtator_relations, FinnGen
+  fields, CosMx): 125 statements, 0 unsupported, 0 stale, 31 of 31 key findings cited, $5.18, 8.0 minutes. The
+  orchestrator changed CD274 from target to biomarker (genetically higher PD-L1 protects) and cites the protein-level
+  replication of HMGCS2. The clean rebuild before it flagged 30 sentences of the previous run as stale (the treatment
+  records gained the ACT1 and EUCALYPTUS arms), as designed.

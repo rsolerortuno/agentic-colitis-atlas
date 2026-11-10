@@ -36,8 +36,8 @@
 {{ plain('response') }}
 <h2>Which genes predict response to treatment?</h2>
 {{ paras(f.narrative.sections.treatment or []) }}
-<p class="lede">Biopsies were taken before treatment in four trials and cohorts: UNIFI (ustekinumab and placebo, {{ T.n.ustekinumab }} and {{ T.n.placebo_unifi }} patients with a week-8 endpoint), PURSUIT (golimumab and placebo), and the Leuven infliximab and vedolizumab cohorts. For every gene we compare people who later responded (mucosal healing or clinical response, as each study defined it) with people who did not. The question that matters for choosing a drug is different: does the gene work differently with the drug than with placebo? We test that as an interaction between expression and arm.</p>
-<div class="note">Before trusting any gene, we checked a published result in this download: the genes reported by Arijs et al. 2009 as higher before treatment in infliximab non-responders ({{ T.check_genes | join(", ") }}) are higher in non-responders of the infliximab cohort, as reported. They are equally higher in placebo non-responders of UNIFI, which shows that these genes mark how severe the disease is rather than a drug-specific mechanism.</div>
+<p class="lede">Biopsies were taken before treatment in four trials and cohorts: UNIFI (ustekinumab and placebo, {{ T.n.ustekinumab }} and {{ T.n.placebo_unifi }} patients with a week-8 endpoint), PURSUIT (golimumab and placebo), ACT1 (infliximab and placebo, {{ T.n.infliximab_act1 }} and {{ T.n.placebo_act1 }} patients, response at week 8), EUCALYPTUS (etrolizumab, {{ T.n.etrolizumab }} patients, remission at week 10), and the Leuven infliximab and vedolizumab cohorts. For every gene we compare people who later responded (mucosal healing or clinical response, as each study defined it) with people who did not. The question that matters for choosing a drug is different: does the gene work differently with the drug than with placebo? We test that as an interaction between expression and arm.</p>
+<div class="note">Before trusting any gene, we checked a published result in this download: the genes reported by Arijs et al. 2009 as higher before treatment in infliximab non-responders ({{ T.check_genes | join(", ") }}) are higher in non-responders of the infliximab cohort, as reported. They are equally higher in placebo non-responders of UNIFI, which suggests that these genes mark how severe the disease is. In ACT1, the trial in which they were found, they are higher in infliximab non-responders and not in the 13 placebo patients; the drug-versus-placebo interaction does not pass correction, so this is a lead for a drug-specific signal, not a result.</div>
 <div class="kpis">
   {% for arm, n in T.significant.items() %}<div class="kpi"><b>{{ "{:,}".format(n) }}</b><span>genes separating non-responders, {{ arm }} (q &lt; 0.05)</span></div>{% endfor %}
   <div class="kpi"><b>{{ T.interaction_significant }}</b><span>genes whose effect differs between drug and placebo (q &lt; 0.05)</span></div>
@@ -126,22 +126,12 @@
 </div>
 </section>
 
-<script id="viewer-data" type="application/gzip-base64">{{ viewer_b64 }}</script>
+<script id="viewer-data" type="application/gzip-base64" data-asset="viewer.b64">{{ viewer_b64 }}</script>
 <script>
-(async function(){
-  var packed=Uint8Array.from(atob(document.getElementById('viewer-data').textContent.trim()),function(c){return c.charCodeAt(0);});
-  var V=JSON.parse(await new Response(new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'))).text());
-  if(!V||!V.sections||!V.sections.length) return;
-  var $=function(id){return document.getElementById(id);};
-  var cv=$('vcanvas'), ctx=cv.getContext('2d'), tip=$('vtip');
-  var cur=null, img=null, sel=-1, highIdx=[];
+(function(){
+  var V=null, loading=null, $=function(id){return document.getElementById(id);};
+  var cv, ctx, tip, cur=null, img=null, sel=-1, highIdx=[], secSel, geneSel, colSel;
   var NAMES={Epithelial:'Epithelium',Fibroblast:'Fibroblast',Inflammatory_fibroblast:'Inflammatory fibroblast',Smooth_muscle:'Smooth muscle',Endothelial:'Endothelium',Myeloid:'Macrophage / DC',Neutrophil:'Neutrophil',T_NK:'T / NK',B:'B cell',Plasma:'Plasma',Mast:'Mast',Eosinophil:'Eosinophil'};
-  var secSel=$('v-section'), geneSel=$('v-gene'), colSel=$('v-color');
-  V.sections.forEach(function(s,i){var o=document.createElement('option');o.value=i;o.textContent=s.region+' · '+s.donor+' · '+s.n_spots+' spots';secSel.appendChild(o);});
-  V.genes.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=g;geneSel.appendChild(o);});
-  geneSel.value=V.genes.indexOf('S100A8')>=0?'S100A8':V.genes[0];
-  var co=document.createElement('option');co.value='gene';co.textContent='Gene expression';colSel.appendChild(co);
-  V.groups.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=(NAMES[g]||g)+' share';colSel.appendChild(o);});
   function ramp(t){t=Math.max(0,Math.min(1,t));var a=[255,237,160],b=[177,0,38];return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
   function values(){var s=cur;if(colSel.value==='gene'){var e=s.expr[geneSel.value]||[];return {v:e,max:Math.max.apply(null,e.concat([1]))};}
     var sh=s.shares[colSel.value];return {v:sh,max:Math.max.apply(null,sh.concat([1]))};}
@@ -182,14 +172,26 @@
     box.innerHTML=h;}
   function load(){cur=V.sections[+secSel.value];sel=-1;img=new Image();img.onload=function(){refresh();};img.src=cur.image;}
   function refresh(){computeHigh();bars();stats();showSel();draw();$('v-note').textContent=(cur.region==='healthy'?'Healthy colon section. ':'Inflamed UC section. ')+'Left to right and top to bottom are image directions, not anatomy.';}
-  secSel.addEventListener('change',load);geneSel.addEventListener('change',function(){sel=-1;refresh();});colSel.addEventListener('change',draw);
-  ['v-rings','v-alpha','v-size'].forEach(function(id){$(id).addEventListener('input',draw);});
-  cv.addEventListener('click',function(ev){sel=nearest(ev);showSel();draw();});
-  cv.addEventListener('mousemove',function(ev){var i=nearest(ev);if(i<0){tip.style.display='none';return;}var g=geneSel.value,e=((cur.expr[g]||[])[i]||0)/V.expr_scale;
-    var top=V.groups.slice().sort(function(a,b){return cur.shares[b][i]-cur.shares[a][i];})[0];tip.style.display='block';tip.style.left=(ev.clientX+12)+'px';tip.style.top=(ev.clientY+12)+'px';
-    tip.textContent=g+' '+e.toFixed(2)+' · mostly '+(NAMES[top]||top)+' ('+cur.shares[top][i]+' %)';});
-  cv.addEventListener('mouseleave',function(){tip.style.display='none';});
-  window.addEventListener('resize',draw);
-  window.viewerShow=function(){if(!cur)load();else draw();};
+  function setup(){
+    cv=$('vcanvas'); ctx=cv.getContext('2d'); tip=$('vtip'); secSel=$('v-section'); geneSel=$('v-gene'); colSel=$('v-color');
+    V.sections.forEach(function(s,i){var o=document.createElement('option');o.value=i;o.textContent=s.region+' · '+s.donor+' · '+s.n_spots+' spots';secSel.appendChild(o);});
+    V.genes.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=g;geneSel.appendChild(o);});
+    geneSel.value=V.genes.indexOf('S100A8')>=0?'S100A8':V.genes[0];
+    var co=document.createElement('option');co.value='gene';co.textContent='Gene expression';colSel.appendChild(co);
+    V.groups.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=(NAMES[g]||g)+' share';colSel.appendChild(o);});
+    secSel.addEventListener('change',load);geneSel.addEventListener('change',function(){sel=-1;refresh();});colSel.addEventListener('change',draw);
+    ['v-rings','v-alpha','v-size'].forEach(function(id){$(id).addEventListener('input',draw);});
+    cv.addEventListener('click',function(ev){sel=nearest(ev);showSel();draw();});
+    cv.addEventListener('mousemove',function(ev){var i=nearest(ev);if(i<0){tip.style.display='none';return;}var g=geneSel.value,e=((cur.expr[g]||[])[i]||0)/V.expr_scale;
+      var top=V.groups.slice().sort(function(a,b){return cur.shares[b][i]-cur.shares[a][i];})[0];tip.style.display='block';tip.style.left=(ev.clientX+12)+'px';tip.style.top=(ev.clientY+12)+'px';
+      tip.textContent=g+' '+e.toFixed(2)+' · mostly '+(NAMES[top]||top)+' ('+cur.shares[top][i]+' %)';});
+    cv.addEventListener('mouseleave',function(){tip.style.display='none';});
+    window.addEventListener('resize',draw);
+  }
+  // the data (H&E pictures and spots) is inflated, or fetched on the published site, the first time the tab opens
+  function ready(){if(!loading){$('v-note').textContent='Loading the tissue sections...';
+    loading=window.atlasPayload('viewer-data').then(function(x){V=x; if(V&&V.sections&&V.sections.length) setup(); return V;});}
+    return loading;}
+  window.viewerShow=function(){ready().then(function(){if(!V||!V.sections||!V.sections.length)return; if(!cur)load(); else draw();});};
 })();
 </script>

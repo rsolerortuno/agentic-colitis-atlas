@@ -172,8 +172,36 @@ def _gse165512() -> pd.DataFrame:
     return out
 
 
+def _gse72819() -> pd.DataFrame:
+    """EUCALYPTUS (etrolizumab phase 2): baseline colonic biopsies, clinical remission at week 10 (RNA-seq). Treatment-
+    response cohort only (no controls). The series holds the etrolizumab-treated patients; 3 without a label."""
+    m = series_meta("GSE72819")
+    rem = m["remission at week 10"].map({"Remitter": True, "Non-remitter": False})
+    out = pd.DataFrame({"sample": m["geo_accession"], "geo": m["geo_accession"], "cohort": "GSE72819",
+                        "patient": "GSE72819_" + m["title"], "group": "UC", "region": "Colon", "timepoint": "baseline",
+                        "treatment": "etrolizumab", "response": rem, "mayo": None, "age": None, "sex": None,
+                        "title": m["title"], "prior_anti_tnf": m["prior anti.tnf"]})
+    out["response_endpoint"] = "clinical remission at week 10 (EUCALYPTUS)"
+    return out
+
+
+def _gse23597() -> pd.DataFrame:
+    """ACT1 (infliximab 5 or 10 mg/kg vs placebo, Toedter et al. 2011): colonic biopsies at weeks 0, 8 and 30; response
+    at week 8 (clinical response, as given by the authors). Treatment-response cohort only (no controls)."""
+    m = series_meta("GSE23597")
+    drug = m["dose"].map(lambda d: "placebo" if d == "placebo" else "infliximab")
+    out = pd.DataFrame({"sample": m["geo_accession"], "geo": m["geo_accession"], "cohort": "GSE23597",
+                        "patient": "GSE23597_" + m["subject"], "group": "UC", "region": "Colon",
+                        "timepoint": m["time"].map(lambda t: "baseline" if t == "W0" else t), "treatment": drug,
+                        "response": m["wk8 response"].map({"Yes": True, "No": False}), "mayo": None, "age": None,
+                        "sex": None, "title": m["title"]})
+    out["response_endpoint"] = "clinical response at week 8 (ACT1)"
+    return out
+
+
 def build() -> pd.DataFrame:
-    parts = [_mssccr(), _unifi(), _pursuit(), _gse16879(), _gse73661(), _gse109142(), _gse117993(), _gse165512()]
+    parts = [_mssccr(), _unifi(), _pursuit(), _gse16879(), _gse73661(), _gse109142(), _gse117993(), _gse165512(),
+             _gse72819(), _gse23597()]
     df = pd.concat(parts, ignore_index=True)
     df["response"] = df["response"].astype("object").where(df["response"].notna(), None)
     keep = [c for c in df.columns if not c.startswith("_")]

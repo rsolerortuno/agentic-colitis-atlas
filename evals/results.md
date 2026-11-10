@@ -196,3 +196,17 @@ fibroblast; LCN2, DUOX2, REG1A epithelial (tests/test_limits.py). Neutrophil sha
 46 AlphaFold models. The 9 modelled controls rank 4 (JAK1) to 25 (PDE4B) of 45 proteins by best pocket score.
 Detected cavities cover a median 53 % of experimentally ligand-bound residues (PDBe-KB, 28 proteins), the top three
 pockets 24 %: the detector finds real sites better than the score ranks them first.
+
+## (o) Independent checks (added 2026-11-10, third round)
+
+- Protein (Schniers 2019): 373 clear RNA changes testable, 281 replicate as protein (75 %; 77 % for |log2FC| >= 2);
+  rho 0.61 over 6,112 genes.
+- FinnGen R12: 34/64 significant plasma proteins and 168/296 significant gut estimates replicate (same sign, p < 0.05);
+  IL12B, IL10, CD274, TNFRSF6B, IRF5, GSDMB, NXPE1 and RGS14 all replicate.
+- Mouse models (MGI): 236 genes with a colitis phenotype (1.2 % of genes with an ortholog); UC clinical targets 24 %,
+  convergence top 100 15 %, target-profile top 100 12 %.
+- CosMx 6K: 22/108 candidates above background; 1K: 3/50.
+- Treatment: ACT1 infliximab 11 genes at q < 0.05 (7 non-responders vs 25 responders), placebo 0; EUCALYPTUS
+  etrolizumab 0; no drug x placebo interaction passes correction (ustekinumab, golimumab, infliximab).
+- Weight stability: biologics 7/10 top-10 stable (rho 0.97), immune 9/10 (0.99), pockets 8/10 (0.99), novelty 1/10
+  (0.91).

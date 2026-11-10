@@ -87,5 +87,24 @@ def replication(gene: str) -> dict:
                   "significant_down": sum(r["significant"] and r["log2fc"] < 0 for r in rows)})
 
 
+def _rec(ev_type: str, gene: str) -> dict | None:
+    from .common import store as _store
+    eid = evidence_id(ev_type, gene)
+    r = _store().get_evidence([eid])
+    if not r:
+        return None
+    return clean({**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid})
+
+
+@mcp.tool()
+def protein_level(gene: str) -> dict:
+    """Protein-level replication in UC colon mucosa (Schniers et al. 2019, label-free proteomics, inflamed mucosa of
+    untreated UC at diagnosis vs healthy controls; independent patients): log2 UC/healthy protein ratio, p and BH
+    padj, the authors' significance call, and whether the gene's meta-analysis RNA change replicates at protein level
+    (same sign, padj < 0.05). Cite the evidence_id. Not measured is not evidence against the gene."""
+    g = canonical_gene(gene)
+    return _rec("proteomics_de", g) or {"gene": g, "message": "protein not quantified in the proteomics study"}
+
+
 if __name__ == "__main__":
     mcp.run()

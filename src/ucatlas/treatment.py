@@ -2,7 +2,8 @@
 
 Cohorts and endpoints (data/README.md): UNIFI ustekinumab vs placebo (mucosal healing at week 8), PURSUIT golimumab vs
 placebo (clinical response at week 6), GSE16879 infliximab (endoscopic and histological response), GSE73661
-vedolizumab (earliest post-treatment response label). GSE73661's infliximab patients probably overlap GSE16879 and
+vedolizumab (earliest post-treatment response label); added 2026-11-10: EUCALYPTUS etrolizumab (GSE72819, remission
+at week 10, RNA-seq) and ACT1 infliximab vs placebo (GSE23597, response at week 8; patients of GSE12251 are a subset). GSE73661's infliximab patients probably overlap GSE16879 and
 are not used.
 
 1. Per drug arm and gene: non-responders vs responders at baseline (Welch t on log2 expression, BH). Positive
@@ -26,7 +27,10 @@ from .paths import PROCESSED
 
 ARMS = {"ustekinumab": ("GSE206285", "ustekinumab"), "golimumab": ("GSE92415", "golimumab"),
         "infliximab": ("GSE16879", "infliximab"), "vedolizumab": ("GSE73661", "vedolizumab"),
-        "placebo (UNIFI)": ("GSE206285", "placebo"), "placebo (PURSUIT)": ("GSE92415", "placebo")}
+        "placebo (UNIFI)": ("GSE206285", "placebo"), "placebo (PURSUIT)": ("GSE92415", "placebo"),
+        # added 2026-11-10 (third round)
+        "etrolizumab": ("GSE72819", "etrolizumab"), "infliximab (ACT1)": ("GSE23597", "infliximab"),
+        "placebo (ACT1)": ("GSE23597", "placebo")}
 ARIJS_2009 = ["TNFRSF11B", "STC1", "PTGS2", "IL13RA2", "IL11"]
 
 
@@ -57,7 +61,8 @@ def response_genes() -> pd.DataFrame:
 def interaction(genes: list[str]) -> pd.DataFrame:
     import statsmodels.api as sm
     rows = []
-    for drug, (cohort, tr) in (("ustekinumab", ARMS["ustekinumab"]), ("golimumab", ARMS["golimumab"])):
+    for drug, (cohort, tr) in (("ustekinumab", ARMS["ustekinumab"]), ("golimumab", ARMS["golimumab"]),
+                               ("infliximab (ACT1)", ARMS["infliximab (ACT1)"])):
         xd, rd = _arm(cohort, tr)
         xp, rp = _arm(cohort, "placebo")
         for g in genes:

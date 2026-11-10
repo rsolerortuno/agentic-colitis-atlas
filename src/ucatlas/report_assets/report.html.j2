@@ -9,8 +9,12 @@
 .tag.epithelial{background:var(--s1);color:#fff}.tag.stromal{background:var(--s2);color:#fff}.tag.immune{background:var(--s3);color:#fff}
 details.howbox summary{cursor:pointer}
 </style>
-<script>{{ plotly_js | safe }}</script>
-<script>{{ cytoscape_js | safe }}</script>
+<script data-asset="plotly.min.js">{{ plotly_js | safe }}</script>
+<script data-asset="cytoscape.min.js">{{ cytoscape_js | safe }}</script>
+<script>
+// inline payload, or (published site) a file fetched on first use: scripts/split_site.py
+window.atlasPayload=async function(id){var el=document.getElementById(id);var src=el.getAttribute('data-src');var t=src?await (await fetch(src)).text():el.textContent;var packed=Uint8Array.from(atob(t.trim()),function(c){return c.charCodeAt(0);});return JSON.parse(await new Response(new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'))).text());};
+</script>
 </head>
 <body>
 <div class="top"><div class="wrap">
@@ -158,7 +162,7 @@ details.howbox summary{cursor:pointer}
 <thead><tr><th>Gene</th><th>Highest-expressing cell type (mean)</th><th>% cells</th><th>Share of transcripts (top family)</th><th>Neutrophil share</th><th>τ</th>
 <th>Change kept after composition</th><th>Inflamed vs healthy, same cell type</th><th>Evidence</th></tr></thead><tbody>
 {% for t in cell.cell_rows %}
-<tr class="claim" data-evidence="{{ t.evidence_ids | evattr }}"><td><strong>{{ t.gene }}</strong></td>
+<tr{% if t.evidence_ids %} class="claim" data-evidence="{{ t.evidence_ids | evattr }}"{% endif %}><td><strong>{{ t.gene }}</strong></td>
 <td>{{ t.top_label }} <span class="small">({{ t.top_group }})</span></td><td class="num">{{ t.top_pct }}</td><td class="num">{{ t.top_share }}</td>
 <td class="num">{{ t.neutrophil_share | fmt }}</td><td class="num">{{ t.tau | fmt }}</td>
 <td class="num">{% if t.retained is not none %}{{ "%.0f" | format(100 * t.retained) }} % <span class="small">({{ t.verdict | replace("_"," ") }})</span>{% else %}—{% endif %}</td>
@@ -192,7 +196,7 @@ details.howbox summary{cursor:pointer}
 <div class="tw"><table>
 <thead><tr><th>Gene</th><th>In-situ expresser (NNLS)</th><th>Share of in-situ signal</th><th>Composition-corrected source</th><th>Compartment it follows (marker co-variation)</th><th>High spots</th><th>Enriched neighbours (log₂ obs/exp, padj &lt; 0.05)</th><th>Evidence</th></tr></thead><tbody>
 {% for t in cell.spatial_rows %}
-<tr class="claim" data-evidence="{{ t.evidence_ids | evattr }}"><td><strong>{{ t.gene }}</strong></td><td>{{ t.top_expresser | fmt }}</td><td class="num">{{ t.contribution | fmt }}</td><td>{{ t.corrected | fmt }}</td>
+<tr{% if t.evidence_ids %} class="claim" data-evidence="{{ t.evidence_ids | evattr }}"{% endif %}><td><strong>{{ t.gene }}</strong></td><td>{{ t.top_expresser | fmt }}</td><td class="num">{{ t.contribution | fmt }}</td><td>{{ t.corrected | fmt }}</td>
 <td>{{ t.compartment | fmt }}</td><td class="num">{{ t.n_high }}</td>
 <td>{% for e in t.neighbors %}{{ e.cell_group | replace("_"," ") }} {{ "%+.2f"|format(e.log2_enrichment) }}{% if not loop.last %} · {% endif %}{% endfor %}{% if not t.neighbors %}—{% endif %}</td>
 <td>{{ t.evidence_ids[:4] | cite | safe }}</td></tr>
@@ -202,6 +206,11 @@ details.howbox summary{cursor:pointer}
 <div class="tw"><table><thead><tr><th>Gene</th><th>Top lineage, inflamed sections</th><th>Share</th><th>% of cells expressing</th></tr></thead><tbody>
 {% for r in cell.xenium_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }}</td><td class="num">{{ r.share }}</td><td class="num">{{ r.pct }}</td></tr>{% endfor %}
 </tbody></table></div>
+{% if third.cosmx_rows %}<h3>A second single-cell platform: CosMx {{ q('cosmx_table') }}</h3>
+<p class="small">CosMx (GSE312415) reads RNA in single cells of tissue sections, with a 6,000-gene panel. Each slide holds two rectum biopsies and the files do not say which cell belongs to which, so only the two slides whose biopsies are both inflamed UC are used ({% for s in third.cosmx_sections %}{{ s.panel }} panel: {{ "{:,}".format(s.cells) }} cells, median {{ "%.0f" | format(s.median_counts_per_cell) }} transcripts per cell, {{ "%.0f" | format(100 * s.assigned_fraction) }} % typed{{ "; " if not loop.last }}{% endfor %}). Cells are typed against the single-cell reference profiles. Most candidates are expressed by a similar small share of every cell type, which is the platform's background, so only {{ third.cosmx_counts.above }} of {{ third.cosmx_counts.tested }} genes on the 6K panel are detected above background (best cell type at least twice the median of the others): {{ third.cosmx_detected | join(", ") }}. The neutrophil and stromal candidates are not resolved on this platform.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Best cell type</th><th class="num">% cells, best</th><th class="num">% cells, others (median)</th><th class="num">Ratio</th><th>Above background</th><th>Evidence</th></tr></thead><tbody>
+{% for r in third.cosmx_rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong></td><td>{{ r.best }}</td><td class="num">{{ r.pct_best }}</td><td class="num">{{ r.pct_other }}</td><td class="num">{{ r.spec }}</td><td>{{ "yes" if r.above else "no (background)" }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
 {{ findings('cells', 'Cell-context agent findings') }}
 </section>
 
@@ -232,24 +241,28 @@ details.howbox summary{cursor:pointer}
   <div class="kpi"><b>{{ "{:,}".format(G.colon.tested) }}</b><span>genes tested with colon eQTL; {{ G.colon.significant }} significant, {{ G.colon.colocalising }} colocalise</span></div>
   <div class="kpi"><b>{{ "{:,}".format(G.cell.tested) }}</b><span>genes tested in gut cell types; {{ G.cell.significant }} significant, {{ G.cell.colocalising }} colocalise</span></div>
   <div class="kpi"><b>{{ G.plasma.clinical_significant | length }} / {{ G.plasma.clinical_tested }}</b><span>UC clinical targets tested in plasma that are significant</span></div>
+  <div class="kpi"><b>{{ G.plasma.finngen_replicated }} / {{ G.plasma.significant }}</b><span>significant plasma results that replicate in FinnGen</span></div>
+  <div class="kpi"><b>{{ G.colon.finngen_replicated + G.cell.finngen_replicated }} / {{ G.colon.significant + G.cell.significant }}</b><span>significant gut results that replicate in FinnGen</span></div>
 </div>
+<p class="small">Replication: every estimate is repeated with a second, independent UC GWAS (FinnGen R12, Finnish biobank, no sample overlap with de Lange 2017). A result replicates when the FinnGen estimate has the same sign and p &lt; 0.05; the two outcomes are also combined by inverse variance (combined q in the evidence records).</p>
 <div class="grid two">
   {{ plot('mr_plasma', figs.mr) }}
   {{ plot('mr_colon', figs.mr_colon) }}
   {{ plot('mr_agree', figs.mr_agree) }}
   {{ plot('mr_cells', figs.mr_cells) }}
+  {{ plot('finngen', figs.finngen) }}
 </div>
 <div class="howbox"><h4>How to read these charts</h4><ul>
 <li><strong>Volcano plots.</strong> Each dot is a gene. Right of zero: the genetically higher level raises UC risk (red when significant); left: it lowers risk (blue). Higher dots have stronger evidence.</li>
 <li><strong>Blood against gut.</strong> For genes with instruments in both, the two estimates are plotted against each other. Agreement in direction supports the result; disagreement can be real biology (a gene acting differently in blood cells and in the gut wall).</li>
 <li><strong>Cell types.</strong> For candidate genes with a cell-type instrument, the estimate in each gut cell type. It shows in which cell the genetic effect is seen.</li></ul></div>
 <h3>Significant plasma proteins {{ q('mr_table') }}</h3>
-<div class="tw"><table><thead><tr><th>Protein (gene)</th><th class="num">OR per SD</th><th class="num">95 % CI</th><th class="num">p</th><th class="num">q</th><th class="num">Instruments</th><th>Colocalises</th><th>UC clinical target</th></tr></thead><tbody>
-{% for r in extra.mr %}<tr><td><b>{{ r.gene }}</b></td><td class="num">{{ r.or }}</td><td class="num">{{ r.ci[0] }}–{{ r.ci[1] }}</td><td class="num">{{ r.p }}</td><td class="num">{{ r.q }}</td><td class="num">{{ r.n }}</td><td>{{ r.coloc }}</td><td>{{ "yes" if r.clinical else "" }}</td></tr>
+<div class="tw"><table><thead><tr><th>Protein (gene)</th><th class="num">OR per SD</th><th class="num">95 % CI</th><th class="num">p</th><th class="num">q</th><th class="num">Instruments</th><th>Colocalises</th><th>FinnGen (✓ replicates)</th><th>UC clinical target</th></tr></thead><tbody>
+{% for r in extra.mr %}<tr><td><b>{{ r.gene }}</b></td><td class="num">{{ r.or }}</td><td class="num">{{ r.ci[0] }}–{{ r.ci[1] }}</td><td class="num">{{ r.p }}</td><td class="num">{{ r.q }}</td><td class="num">{{ r.n }}</td><td>{{ r.coloc }}</td><td>{{ G.plasma_finngen.get(r.gene, "—") }}</td><td>{{ "yes" if r.clinical else "" }}</td></tr>
 {% endfor %}</tbody></table></div>
 <h3>Significant genes, colon expression {{ q('mr_table') }}</h3>
-<div class="tw"><table><thead><tr><th>Gene</th><th>Tissue</th><th class="num">OR per SD</th><th class="num">q</th><th class="num">Instruments</th><th>Colocalises</th><th>Plasma estimate</th></tr></thead><tbody>
-{% for r in G.colon_rows %}<tr><td><b>{{ r.gene }}</b></td><td>{{ r.label }}</td><td class="num">{{ r.or }}</td><td class="num">{{ r.q }}</td><td class="num">{{ r.n }}</td><td>{{ r.coloc }}</td><td>{{ r.plasma or "—" }}</td></tr>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Tissue</th><th class="num">OR per SD</th><th class="num">q</th><th class="num">Instruments</th><th>Colocalises</th><th>FinnGen (✓ replicates)</th><th>Plasma estimate</th></tr></thead><tbody>
+{% for r in G.colon_rows %}<tr><td><b>{{ r.gene }}</b></td><td>{{ r.label }}</td><td class="num">{{ r.or }}</td><td class="num">{{ r.q }}</td><td class="num">{{ r.n }}</td><td>{{ r.coloc }}</td><td>{{ r.finngen }}</td><td>{{ r.plasma or "—" }}</td></tr>
 {% endfor %}</tbody></table></div>
 <h3>The leading candidates in all three layers</h3>
 <div class="tw"><table><thead><tr><th>Gene</th><th>Plasma protein</th><th>Colon expression</th><th>Gut cell type (strongest)</th></tr></thead><tbody>
@@ -276,7 +289,7 @@ details.howbox summary{cursor:pointer}
 <div class="tw"><table>
 <thead><tr><th>Gene</th><th>UniProt</th><th>Mean pLDDT</th><th>Pocket</th><th>Volume (Å³)</th><th>Depth (Å)</th><th>Hydropathy</th><th>Pocket score</th><th>Ligand-site recall (all / top 3)</th><th>Evidence</th></tr></thead><tbody>
 {% for r in S.rows %}
-<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong>{% if r.control %} <span class="tag">control</span>{% endif %}</td>
+<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong>{% if r.control %} <span class="tag">control</span>{% endif %}</td>
 <td><a href="https://www.uniprot.org/uniprotkb/{{ r.uniprot }}">{{ r.uniprot }}</a></td><td class="num">{{ r.mean_plddt }}</td><td class="num">{{ r.rank }}</td>
 <td class="num">{{ r.volume_a3 }}</td><td class="num">{{ r.max_depth_a }}</td><td class="num">{{ r.avg_hydropathy }}</td>
 <td class="num"><span class="score" style="width:{{ (r.pocket_score * 60) | round(0) | int }}px"></span>{{ r.pocket_score }}</td>
@@ -325,7 +338,7 @@ details.howbox summary{cursor:pointer}
 <div class="tw"><table id="dtable">
 <thead><tr><th>Gene</th><th>Track</th><th>Lineage (neutrophil share)</th><th>Novelty</th><th>Meta log2FC</th><th>Change kept</th><th>UC papers</th><th>Clinical drug</th><th>Tractability</th><th>Vital-organ max nTPM</th><th>Status</th><th>Evidence</th></tr></thead><tbody>
 {% for r in D.rows %}
-<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}" data-track="{{ r.track }}" data-status="{{ r.status }}" data-text="{{ (r.gene ~ ' ' ~ r.lineage) | lower }}">
+<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %} data-track="{{ r.track }}" data-status="{{ r.status }}" data-text="{{ (r.gene ~ ' ' ~ r.lineage) | lower }}">
 <td><strong>{{ r.gene }}</strong></td><td><span class="tag {{ r.track }}">{{ r.track }}</span></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td>
 <td class="num"><span class="score" style="width:{{ (r.novelty * 50) | round(0) | int }}px"></span>{{ r.novelty }}</td>
 <td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td>{{ "yes" if r.clinical else "no" }}</td><td>{{ r.tractable or "—" }}</td>
@@ -365,6 +378,28 @@ details.howbox summary{cursor:pointer}
 {% for r in confirm_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td class="num">{{ r.msccr }}</td><td class="num">{{ r.protect }} ({{ r.protect_q }})</td><td class="num">{{ r.risk }} ({{ r.risk_q }})</td><td>{{ r.replicates }}</td></tr>{% endfor %}
 </tbody></table></div>
 
+{% if third.proteomics %}{% set P = third.proteomics %}
+<h2>Does the change hold at protein level? {{ q('proteomics') }}</h2>
+<p class="lede">Everything so far is RNA. An independent proteomics study ({{ P.study }}) measured proteins in colon mucosa biopsies of untreated UC patients at diagnosis and healthy controls (label-free mass spectrometry; other patients than any RNA cohort). Of the {{ P.rna_changes_tested }} genes with a clear RNA change (meta-analysis padj &lt; 0.05, |log2FC| ≥ 1) whose protein was quantified, {{ P.replicated }} ({{ "%.0f" | format(100 * P.replication_rate) }} %) change again at protein level in the same direction (padj &lt; 0.05), {{ "%.0f" | format(100 * P.replication_rate_log2fc_ge2) }} % when the RNA change is at least four-fold. Over {{ "{:,}".format(P.genes_compared) }} genes the RNA and protein changes correlate at rho {{ P.spearman_log2fc }}.</p>
+<div class="grid two">
+  {{ plot('proteomics', figs.proteomics) }}
+  <div class="tw"><table><thead><tr><th>Gene</th><th class="num">RNA log2FC</th><th class="num">Protein log2 ratio</th><th class="num">Protein padj</th><th>Replicates</th><th>Evidence</th></tr></thead><tbody>
+  {% for r in third.proteomics_rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong></td><td class="num">{{ r.rna | fmt }}</td><td class="num">{{ r.protein | fmt }}</td><td class="num">{{ r.padj }}</td><td>{{ r.replicates }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+  </tbody></table></div>
+</div>
+<p class="small">Many candidates (CXCR2, small secreted proteins) are not quantified by mass spectrometry of whole biopsies; a missing protein is a gap in the data, not a failed replication.</p>{% endif %}
+
+{% if third.mouse %}{% set M = third.mouse %}
+<h2>Do mouse models agree? {{ q('mouse') }}</h2>
+<p class="lede">Mouse knockouts are an independent, experimental line of evidence. In MGI, {{ M.genes_with_colitis_phenotype }} genes have a single-gene mouse model (conditional knockouts included) with spontaneous colitis, worse or milder induced colitis. That is {{ "%.1f" | format(100 * M.background_rate) }} % of genes with a mouse ortholog, against {{ "%.0f" | format(100 * M.clinical_targets_rate) }} % of UC clinical targets, {{ "%.0f" | format(100 * M.convergence_top100_rate) }} % of the convergence top 100 and {{ "%.0f" | format(100 * M.target_profile_top100_rate) }} % of the target-profile top 100: the rankings are about ten times enriched for genes with a colitis phenotype, although no mouse data entered them. Most leading candidates ({{ third.mouse_candidates_without[:12] | join(", ") }}) have no recorded colitis model: untested, not negative.</p>
+<div class="grid two">
+  {{ plot('mouse', figs.mouse) }}
+  <div class="tw"><table><thead><tr><th>Gene</th><th>Direction</th><th class="num">Spontaneous</th><th class="num">Worse induced</th><th class="num">Protected</th><th>Evidence</th></tr></thead><tbody>
+  {% for r in third.mouse_rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong></td><td>{{ r.direction }}</td><td class="num">{{ r.spont }}</td><td class="num">{{ r.worse }}</td><td class="num">{{ r.protected }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+  </tbody></table></div>
+</div>
+<p class="small">Most alleles remove the gene, so "loss gives or worsens colitis" means the gene protects the mucosa (inhibiting it is a risk) and "loss protects" means it drives colitis (inhibition is the therapeutic direction). Numbers are mouse genotypes in MGI.</p>{% endif %}
+
 <h2>Two questions, two scores</h2>
 <p class="small">The overall score mixes target and biomarker evidence, so there are two separate profiles. The <strong>target</strong> profile weighs ({% for k, v in profile_weights.target.items() %}{{ k | replace("_", " ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). The <strong>biomarker</strong> profile weighs ({% for k, v in profile_weights.biomarker.items() %}{{ k | replace("_", " ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). Neither uses literature or drug history, which lets us test them against clinical targets below without the answer leaking into the score.</p>
 <div class="howbox calc"><h4>What the components of each profile mean</h4>
@@ -403,6 +438,12 @@ details.howbox summary{cursor:pointer}
   {{ plot('rank_charts', figs.rank_biomarker) }}
 </div>
 {{ plot('rank_charts', figs.rank_conv) }}
+{% if score_sens %}<h3>Stability of the other scores</h3>
+<p class="small">The same 1,000 random re-weightings applied to the scores of the Discovery, Biologics &amp; immune and Structure tabs. "Top 10 stable" counts genes of the configured top 10 that stay in the top 10 in at least 80 % of re-weightings; rho is the median rank correlation between the configured and re-weighted scores.</p>
+<div class="tw"><table><thead><tr><th>Score</th><th class="num">Genes</th><th class="num">Top 10 stable</th><th class="num">Median rho</th></tr></thead><tbody>
+{% for k, v in score_sens.items() %}<tr><td>{{ {"biologics": "Biologic suitability", "immune": "Immune target", "novelty": "Discovery novelty (ordering only)", "pockets": "Pocket score"}.get(k, k) }}</td><td class="num">{{ v.n }}</td><td class="num">{{ v.top10_stable }} / 10</td><td class="num">{{ v.median_rho }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">The overall order of every score is stable (rho ≥ 0.9). The exact top 10 of the novelty ordering is not: it only orders the discovery table, while the filters decide which genes are first-in-class.</p>{% endif %}
 
 <h2>Evaluation against outcomes the scores do not see {{ q('outcomes') }}</h2>
 <p class="small">Gold sets: {{ evals.gold_sets.uc_clinical_targets | length }} UC clinical targets (phase ≥ 2 with at least two trials or approval, drugs with ≤ 5 targets) and the {{ evals.gold_sets.temporal_wide_targets | length }} targets first tried in UC on or after {{ evals.gold_sets.cutoff_wide }} ({{ evals.gold_sets.temporal_wide_targets | join(", ") }}), with older UC targets removed from the universe. The convergence score includes literature and drug history, so its clinical-target AUROC is partly circular.</p>
@@ -444,7 +485,8 @@ Pipeline targets: {% for c in pl.lists %}{{ c | join(", ") }}{% if not loop.last
 {{ plain('literature') }}
 <h2>Literature evidence (PubTator3 + verbatim-validated relations)</h2>
 {{ paras(f.narrative.sections.literature or []) }}
-<div class="grid two">{{ plot('lit_relations', figs.lit_relations) }}{{ plot('lit_years', figs.lit_years) }}</div>
+{% if third.literature %}<p class="small">Local corpus: {{ third.literature.publications }} PubMed abstracts (the disease query, the top expression genes and, since this version, ten abstracts for every report candidate, convergence top-40 gene and first-in-class gene). Relations come from two sources: up to 100 abstracts read by the extractor agent, each relation checked word for word against its abstract, and {{ "{:,}".format(third.literature.pubtator_relations) }} relations annotated by PubTator3's own machine extraction (not checked word for word; shown as context).</p>{% endif %}
+<div class="grid two">{{ plot('lit_relations', figs.lit_relations) }}{{ plot('lit_years', figs.lit_years) }}{{ plot('pubtator', figs.pubtator) }}</div>
 {{ findings('literature', 'Literature agent findings') }}
 <h2>Drugs, genetics and druggability (Open Targets, STRING, UniProt)</h2>
 {{ paras(f.narrative.sections.external or []) }}
@@ -495,7 +537,7 @@ These checks do not constitute complete scientific validation.{% endif %}
 </section>
 
 </main>
-<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661, GSE109142, GSE117993, GSE165512 (biopsies), SCP259 and SCP3755 (single cell), GSE312420, GSE339323 and GSE189184 (spatial); UKB-PPP, GTEx v10, CEDAR and IBDverse via Open Targets 26.09; GWAS Catalog GCST004133; PubTator3; Europe PMC; Open Targets; STRING; UniProt; AlphaFold DB; PDBe-KB; Human Protein Atlas; HGNC. Not medical advice.</footer></div>
+<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661, GSE109142, GSE117993, GSE165512 (biopsies), SCP259 and SCP3755 (single cell), GSE312420, GSE339323, GSE312415 and GSE189184 (spatial); GSE72819 and GSE23597 (treatment response); UKB-PPP, GTEx v10, CEDAR and IBDverse via Open Targets 26.09; GWAS Catalog GCST004133; FinnGen R12; Schniers et al. 2019 proteomics; MGI; PubTator3; Europe PMC; Open Targets; STRING; UniProt; AlphaFold DB; PDBe-KB; Human Protein Atlas; HGNC. Code MIT licence, report CC BY 4.0. Not medical advice.</footer></div>
 
 <script>
 (function(){

@@ -37,7 +37,29 @@ SHARE_GROUPS = [("epithelial", "Epithelium", CAT[0], ["Enterocytes", "Goblet", "
                 ("lymphoid", "T, NK, B and plasma", CAT[3], ["T Cell and NK", "B Cell", "Plasma"])]
 
 
+def _compact(fig: go.Figure) -> None:
+    """Numeric arrays as 32-bit floats: Plotly embeds them as binary, so this halves the page weight of the large
+    scatter plots; 7 significant digits are far more than any axis or hover label shows."""
+    for tr in fig.data:
+        for attr in ("x", "y", "z"):
+            v = getattr(tr, attr, None)
+            if v is None or isinstance(v, str):
+                continue
+            a = np.asarray(v)
+            if a.dtype.kind == "f" and a.size > 50:
+                setattr(tr, attr, a.astype(np.float32))
+        m = getattr(tr, "marker", None)
+        if m is not None:
+            for attr in ("color", "size"):
+                v = getattr(m, attr, None)
+                if v is not None and not isinstance(v, str):
+                    a = np.asarray(v)
+                    if a.dtype.kind == "f" and a.size > 50:
+                        setattr(m, attr, a.astype(np.float32))
+
+
 def _html(fig: go.Figure, height: int, title: str | None = None, top: int | None = None, **layout) -> str:
+    _compact(fig)
     fig.update_layout(height=height, template="plotly_white", font=FONT, paper_bgcolor="rgba(0,0,0,0)",
                       plot_bgcolor="rgba(0,0,0,0)", margin=dict(l=60, r=20, t=top or (44 if title else 16), b=48),
                       title=dict(text=title, x=0, font=dict(size=14)) if title else None,
@@ -434,10 +456,11 @@ def treatment_controls() -> str:
     r = _p("response_genes.parquet")
     r = r[r.gene.isin(CHECK_GENES)]
     m = r.pivot_table(index="gene", columns="arm", values="t").reindex(CHECK_GENES)
-    arms = [a for a in ["infliximab", "golimumab", "placebo (PURSUIT)", "ustekinumab", "placebo (UNIFI)", "vedolizumab"] if a in m]
+    arms = [a for a in ["infliximab", "infliximab (ACT1)", "placebo (ACT1)", "golimumab", "placebo (PURSUIT)", "ustekinumab",
+                        "placebo (UNIFI)", "vedolizumab", "etrolizumab"] if a in m]
     fig = go.Figure()
     for i, a in enumerate(arms):
-        fig.add_trace(go.Bar(x=m.index, y=m[a], name=a, marker_color=CAT[i] if "placebo" not in a else ["#b7b5ae", "#898781"][i % 2],
+        fig.add_trace(go.Bar(x=m.index, y=m[a], name=a, marker_color=CAT[i % len(CAT)] if "placebo" not in a else ["#b7b5ae", "#898781", "#5f5d58"][i % 3],
                              hovertemplate="%{x} · " + a + ": t %{y:.1f}<extra></extra>"))
     fig.add_hline(y=0, line=dict(color=GRAY, width=1))
     fig.update_layout(barmode="group")
@@ -710,3 +733,71 @@ def drug_stage(ranking: list[dict]) -> str:
                                    hovertemplate="%{y} · %{x}: %{z} drugs<extra></extra>"))
         fig.update_yaxes(autorange="reversed")
     return _html(fig, max(320, 22 * len(rows) + 110), "Known drugs by maximum clinical stage (top-25 candidates)")
+
+
+# ------------------------------------------------------------------ added 2026-11-10 (third round)
+def proteomics_scatter(highlight: set[str]) -> str | None:
+    p = PROCESSED / "proteomics.parquet"
+    if not p.exists():
+        return None
+    d = pd.read_parquet(p).dropna(subset=["meta_log2fc", "padj"])
+    rho = float(d.meta_log2fc.corr(d.log2_ratio, method="spearman"))
+    fig = go.Figure(go.Scattergl(x=d.meta_log2fc, y=d.log2_ratio, mode="markers", name="genes",
+                                 marker=dict(color=GRAY, size=3, opacity=.35), text=d.gene,
+                                 hovertemplate="%{text}: RNA %{x:.2f}, protein %{y:.2f}<extra></extra>"))
+    h = d[d.gene.isin(highlight)]
+    fig.add_trace(go.Scatter(x=h.meta_log2fc, y=h.log2_ratio, mode="markers+text", name="report candidates", text=h.gene,
+                             textposition="top center", textfont=dict(size=9), marker=dict(color=CAT[0], size=8),
+                             hovertemplate="%{text}<extra></extra>"))
+    fig.add_hline(y=0, line=dict(color=GRAY, width=1))
+    fig.add_vline(x=0, line=dict(color=GRAY, width=1))
+    fig.update_xaxes(title="RNA: meta-analysis log2FC (eight cohorts)")
+    fig.update_yaxes(title="protein: log2 UC / healthy (Schniers 2019)")
+    return _html(fig, 450, f"Does the protein change too? (ρ = {rho:.2f} over {len(d):,} genes)")
+
+
+def finngen_scatter() -> str | None:
+    frames = []
+    for f, label in (("mr_pqtl.parquet", "plasma protein"), ("mr_colon.parquet", "colon or gut-cell expression")):
+        r = pd.read_parquet(PROCESSED / f)
+        if "beta_finngen" in r:
+            frames.append(r[r.q < 0.05].assign(layer_label=label))
+    if not frames:
+        return None
+    d = pd.concat(frames).dropna(subset=["beta_finngen"])
+    fig = go.Figure()
+    for i, (lab, s) in enumerate(d.groupby("layer_label")):
+        fig.add_trace(go.Scatter(x=s.beta, y=s.beta_finngen, mode="markers", name=lab, text=s.gene,
+                                 marker=dict(color=CAT[i], size=7, opacity=.8),
+                                 hovertemplate="%{text}: de Lange %{x:.2f}, FinnGen %{y:.2f}<extra></extra>"))
+    lab = d[d.replicates_finngen == True].nsmallest(12, "p")  # noqa: E712
+    fig.add_trace(go.Scatter(x=lab.beta, y=lab.beta_finngen, mode="text", text=lab.gene, textposition="top center",
+                             textfont=dict(size=9), showlegend=False, hoverinfo="skip"))
+    fig.add_hline(y=0, line=dict(color=GRAY, width=1))
+    fig.add_vline(x=0, line=dict(color=GRAY, width=1))
+    rep = float((d.replicates_finngen == True).mean())  # noqa: E712
+    fig.update_xaxes(title="log OR per SD, de Lange 2017 UC GWAS")
+    fig.update_yaxes(title="log OR per SD, FinnGen R12 UC")
+    return _html(fig, 450, f"Do significant MR results replicate in FinnGen? ({rep:.0%} same sign with p < 0.05)")
+
+
+def pubtator_chart() -> str | None:
+    p = LITERATURE / "pubtator_relations.parquet"
+    if not p.exists():
+        return None
+    r = pd.read_parquet(p)
+    c = r.relation_type.value_counts().sort_values()
+    fig = go.Figure(go.Bar(y=c.index, x=c.values, orientation="h", marker_color=CAT[6], marker_cornerradius=4,
+                           hovertemplate="%{y}: %{x} relations<extra></extra>"))
+    fig.update_xaxes(title="PubTator3 relations in the local corpus (machine-extracted)")
+    return _html(fig, 330, "Relation types annotated by PubTator3", showlegend=False)
+
+
+def mouse_rates(summary: dict) -> str:
+    x = ["all genes with a mouse ortholog", "UC clinical targets", "convergence top 100", "target profile top 100"]
+    y = [summary["background_rate"], summary["clinical_targets_rate"], summary["convergence_top100_rate"],
+         summary["target_profile_top100_rate"]]
+    fig = go.Figure(go.Bar(x=x, y=y, marker_color=[GRAY, CAT[2], CAT[0], CAT[0]], marker_cornerradius=4,
+                           hovertemplate="%{x}: %{y:.1%}<extra></extra>"))
+    fig.update_yaxes(title="share with a colitis phenotype in mouse models (MGI)", tickformat=".0%")
+    return _html(fig, 380, "Do mouse models agree? Genes whose knockout changes colitis", showlegend=False)

@@ -43,7 +43,8 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `literature`, `external` (1–2 paragraphs each) from the corresponding verified agent files; in `external`
      separate approved UC targets from expression-led candidates without a drug, and name genetic support (GWAS association and Mendelian
      randomisation with plasma pQTL and with gut eQTL in colon tissue and gut cell types: direction, colocalisation and
-     whether blood and gut agree).
+     whether blood and gut agree, and whether results replicate in FinnGen), and mouse models (MGI colitis
+     phenotypes) where the external agent reports them.
    - `cells` (2–3 paragraphs) from the cell findings in `agent_single.verified.json`: which cell makes each leading candidate (epithelium,
      stroma, myeloid cells, neutrophils, lymphocytes), whether the attribution replicates, and which bulk changes are
      tissue changes vs. cell influx after the composition adjustment (with its over-correction caveat). Use this to
