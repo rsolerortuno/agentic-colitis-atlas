@@ -113,8 +113,8 @@ def convergence_ranking(n: int = 25, profile: str = "convergence") -> list[dict]
     """Deterministic ranking from the latest scripts/integrate.py run.
 
     profile: 'convergence' (all evidence streams: expression meta-analysis, replication across cohorts, inflamed vs
-    non-inflamed mucosa, genetics, literature, tractability). Target and biomarker profiles are added in a later
-    milestone. Each row carries its components, the meta-analysis and paired values, Open Targets scores and the
+    non-inflamed mucosa, genetics, literature, tractability). 'target' (expression up, composition-retained tissue change, genetics, predicted tractability) and 'biomarker'
+    (any change, replication, disease activity, inflamed vs non-inflamed) leave out literature and drug history. Each row carries its components, the meta-analysis and paired values, Open Targets scores and the
     evidence ids per stream. When present, `rank_interval_90` gives the 5th-95th percentile rank and probability of
     staying in the top 10/25/100 when the weights are randomly perturbed (robustness)."""
     conv = _latest_convergence()

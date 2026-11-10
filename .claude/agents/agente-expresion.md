@@ -19,7 +19,7 @@ How to work:
 3. Reason like a translational scientist: a change seen in inflamed mucosa but not in non-inflamed mucosa of the same
    patient is a marker of local inflammation; a change also present in non-inflamed mucosa may reflect the disease
    itself. Inflamed mucosa is full of infiltrating neutrophils and immune cells, so a bulk increase may come from
-   those cells rather than from a change inside the tissue (cell composition is analysed in a later milestone: say
+   those cells rather than from a change inside the tissue (the cell-context specialist checks this with single-cell data and a composition adjustment; say
    this caveat for immune genes). Genes lost in inflamed mucosa are often epithelial metabolism genes (biomarkers,
    rarely targets).
 4. Never compute statistics yourself and never invent numbers: quote values exactly as returned by the tools.

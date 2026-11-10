@@ -2,7 +2,7 @@
 
 Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check passes; evidence is recorded below.
 
-**Current milestone:** Review against the kidney atlas
+**Current milestone:** M0-M18 passed; review of 2026-11-10 done
 
 | Milestone | Status | Evidence |
 |---|---|---|
@@ -26,5 +26,38 @@ Spec: [OBJETIVO.md](OBJETIVO.md). A milestone is closed only when its check pass
 | M17 Repeats and agent benchmark | ✅ passed | Full run with six specialists (runs/2026-11-09_full): 120 statements, 0 unsupported, 0 stale, 27 key findings all cited, 83 % of specialist evidence cited; $4.73, 7.8 min. Two independent repeats: 116 and 119 statements, 0 unsupported; target-list Jaccard 0.65-0.87, CXCR2 first in all. Single-agent arm (/informe_single): 157 statements, 0 unsupported, $6.07, 16.8 min, 167 turns. Checklist of 12 facts (fixed before reading the single report): 10/12 for every run. Team about 27 % cheaper and 2.4x faster with the same quality (evals/results.md f) |
 | M18 Full report and clean-up | ✅ passed | Report with 11 tabs in the Sections menu (Overview, Candidates, Discovery, Expression, Cells & space, Pathways, Treatment response, Literature & drugs, Network, Validation with the agent benchmark, Methods & evidence), a plain-words box per tab and a 'How to read this chart' guide under every chart. Rendered from runs/2026-11-09_full: report valid, no console errors, every tab renders, no horizontal scroll at 375 px. `uv run ucatlas run-all --run 2026-11-09_full` from a cleaned folder rebuilds every layer with the same counts; it exposed one bug (communication records loaded depended on load history, two narrative statements cited records absent after a clean rebuild) fixed by a deterministic selection; after it all five runs re-verify with 0 unsupported (120, 116, 119, 157, 68 statements). README with findings and checks |
 
+## Review of 2026-11-10 (against the kidney atlas, and for bugs)
+
+Added because the kidney atlas had them: CI unit tests on push (data-free clone: 14 passed, rest skip), a GitHub Pages
+workflow (skipped while the repository is private), a Linux runner, the verifier sabotage test, the closed-book
+baseline ("what the agentic layer adds"), a frozen input inventory (reproducibility/inputs.json, 157 raw files,
+config, lock and the published agent outputs) that `run-all` checks before rebuilding, and a "How to read this chart"
+guide under every chart.
+
+Bugs found and fixed:
+- Predicted tractability came only from the ~1,100 genes enriched through the API, so the target profile and its
+  "tractability alone" baseline favoured genes already linked to UC. Now from the Open Targets bulk table for every
+  gene: target profile AUROC 0.84 vs tractability alone 0.83, recall@100 14 % vs 2 % (results.md e, history.md).
+  Convergence v1 keeps its original stream (documented) because the published narratives were written from it.
+- The direction check ignored the meta-analysis records (the main bulk evidence here): a flipped "up/down" was
+  caught in 1 of 55 sabotaged statements; now 16 of 25 where bulk evidence is cited. Ordering words ("moved down")
+  and "up to" are no longer read as directions (they had rejected one correct single-agent statement).
+- Ligand-receptor records loaded into the graph depended on what an earlier load had added, so a clean rebuild
+  lost two records cited by the published run. Selection is now deterministic.
+- `run-all` deleted the neutrophil single-cell files and silently skipped the steps that need them; it now keeps them
+  and rebuilds them only when missing.
+- The report showed the M4 claim count (313,401) instead of the full graph; statistics are now written after every
+  load (401,852).
+- Session logs were UTF-16 and contained local paths; now UTF-8 without paths, and the runners write UTF-8.
+- Stale wording in an agent prompt and a tool description; dead code in the expression step.
+
+Final check: `uv run ucatlas run-all --run 2026-11-09_full` from a cleaned folder (frozen inputs verified, every layer
+rebuilt with the same counts, 0 unsupported, report valid, about 15 minutes); the other four runs re-verify with 0
+unsupported (116, 119, 157, 68 statements); 65 tests pass.
+
 ## Blockers / notes
-- None yet.
+- GitHub Pages needs the repository to be public (free plan): the owner will switch visibility, then enable
+  Settings -> Pages -> Source: GitHub Actions and run the "Publish report to GitHub Pages" workflow.
+- Known limits (README): no pQTL Mendelian randomisation; Xenium panel lacks several candidates and two of four
+  sections were too sparse; 4-gene temporal subset; GSE16879 is MAS5 data on a log2 scale (larger fold changes);
+  genes measured only in the RNA-seq cohort enter the meta-analysis with k = 1.

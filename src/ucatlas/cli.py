@@ -80,8 +80,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     if (spatial.D / "manifest.json").exists():
         extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]
         _step("spatial", lambda: (spatial.run(list(dict.fromkeys(expression_top(300) + extra))), spatial.load())[1])
-    _step("graph statistics", _write_graph_stats)   # after every layer is loaded (the report shows these counts)
-    _step("convergence", lambda: _rebuild_convergence(run))
+    _step("convergence", lambda: _rebuild_convergence(run))   # also loads the citable ranking records
+    _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))
     _step("verify final", lambda: _script("scripts/verify.py", "final", run.name))
