@@ -77,6 +77,7 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     if (spatial.D / "manifest.json").exists():
         extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]
         _step("spatial", lambda: (spatial.run(list(dict.fromkeys(expression_top(300) + extra))), spatial.load())[1])
+    _step("graph statistics", _write_graph_stats)   # after every layer is loaded (the report shows these counts)
     _step("convergence", lambda: _rebuild_convergence(run))
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))
@@ -95,6 +96,14 @@ def expression_top(n):
     m = m[(m["meta_padj"] < 0.05) & ((m["n_sig_up"] >= 2) | (m["n_sig_down"] >= 2))]
     m = m.reindex(m["meta_log2fc"].abs().sort_values(ascending=False).index)
     return (m["gene"].head(n) if n else m["gene"]).tolist()
+
+
+def _write_graph_stats() -> str:
+    import json
+    from .graph import GraphStore
+    st = GraphStore().stats()
+    (PROCESSED / "graph_stats.json").write_text(json.dumps(st, indent=1))
+    return f"{st['claims_total']} claims, {st['claims_without_resolvable_evidence']} without evidence"
 
 
 def _rebuild_convergence(run) -> str:
