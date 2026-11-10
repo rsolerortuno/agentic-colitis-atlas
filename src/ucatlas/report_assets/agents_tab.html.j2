@@ -57,13 +57,13 @@
 <div class="tw" style="margin-top:14px"><table><thead><tr><th>Checklist fact</th>{% for r in AB.team %}<th>Team {{ loop.index }}</th>{% endfor %}<th>One agent</th></tr></thead><tbody>
 {% for k in AB.team[0].checklist %}<tr><td>{{ k | replace("_", " ") }}</td>{% for r in AB.team %}<td>{% if r.checklist[k] %}<span class="ab-yes">yes</span>{% else %}<span class="ab-no">no</span>{% endif %}</td>{% endfor %}<td>{% if AB.single[0].checklist[k] %}<span class="ab-yes">yes</span>{% else %}<span class="ab-no">no</span>{% endif %}</td></tr>{% endfor %}
 </tbody></table></div>
-<p class="small">Target lists overlap (Jaccard) between runs: {% for k, v in AB.target_jaccard.items() %}{{ k | replace("2026-11-09_", "") }} {{ v }}{% if not loop.last %}; {% endif %}{% endfor %}. The same two facts were missed by every run: the OSM → OSMR circuit is in the pathway agent's findings but not in the final summary, and the published infliximab signature check is in the treatment table but was not named.</p>
+<p class="small">Target lists overlap (Jaccard) between runs: {% for k, v in AB.target_jaccard.items() %}{{ k | replace("2026-11-10_", "") | replace("2026-11-10", "published") }} {{ v }}{% if not loop.last %}; {% endif %}{% endfor %}. No run named the published infliximab signature check (it is in the treatment tables), and only one team run named the OSM → OSMR circuit (it is in the pathway agent's findings).</p>
 
 <h2>What the comparison says</h2>
 <ul class="roadmap">
-<li><strong>Same quality.</strong> Every run passed the verifier with no unsupported sentence and the same checklist score. The single agent wrote more sentences and cited a larger share of the evidence it collected; the team reached more of the specialists' key findings because a coverage step checks that each one is cited.</li>
+<li><strong>Same quality.</strong> Every run passed the verifier with no unsupported sentence, and the checklist scores are the same (10 or 11 of 12). The single agent wrote more sentences but cited a smaller share of the evidence it had collected ({{ "%.0f" | format(100 * AB.single[0].evidence_cited_share) }} % against {{ "%.0f" | format(100 * AB.team[0].evidence_cited_share) }}–{{ "%.0f" | format(100 * AB.team[2].evidence_cited_share) }} % for the team), and the team's coverage step makes every specialist key finding reach the text.</li>
 <li><strong>The team is cheaper and faster.</strong> ${{ "%.2f" | format(team_mean.cost) }} and {{ "%.1f" | format(team_mean.minutes) }} minutes on average against ${{ "%.2f" | format(AB.single[0].cost_usd) }} and {{ AB.single[0].minutes }} minutes: Sonnet specialists in parallel cost less than one Opus agent working in sequence.</li>
-<li><strong>Variation is in emphasis, not in facts.</strong> CXCR2 led every list; the runs differ in which second-tier genes they promote.</li>
+<li><strong>Variation is in emphasis, not in facts.</strong> The three team runs share most of their target lists (overlap 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each). The single agent puts the genetically supported drug targets first (IL12B, TNF, ITGB7) and shares about half of the team's list (0.56).</li>
 </ul>
 
 <h2>How the published run was checked</h2>
@@ -74,5 +74,5 @@
 <li><h3>Tools must be reachable</h3><p>A test starts every MCP server the way the agents do and checks that each tool is registered. It was added after the first run with the genetics tools found them missing: they were registered after the server had started.</p></li>
 <li><h3>Sabotage test</h3><p>Copies of the published sentences were corrupted on purpose (changed numbers, another gene, swapped evidence, flipped direction) to see what the verifier catches: {{ sabotage }}.</p></li>
 </ol>
-<p class="small">Published run: {{ session.run }}, {{ session.statements }} statements, {{ session.unsupported }} unsupported, cost ${{ session.cost }}, {{ session.minutes }} minutes. The benchmark runs were made on the 2026-11-09 data, before three cohorts were added; they are kept as they were.</p>
+<p class="small">Published run: {{ session.run }}, {{ session.statements }} statements, {{ session.unsupported }} unsupported, cost ${{ session.cost }}, {{ session.minutes }} minutes. The benchmark runs use the final data (every evidence layer of this version); a first benchmark on the 2026-11-09 data, with the same conclusion, is described in evals/history.md.</p>
 </section>

@@ -132,16 +132,41 @@ def mouse_phenotype(gene: str) -> dict:
     """Mouse models (MGI): single-gene genotypes (conditional knockouts included) with spontaneous colitis, more
     severe or less severe induced colitis; direction 'loss gives or worsens colitis' (the gene protects the mucosa;
     inhibiting it is a risk) or 'loss protects from colitis' (the gene drives colitis; inhibition is the therapeutic
-    direction). Cite the evidence_id. No record means no colitis phenotype recorded, which includes genes never
-    tested in colitis models."""
+    direction). Also returns a literature check (Europe PMC title/abstract: papers perturbing the gene in mouse
+    colitis), which says whether the gene was tested, not with which result. Cite the evidence_ids. No MGI record
+    means no curated colitis phenotype, which includes genes never tested in colitis models."""
     from ..graph import evidence_id as _eid
     from .common import store as _store
     g = canonical_gene(gene)
-    eid = _eid("mouse_colitis", g)
-    r = _store().get_evidence([eid])
-    if not r:
-        return {"gene": g, "message": "no colitis phenotype recorded in MGI for a single-gene mouse model"}
-    return clean({**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid})
+    out = {"gene": g}
+    for key, eid in (("mgi", _eid("mouse_colitis", g)), ("literature", _eid("mouse_colitis_literature", g))):
+        r = _store().get_evidence([eid])
+        if r:
+            out[key] = {**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid}
+    if "mgi" not in out:
+        out["mgi_message"] = "no colitis phenotype recorded in MGI for a single-gene mouse model"
+    return clean(out)
+
+
+@mcp.tool()
+def target_safety(gene: str) -> dict:
+    """Safety profile of a target: loss-of-function constraint (gnomAD v4.1 LOEUF; < 0.35 strongly constrained, so
+    life-long inhibition may be poorly tolerated), known safety events (Open Targets curated safety liabilities), and
+    other conditions sharing the gene's genetic signal (PheWAS by colocalisation of its MR instruments). Also returns
+    the MR sensitivity analyses (heterogeneity, MR-Egger, weighted median, Steiger direction) when the gene has a
+    significant estimate. Cite each evidence_id. Constraint and pleiotropy flag risks; they do not forbid a drug."""
+    from ..graph import evidence_id as _eid
+    from .common import store as _store
+    g = canonical_gene(gene)
+    out = {"gene": g}
+    for key, eid in (("safety", _eid("target_safety", g)), ("mr_sensitivity_plasma", _eid("mr_sensitivity", f"{g}|plasma_protein")),
+                     ("mr_sensitivity_colon", _eid("mr_sensitivity", f"{g}|colon_tissue"))):
+        r = _store().get_evidence([eid])
+        if r:
+            out[key] = {**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid}
+    if len(out) == 1:
+        out["message"] = "no safety record (not a candidate or clinical target)"
+    return clean(out)
 
 
 @mcp.tool()

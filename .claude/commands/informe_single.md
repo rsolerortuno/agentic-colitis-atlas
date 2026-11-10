@@ -39,7 +39,8 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
      cohorts), up and down, with what they mean (epithelial metabolism lost, antimicrobial and neutrophil genes up).
    - `inflammation` (1–2 paragraphs): which changes are local to inflamed mucosa (paired inflamed vs non-inflamed of the
      same patient) and which are already present in non-inflamed mucosa.
-   - `replication` (1 paragraph): how well the discovery cohort's changes reproduce in the four microarray and three RNA-seq cohorts.
+   - `replication` (1 paragraph): how well the discovery cohort's changes reproduce in the four microarray and three RNA-seq cohorts,
+     and at protein level in the independent proteomics study when the expression agent reports it.
    - `literature`, `external` (1–2 paragraphs each) from the corresponding verified agent files; in `external`
      separate approved UC targets from expression-led candidates without a drug, and name genetic support (GWAS association and Mendelian
      randomisation with plasma pQTL and with gut eQTL in colon tissue and gut cell types: direction, colocalisation and
@@ -50,6 +51,8 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
      tissue changes vs. cell influx after the composition adjustment (with its over-correction caveat). Use this to
      separate targets in a cell type from markers of inflammation; neutrophil genes are the main example. Add the in-situ view (Xenium cells, Visium spots) where it
      confirms or contradicts the attribution.
+   - `spatial` (1–2 paragraphs): which cell group explains each leading candidate in the deconvolved Visium spots and
+     which cells surround its high spots; say where tissue and single cells agree and where they do not.
    - `pathways` (2–3 paragraphs) from the pathway findings in `agent_single.verified.json`: the pathways and transcription factors active in
      inflamed mucosa across cohorts, and the most specific cell-cell circuits (sender, ligand, receptor, receiver),
      separating already-targeted axes from untargeted ones. Co-expression is not proof of signalling.

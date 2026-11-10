@@ -3,7 +3,7 @@
  "findings": [
   {
    "role": "mechanism",
-   "statement": "TNFa pathway activity is higher in non-responders to ustekinumab (t [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.t_nr_vs_r=4.79]), and also in the golimumab, infliximab and vedolizumab arms (all below the BH threshold), so it is a shared inflammatory-burden signal rather than drug-specific.",
+   "statement": "TNFa pathway activity is higher at baseline in ustekinumab non-responders (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000484]) but also in UNIFI placebo non-responders (padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.00608]), so it marks severity rather than a drug-specific mechanism; the PURSUIT placebo arm shows nothing (padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (PURSUIT).padj=0.932]).",
    "evidence_ids": [
     "EV:response_pathway:fc27db5790e8"
    ],
@@ -13,29 +13,19 @@
      "field": [
       "arms",
       "ustekinumab",
-      "t_nr_vs_r"
+      "padj"
      ],
-     "display": "4.79",
+     "display": "0.0000484",
      "unit": "native"
-    }
-   ],
-   "key": true
-  },
-  {
-   "role": "mechanism",
-   "statement": "The UNIFI placebo arm also separates non-responders on TNFa activity (t [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (UNIFI).t_nr_vs_r=3.5]), so this marks severity, whereas the PURSUIT placebo arm shows nothing (padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (PURSUIT).padj=0.932]).",
-   "evidence_ids": [
-    "EV:response_pathway:fc27db5790e8"
-   ],
-   "numeric_claims": [
+    },
     {
      "evidence_id": "EV:response_pathway:fc27db5790e8",
      "field": [
       "arms",
       "placebo (UNIFI)",
-      "t_nr_vs_r"
+      "padj"
      ],
-     "display": "3.5",
+     "display": "0.00608",
      "unit": "native"
     },
     {
@@ -49,11 +39,11 @@
      "unit": "native"
     }
    ],
-   "key": false
+   "key": true
   },
   {
    "role": "mechanism",
-   "statement": "NFkB activity is higher in infliximab non-responders (t [type=response_pathway; source=ANALYSIS:treatment; arms.infliximab.t_nr_vs_r=5.14]) and shows the same pattern as TNFa across arms, including the UNIFI placebo arm, so it is not a drug-specific mechanism.",
+   "statement": "NFkB activity is higher in infliximab non-responders (padj [type=response_pathway; source=ANALYSIS:treatment; arms.infliximab.padj=0.000294]) and in several other arms including placebo, so it is a general severity axis; it is not elevated in the aminosalicylate arm of PROTECT (padj [type=response_pathway; source=ANALYSIS:treatment; arms.5-ASA (PROTECT).padj=0.414]).",
    "evidence_ids": [
     "EV:response_pathway:eff997b3c38c"
    ],
@@ -63,9 +53,19 @@
      "field": [
       "arms",
       "infliximab",
-      "t_nr_vs_r"
+      "padj"
      ],
-     "display": "5.14",
+     "display": "0.000294",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:response_pathway:eff997b3c38c",
+     "field": [
+      "arms",
+      "5-ASA (PROTECT)",
+      "padj"
+     ],
+     "display": "0.414",
      "unit": "native"
     }
    ],
@@ -73,7 +73,7 @@
   },
   {
    "role": "mechanism",
-   "statement": "JAK-STAT activity is associated with non-response in ustekinumab (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0124]) and infliximab (padj [type=response_pathway; source=ANALYSIS:treatment; arms.infliximab.padj=0.0284]) but not golimumab (padj [type=response_pathway; source=ANALYSIS:treatment; arms.golimumab.padj=0.204]) or vedolizumab (padj [type=response_pathway; source=ANALYSIS:treatment; arms.vedolizumab.padj=0.571]); the UNIFI placebo arm is borderline (padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0543]).",
+   "statement": "JAK-STAT activity is higher in ustekinumab non-responders (padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0124]) but does not survive correction in golimumab (padj [type=response_pathway; source=ANALYSIS:treatment; arms.golimumab.padj=0.204]), so it is not a uniform anti-TNF-resistance signal.",
    "evidence_ids": [
     "EV:response_pathway:c77a5b95ab65"
    ],
@@ -92,40 +92,10 @@
      "evidence_id": "EV:response_pathway:c77a5b95ab65",
      "field": [
       "arms",
-      "infliximab",
-      "padj"
-     ],
-     "display": "0.0284",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:response_pathway:c77a5b95ab65",
-     "field": [
-      "arms",
       "golimumab",
       "padj"
      ],
      "display": "0.204",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:response_pathway:c77a5b95ab65",
-     "field": [
-      "arms",
-      "vedolizumab",
-      "padj"
-     ],
-     "display": "0.571",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:response_pathway:c77a5b95ab65",
-     "field": [
-      "arms",
-      "placebo (UNIFI)",
-      "padj"
-     ],
-     "display": "0.0543",
      "unit": "native"
     }
    ],
@@ -133,7 +103,7 @@
   },
   {
    "role": "mechanism",
-   "statement": "TGFb activity is higher in ustekinumab non-responders (t [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.t_nr_vs_r=3.98]) and infliximab, but not in golimumab (padj [type=response_pathway; source=ANALYSIS:treatment; arms.golimumab.padj=0.348]); the UNIFI placebo arm is also significant, indicating partial severity.",
+   "statement": "TGFb activity is associated with ustekinumab non-response (padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.000493]) but equally with UNIFI placebo non-response (padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.00984]), so this is severity, not a drug-specific stromal mechanism.",
    "evidence_ids": [
     "EV:response_pathway:4331af1da225"
    ],
@@ -143,19 +113,19 @@
      "field": [
       "arms",
       "ustekinumab",
-      "t_nr_vs_r"
+      "padj"
      ],
-     "display": "3.98",
+     "display": "0.000493",
      "unit": "native"
     },
     {
      "evidence_id": "EV:response_pathway:4331af1da225",
      "field": [
       "arms",
-      "golimumab",
+      "placebo (UNIFI)",
       "padj"
      ],
-     "display": "0.348",
+     "display": "0.00984",
      "unit": "native"
     }
    ],
@@ -163,22 +133,12 @@
   },
   {
    "gene": "OSM",
-   "role": "biomarker",
-   "statement": "OSM is higher at baseline in ustekinumab non-responders (difference [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.diff_nr_minus_r=0.651], BH padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000264]) but the drug-vs-placebo interaction is not significant (padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; interaction.ustekinumab.padj=0.982]), the golimumab and infliximab arms do not survive correction, and the UNIFI placebo difference is similar (padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.116]), so OSM is not shown to be a drug-specific mechanism.",
+   "role": "treatment",
+   "statement": "OSM is higher at baseline in ustekinumab non-responders (padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000264]), yet the drug-vs-placebo interaction is null (padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; interaction.ustekinumab.padj=0.982]) and the placebo trend is in the same direction (padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.116]); nothing survives in golimumab, infliximab or vedolizumab, so it is a severity marker, not a drug-specific one.",
    "evidence_ids": [
     "EV:treatment_response:59a56a600884"
    ],
    "numeric_claims": [
-    {
-     "evidence_id": "EV:treatment_response:59a56a600884",
-     "field": [
-      "arms",
-      "ustekinumab",
-      "diff_nr_minus_r"
-     ],
-     "display": "0.651",
-     "unit": "native"
-    },
     {
      "evidence_id": "EV:treatment_response:59a56a600884",
      "field": [
@@ -214,22 +174,12 @@
   },
   {
    "gene": "TREM1",
-   "role": "biomarker",
-   "statement": "TREM1 is higher in ustekinumab non-responders (difference [gene=TREM1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.diff_nr_minus_r=0.826], BH padj [gene=TREM1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000474]) but also in UNIFI placebo non-responders (padj [gene=TREM1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0234]), with no significant interaction; this marks severity, not an ustekinumab mechanism.",
+   "role": "treatment",
+   "statement": "TREM1 is higher in ustekinumab non-responders (padj [gene=TREM1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000474]) but also in UNIFI placebo non-responders (padj [gene=TREM1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0234]), and the interaction is not significant; it marks severity.",
    "evidence_ids": [
     "EV:treatment_response:cf67e67b4e3b"
    ],
    "numeric_claims": [
-    {
-     "evidence_id": "EV:treatment_response:cf67e67b4e3b",
-     "field": [
-      "arms",
-      "ustekinumab",
-      "diff_nr_minus_r"
-     ],
-     "display": "0.826",
-     "unit": "native"
-    },
     {
      "evidence_id": "EV:treatment_response:cf67e67b4e3b",
      "field": [
@@ -251,12 +201,84 @@
      "unit": "native"
     }
    ],
+   "key": false
+  },
+  {
+   "gene": "CXCL8",
+   "role": "treatment",
+   "statement": "CXCL8 is associated with ustekinumab non-response (padj [gene=CXCL8; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.000102]) and with placebo non-response in UNIFI (padj [gene=CXCL8; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0154]); in the adalimumab single-cell atlas it shows no baseline difference between remitters and non-remitters, only post-treatment changes in some cell states.",
+   "evidence_ids": [
+    "EV:treatment_response:1e78b2f07f0c",
+    "EV:antitnf_singlecell:1e78b2f07f0c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:1e78b2f07f0c",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.000102",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:1e78b2f07f0c",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.0154",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "CXCR2 leads the convergence ranking (meta log2FC [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.814], up in all cohorts, clinical-stage antagonists exist), but its association with ustekinumab non-response (padj [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=9.69e-6]) is mirrored in placebo (padj [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0126]); neutrophil burden and severity, not a drug-specific mechanism.",
+   "evidence_ids": [
+    "EV:treatment_response:1fce9fb2531f",
+    "EV:expression_meta:1fce9fb2531f"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1fce9fb2531f",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.814",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:1fce9fb2531f",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "9.69e-6",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:1fce9fb2531f",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.0126",
+     "unit": "native"
+    }
+   ],
    "key": true
   },
   {
    "gene": "IL23A",
    "role": "treatment",
-   "statement": "Baseline IL23A is not associated with ustekinumab response (BH padj [gene=IL23A; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.977]); nothing survives correction in any arm, so the drug's target transcript does not stratify response.",
+   "statement": "Baseline IL23A is not associated with ustekinumab response (padj [gene=IL23A; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.977]); the drug's own target does not stratify response.",
    "evidence_ids": [
     "EV:treatment_response:97ffcb2862ee"
    ],
@@ -275,91 +297,9 @@
    "key": false
   },
   {
-   "gene": "CXCL8",
-   "role": "biomarker",
-   "statement": "CXCL8, third in the convergence ranking, is higher in ustekinumab non-responders (difference [gene=CXCL8; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.diff_nr_minus_r=1.115], BH padj [gene=CXCL8; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.000102]) but the UNIFI placebo difference is larger ([gene=CXCL8; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).diff_nr_minus_r=1.3]), indicating a severity marker.",
-   "evidence_ids": [
-    "EV:treatment_response:1e78b2f07f0c"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:treatment_response:1e78b2f07f0c",
-     "field": [
-      "arms",
-      "ustekinumab",
-      "diff_nr_minus_r"
-     ],
-     "display": "1.115",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:treatment_response:1e78b2f07f0c",
-     "field": [
-      "arms",
-      "ustekinumab",
-      "padj"
-     ],
-     "display": "0.000102",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:treatment_response:1e78b2f07f0c",
-     "field": [
-      "arms",
-      "placebo (UNIFI)",
-      "diff_nr_minus_r"
-     ],
-     "display": "1.3",
-     "unit": "native"
-    }
-   ],
-   "key": true
-  },
-  {
-   "gene": "CXCR2",
-   "role": "target",
-   "statement": "CXCR2, the top convergence gene with several clinical-stage antagonists, is associated with ustekinumab non-response (difference [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.diff_nr_minus_r=0.967], BH padj [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=9.69e-6]) but equally in UNIFI placebo (difference [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).diff_nr_minus_r=1.008]); the neutrophil axis tracks severity.",
-   "evidence_ids": [
-    "EV:treatment_response:1fce9fb2531f"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:treatment_response:1fce9fb2531f",
-     "field": [
-      "arms",
-      "ustekinumab",
-      "diff_nr_minus_r"
-     ],
-     "display": "0.967",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:treatment_response:1fce9fb2531f",
-     "field": [
-      "arms",
-      "ustekinumab",
-      "padj"
-     ],
-     "display": "9.69e-6",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:treatment_response:1fce9fb2531f",
-     "field": [
-      "arms",
-      "placebo (UNIFI)",
-      "diff_nr_minus_r"
-     ],
-     "display": "1.008",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
    "gene": "ITGB7",
    "role": "treatment",
-   "statement": "ITGB7 baseline expression is not associated with vedolizumab response (BH padj [gene=ITGB7; type=treatment_response; source=ANALYSIS:treatment; arms.vedolizumab.padj=0.995]) or with any other arm; no integrin-based stratification is supported.",
+   "statement": "Baseline ITGB7 is not associated with vedolizumab response (padj [gene=ITGB7; type=treatment_response; source=ANALYSIS:treatment; arms.vedolizumab.padj=0.995]); no target-expression stratifier emerges for gut-homing blockade.",
    "evidence_ids": [
     "EV:treatment_response:b746ae5f0669"
    ],
@@ -378,88 +318,20 @@
    "key": false
   },
   {
-   "gene": "IDO1",
-   "role": "biomarker",
-   "statement": "IDO1 does not survive correction in ustekinumab (padj [gene=IDO1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.14]) and is significant only in UNIFI placebo non-responders (difference [gene=IDO1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).diff_nr_minus_r=1.108], padj [gene=IDO1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0289]), so it is a severity signal rather than a drug-response marker.",
-   "evidence_ids": [
-    "EV:treatment_response:2b76723dce27"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:treatment_response:2b76723dce27",
-     "field": [
-      "arms",
-      "ustekinumab",
-      "padj"
-     ],
-     "display": "0.14",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:treatment_response:2b76723dce27",
-     "field": [
-      "arms",
-      "placebo (UNIFI)",
-      "diff_nr_minus_r"
-     ],
-     "display": "1.108",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:treatment_response:2b76723dce27",
-     "field": [
-      "arms",
-      "placebo (UNIFI)",
-      "padj"
-     ],
-     "display": "0.0289",
-     "unit": "native"
-    }
-   ],
-   "key": false
-  },
-  {
    "gene": "CHRDL2",
    "role": "discovery",
-   "statement": "CHRDL2 is the strongest first-in-class discovery candidate (meta log2FC [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; meta_log2fc=2.36], up in all eight cohorts), but only a fraction of the signal is retained after composition correction ([gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; retained=0.276]), flagged partly composition.",
+   "statement": "CHRDL2 is the top first-in-class candidate (antibody-tractable, no clinical drug); transcripts are mostly from inflammatory fibroblasts, only a minority of the signal is retained after composition correction (retained [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; retained=0.2764]) and vital-organ RNA reaches [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; vital_max_ntpm=42.6] nTPM, the highest of the group; functional and genetic evidence is missing.",
    "evidence_ids": [
-    "EV:discovery_profile:c77baf64a62b"
+    "EV:discovery_profile:c77baf64a62b",
+    "EV:sc_summary:c77baf64a62b"
    ],
    "numeric_claims": [
-    {
-     "evidence_id": "EV:discovery_profile:c77baf64a62b",
-     "field": [
-      "meta_log2fc"
-     ],
-     "display": "2.36",
-     "unit": "native"
-    },
     {
      "evidence_id": "EV:discovery_profile:c77baf64a62b",
      "field": [
       "retained"
      ],
-     "display": "0.276",
-     "unit": "native"
-    }
-   ],
-   "key": true
-  },
-  {
-   "gene": "CHRDL2",
-   "role": "discovery",
-   "statement": "CHRDL2 transcripts are stromal, mostly inflammatory fibroblasts (lineage share [gene=CHRDL2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.939]), replicated in a second dataset; its highest vital-organ RNA ([gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; vital_max_ntpm=42.6] nTPM) is the highest among the screened candidates examined, a safety question; no clinical drug exists and only antibody tractability is listed.",
-   "evidence_ids": [
-    "EV:sc_summary:c77baf64a62b",
-    "EV:discovery_profile:c77baf64a62b"
-   ],
-   "numeric_claims": [
-    {
-     "evidence_id": "EV:sc_summary:c77baf64a62b",
-     "field": [
-      "dominant_lineage_share"
-     ],
-     "display": "0.939",
+     "display": "0.2764",
      "unit": "native"
     },
     {
@@ -471,49 +343,63 @@
      "unit": "native"
     }
    ],
+   "key": true
+  },
+  {
+   "gene": "CPXM1",
+   "role": "discovery",
+   "statement": "CPXM1 is a stromal (fibroblast) candidate replicated in a second single-cell dataset, with retained share [gene=CPXM1; type=discovery_profile; source=ANALYSIS:discovery; retained=0.4136] after composition adjustment, i.e. partly a fibroblast-expansion signal; low vital-organ expression but no genetics or mechanism evidence.",
+   "evidence_ids": [
+    "EV:discovery_profile:79bd85b07bd0",
+    "EV:sc_summary:79bd85b07bd0"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:discovery_profile:79bd85b07bd0",
+     "field": [
+      "retained"
+     ],
+     "display": "0.4136",
+     "unit": "native"
+    }
+   ],
    "key": false
   },
   {
    "gene": "LAX1",
    "role": "discovery",
-   "statement": "LAX1 is a lymphocyte candidate with low vital-organ RNA ([gene=LAX1; type=discovery_profile; source=ANALYSIS:discovery; vital_max_ntpm=2.5] nTPM) but only a minority of its change is retained after composition correction ([gene=LAX1; type=discovery_profile; source=ANALYSIS:discovery; retained=0.230]), consistent with infiltrating immune cells rather than a tissue change.",
+   "statement": "LAX1 is made mainly by plasma and T cells and the lineage is not replicated in the second dataset; only a small share survives composition correction (retained [gene=LAX1; type=discovery_profile; source=ANALYSIS:discovery; retained=0.23]), so it likely reflects immune infiltration rather than a tissue change, despite very low vital-organ expression.",
    "evidence_ids": [
-    "EV:discovery_profile:f6931f7fe14d"
+    "EV:discovery_profile:f6931f7fe14d",
+    "EV:sc_summary:f6931f7fe14d"
    ],
    "numeric_claims": [
     {
      "evidence_id": "EV:discovery_profile:f6931f7fe14d",
      "field": [
-      "vital_max_ntpm"
-     ],
-     "display": "2.5",
-     "unit": "native"
-    },
-    {
-     "evidence_id": "EV:discovery_profile:f6931f7fe14d",
-     "field": [
       "retained"
      ],
-     "display": "0.230",
+     "display": "0.23",
      "unit": "native"
     }
    ],
    "key": true
   },
   {
-   "gene": "LAX1",
+   "gene": "XKR9",
    "role": "discovery",
-   "statement": "LAX1 transcripts are assigned to the T/NK lineage in the first single-cell dataset (lineage share [gene=LAX1; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.454]), although the single largest cluster is plasma cells; the second dataset assigns plasma lineage, so the lineage call did not replicate, and no clinical drug or selective dependency is shown.",
+   "statement": "XKR9 is the only top novel candidate classed as intrinsic (epithelial; retained [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; retained=0.7976]), but it is up in only a subset of cohorts and only a small fraction of cells express it, so replication is weaker.",
    "evidence_ids": [
-    "EV:sc_summary:f6931f7fe14d"
+    "EV:discovery_profile:6eb069569835",
+    "EV:sc_summary:6eb069569835"
    ],
    "numeric_claims": [
     {
-     "evidence_id": "EV:sc_summary:f6931f7fe14d",
+     "evidence_id": "EV:discovery_profile:6eb069569835",
      "field": [
-      "dominant_lineage_share"
+      "retained"
      ],
-     "display": "0.454",
+     "display": "0.7976",
      "unit": "native"
     }
    ],
@@ -521,9 +407,9 @@
   }
  ],
  "caveats": [
-  "Response labels come from small cohorts for golimumab, infliximab and vedolizumab; most arms do not survive BH correction, so absence of signal is not evidence of no effect.",
-  "Drug-vs-placebo interactions were not significant for any gene examined.",
-  "All first-in-class candidates are partly composition-driven, so immune/stromal infiltration may explain the upregulation.",
-  "Associations only, not predictions; the discovery candidates were not tested for response, and only CHRDL2 and LAX1 were profiled in depth."
+  "Response cohorts are small outside UNIFI; null results in golimumab, infliximab, vedolizumab and ACT1 reflect low power.",
+  "All associations are baseline and observational; the placebo comparison separates severity from drug mechanism only partly, and PURSUIT placebo is tiny.",
+  "Adalimumab single-cell cohort has few patients (leads, not predictors); OSM shows no significant cell-state difference there.",
+  "Most novel candidates are partly composition-driven and lack genetic or functional evidence."
  ]
 }

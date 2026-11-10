@@ -39,6 +39,10 @@ GWAS = RAW / "gwas" / "GCST004133_uc_delange2017.h.tsv.gz"
 # replication outcome (added 2026-11-10, third round): FinnGen R12 UC (strict definition), GRCh38, beta for ALT,
 # no sample overlap with the de Lange 2017 meta-analysis
 FINNGEN = RAW / "gwas" / "finngen_R12_K11_UC_STRICT2.gz"
+# largest UC GWAS (added 2026-11-10, fourth round): Liu et al. 2023, East Asian + European meta-analysis (23,252
+# cases). Its European part includes the IIBDGC samples of de Lange 2017 and FinnGen, so it is reported as a separate
+# outcome and not combined with the other two.
+LIU2023 = RAW / "gwas" / "GCST90446794_uc_liu2023.h.tsv.gz"
 EXTRACT = RAW / "extra" / "ot_pqtl_credible_sets.parquet"
 PROJECT = "UKB_PPP_EUR"
 P_INSTRUMENT = 5e-8
@@ -174,6 +178,39 @@ def outcome_finngen(keys: set[str]) -> pd.DataFrame:
     for c in ("beta", "se", "p"):
         g[c] = pd.to_numeric(g[c], errors="coerce")
     return g.dropna(subset=["beta", "se"])
+
+
+def outcome_ssf(path, keys: set[str]) -> pd.DataFrame:
+    """GWAS-SSF harmonised file (GWAS Catalog): rows for the instrument positions, same columns as outcome()."""
+    want = {tuple(k.split("_")[:2]) for k in keys}
+    rows = []
+    with gzip.open(path, "rt") as f:
+        header = f.readline().rstrip("\n").split("\t")
+        ix = {h: i for i, h in enumerate(header)}
+        for line in f:
+            x = line.rstrip("\n").split("\t")
+            if (x[ix["chromosome"]], x[ix["base_pair_location"]]) in want:
+                rows.append({"chrom": x[ix["chromosome"]], "pos": x[ix["base_pair_location"]],
+                             "effect": x[ix["effect_allele"]], "other": x[ix["other_allele"]], "beta": x[ix["beta"]],
+                             "se": x[ix["standard_error"]], "p": x[ix["p_value"]], "rsid": x[ix.get("rsid", 0)]})
+    g = pd.DataFrame(rows)
+    for c in ("beta", "se", "p"):
+        g[c] = pd.to_numeric(g[c], errors="coerce")
+    return g.dropna(subset=["beta", "se"])
+
+
+def attach_liu2023(r: pd.DataFrame, cs: pd.DataFrame) -> pd.DataFrame:
+    """Repeat each selected estimate with Liu 2023 as outcome (replication column only; overlapping samples)."""
+    if not LIU2023.exists():
+        return r
+    e = per_study(harmonise(cs, outcome_ssf(LIU2023, _variant_keys(cs)))).rename(
+        columns={"beta": "beta_liu2023", "se": "se_liu2023", "p": "p_liu2023", "n_instruments": "n_instruments_liu2023"})
+    r = r.drop(columns=[c for c in e.columns if c not in ("gene", "studyId") and c in r], errors="ignore")
+    r = r.merge(e, on=["gene", "studyId"], how="left")
+    has = r["beta_liu2023"].notna()
+    r["replicates_liu2023"] = pd.Series(np.where(has, (np.sign(r["beta_liu2023"]) == np.sign(r["beta"]))
+                                                 & (r["p_liu2023"] < 0.05), None), index=r.index, dtype=object)
+    return r
 
 
 def per_study(h: pd.DataFrame) -> pd.DataFrame:
@@ -348,6 +385,7 @@ def run(q_coloc: float = 0.05) -> dict:
     coloc_yes = (r["coloc_h4"].astype(float).fillna(0) >= 0.8) | (r["coloc_clpp"].astype(float).fillna(0) >= 0.01)
     r["colocalises"] = pd.Series(np.where(r["q"] < q_coloc, coloc_yes, None), index=r.index, dtype=object)
     r = attach_finngen(r, cs)
+    r = attach_liu2023(r, cs)
     r.to_parquet(PROCESSED / "mr_pqtl.parquet", index=False)
     h.to_parquet(PROCESSED / "mr_instruments.parquet", index=False)
     return {"proteins_tested": len(r), "instruments": len(h), "significant_q05": int((r["q"] < 0.05).sum()),
@@ -384,6 +422,9 @@ def load(store=None) -> int:
                             "replicates_in_finngen": bool(x.replicates_finngen),
                             "combined_odds_ratio_per_sd": round(float(np.exp(x.beta_combined)), 3),
                             "combined_q": float(f"{x.q_combined:.3g}")})
+            if hasattr(x, "beta_liu2023") and pd.notna(x.beta_liu2023):
+                rec.update({"liu2023_odds_ratio_per_sd": round(float(np.exp(x.beta_liu2023)), 3),
+                            "liu2023_p": float(f"{x.p_liu2023:.3g}"), "replicates_in_liu2023": bool(x.replicates_liu2023)})
             ev = store.add_evidence(evidence_id("mendelian_randomization", x.gene), "mendelian_randomization",
                                     "DATASET:MR_UKBPPP_UC", date.today().isoformat(), **rec)
             store.add_claim(node["id"], "causal_estimate_for", "DATASET:MR_UKBPPP_UC", ev)

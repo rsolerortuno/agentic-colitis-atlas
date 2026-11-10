@@ -210,3 +210,30 @@ pockets 24 %: the detector finds real sites better than the score ranks them fir
   etrolizumab 0; no drug x placebo interaction passes correction (ustekinumab, golimumab, infliximab).
 - Weight stability: biologics 7/10 top-10 stable (rho 0.97), immune 9/10 (0.99), pockets 8/10 (0.99), novelty 1/10
   (0.91).
+
+## (p) Closing checks (added 2026-11-10, fourth round)
+
+- Covariates: rho 0.989 between adjusted and unadjusted MSCCR changes; 1,086/1,086 clear changes hold.
+- MR: Liu 2023 replicates 58/64 plasma and 276/296 gut estimates. Plasma sensitivity: 48 with >= 3 instruments,
+  Egger intercept p >= 0.05 in 43, weighted median agrees in 45, heterogeneous in 23 of 64; Steiger correct 64/64,
+  135/135 colon, 161/161 gut cell.
+- Safety: strongly constrained candidates INHBA and GJC1; clinical targets constrained 5/59 (JAK1, S1PR1, NR3C1,
+  PTGS2, NCBP1). PheWAS: IL12B psoriasis and mouth ulcers; ITGA4 white cell counts; SLC26A3 triglycerides.
+- Negative control: expression-matched AUROC convergence 0.856, target profile 0.815, biomarker 0.764 (random sets
+  95th percentile 0.56-0.57); literature-matched 0.729, 0.702, 0.711.
+- PROTECT: corticosteroids 1,263 genes at q < 0.05 (78 NR / 75 R), 5-ASA 0 (23 / 30); calprotectin (145 children):
+  AQP8 rho -0.29 and HMGCS2 -0.26 significant, candidates up in UC ~0.2 and not significant.
+- Anti-TNF atlas: 6 remission / 14 non-remission UC patients; DUOX2 and LCN2 lower in non-remitter colonocytes before
+  adalimumab and higher after treatment.
+- Mouse literature: 29 of 69 genes tested in mouse colitis; 0 of the 36 first-in-class genes.
+
+## (q) Final agent benchmark (2026-11-10, closing data)
+
+| Set-up | Run | Statements | Unsupported | Checklist | Evidence cited | Cost | Minutes |
+|---|---|---|---|---|---|---|---|
+| Team | published | 119 | 0 | 10/12 | 90 % | $4.61 | 7.5 |
+| Team | rep1 | 116 | 0 | 11/12 | 96 % | $4.76 | 7.4 |
+| Team | rep2 | 124 | 0 | 10/12 | 98 % | $4.99 | 8.0 |
+| One agent | single | 141 | 0 | 10/12 | 82 % | $7.52 | 19.3 |
+
+Target-list overlap: team runs 0.87-1.0; single agent vs team 0.56 (it leads with IL12B, TNF and ITGB7).

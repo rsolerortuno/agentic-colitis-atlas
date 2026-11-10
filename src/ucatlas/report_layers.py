@@ -467,10 +467,49 @@ def score_sensitivity() -> dict:
     return out
 
 
+# ------------------------------------------------------------------ negative control of the rankings
+def negative_control() -> dict:
+    """Does a ranking only reward genes that are highly expressed or much studied?
+    (1) Spearman correlation of each score with the mean expression of the gene in MSCCR and with the Open Targets
+    literature score; (2) matched AUROC for UC clinical targets: each target is compared only with non-target genes in
+    the same decile of mean expression (and, separately, of the literature score), so expression level or fame cannot
+    explain the result; (3) the same matched AUROC for 1,000 random gene sets of the same size (empirical null)."""
+    from .evaluate import clinical_targets
+    t = pd.read_parquet(PROCESSED / "convergence_table.parquet")
+    x = pd.read_parquet(PROCESSED / "expr_GSE193677.parquet")
+    t["mean_expr"] = t.gene.map(x.mean(axis=1))
+    t = t.dropna(subset=["mean_expr"]).reset_index(drop=True)
+    gold = set(clinical_targets()["gene"]) & set(t.gene)
+    t["expr_decile"] = pd.qcut(t.mean_expr.rank(method="first"), 10, labels=False)
+    t["lit_decile"] = pd.qcut(t.ot_literature.fillna(0).rank(method="first"), 10, labels=False)
+    scores = {"convergence": "score", "target profile": "score_target", "biomarker profile": "score_biomarker"}
+    rng = np.random.default_rng(3)
+
+    def matched_auc(score, strata, positives):
+        vals = []
+        for g in positives:
+            r = t.loc[t.gene == g].iloc[0]
+            pool = t[(t[strata] == r[strata]) & ~t.gene.isin(positives)][score].to_numpy()
+            if len(pool):
+                vals.append(float((pool < r[score]).mean() + 0.5 * (pool == r[score]).mean()))
+        return float(np.mean(vals)) if vals else None
+
+    out = {"gold": len(gold)}
+    for name, col in scores.items():
+        null = [matched_auc(col, "expr_decile", set(rng.choice(t.gene, len(gold), replace=False))) for _ in range(200)]
+        out[name] = {"rho_mean_expression": round(float(stats.spearmanr(t[col], t.mean_expr).statistic), 3),
+                     "rho_literature_score": round(float(stats.spearmanr(t[col], t.ot_literature.fillna(0)).statistic), 3),
+                     "auroc_expression_matched": round(matched_auc(col, "expr_decile", gold), 3),
+                     "auroc_literature_matched": round(matched_auc(col, "lit_decile", gold), 3),
+                     "null_expression_matched_p95": round(float(np.percentile(null, 95)), 3)}
+    return out
+
+
 def run(genes: list[str] | None = None) -> dict:
     out = {"sensitivity": sensitivity(), "subgroups": subgroups(), "biologics": biologics(), "immune": immune(),
            "novelty": novelty()}
     out["score_sensitivity"] = score_sensitivity()
+    out["negative_control"] = negative_control()
     (PROCESSED / "report_layers.json").write_text(json.dumps(out, indent=1, default=_json_default), encoding="utf-8")
     return out
 

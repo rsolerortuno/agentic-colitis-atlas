@@ -106,5 +106,14 @@ def protein_level(gene: str) -> dict:
     return _rec("proteomics_de", g) or {"gene": g, "message": "protein not quantified in the proteomics study"}
 
 
+@mcp.tool()
+def adjusted_change(gene: str) -> dict:
+    """MSCCR inflamed vs control change re-estimated on biopsies with colon segment, age and sex as covariates
+    (standard errors clustered by patient): adjusted log2FC and padj, the unadjusted log2FC, and whether the change
+    holds (same sign, at least half the size, padj < 0.05). Cite the evidence_id."""
+    g = canonical_gene(gene)
+    return _rec("expression_adjusted", g) or {"gene": g, "message": "no adjusted estimate (not significant in the meta-analysis)"}
+
+
 if __name__ == "__main__":
     mcp.run()

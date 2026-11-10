@@ -61,3 +61,18 @@ with EFO_0000729 returns no disease, checked 2026-11-09.
 - `data/raw/spatial/GSE189184/` (added 2026-11-10): 10x Visium, 7 inflamed UC and 2 healthy colon sections; only the
   filtered spot x gene matrix, the spot positions and the scale factors are read out of each sample zip with HTTP range
   requests (`uv run python -c "from ucatlas.spatial_download import run_extra; run_extra()"`).
+
+## Added on 2026-11-10 (third and fourth rounds)
+
+| Data | Source | What is used | Note |
+|---|---|---|---|
+| ACT1 infliximab and placebo (GSE23597, Toedter 2011) | GEO series matrix, GPL570 | baseline biopsies, clinical response at week 8 (infliximab 25 R / 7 NR, placebo 5 R / 8 NR) | GSE12251 (Arijs 2009) was checked and dropped: its 22 patients are in GSE23597 |
+| EUCALYPTUS etrolizumab (GSE72819) | NCBI-generated raw counts | 70 baseline biopsies with remission at week 10 (12 R / 58 NR) | treatment-response cohort only (no controls) |
+| PROTECT outcomes (GSE109142) | series matrix | initial treatment (corticosteroids or 5-ASA), remission at week 4, baseline faecal calprotectin (145 children) | |
+| Mucosal proteomics (Schniers et al. 2019) | Clin Proteomics 16:4, additional file 2 | UC/healthy ratios and p of 8,562 protein groups | patients independent of every RNA cohort |
+| FinnGen R12 UC (strict) | FinnGen public summary statistics | second, independent MR outcome | 7,220 cases |
+| Liu et al. 2023 UC (GCST90446794) | GWAS Catalog harmonised | third MR outcome, largest (23,252 cases, European + East Asian) | includes de Lange 2017 and FinnGen samples: reported, not combined |
+| CosMx (GSE312415) | GEO tar archive (6.5 GB, streamed) | expression matrices and cell metadata of 5 slides; 2 used (both biopsies inflamed UC) | the other slides mix biopsy states without a cell-to-biopsy key |
+| Anti-TNF single-cell atlas (GSE282122, Thomas 2024) | authors' supplementary tables (Europe PMC) | per-cell-state remission and longitudinal models for 20 UC patients | GEO matrices carry no cell annotation |
+| Mouse models | MGI phenotype reports; Europe PMC search | colitis phenotypes of single-gene models; mouse colitis papers per candidate | |
+| Constraint and safety | gnomAD v4.1 constraint; Open Targets safety liabilities (API, cached) | LOEUF, curated safety events | |

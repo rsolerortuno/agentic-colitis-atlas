@@ -79,6 +79,16 @@ SOURCES: list[tuple[str, str]] = [
     ("https://www.informatics.jax.org/downloads/reports/MGI_PhenoGenoMP.rpt", "extra/mgi_phenogenomp.rpt"),
     ("https://www.informatics.jax.org/downloads/reports/VOC_MammalianPhenotype.rpt", "extra/mgi_voc_mp.rpt"),
     ("https://www.informatics.jax.org/downloads/reports/HMD_HumanPhenotype.rpt", "extra/mgi_hmd_human.rpt"),
+    # --- added 2026-11-10 (fourth round) ---
+    # largest UC GWAS: Liu et al. 2023 (Nat Genet), East Asian + European meta-analysis, GWAS Catalog harmonised
+    ("https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90446001-GCST90447000/GCST90446794/harmonised/"
+     "GCST90446794.h.tsv.gz", "gwas/GCST90446794_uc_liu2023.h.tsv.gz"),
+    # gene constraint for the safety layer (gnomAD v4.1)
+    ("https://storage.googleapis.com/gcp-public-data--gnomad/release/4.1/constraint/gnomad.v4.1.constraint_metrics.tsv",
+     "extra/gnomad_v4.1_constraint.tsv"),
+    # anti-TNF longitudinal single-cell atlas (Thomas et al. 2024, GSE282122): the authors' cell-state results
+    # (supplementary tables; Europe PMC package of PMC11519010)
+    ("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11519010/supplementaryFiles", "extra/thomas2024_supplement.zip"),
 ]
 
 

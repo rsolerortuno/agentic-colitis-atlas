@@ -1,0 +1,286 @@
+{
+ "agent": "agente-expresion",
+ "findings": [
+  {
+   "gene": "CXCR2",
+   "role": "target_and_biomarker",
+   "key": true,
+   "statement": "CXCR2 tops the convergence ranking: up in all eight cohorts (pooled log2FC [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.814]) and higher in inflamed than non-inflamed mucosa of the same patient (paired log2FC [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.6972]); the change holds after adjustment for segment, age and sex. Caveat: CXCR2 is a neutrophil receptor, so the bulk rise most likely reflects neutrophil infiltration rather than a change inside the epithelium, although it is tractable (several dual CXCR1 and CXCR2 antagonists reached phase 2 or phase 3).",
+   "evidence_ids": [
+    "EV:expression_meta:1fce9fb2531f",
+    "EV:omics_de:8110a38ac4fd",
+    "EV:expression_adjusted:1fce9fb2531f"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1fce9fb2531f",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.814",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:8110a38ac4fd",
+     "field": [
+      "log2fc"
+     ],
+     "display": "1.6972",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CXCR1",
+   "role": "target_and_biomarker",
+   "statement": "CXCR1, the partner receptor of CXCR2, is up in most cohorts and shows a strong local inflamed-vs-non-inflamed paired change (log2FC [gene=CXCR1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=2.193]). It is a neutrophil-derived signal and shares the drug class with CXCR2.",
+   "evidence_ids": [
+    "EV:expression_meta:450a602fd6f8",
+    "EV:omics_de:74eeadd28f95"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:omics_de:74eeadd28f95",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.193",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CXCL8",
+   "role": "target_and_biomarker",
+   "key": true,
+   "statement": "CXCL8, the main ligand of CXCR1 and CXCR2, is up in all eight cohorts (pooled log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.864]) and the change holds after adjustment in the MSCCR cohort (adjusted log2FC [gene=CXCL8; type=expression_adjusted; source=DATASET:GSE193677; cohort=GSE193677; contrast=inflamed UC vs control, biopsy level; adjusted_log2fc=2.499]). It has no genetic support, and the signal is mixed epithelial and myeloid, so it is an inflammation marker more than a causal target.",
+   "evidence_ids": [
+    "EV:expression_meta:1e78b2f07f0c",
+    "EV:expression_adjusted:1e78b2f07f0c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1e78b2f07f0c",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.864",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:expression_adjusted:1e78b2f07f0c",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "2.499",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "IDO1",
+   "role": "target_and_biomarker",
+   "statement": "IDO1 is up in all eight cohorts (pooled log2FC [gene=IDO1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.118]), holds after adjustment, and is also seen as protein in an independent proteomics study (log2 ratio [gene=IDO1; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=0.917]). The tryptophan/IFN-gamma axis is therefore reproduced at RNA and protein level; the protein change is much smaller than the RNA change.",
+   "evidence_ids": [
+    "EV:expression_meta:2b76723dce27",
+    "EV:proteomics_de:2b76723dce27",
+    "EV:expression_adjusted:2b76723dce27"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:2b76723dce27",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.118",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:proteomics_de:2b76723dce27",
+     "field": [
+      "log2_ratio"
+     ],
+     "display": "0.917",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "biomarker",
+   "statement": "CHI3L1 is one of the largest and most consistent increases (up in all eight cohorts, significant in each) with a strong local component (paired inflamed vs non-inflamed log2FC [gene=CHI3L1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=2.6182]). At protein level the rise is far smaller (log2 ratio [gene=CHI3L1; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=0.607]) and the authors did not call it significant, so protein support is weaker than the RNA.",
+   "evidence_ids": [
+    "EV:expression_meta:b3f7b3e784f8",
+    "EV:omics_de:f4b3cf2b6b53",
+    "EV:proteomics_de:b3f7b3e784f8",
+    "EV:expression_adjusted:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:omics_de:f4b3cf2b6b53",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.6182",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:proteomics_de:b3f7b3e784f8",
+     "field": [
+      "log2_ratio"
+     ],
+     "display": "0.607",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "HMGCS2",
+   "role": "biomarker",
+   "key": true,
+   "statement": "HMGCS2 (epithelial ketogenesis) is lost in all eight cohorts and the loss is local to inflamed mucosa: it is absent in non-inflamed mucosa versus control (padj [gene=HMGCS2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; padj=0.675]) but strong in the paired inflamed-vs-non-inflamed comparison (log2FC [gene=HMGCS2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=-1.9508]). Proteomics confirms it (log2 ratio [gene=HMGCS2; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=-3.094]), and it holds after adjustment. This is a metabolic inflammation-activity biomarker, not a target.",
+   "evidence_ids": [
+    "EV:expression_meta:f0b27322cee4",
+    "EV:omics_de:d965802705ac",
+    "EV:omics_de:f9c203f63dc8",
+    "EV:proteomics_de:f0b27322cee4",
+    "EV:expression_adjusted:f0b27322cee4"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:omics_de:d965802705ac",
+     "field": [
+      "padj"
+     ],
+     "display": "0.675",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:f9c203f63dc8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "-1.9508",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:proteomics_de:f0b27322cee4",
+     "field": [
+      "log2_ratio"
+     ],
+     "display": "-3.094",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "DUOX2",
+   "role": "biomarker",
+   "statement": "DUOX2 is among the strongest epithelial increases (pooled log2FC [gene=DUOX2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.412], up in all eight cohorts), holds after adjustment, and is seen as protein (log2 ratio [gene=DUOX2; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=1.468]). It is mainly an epithelial host-defence/redox signal, so it is less affected by immune-cell infiltration than the neutrophil genes.",
+   "evidence_ids": [
+    "EV:expression_meta:69eb34ed119c",
+    "EV:proteomics_de:69eb34ed119c",
+    "EV:expression_adjusted:69eb34ed119c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:69eb34ed119c",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.412",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:proteomics_de:69eb34ed119c",
+     "field": [
+      "log2_ratio"
+     ],
+     "display": "1.468",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "JAK2",
+   "role": "mechanism",
+   "key": true,
+   "statement": "JAK2 has strong genetic support and a drug history but only a modest and reproducible RNA rise (pooled log2FC [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.874], up in all eight cohorts; paired local change [gene=JAK2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=0.4031]). Its rank rests on genetics and tractability, not on a large expression change, and the signalling effect is post-transcriptional.",
+   "evidence_ids": [
+    "EV:expression_meta:c36b80d82ff8",
+    "EV:omics_de:0518dc5ca060"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:c36b80d82ff8",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.874",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:omics_de:0518dc5ca060",
+     "field": [
+      "log2fc"
+     ],
+     "display": "0.4031",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "S100A8",
+   "role": "biomarker",
+   "statement": "S100A8 (calprotectin subunit) is up in all eight cohorts and replicates at protein level (log2 ratio [gene=S100A8; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=2.749]). It is neutrophil/myeloid-derived, consistent with the established stool calprotectin marker, so it reports infiltrating-cell burden rather than an intrinsic tissue change.",
+   "evidence_ids": [
+    "EV:expression_meta:6ff831ae12f7",
+    "EV:proteomics_de:6ff831ae12f7"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:proteomics_de:6ff831ae12f7",
+     "field": [
+      "log2_ratio"
+     ],
+     "display": "2.749",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "MMP3",
+   "role": "biomarker",
+   "statement": "MMP3 shows one of the largest pooled increases (log2FC [gene=MMP3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.901], up in all eight cohorts) with a strong local paired change; stromal/fibroblast tissue-remodelling signal, with broad MMP inhibitors having poor clinical tolerability history.",
+   "evidence_ids": [
+    "EV:expression_meta:de1e9e07b063",
+    "EV:omics_de:286b35705246"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:de1e9e07b063",
+     "field": [
+      "log2fc"
+     ],
+     "display": "4.901",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CD274",
+   "role": "mechanism",
+   "statement": "CD274 (PD-L1) is up in all eight cohorts and is supported by genetics and literature, so it is an IFN-gamma-response feature of inflamed mucosa. Immune-cell and epithelial contributions are mixed in bulk data; checkpoint agonism, not inhibition, would be the therapeutic direction.",
+   "evidence_ids": [
+    "EV:expression_meta:822a01cbf7e8"
+   ],
+   "numeric_claims": []
+  }
+ ],
+ "caveats": [
+  "Bulk RNA cannot separate infiltrating neutrophils and immune cells from tissue-intrinsic change; CXCR1/2, CXCL8, S100A8/9, TREM1 and IL1B are likely neutrophil/myeloid-driven.",
+  "Heterogeneity between cohorts is high (I2 above 0.9 for most top genes); microarray fold changes are compressed so only direction and significance are comparable across cohorts.",
+  "Protein replication comes from one small proteomics study and many genes are not measured there; CHI3L1 did not reach the authors' significance call.",
+  "Adjusted and paired analyses come only from the MSCCR cohort; paediatric cohorts are at diagnosis and may be more severe."
+ ]
+}

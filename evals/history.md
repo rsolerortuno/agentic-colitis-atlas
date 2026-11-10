@@ -134,3 +134,34 @@ Designs fixed before running; none changes the convergence score or the profiles
   orchestrator changed CD274 from target to biomarker (genetically higher PD-L1 protects) and cites the protein-level
   replication of HMGCS2. The clean rebuild before it flagged 30 sentences of the previous run as stale (the treatment
   records gained the ACT1 and EUCALYPTUS arms), as designed.
+
+## 2026-11-10, fourth round: closing checks
+Designs fixed before running. Nothing below changes the convergence score or the profiles.
+- **Covariates** (expression_adjusted.py): biopsy-level OLS with colon segment, age (per 10 years) and sex, patient-
+  clustered SE; a change holds with the same sign, >= half the size and padj < 0.05.
+- **MR sensitivity** (mr_sensitivity.py): Cochran Q, MR-Egger and weighted median (>= 3 instruments), Steiger with
+  r2 approximated from z and N. A first run reported wrong counts because Cochran's Q overwrote the q-value column in
+  the record; fixed before any result was used.
+- **Liu 2023** (GCST90446794) as third MR outcome, reported apart because its samples overlap the other two.
+- **Safety** (safety.py): gnomAD v4.1 LOEUF < 0.35; Open Targets safety liabilities; PheWAS from the cached
+  colocalisation answers (H4 >= 0.8). The first PheWAS listed protein-level GWAS; molecular traits are now excluded.
+- **PROTECT** outcomes: initial treatment and week-4 remission as two new arms; faecal calprotectin correlation.
+- **Negative control** (report_layers.negative_control): expression- and literature-matched AUROC, 200 random sets.
+- **Mouse literature** (mouse_models.literature_check): Europe PMC, title and abstract only (a first version searched
+  full text and inflated counts, e.g. 11 papers for CHRDL2; replaced before use).
+- **Anti-TNF atlas** (antitnf_atlas.py, GSE282122): the authors' per-cell-state tables, because GEO matrices carry no
+  annotation; gene names mangled into dates by Excel in the published table are dropped.
+
+## 2026-11-10, final benchmark (one agent vs the team) on the closing data
+- Runs: 2026-11-10 (published), 2026-11-10_rep1, 2026-11-10_rep2 (team) and 2026-11-10_single. Same 12-fact
+  checklist as the first benchmark (fixed on 2026-11-09). Two runs first stopped at the usage limit (API error, no
+  tokens) and were redone. The single agent wrote a helper script into its run folder (to turn placeholders into
+  numeric annotations); it is not an output and was removed.
+- Team: 119 / 116 / 124 statements, 0 unsupported, checklist 10 / 11 / 10, cost $4.61 / $4.76 / $4.99, 7.5 / 7.4 /
+  8.0 minutes. One agent: 141 statements, 0 unsupported, checklist 10, $7.52, 19.3 minutes, 197 turns. Target lists:
+  team 0.87-1.0 overlap, single vs team 0.56. Conclusion unchanged from the 2026-11-09 benchmark (team: same quality,
+  cheaper, faster), with the team now citing more of its evidence than the single agent (90-98 % vs 82 %).
+
+- **Published run (final)**: runs/2026-11-10 redone on the closing graph: 119 statements, 0 unsupported, 0 stale,
+  24 of 24 key findings cited, $4.61, 7.5 minutes. Targets: CXCR2, IL12B, JAK2, IDO1, CXCR1, MMP1 (targets or both);
+  DUOX2, CHI3L1, CXCL8, HMGCS2, CD274, S100A8 (biomarkers); CHRDL2 and XKR9 (exploratory).

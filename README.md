@@ -38,6 +38,10 @@ raise its level in blood or in the colon wall get the disease more often, whethe
 molecule could use, how it relates to response to four biologics, and what the literature and drug databases already
 say. A gene is a good candidate when several unrelated lines of evidence agree.
 
+The ranking is then checked against evidence it never used: protein measured in other patients' mucosa, two more
+GWAS, mouse knockouts, a second single-cell imaging platform, an anti-TNF single-cell atlas, more treatment trials,
+target safety, a covariate-adjusted model and a negative control.
+
 All statistics are computed by code. AI agents (Claude) only choose what to look at and write short explanations, and a
 separate checker verifies every sentence against the stored evidence. The output is a ranked list and a self-contained
 interactive report.
@@ -212,8 +216,8 @@ estimated transcripts in UC spots against 0.9 % in healthy colon.
 In an independent proteomics study, 75 % of the clear RNA changes (281 of 373 tested) change again as protein in the
 same direction, among them DUOX2, CHI3L1, IDO1, LCN2, S100A8 and the lost AQP8, HMGCS2 and SLC26A2. In mice, 24 % of
 UC clinical targets have a colitis phenotype against 1.2 % of all genes, and 15 % of the convergence top 100: the
-ranking is enriched about tenfold without using mouse data. Most leading candidates have never been tested in a mouse
-colitis model.
+ranking is enriched about tenfold without using mouse data. In the literature, every leading candidate has been
+perturbed in mouse colitis (for example CXCR2, IDO1, DUOX2, CHI3L1), but none of the 36 first-in-class genes has.
 
 **Cell-to-cell circuits.**
 Neutrophils send OSM to OSMR on inflammatory fibroblasts, the neutrophil-stromal circuit described by Gubatan et al.
@@ -226,13 +230,16 @@ treatment in non-responders to infliximab, ustekinumab and vedolizumab and also 
 separates a drug from placebo after correction. The published infliximab non-response genes (IL11, IL13RA2, PTGS2,
 STC1, TNFRSF11B) are all higher in non-responders, as reported; in ACT1 they are higher in infliximab non-responders
 and not in the 13 placebo patients, a lead for a drug-specific signal that the interaction test cannot confirm.
-Etrolizumab remission (EUCALYPTUS, 12 of 70) is not predicted by any single gene.
+Etrolizumab remission (EUCALYPTUS, 12 of 70) is not predicted by any single gene. In the anti-TNF single-cell atlas
+(6 remitters, 14 non-remitters on adalimumab), DUOX2 and LCN2 are lower in the colonocytes of non-remitters before
+treatment: the response signal sits in the epithelium. In children starting corticosteroids (PROTECT), 1,263 genes
+differ by week-4 remission, again mostly severity; faecal calprotectin follows the biopsy only weakly.
 
 ## 6. How the results were checked
 
 | Check | Result |
 |---|---|
-| Agent text against its evidence | 125 statements checked, no failures detected by the automatic checks; 31 of 31 key findings of the specialists reach the report |
+| Agent text against its evidence | 119 statements checked, no failures detected by the automatic checks; 24 of 24 key findings of the specialists reach the report |
 | Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (76/76), other-gene attributions (81/81) and swapped evidence (81/81); 72 % of flipped directions where the sentence cites expression evidence (23/32), 32 % of all flipped directions (literature, cell and treatment sentences are not direction-checked) |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.83, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.81; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100, none for predicted tractability alone. Retrospective: the data are not frozen at 2016 |
@@ -242,6 +249,11 @@ Etrolizumab remission (EUCALYPTUS, 12 of 70) is not predicted by any single gene
 | Visium deconvolution, held-out genes (never markers) | S100A8, LCN2, DUOX2, MMP3 and CHI3L1 follow the share of their single-cell cell group (Spearman 0.18–0.61); low-count genes such as CXCR2 follow weakly (0.07) |
 | Gut eQTL Mendelian randomisation | Known IBD risk genes (IRF5, GSDMB, RGS14, NXPE1) come out significant and colocalise (automated test for IRF5) |
 | MR replication in FinnGen R12 | 34 of 64 significant plasma proteins and 168 of 296 significant gut estimates replicate (same sign, p < 0.05) |
+| MR replication in Liu 2023 (largest UC GWAS, overlapping samples) | 58 of 64 plasma proteins and 276 of 296 gut estimates replicate |
+| MR sensitivity | Plasma, 48 proteins with >= 3 instruments: no directional pleiotropy in 43 (MR-Egger), weighted median agrees in 45; Steiger direction correct for every significant estimate in all layers |
+| Covariate adjustment (MSCCR: colon segment, age, sex) | Adjusted and unadjusted changes correlate at rho 0.99; all 1,086 clear changes hold |
+| Negative control | Clinical targets compared only with genes of similar expression: convergence AUROC 0.86, target profile 0.82, random sets <= 0.57; matched on literature 0.73 and 0.70 |
+| Target safety | 2 candidates strongly constrained (INHBA, GJC1; 5 of 59 clinical targets); PheWAS recovers psoriasis for IL12B and blood counts for ITGA4 |
 | Protein-level replication (Schniers 2019) | 75 % of clear RNA changes replicate as protein (281 of 373); RNA-protein rho 0.61 over 6,112 genes |
 | Mouse colitis models (MGI) | 24 % of UC clinical targets and 15 % of the convergence top 100 have a colitis phenotype, against 1.2 % of all genes |
 | CosMx single cells | 22 of 108 candidate genes on the 6K panel above background (epithelial, myeloid, plasma genes); the neutrophil and stromal candidates are not resolved |
@@ -250,11 +262,11 @@ Etrolizumab remission (EUCALYPTUS, 12 of 70) is not predicted by any single gene
 | Biomarker profile against UC clinical targets | AUROC 0.79 (biomarkers are not meant to be drug targets; reported for completeness) |
 | Known-answer questions answered with the project's tools | 10 of 10 |
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
-| Repeat agent runs (2026-11-09 data) | Three team runs: 116–120 statements, 0 unsupported; target-list overlap (Jaccard) 0.65–0.87, CXCR2 first in all |
-| Single agent against multi-agent (2026-11-09 data) | Same quality (0 unsupported, 10 of 12 checklist facts in every run); the team was about 27 % cheaper ($4.38 vs $6.07) and 2.4 times faster |
-| Report validator | 479 claims, 1,067 evidence records, 1,151 citation links, all resolvable, no external resources |
-| Knowledge graph | 547,860 claims, 0 without a resolvable evidence record |
-| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (230 files, SHA-256) re-creates every table and the report |
+| Repeat agent runs (final data) | Three team runs: 116–124 statements, 0 unsupported; target-list overlap (Jaccard) 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each |
+| Single agent against multi-agent (final data) | Same quality (0 unsupported; 10–11 of 12 checklist facts); the team was about 36 % cheaper ($4.79 vs $7.52 on average) and 2.5 times faster (7.6 vs 19.3 minutes); the single agent cited less of its evidence (82 % vs 90–98 %) |
+| Report validator | 510 claims, 1,104 evidence records, 1,200 citation links, all resolvable, no external resources |
+| Knowledge graph | 564,801 claims, 0 without a resolvable evidence record |
+| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (233 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
 change little in biopsies, so expression-led rankings put them low; the genetics layer recovers several of them.

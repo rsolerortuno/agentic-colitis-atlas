@@ -174,7 +174,8 @@ def run(q_coloc: float = 0.05) -> dict:
     parts = []
     for layer, d in r.groupby("layer"):   # FinnGen replication and combined estimate, BH within each layer
         f = d["n_celltypes"] if layer == "gut_cell" and "n_celltypes" in d else None
-        parts.append(mr.attach_finngen(d.reset_index(drop=True), cs, f.reset_index(drop=True) if f is not None else None))
+        parts.append(mr.attach_liu2023(mr.attach_finngen(d.reset_index(drop=True), cs,
+                                                         f.reset_index(drop=True) if f is not None else None), cs))
     r = pd.concat(parts, ignore_index=True)
     sig = r[r["q"] < q_coloc]
     loci = h.merge(sig[["gene", "studyId"]], on=["gene", "studyId"])
@@ -240,6 +241,9 @@ def load(store=None) -> int:
                             "replicates_in_finngen": bool(x.replicates_finngen),
                             "combined_odds_ratio_per_sd": round(float(np.exp(x.beta_combined)), 3),
                             "combined_q": float(f"{x.q_combined:.3g}")})
+            if pd.notna(getattr(x, "beta_liu2023", np.nan)):
+                rec.update({"liu2023_odds_ratio_per_sd": round(float(np.exp(x.beta_liu2023)), 3),
+                            "liu2023_p": float(f"{x.p_liu2023:.3g}"), "replicates_in_liu2023": bool(x.replicates_liu2023)})
             if x.layer == "gut_cell":
                 rec["cell_types_tested"] = int(x.n_celltypes)
                 rec["p_strongest_cell_type_uncorrected"] = float(f"{x.p_raw:.3g}")

@@ -318,14 +318,16 @@ def treatment_tables() -> dict:
     r = pd.read_parquet(PROCESSED / "response_genes.parquet")
     n = r.groupby("arm")[["n_nonresponders", "n_responders"]].first().sum(axis=1)
     top = {}
-    for arm in ("ustekinumab", "placebo (UNIFI)", "infliximab (ACT1)", "placebo (ACT1)", "etrolizumab", "golimumab", "vedolizumab"):
+    for arm in ("ustekinumab", "placebo (UNIFI)", "infliximab (ACT1)", "placebo (ACT1)", "etrolizumab",
+                "corticosteroids (PROTECT)", "5-ASA (PROTECT)", "golimumab", "vedolizumab"):
         d = r[r.arm == arm].sort_values("p").head(8)
         top[arm] = [{"gene": x.gene, "t": _num(x.t), "q": f"{x.padj:.1e}",
                      "direction": "higher in non-responders" if x.t > 0 else "higher in responders"} for x in d.itertuples()]
     it = pd.read_parquet(PROCESSED / "response_interaction.parquet").sort_values("p_interaction").head(10)
     return {"n": {"ustekinumab": int(n.get("ustekinumab", 0)), "placebo_unifi": int(n.get("placebo (UNIFI)", 0)),
                   "infliximab_act1": int(n.get("infliximab (ACT1)", 0)), "placebo_act1": int(n.get("placebo (ACT1)", 0)),
-                  "etrolizumab": int(n.get("etrolizumab", 0))},
+                  "etrolizumab": int(n.get("etrolizumab", 0)),
+                  "protect_cs": int(n.get("corticosteroids (PROTECT)", 0)), "protect_5asa": int(n.get("5-ASA (PROTECT)", 0))},
             "significant": {a: int((d.padj < 0.05).sum()) for a, d in r.groupby("arm")},
             "interaction_significant": int((pd.read_parquet(PROCESSED / "response_interaction.parquet").padj_interaction < 0.05).sum()),
             "top": top, "check_genes": F.CHECK_GENES[:5],
@@ -490,6 +492,54 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                                for g in report_genes[:30] if g in cd6.index]
         third["cosmx_detected"] = cd6[cd6.above_background].sort_values("specificity", ascending=False).index.tolist()[:15]
         third["cosmx_counts"] = {"tested": int(len(cd6)), "above": int(cd6.above_background.sum())}
+    if (PROCESSED / "de_adjusted_summary.json").exists():
+        da = pd.read_parquet(PROCESSED / "de_adjusted.parquet").set_index("gene")
+        third["adjusted"] = json.loads((PROCESSED / "de_adjusted_summary.json").read_text())
+        third["adjusted_rows"] = [{"gene": g, "un": _num(da.at[g, "unadjusted_log2fc"]), "adj": _num(da.at[g, "adjusted_log2fc"]),
+                                   "padj": f"{da.at[g, 'adjusted_padj']:.1e}", "holds": bool(da.at[g, "holds"])}
+                                  for g in report_genes[:20] if g in da.index]
+    if (PROCESSED / "mr_sensitivity_summary.json").exists():
+        third["mr_sens"] = json.loads((PROCESSED / "mr_sensitivity_summary.json").read_text())
+        for f_, key in (("mr_pqtl.parquet", "plasma"), ("mr_colon.parquet", "gut")):
+            r_ = pd.read_parquet(PROCESSED / f_)
+            s_ = r_[r_.q < 0.05]
+            if "replicates_liu2023" in s_:
+                third.setdefault("liu", {})[key] = {"rep": int((s_.replicates_liu2023 == True).sum()), "n": int(len(s_))}  # noqa: E712
+    if (PROCESSED / "safety.parquet").exists():
+        sf = pd.read_parquet(PROCESSED / "safety.parquet")
+        third["safety"] = json.loads((PROCESSED / "safety_summary.json").read_text())
+        keep_ = list(dict.fromkeys(targets + top[:15]))
+        third["safety_rows"] = [{"gene": r_.gene, "loeuf": _num(r_.loeuf), "constrained": r_.constrained,
+                                 "events": ", ".join(list(r_.safety_events)[:4]) or "—",
+                                 "phewas": ", ".join(list(r_.phewas_traits)[:4]) or "—",
+                                 "evidence_ids": [evidence_id("target_safety", r_.gene)]}
+                                for r_ in sf[sf.gene.isin(keep_)].set_index("gene").reindex(keep_).dropna(how="all").reset_index().itertuples()]
+    if (PROCESSED / "antitnf_summary.json").exists():
+        from .antitnf_atlas import gene_view
+        third["antitnf"] = json.loads((PROCESSED / "antitnf_summary.json").read_text())
+        rows_ = []
+        for g in list(dict.fromkeys(targets + top[:20] + ["LCN2", "DUOX2"])):
+            v = gene_view(g)
+            if v["baseline_nonremission_vs_remission"] or v["after_vs_before_treatment"]:
+                rows_.append({"gene": g,
+                              "baseline": "; ".join(f"{x['cell_state']} {x['coef']:+.2f}" for x in v["baseline_nonremission_vs_remission"][:3]) or "—",
+                              "after": "; ".join(f"{x['cell_state']} {x['coef']:+.2f}" for x in v["after_vs_before_treatment"][:3]) or "—",
+                              "evidence_ids": [evidence_id("antitnf_singlecell", g)]})
+        third["antitnf_rows"] = rows_
+    if (PROCESSED / "calprotectin.parquet").exists():
+        cp = pd.read_parquet(PROCESSED / "calprotectin.parquet").set_index("gene")
+        third["calprotectin"] = [{"gene": g, "rho": _num(cp.at[g, "rho"]), "padj": f"{cp.at[g, 'padj']:.2g}"}
+                                 for g in report_genes[:20] if g in cp.index]
+        third["calprotectin_n"] = int(cp.n.iloc[0])
+    if (PROCESSED / "mouse_literature.parquet").exists():
+        ml = pd.read_parquet(PROCESSED / "mouse_literature.parquet")
+        dsc = pd.read_parquet(PROCESSED / "discovery.parquet")
+        fic_ = set(dsc[dsc.status == "first-in-class opportunity"].gene)
+        third["mouse_lit"] = {r_.gene: int(r_.papers) for r_ in ml.itertuples()}
+        third["mouse_lit_fic_untested"] = int(((ml.papers == 0) & ml.gene.isin(fic_)).sum())
+        third["mouse_lit_fic"] = int(ml.gene.isin(fic_).sum())
+        third["mouse_lit_rows"] = [{"gene": r_.gene, "papers": int(r_.papers), "pmids": ", ".join(list(r_.top_pmids)[:3])}
+                                   for r_ in ml[~ml.gene.isin(fic_)].itertuples()]
     lit_rel = PROCESSED.parents[0] / "literature" / "pubtator_relations.parquet"
     if lit_rel.exists():
         pubs = pd.read_parquet(PROCESSED.parents[0] / "literature" / "publications.parquet")
@@ -537,7 +587,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     # table evidence must be numbered too
     extra_ids = []
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
-              third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", [])]
+              third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
+              third.get("safety_rows", []), third.get("antitnf_rows", [])]
     for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]
@@ -566,7 +617,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
         badges=badges(f, cell), cell=cell, third=third,
-        score_sens=layers.get("score_sensitivity", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
+        score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,
         bio_top=bio_top.to_dict("records"), imm_top=imm_top.to_dict("records"),

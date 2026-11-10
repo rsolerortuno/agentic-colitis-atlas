@@ -111,3 +111,64 @@ if __name__ == "__main__":
             print(g, d.loc[g, ["spontaneous_genotypes", "worse_induced_genotypes", "protected_genotypes", "direction"]].to_dict())
         else:
             print(g, "no colitis phenotype")
+
+
+# ------------------------------------------------------------------ literature (added 2026-11-10, fourth round)
+MOUSE_QUERY = ('(TITLE:"{g}" OR ABSTRACT:"{g}") AND (TITLE:colitis OR ABSTRACT:colitis) AND '
+               '(ABSTRACT:mice OR ABSTRACT:mouse OR ABSTRACT:murine) AND (ABSTRACT:knockout OR ABSTRACT:deficient OR '
+               'ABSTRACT:deficiency OR ABSTRACT:"-/-" OR ABSTRACT:conditional OR ABSTRACT:antibody OR ABSTRACT:inhibitor '
+               'OR ABSTRACT:blockade OR ABSTRACT:antagonist)')
+
+
+def literature_genes(run=None) -> list[str]:
+    """Report candidates, convergence top 30 and every first-in-class gene."""
+    from .runs import current_run
+    run = run or current_run()
+    f = json.loads((run / "findings.json").read_text(encoding="utf-8"))
+    g = [t["gene"] for t in f["targets"]] + [r["gene"] for r in f["convergence"]["ranking"][:30]]
+    d = pd.read_parquet(PROCESSED / "discovery.parquet")
+    return list(dict.fromkeys(g + d[d.status == "first-in-class opportunity"].gene.tolist()))
+
+
+def literature_check(genes: list[str]) -> pd.DataFrame:
+    """Europe PMC: papers on colitis in mice that perturb the gene (knockout, deficiency, blockade), title and abstract
+    search (a gene symbol in the full text is not enough); the five most cited are listed. It says whether a gene was tested in mouse colitis, not with which result
+    (MGI calls give the direction where curated). Answers cached (data/cache/europepmc)."""
+    import json as _json
+    from .external import EPMC_URL, _cached, _request
+    rows = []
+    for g in genes:
+        q = MOUSE_QUERY.format(g=g)
+        params = {"query": q, "format": "json", "pageSize": 5, "resultType": "lite", "sort": "CITED desc"}
+        data = _cached("europepmc_mouse", _json.dumps(params, sort_keys=True),
+                       lambda: _request("GET", EPMC_URL, params=params).json())["data"]
+        hits = data.get("resultList", {}).get("result", [])
+        rows.append({"gene": g, "papers": int(data.get("hitCount", 0)),
+                     "top_pmids": [str(h.get("pmid")) for h in hits if h.get("pmid")][:5],
+                     "top_titles": [h.get("title", "")[:160] for h in hits][:3]})
+    d = pd.DataFrame(rows)
+    d.to_parquet(PROCESSED / "mouse_literature.parquet", index=False)
+    return d
+
+
+def load_literature(store=None) -> int:
+    from datetime import date
+    from .graph import GraphStore, evidence_id
+    store = store or GraphStore()
+    d = pd.read_parquet(PROCESSED / "mouse_literature.parquet")
+    mgi = pd.read_parquet(PROCESSED / "mouse_colitis.parquet").set_index("gene")
+    n = 0
+    with store.batch():
+        store.add_node("DATASET:EUROPEPMC_MOUSE", "Dataset", "Europe PMC search: gene perturbation in mouse colitis")
+        for r in d.itertuples():
+            node = store.resolve(r.gene)
+            if not node or node["type"] != "Gene":
+                continue
+            rec = {"gene": r.gene, "mouse_colitis_papers": int(r.papers), "top_pmids": list(r.top_pmids),
+                   "top_titles": list(r.top_titles), "mgi_direction": mgi.at[r.gene, "direction"] if r.gene in mgi.index else None,
+                   "status": "tested in mouse colitis" if r.papers > 0 else "never tested in mouse colitis (by this search)"}
+            ev = store.add_evidence(evidence_id("mouse_colitis_literature", r.gene), "mouse_colitis_literature",
+                                    "DATASET:EUROPEPMC_MOUSE", date.today().isoformat(), **rec)
+            store.add_claim(node["id"], "mouse_phenotype_in", "DATASET:EUROPEPMC_MOUSE", ev)
+            n += 1
+    return n

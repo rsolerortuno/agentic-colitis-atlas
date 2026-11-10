@@ -1,8 +1,8 @@
 {
  "agents": {
   "agent_expression.json": {
-   "submitted": 10,
-   "kept": 10,
+   "submitted": 12,
+   "kept": 12,
    "dropped": 0,
    "dropped_detail": [],
    "semantic_failures": 0,
@@ -22,27 +22,27 @@
    "dropped": 0,
    "dropped_detail": [],
    "semantic_failures": 0,
-   "ids_removed": 2
+   "ids_removed": 0
   },
   "agent_cells.json": {
-   "submitted": 18,
-   "kept": 18,
+   "submitted": 10,
+   "kept": 10,
    "dropped": 0,
    "dropped_detail": [],
    "semantic_failures": 0,
    "ids_removed": 0
   },
   "agent_pathways.json": {
-   "submitted": 12,
-   "kept": 12,
+   "submitted": 13,
+   "kept": 13,
    "dropped": 0,
    "dropped_detail": [],
    "semantic_failures": 0,
    "ids_removed": 0
   },
   "agent_applied.json": {
-   "submitted": 16,
-   "kept": 16,
+   "submitted": 14,
+   "kept": 14,
    "dropped": 0,
    "dropped_detail": [],
    "semantic_failures": 0,

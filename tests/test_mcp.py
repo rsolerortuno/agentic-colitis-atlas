@@ -87,12 +87,12 @@ def test_disease_top_targets():
 
 
 @pytest.mark.parametrize("module,expected", [
-    ("ucatlas.mcp_servers.expression", {"get_de_results", "meta_analysis", "top_genes", "replication", "protein_level"}),
+    ("ucatlas.mcp_servers.expression", {"get_de_results", "meta_analysis", "top_genes", "replication", "protein_level", "adjusted_change"}),
     ("ucatlas.mcp_servers.kg", {"neighbors", "evidence_for", "search_literature", "check_evidence_ids", "numeric_annotation", "pubtator_relations"}),
     ("ucatlas.mcp_servers.external", {"open_targets_target", "string_interactions", "uniprot_entry",
-                                      "mendelian_randomization", "mr_hits", "mr_gut_hits", "mouse_phenotype"}),
+                                      "mendelian_randomization", "mr_hits", "mr_gut_hits", "mouse_phenotype", "target_safety"}),
     ("ucatlas.mcp_servers.cell", {"celltype_expression", "composition_effect", "spatial_context", "novel_targets"}),
-    ("ucatlas.mcp_servers.pathway", {"pathway_activity", "tf_activity", "communication", "treatment_response"}),
+    ("ucatlas.mcp_servers.pathway", {"pathway_activity", "tf_activity", "communication", "treatment_response", "antitnf_singlecell"}),
 ])
 def test_stdio_server_lists_tools(module, expected):
     async def run():

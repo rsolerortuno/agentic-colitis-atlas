@@ -30,7 +30,9 @@ ARMS = {"ustekinumab": ("GSE206285", "ustekinumab"), "golimumab": ("GSE92415", "
         "placebo (UNIFI)": ("GSE206285", "placebo"), "placebo (PURSUIT)": ("GSE92415", "placebo"),
         # added 2026-11-10 (third round)
         "etrolizumab": ("GSE72819", "etrolizumab"), "infliximab (ACT1)": ("GSE23597", "infliximab"),
-        "placebo (ACT1)": ("GSE23597", "placebo")}
+        "placebo (ACT1)": ("GSE23597", "placebo"),
+        # added 2026-11-10 (fourth round): PROTECT, treatment-naive children, week-4 remission on standard therapy
+        "corticosteroids (PROTECT)": ("GSE109142", "corticosteroids"), "5-ASA (PROTECT)": ("GSE109142", "5-ASA")}
 ARIJS_2009 = ["TNFRSF11B", "STC1", "PTGS2", "IL13RA2", "IL11"]
 
 
@@ -85,6 +87,28 @@ def interaction(genes: list[str]) -> pd.DataFrame:
     return d
 
 
+def calprotectin() -> pd.DataFrame:
+    """Per gene, Spearman correlation with log10 baseline faecal calprotectin across PROTECT UC biopsies (the
+    non-invasive marker used in clinics; S100A8/A9 heterodimer). BH across genes."""
+    s = pd.read_parquet(PROCESSED / "samples.parquet")
+    s = s[(s.cohort == "GSE109142") & (s.group == "UC") & s.calprotectin.notna()].set_index("geo")
+    x = pd.read_parquet(PROCESSED / "expr_GSE109142.parquet")
+    keep = [c for c in x.columns if c in s.index]
+    y = np.log10(s.loc[keep, "calprotectin"].astype(float).clip(lower=1)).to_numpy()
+    rx = x[keep].rank(axis=1).to_numpy()
+    ry = stats.rankdata(y)
+    rxc = rx - rx.mean(axis=1, keepdims=True)
+    ryc = ry - ry.mean()
+    rho = (rxc @ ryc) / np.maximum(np.sqrt((rxc ** 2).sum(axis=1) * (ryc ** 2).sum()), 1e-12)
+    n = len(keep)
+    t = rho * np.sqrt((n - 2) / np.maximum(1 - rho ** 2, 1e-12))
+    p = 2 * stats.t.sf(np.abs(t), n - 2)
+    d = pd.DataFrame({"gene": x.index, "rho": rho, "p": p, "n": n})
+    d["padj"] = multipletests(d.p, method="fdr_bh")[1]
+    d.to_parquet(PROCESSED / "calprotectin.parquet", index=False)
+    return d
+
+
 def response_pathways() -> pd.DataFrame:
     import decoupler as dc
     nets = {"pathway": dc.op.progeny(organism="human", top=500), "tf": dc.op.collectri(organism="human")}
@@ -112,6 +136,8 @@ def load(store=None) -> int:
     inter = pd.read_parquet(PROCESSED / "response_interaction.parquet")
     pw = pd.read_parquet(PROCESSED / "response_pathways.parquet")
     keep = set(pd.read_parquet(PROCESSED / "meta.parquet").query("meta_padj < 0.05")["gene"])
+    cf = PROCESSED / "calprotectin.parquet"
+    calp = ({r.gene: (r.rho, r.padj) for r in pd.read_parquet(cf).itertuples()} if cf.exists() else {})
     n = 0
     with store.batch():
         store.add_node("ANALYSIS:treatment", "Dataset", "Baseline biopsy expression vs response to ustekinumab, "
@@ -123,7 +149,10 @@ def load(store=None) -> int:
             arms = {r.arm: {"diff_nr_minus_r": round(float(r.diff_nr_minus_r), 3), "padj": float(f"{r.padj:.3g}"),
                             "n_nr": int(r.n_nonresponders), "n_r": int(r.n_responders)} for r in d.itertuples()}
             it = inter[inter.gene == gene]
+            cp = calp.get(gene)
             rec = {"gene": gene, "arms": arms,
+                   **({"faecal_calprotectin_rho_protect": round(float(cp[0]), 3),
+                       "faecal_calprotectin_padj": float(f"{cp[1]:.3g}")} if cp is not None else {}),
                    "interaction": {r.drug: {"log_or_interaction": round(r.log_or_interaction, 3),
                                             "padj": float(f"{r.padj_interaction:.3g}")} for r in it.itertuples()},
                    "reading": "diff_nr_minus_r > 0 = higher at baseline in non-responders; association, not prediction"}

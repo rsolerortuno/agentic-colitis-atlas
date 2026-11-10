@@ -15,7 +15,8 @@ import re
 
 from .paths import ROOT
 
-RUNS = {"team": ["2026-11-09_full", "2026-11-09_rep1", "2026-11-09_rep2"], "single": ["2026-11-09_single"]}
+# final benchmark on the closing data (2026-11-10); the first benchmark (2026-11-09 data) is in evals/history.md
+RUNS = {"team": ["2026-11-10", "2026-11-10_rep1", "2026-11-10_rep2"], "single": ["2026-11-10_single"]}
 
 
 def _para(text: str, *pats: str) -> bool:
@@ -40,7 +41,7 @@ CHECKS = {
 
 def _session(run: str) -> dict:
     b = (ROOT / "runs" / run / "session.json").read_bytes()
-    return json.loads(b.decode("utf-16") if b[:2] == b"\xff\xfe" else b.decode("utf-8"))
+    return json.loads(b.decode("utf-16") if b[:2] == b"\xff\xfe" else b.decode("utf-8-sig"))
 
 
 def _text(n: dict) -> str:

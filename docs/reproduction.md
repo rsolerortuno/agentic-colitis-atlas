@@ -15,11 +15,15 @@ uv run python -m ucatlas.mr download       # Open Targets credible sets filtered
 uv run python -m ucatlas.spatial_download  # Xenium GSE312420 expression files
 uv run python -c "from ucatlas.spatial_download import run_extra; run_extra()"   # Xenium GSE339323 + Visium GSE189184 (with H&E)
 uv run python -m ucatlas.mr_colon download # Open Targets credible sets filtered to gut eQTL (GTEx colon, CEDAR, IBDverse)
+uv run python -m ucatlas.spatial_cosmx_download   # CosMx GSE312415: streams a 6.5 GB archive once, keeps 15 files (~1.6 GB)
 ```
 
 Two single-cell datasets need a Broad Single Cell Portal login and are placed by hand (see `data/README.md`):
 Smillie et al. 2019 (SCP259) in `data/raw/scp259/` and Gubatan et al. 2026 (SCP3755) in `data/raw/scp3755/`.
-Every downloaded file is listed with its URL, date, size and SHA-256 in a manifest next to it.
+Every downloaded file is listed with its URL, date, size and SHA-256 in a manifest next to it. `ucatlas.download`
+also fetches the FinnGen and Liu 2023 GWAS (about 0.8 GB each), the proteomics table, the MGI reports, gnomAD constraint
+and the supplementary tables of the anti-TNF atlas. Open Targets API answers (colocalisation, safety) and Europe PMC
+counts are cached under data/raw/extra and data/cache, so a rebuild does not depend on the network.
 
 ## 2. Deterministic rebuild
 

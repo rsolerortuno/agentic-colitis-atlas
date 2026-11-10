@@ -85,6 +85,23 @@ def treatment_response(gene: str) -> dict:
 
 
 @mcp.tool()
+def antitnf_singlecell(gene: str) -> dict:
+    """Anti-TNF single-cell atlas (Thomas et al. 2024, GSE282122; UC patients on adalimumab, 6 remission and 14
+    non-remission): the cell states in which the gene differs at baseline between non-remission and remission
+    (coef > 0 = higher in non-remission) and the cell states in which it changes after treatment (coef > 0 = higher
+    after), from the authors' published per-cell-state models. Cite the evidence_id. Small cohort: leads, not
+    predictors."""
+    from ..graph import evidence_id as _eid
+    from .common import store as _store
+    g = canonical_gene(gene)
+    eid = _eid("antitnf_singlecell", g)
+    r = _store().get_evidence([eid])
+    if not r:
+        return {"gene": g, "message": "no significant cell-state difference in the anti-TNF atlas"}
+    return clean({**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid})
+
+
+@mcp.tool()
 def response_pathways(name: str, kind: str = "pathway") -> dict:
     """Pathway (kind='pathway', PROGENy) or TF (kind='tf', CollecTRI) activity in non-responders vs responders per
     drug arm and placebo arm (t, BH padj). Positive t = more active in non-responders."""

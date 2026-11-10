@@ -137,6 +137,12 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <li>A bar to the right means the gene is higher in more active disease. A bar to the left means it is lower: usually a gene of the healthy lining that is lost as inflammation grows.</li>
 <li>When both cohorts point the same way, the link is more believable.</li></ul>
 <p class="small" style="margin:.5em 0 0">Strongest in MSCCR, higher with activity: {% for g, r in activity_caption.up %}{{ g }} ({{ r }}){% if not loop.last %}, {% endif %}{% endfor %}; lower with activity: {% for g, r in activity_caption.down %}{{ g }} ({{ r }}){% if not loop.last %}, {% endif %}{% endfor %}.</p></div>
+{% if third.adjusted %}{% set Ad = third.adjusted %}
+<h3>Does the change survive age, sex and colon segment?</h3>
+<p class="small">In MSCCR, control biopsies are older (median 56 vs 44 years) and come mostly from the rectum and caecum, inflamed biopsies more often from the sigmoid and left colon. The inflamed-vs-control change was re-estimated on {{ Ad.biopsies }} biopsies of {{ Ad.patients }} patients with colon segment, age and sex as covariates (standard errors clustered by patient). The adjusted and unadjusted changes correlate at rho {{ Ad.spearman_adjusted_vs_unadjusted }}, and {{ Ad.changes_holding }} of {{ Ad.changes_tested }} clear changes ({{ "%.0f" | format(100 * Ad.share_holding) }} %) hold: same sign, at least half the size, padj &lt; 0.05.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th class="num">Unadjusted log2FC</th><th class="num">Adjusted log2FC</th><th class="num">Adjusted padj</th><th>Holds</th></tr></thead><tbody>
+{% for r in third.adjusted_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td class="num">{{ r.un | fmt }}</td><td class="num">{{ r.adj | fmt }}</td><td class="num">{{ r.padj }}</td><td>{{ "yes" if r.holds else "no" }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
 <h2>Local inflammation or disease-wide?</h2>
 {{ paras(f.narrative.sections.inflammation or []) }}
 <h2>Replication across cohorts {{ q('replication_table') }}</h2>
@@ -244,6 +250,13 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
   <div class="kpi"><b>{{ G.plasma.finngen_replicated }} / {{ G.plasma.significant }}</b><span>significant plasma results that replicate in FinnGen</span></div>
   <div class="kpi"><b>{{ G.colon.finngen_replicated + G.cell.finngen_replicated }} / {{ G.colon.significant + G.cell.significant }}</b><span>significant gut results that replicate in FinnGen</span></div>
 </div>
+{% if third.liu %}<p class="small">Largest GWAS: with Liu et al. 2023 (23,252 UC cases, European and East Asian; it includes the samples of de Lange 2017 and FinnGen, so it is reported apart and not combined), {{ third.liu.plasma.rep }} of {{ third.liu.plasma.n }} significant plasma proteins and {{ third.liu.gut.rep }} of {{ third.liu.gut.n }} significant gut estimates replicate.</p>{% endif %}
+{% if third.mr_sens %}{% set Ms = third.mr_sens %}
+<h3>Sensitivity analyses</h3>
+<div class="tw"><table><thead><tr><th>Layer</th><th class="num">Significant</th><th class="num">With ≥ 3 instruments</th><th class="num">No directional pleiotropy (MR-Egger intercept p ≥ 0.05)</th><th class="num">Weighted median agrees</th><th class="num">Heterogeneous instruments (p &lt; 0.05)</th><th class="num">Steiger direction correct</th></tr></thead><tbody>
+{% for k, label in [("plasma_protein", "Plasma protein"), ("colon_tissue", "Colon tissue"), ("gut_cell", "Gut cell types")] %}{% set v = Ms[k] %}<tr><td>{{ label }}</td><td class="num">{{ v.significant }}</td><td class="num">{{ v.with_3plus_instruments }}</td><td class="num">{{ v.egger_intercept_ok }}</td><td class="num">{{ v.weighted_median_agrees }}</td><td class="num">{{ v.heterogeneity_p05 }}</td><td class="num">{{ v.steiger_correct }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">MR-Egger and the weighted median need at least three independent instruments, which most gut estimates do not have (one fine-mapped eQTL per gene); for them only the Steiger direction (the variant explains more of the exposure than of UC) can be checked, and it holds for all. Heterogeneity is expected for proteins with several independent cis signals.</p>{% endif %}
 <p class="small">Replication: every estimate is repeated with a second, independent UC GWAS (FinnGen R12, Finnish biobank, no sample overlap with de Lange 2017). A result replicates when the FinnGen estimate has the same sign and p &lt; 0.05; the two outcomes are also combined by inverse variance (combined q in the evidence records).</p>
 <div class="grid two">
   {{ plot('mr_plasma', figs.mr) }}
@@ -394,11 +407,23 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <p class="lede">Mouse knockouts are an independent, experimental line of evidence. In MGI, {{ M.genes_with_colitis_phenotype }} genes have a single-gene mouse model (conditional knockouts included) with spontaneous colitis, worse or milder induced colitis. That is {{ "%.1f" | format(100 * M.background_rate) }} % of genes with a mouse ortholog, against {{ "%.0f" | format(100 * M.clinical_targets_rate) }} % of UC clinical targets, {{ "%.0f" | format(100 * M.convergence_top100_rate) }} % of the convergence top 100 and {{ "%.0f" | format(100 * M.target_profile_top100_rate) }} % of the target-profile top 100: the rankings are about ten times enriched for genes with a colitis phenotype, although no mouse data entered them. Most leading candidates ({{ third.mouse_candidates_without[:12] | join(", ") }}) have no recorded colitis model: untested, not negative.</p>
 <div class="grid two">
   {{ plot('mouse', figs.mouse) }}
-  <div class="tw"><table><thead><tr><th>Gene</th><th>Direction</th><th class="num">Spontaneous</th><th class="num">Worse induced</th><th class="num">Protected</th><th>Evidence</th></tr></thead><tbody>
-  {% for r in third.mouse_rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong></td><td>{{ r.direction }}</td><td class="num">{{ r.spont }}</td><td class="num">{{ r.worse }}</td><td class="num">{{ r.protected }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+  <div class="tw"><table><thead><tr><th>Gene</th><th>Direction</th><th class="num">Spontaneous</th><th class="num">Worse induced</th><th class="num">Protected</th><th class="num">Mouse colitis papers</th><th>Evidence</th></tr></thead><tbody>
+  {% for r in third.mouse_rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong></td><td>{{ r.direction }}</td><td class="num">{{ r.spont }}</td><td class="num">{{ r.worse }}</td><td class="num">{{ r.protected }}</td><td class="num">{{ (third.mouse_lit or {}).get(r.gene, "—") }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
   </tbody></table></div>
 </div>
+{% if third.mouse_lit_rows %}<h3>Tested in mouse colitis? (literature)</h3>
+<p class="small">MGI curation is incomplete, so the literature was searched too (Europe PMC, title and abstract: the gene perturbed in a mouse colitis model). It says whether a gene was tested, not with which result. {{ third.mouse_lit_fic_untested }} of the {{ third.mouse_lit_fic }} first-in-class genes have no mouse colitis study: untested, and the natural next experiment.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th class="num">Papers</th><th>Most cited (PMID)</th></tr></thead><tbody>
+{% for r in third.mouse_lit_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td class="num">{{ r.papers }}</td><td>{{ r.pmids or "—" }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
 <p class="small">Most alleles remove the gene, so "loss gives or worsens colitis" means the gene protects the mucosa (inhibiting it is a risk) and "loss protects" means it drives colitis (inhibition is the therapeutic direction). Numbers are mouse genotypes in MGI.</p>{% endif %}
+
+{% if negctl %}<h2>Are the rankings just rewarding expressed or famous genes?</h2>
+<p class="small">Each UC clinical target is compared only with non-target genes in the same tenth of mean expression (or of the Open Targets literature score), so a score that merely favours highly expressed or much-studied genes would fall to about 0.5. The last column is the 95th percentile of the expression-matched AUROC for 200 random gene sets of the same size.</p>
+<div class="tw"><table><thead><tr><th>Score</th><th class="num">rho with mean expression</th><th class="num">rho with literature score</th><th class="num">AUROC, expression-matched</th><th class="num">AUROC, literature-matched</th><th class="num">Random sets, 95th percentile</th></tr></thead><tbody>
+{% for k in ["convergence", "target profile", "biomarker profile"] %}{% set v = negctl[k] %}<tr><td>{{ k }}</td><td class="num">{{ v.rho_mean_expression }}</td><td class="num">{{ v.rho_literature_score }}</td><td class="num">{{ v.auroc_expression_matched }}</td><td class="num">{{ v.auroc_literature_matched }}</td><td class="num">{{ v.null_expression_matched_p95 }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">Expression level does not explain the recovery of clinical targets. Matching on the literature score lowers it (0.70–0.73), so part of the signal is that clinical targets are well-studied genes; the scores still beat random sets clearly.</p>{% endif %}
 
 <h2>Two questions, two scores</h2>
 <p class="small">The overall score mixes target and biomarker evidence, so there are two separate profiles. The <strong>target</strong> profile weighs ({% for k, v in profile_weights.target.items() %}{{ k | replace("_", " ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). The <strong>biomarker</strong> profile weighs ({% for k, v in profile_weights.biomarker.items() %}{{ k | replace("_", " ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). Neither uses literature or drug history, which lets us test them against clinical targets below without the answer leaking into the score.</p>
@@ -520,10 +545,12 @@ These checks do not constitute complete scientific validation.{% endif %}
 <ul>{% for l in f.narrative.limitations %}<li>{{ l.text }}</li>{% endfor %}</ul>
 <h2>What is still missing</h2>
 <ul class="roadmap">
-<li>Nothing here was tested in the laboratory or in patients; the first-in-class genes need knock-down or antibody experiments in organoids or colitis models.</li>
-<li>Protein in the gut wall is not measured: the causal genetics use blood protein and gut RNA. A mucosal proteomics cohort would close that gap.</li>
-<li>The Visium deconvolution relies on one single-cell atlas and cell groups that co-occur (inflammatory fibroblasts and neutrophils in ulcers) are hard to separate; Visium HD or more Xenium sections with a custom panel would resolve them.</li>
-<li>Treatment-response arms other than UNIFI are small, and no gene separates a drug from placebo after correction.</li>
+<li>Nothing here was tested in the laboratory or in patients; the first-in-class genes have never been studied in a mouse colitis model and need knock-down or antibody experiments in organoids or colitis models.</li>
+<li>Protein in the gut wall is measured in one proteomics study, but no genetic resource exists for mucosal protein levels (pQTL), so causal genetics uses blood protein and gut RNA.</li>
+<li>The Visium deconvolution relies on one single-cell atlas; co-occurring cell groups (inflammatory fibroblasts and neutrophils in ulcers) are hard to separate. CosMx does not resolve those candidates and no Visium HD data of UC are public.</li>
+<li>CXCR2, OSM, DUOX2 and TNF have no genetic instrument in any layer.</li>
+<li>Treatment-response arms other than UNIFI and PROTECT are small; no gene separates a drug from placebo after correction, and the anti-TNF single-cell cohort has six remitters.</li>
+<li>No blood proteomics of patients: the report cannot say which tissue biomarkers can be measured in blood.</li>
 <li>"Undrugged" uses Open Targets, not company pipelines, trial registries or patents.</li>
 </ul>
 <h2>Evidence ({{ evidence | length }} records cited)</h2>

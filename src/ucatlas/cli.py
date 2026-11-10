@@ -55,6 +55,10 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("enrichment", enrich.run)
     _step("graph", lambda: kg_build.build()["claims_without_resolvable_evidence"])
     _step("PubTator3 relations", literature.load_pubtator_relations)
+    from . import antitnf_atlas, expression_adjusted
+    _step("covariate-adjusted expression", lambda: (expression_adjusted.run(), expression_adjusted.load())[0])
+    if antitnf_atlas.SRC.exists():
+        _step("anti-TNF single-cell atlas", lambda: (antitnf_atlas.run(), antitnf_atlas.load())[1])
     from . import proteomics
     if proteomics.SRC.exists():
         _step("protein-level replication", lambda: (proteomics.run(), proteomics.load())[0])
@@ -79,7 +83,7 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     from . import treatment
     _step("treatment response", lambda: (treatment.response_genes(),
                                          treatment.interaction(list(dict.fromkeys(expression_top(300) + TX_EXTRA))),
-                                         treatment.response_pathways(), treatment.load())[3])
+                                         treatment.response_pathways(), treatment.calprotectin(), treatment.load())[4])
     from . import spatial
     extra = ["IL11", "OSMR", "TREM1", "TNF", "IL23A", "ITGB7", "CXCR1", "CXCR2", "IL1B", "OSM", "FCGR3B"]
     if (spatial.D / "manifest.json").exists():
@@ -102,12 +106,18 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     from . import mr_colon
     if mr_colon.EXTRACT.exists() and mr.GWAS.exists():
         _step("Mendelian randomisation (gut eQTL)", lambda: (mr_colon.run(), mr_colon.load())[0])
+        from . import mr_sensitivity
+        _step("Mendelian randomisation sensitivity", lambda: (mr_sensitivity.run(), mr_sensitivity.load())[0])
     _step("convergence", lambda: _rebuild_convergence(run))   # also loads the citable ranking records
     from . import report_layers, structure
     _step("structure (AlphaFold pockets)", lambda: (structure.run(structure.targets(run)), structure.load_graph())[1])
     _step("report layers", lambda: list(report_layers.run()))
     from . import mouse_models
     _step("mouse models (MGI)", lambda: (mouse_models.run(), mouse_models.load())[1])
+    from . import safety
+    _step("mouse colitis literature", lambda: (mouse_models.literature_check(mouse_models.literature_genes(run)),
+                                               mouse_models.load_literature())[1])
+    _step("target safety", lambda: (safety.run(), safety.load())[0])
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))

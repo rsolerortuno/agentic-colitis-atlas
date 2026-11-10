@@ -172,3 +172,39 @@ def test_split_site_moves_marked_blocks(tmp_path):
     out = (tmp_path / "site" / "index.html").read_text(encoding="utf-8")
     assert 'src="assets/lib.js"' in out and 'data-src="assets/d.b64"' in out and "QUJD" not in out
     assert (tmp_path / "site" / "assets" / "d.b64").read_text() == "QUJD"
+
+
+# ------------------------------------------------------------------ 2026-11-10, fourth round
+@pytest.mark.skipif(not (PROCESSED / "de_adjusted_summary.json").exists(), reason="layer not built")
+def test_changes_hold_after_covariate_adjustment():
+    s = json.loads((PROCESSED / "de_adjusted_summary.json").read_text())
+    assert s["spearman_adjusted_vs_unadjusted"] > 0.9 and s["share_holding"] > 0.8
+
+
+@pytest.mark.skipif(not (PROCESSED / "mr_sensitivity.parquet").exists(), reason="layer not built")
+def test_mr_sensitivity_on_il12b():
+    d = pd.read_parquet(PROCESSED / "mr_sensitivity.parquet")
+    r = d[(d.gene == "IL12B") & (d.layer == "plasma_protein")].iloc[0]
+    assert r.steiger_correct_direction and r.wmedian > 0 and r.egger_intercept_p > 0.05
+
+
+@pytest.mark.skipif(not (PROCESSED / "safety.parquet").exists(), reason="layer not built")
+def test_safety_phewas_finds_psoriasis_for_il12b():
+    d = pd.read_parquet(PROCESSED / "safety.parquet").set_index("gene")
+    assert any("soriasis" in t for t in d.at["IL12B", "phewas_traits"])
+    assert d.at["JAK1", "constrained"]
+
+
+@pytest.mark.skipif(not (PROCESSED / "report_layers.json").exists(), reason="layer not built")
+def test_ranking_not_explained_by_expression_level():
+    nc = json.loads((PROCESSED / "report_layers.json").read_text()).get("negative_control")
+    if not nc:
+        pytest.skip("negative control not run")
+    for k in ("convergence", "target profile"):
+        assert nc[k]["auroc_expression_matched"] > nc[k]["null_expression_matched_p95"] + 0.1
+
+
+@pytest.mark.skipif(not (PROCESSED / "antitnf_summary.json").exists(), reason="layer not built")
+def test_antitnf_atlas_counts():
+    s = json.loads((PROCESSED / "antitnf_summary.json").read_text())
+    assert s["uc_remission"] == 6 and s["uc_non_remission"] == 14

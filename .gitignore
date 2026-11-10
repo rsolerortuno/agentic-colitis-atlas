@@ -21,3 +21,4 @@ data/literature/extracted/
 !data/raw/spatial/*/
 data/raw/spatial/*/*
 !data/raw/spatial/*/manifest.json
+runs/*/report.html

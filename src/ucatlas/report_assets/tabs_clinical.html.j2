@@ -36,7 +36,7 @@
 {{ plain('response') }}
 <h2>Which genes predict response to treatment?</h2>
 {{ paras(f.narrative.sections.treatment or []) }}
-<p class="lede">Biopsies were taken before treatment in four trials and cohorts: UNIFI (ustekinumab and placebo, {{ T.n.ustekinumab }} and {{ T.n.placebo_unifi }} patients with a week-8 endpoint), PURSUIT (golimumab and placebo), ACT1 (infliximab and placebo, {{ T.n.infliximab_act1 }} and {{ T.n.placebo_act1 }} patients, response at week 8), EUCALYPTUS (etrolizumab, {{ T.n.etrolizumab }} patients, remission at week 10), and the Leuven infliximab and vedolizumab cohorts. For every gene we compare people who later responded (mucosal healing or clinical response, as each study defined it) with people who did not. The question that matters for choosing a drug is different: does the gene work differently with the drug than with placebo? We test that as an interaction between expression and arm.</p>
+<p class="lede">Biopsies were taken before treatment in four trials and cohorts: UNIFI (ustekinumab and placebo, {{ T.n.ustekinumab }} and {{ T.n.placebo_unifi }} patients with a week-8 endpoint), PURSUIT (golimumab and placebo), ACT1 (infliximab and placebo, {{ T.n.infliximab_act1 }} and {{ T.n.placebo_act1 }} patients, response at week 8), EUCALYPTUS (etrolizumab, {{ T.n.etrolizumab }} patients, remission at week 10), PROTECT (treatment-naive children on corticosteroids, {{ T.n.protect_cs }}, or 5-ASA, {{ T.n.protect_5asa }}; remission at week 4), and the Leuven infliximab and vedolizumab cohorts. For every gene we compare people who later responded (mucosal healing or clinical response, as each study defined it) with people who did not. The question that matters for choosing a drug is different: does the gene work differently with the drug than with placebo? We test that as an interaction between expression and arm.</p>
 <div class="note">Before trusting any gene, we checked a published result in this download: the genes reported by Arijs et al. 2009 as higher before treatment in infliximab non-responders ({{ T.check_genes | join(", ") }}) are higher in non-responders of the infliximab cohort, as reported. They are equally higher in placebo non-responders of UNIFI, which suggests that these genes mark how severe the disease is. In ACT1, the trial in which they were found, they are higher in infliximab non-responders and not in the 13 placebo patients; the drug-versus-placebo interaction does not pass correction, so this is a lead for a drug-specific signal, not a result.</div>
 <div class="kpis">
   {% for arm, n in T.significant.items() %}<div class="kpi"><b>{{ "{:,}".format(n) }}</b><span>genes separating non-responders, {{ arm }} (q &lt; 0.05)</span></div>{% endfor %}
@@ -65,6 +65,15 @@
 </div>
 <p class="small">The interaction is tested only for the candidate genes; none passes correction, so the rows of that table are leads, not findings.</p>
 
+{% if third.antitnf %}{% set At = third.antitnf %}
+<h3>Which cells separate remission on anti-TNF? (single cell)</h3>
+<p class="small">{{ At.study }}: biopsies of {{ At.uc_patients }} UC patients before and after adalimumab ({{ At.uc_remission }} remission, {{ At.uc_non_remission }} non-remission), about one million cells in 109 cell states annotated by the authors; the authors' published per-cell-state models are used (the count matrices in GEO carry no cell annotation). Before treatment, the cell states whose abundance differs: {% for x in At.abundance_cell_states_padj05 %}{{ x.cell_state | replace("_", " ") }} (OR {{ x.or_nonremission }}){{ ", " if not loop.last }}{% endfor %}. In the table, a positive baseline value means higher in non-remission; a positive after-treatment value means higher after adalimumab.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Before treatment, non-remission vs remission (cell state, coef)</th><th>After vs before treatment (cell state, coef)</th><th>Evidence</th></tr></thead><tbody>
+{% for r in third.antitnf_rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong></td><td>{{ r.baseline }}</td><td>{{ r.after }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">Six remitters against 14 non-remitters: leads, not predictors. DUOX2 and LCN2 are lower in colonocytes of non-remitters before treatment, so this response signal is in the epithelium, not in the infiltrating cells that dominate the bulk biopsies.</p>{% endif %}
+{% if third.calprotectin %}<h3>Does the tissue signal follow faecal calprotectin?</h3>
+<p class="small">Faecal calprotectin (the S100A8/A9 protein in stool) is the non-invasive marker used in clinics. Across {{ third.calprotectin_n }} PROTECT children, Spearman correlation of each gene in the rectal biopsy with baseline calprotectin: {% for r in third.calprotectin %}{{ r.gene }} {{ r.rho }} (padj {{ r.padj }}){{ "; " if not loop.last }}{% endfor %}. Correlations are weak: stool calprotectin reflects the whole colon, the biopsy one site.</p>{% endif %}
 <h2>Does the answer change with the patient?</h2>
 {{ paras(f.narrative.sections.subgroups or []) }}
 {% set S2 = layers.subgroups %}
@@ -110,6 +119,14 @@
   </tbody></table></div>
 </div>
 <p class="small">Vital organs: heart muscle, brain regions, liver, lung and kidney (HPA consensus RNA). Weights fixed before ranking. RNA in normal tissue is not protein staining.</p>
+
+{% if third.safety %}{% set Sf = third.safety %}
+<h2>Safety of the leading targets</h2>
+<p class="lede">Three independent views. Loss-of-function constraint (gnomAD v4.1 LOEUF; below 0.35 people rarely carry a broken copy, so life-long inhibition may be poorly tolerated): {{ Sf.constrained_candidates }} candidates and {{ Sf.constrained_clinical_targets }} of {{ Sf.clinical_targets }} UC clinical targets are strongly constrained (median LOEUF {{ Sf.median_loeuf_candidates }} vs {{ Sf.median_loeuf_clinical_targets }}). Known safety events (Open Targets): {{ Sf.candidates_with_safety_events }} candidates, {{ Sf.clinical_targets_with_safety_events }} clinical targets. Other conditions sharing the gene's genetic signal (PheWAS of the MR instruments): {{ Sf.genes_with_phewas }} genes, for example psoriasis for IL12B, the other indication of ustekinumab.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th class="num">LOEUF</th><th>Strongly constrained</th><th>Known safety events</th><th>Other conditions sharing the genetic signal</th><th>Evidence</th></tr></thead><tbody>
+{% for r in third.safety_rows %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.gene }}</strong></td><td class="num">{{ r.loeuf | fmt }}</td><td>{{ "yes" if r.constrained else "no" }}</td><td>{{ r.events }}</td><td>{{ r.phewas }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">Constraint and pleiotropy flag possible on-target risks; many approved drugs hit constrained genes. Safety events are curated reports for the target in any indication.</p>{% endif %}
 
 {% set I = layers.immune %}
 <h2>Immune microenvironment {{ q('immune_table') }}</h2>

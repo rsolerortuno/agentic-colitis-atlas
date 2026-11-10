@@ -140,10 +140,16 @@ def _gse109142() -> pd.DataFrame:
     out = pd.DataFrame({"sample": m["geo_accession"], "geo": m["geo_accession"], "cohort": "GSE109142",
                         "patient": m["geo_accession"],
                         "group": m["diagnosis"].map({"Ulcerative Colitis": "UC", "Control": "healthy"}).fillna("other"),
-                        "region": "Rectum", "timepoint": "baseline", "treatment": None, "response": None,
+                        "region": "Rectum", "timepoint": "baseline",
+                        # initial treatment and week-4 remission (added 2026-11-10, fourth round)
+                        "treatment": m["initial treatment"].map({"CS-Oral": "corticosteroids", "CS-IV": "corticosteroids",
+                                                                 "5ASA": "5-ASA"}),
+                        "response": m["week 4 remission"].map({"Yes": True, "No": False}),
                         "mayo": pd.to_numeric(m["total mayo score"], errors="coerce"),
-                        "age": pd.to_numeric(m["age at diagnosis"], errors="coerce"), "sex": m["Sex"]})
-    out["response_endpoint"] = None
+                        "age": pd.to_numeric(m["age at diagnosis"], errors="coerce"), "sex": m["Sex"],
+                        "calprotectin": pd.to_numeric(m["baseline calprotectin"], errors="coerce")})
+    out["response_endpoint"] = "remission at week 4 (PROTECT, PUCAI < 10 without additional therapy)"
+    out.loc[out["group"] != "UC", ["response", "treatment", "response_endpoint"]] = None
     return out
 
 

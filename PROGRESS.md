@@ -92,3 +92,12 @@ Done: licence; one BLAS thread; weight stability of every score; lighter publish
 FinnGen MR replication; ACT1 and EUCALYPTUS response cohorts; CosMx sections; MGI mouse models; wider literature with
 PubTator3 relations. Numbers in evals/results.md (o). Left for later on request: the one-agent vs team benchmark on the
 new data.
+
+## 2026-11-10 (fourth round): closing checks
+
+Done: covariate-adjusted expression, MR sensitivity analyses, Liu 2023 GWAS, target safety, PROTECT outcomes and
+calprotectin, negative control of the rankings, mouse colitis literature, anti-TNF single-cell atlas (authors'
+tables), documentation. Next: new agent run, clean rebuild, then the final one-agent vs team benchmark.
+
+Final benchmark done (evals/results.md (q)): the team matches the single agent on quality and is about 36 % cheaper and
+2.5 times faster. The project is closed.
