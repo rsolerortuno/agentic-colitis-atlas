@@ -56,3 +56,24 @@ uninformative. Disease activity: many genes track the Mayo endoscopic score in M
 for example S100A8 rho 0.49, LCN2 0.33) but none reach significance in GSE73661, where baseline scores are mostly 2–3
 and n = 67. Not done: Mendelian randomisation with plasma pQTL (summary statistics need a separate download and a
 locus-matching step; left as a limit).
+
+## (f) M17: repeats and one agent vs the team
+
+Three independent team runs (Opus orchestrator + six Sonnet specialists) and one single-agent run (one Opus agent
+doing the six jobs), same question, data, tools and verifier. Checklist of 12 facts fixed before reading the
+single-agent report (`src/ucatlas/agent_benchmark.py`).
+
+| Set-up | Run | Statements | Unsupported | Checklist | Specialist evidence cited | Cost | Minutes | Turns |
+|---|---|---|---|---|---|---|---|---|
+| Team | full | 120 | 0 | 10/12 | 83 % | $4.73 | 7.8 | 92 |
+| Team | repeat 1 | 116 | 0 | 10/12 | 80 % | $4.10 | 6.3 | 55 |
+| Team | repeat 2 | 119 | 0 | 10/12 | 77 % | $4.32 | 6.5 | 66 |
+| One agent | single | 157 | 0 | 10/12 | 90 % | $6.07 | 16.8 | 167 |
+
+- **Quality ties.** Every run passes verification with no unsupported statement and states the same 10 of 12
+  checklist facts. Both set-ups miss the neutrophil OSM → OSMR circuit (they discuss OSMR, not its neutrophil
+  ligand) and the published infliximab non-response genes.
+- **The team is about 27 % cheaper and 2.4 times faster** ($4.38 mean vs $6.07; 6.9 vs 16.8 minutes). The single agent
+  writes more statements and cites more of the evidence it collected.
+- **Stability.** Target-list Jaccard between team runs 0.65–0.87; CXCR2 first in all three; the single agent's list
+  overlaps the team's by 0.59–0.80.

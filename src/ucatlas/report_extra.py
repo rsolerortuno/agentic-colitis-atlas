@@ -77,6 +77,13 @@ def tables() -> dict:
     out["qa"] = f"{qa['correct']}/{qa['total']}"
     rg = pd.read_parquet(PROCESSED / "response_genes.parquet")
     out["response_counts"] = rg.groupby("arm").apply(lambda x: int((x.padj < 0.05).sum())).to_dict()
+    ab = ROOT / "evals" / "agent_benchmark.json"
+    if ab.exists():
+        b = json.loads(ab.read_text(encoding="utf-8"))
+        out["agent_benchmark"] = [{"arm": arm, **{k: r[k] for k in ("run", "statements", "unsupported", "checklist_score",
+                                                                     "checklist_max", "evidence_cited_share", "cost_usd",
+                                                                     "minutes", "turns")}}
+                                  for arm in ("team", "single") for r in b[arm]]
     sec = pd.read_parquet(PROCESSED / "spatial_sections.parquet")
     out["spatial_sections"] = sec[["gsm", "state", "cells", "assigned_fraction"]].round(2).to_dict("records")
     return out

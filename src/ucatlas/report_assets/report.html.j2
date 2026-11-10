@@ -146,6 +146,11 @@ colitis, which it was never shown? And can an agent answer factual questions abo
 {% for r in extra.eval %}<tr><td>{{ r.score }}</td><td class="num">{{ r.auroc }}</td><td class="num">{{ r.auroc_ci95[0] }}–{{ r.auroc_ci95[1] }}</td><td class="num">{{ "%.0f" | format(100 * r.recall_at_100) }} %</td><td class="num">{{ r.median_rank }}</td></tr>
 {% endfor %}</tbody></table></div>
 <p class="small">Known UC targets are mostly druggable cytokines, receptors and integrins whose mRNA changes little in biopsies, so predicted tractability alone recovers them about as well as the data-only profiles. Known-answer questions answered by an agent with the tools: {{ extra.qa }}.</p>
+{% if extra.agent_benchmark %}<h3>One agent or a team of agents?</h3>
+<p class="small">The same analysis run by the team (an Opus orchestrator and six Sonnet specialists working in parallel; three independent runs) and by one Opus agent doing all six jobs itself (one run). Checklist: 12 facts the data establish, fixed before reading the single-agent report.</p>
+<div class="tw"><table><thead><tr><th>Set-up</th><th>Run</th><th class="num">Statements</th><th class="num">Unsupported</th><th class="num">Checklist</th><th class="num">Specialist evidence cited</th><th class="num">Cost</th><th class="num">Minutes</th><th class="num">Turns</th></tr></thead><tbody>
+{% for r in extra.agent_benchmark %}<tr><td>{{ "Team" if r.arm == "team" else "One agent" }}</td><td>{{ r.run }}</td><td class="num">{{ r.statements }}</td><td class="num">{{ r.unsupported }}</td><td class="num">{{ r.checklist_score }}/{{ r.checklist_max }}</td><td class="num">{{ "%.0f" | format(100 * r.evidence_cited_share) }} %</td><td class="num">${{ "%.2f" | format(r.cost_usd) }}</td><td class="num">{{ r.minutes }}</td><td class="num">{{ r.turns }}</td></tr>
+{% endfor %}</tbody></table></div>{% endif %}
 {% if profiles %}<h3>Target and biomarker profiles (no literature, no drug history)</h3>
 <div class="grid two">{% for name, rows in profiles.items() %}<div class="card"><h4 style="margin:.1em 0">{{ name }} profile</h4>
 <ol class="small" style="color:var(--ink2)">{% for r in rows[:12] %}<li><b>{{ r.gene }}</b> {{ r.score }}{% if r.rank_interval_90 %} · top-10 in {{ "%.0f" | format(100 * r.rank_interval_90.p_top10) }} % of reweightings{% endif %}</li>{% endfor %}</ol></div>{% endfor %}</div>{% endif %}

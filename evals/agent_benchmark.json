@@ -1,0 +1,208 @@
+{
+ "team": [
+  {
+   "run": "2026-11-09_full",
+   "statements": 120,
+   "unsupported": 0,
+   "stale": 0,
+   "key_findings": 27,
+   "key_findings_uncited": 0,
+   "evidence_cited_share": 0.832,
+   "targets": [
+    "CXCR2",
+    "OSMR",
+    "IDO1",
+    "MMP1",
+    "CHI3L1",
+    "JAK2",
+    "CXCL8",
+    "DUOX2",
+    "HMGCS2",
+    "SLC26A2",
+    "S100A8",
+    "CD274",
+    "LAX1",
+    "CHRDL2"
+   ],
+   "checklist": {
+    "neutrophil_influx_explains_cxcr2": true,
+    "composition_adjustment_used": true,
+    "epithelial_loss_biomarkers": true,
+    "osm_osmr_circuit": false,
+    "tnf_nfkb_in_nonresponders": true,
+    "placebo_severity_caveat": true,
+    "two_exploratory_targets": true,
+    "known_targets_as_controls": true,
+    "il11_inflammatory_fibroblasts": true,
+    "infliximab_signature": false,
+    "replication_across_cohorts": true,
+    "genetic_support_named": true
+   },
+   "checklist_score": 10,
+   "checklist_max": 12,
+   "cost_usd": 4.73,
+   "minutes": 7.8,
+   "turns": 92,
+   "models": [
+    "claude-opus-5-5",
+    "claude-sonnet-5-5"
+   ],
+   "words": 3257
+  },
+  {
+   "run": "2026-11-09_rep1",
+   "statements": 116,
+   "unsupported": 0,
+   "stale": 0,
+   "key_findings": 29,
+   "key_findings_uncited": 0,
+   "evidence_cited_share": 0.803,
+   "targets": [
+    "CXCR2",
+    "MMP1",
+    "IDO1",
+    "OSMR",
+    "JAK2",
+    "CXCL8",
+    "DUOX2",
+    "CHI3L1",
+    "CXCR1",
+    "S100A8",
+    "HMGCS2",
+    "CLDN8",
+    "SDR16C5",
+    "CHRDL2"
+   ],
+   "checklist": {
+    "neutrophil_influx_explains_cxcr2": true,
+    "composition_adjustment_used": true,
+    "epithelial_loss_biomarkers": true,
+    "osm_osmr_circuit": false,
+    "tnf_nfkb_in_nonresponders": true,
+    "placebo_severity_caveat": true,
+    "two_exploratory_targets": true,
+    "known_targets_as_controls": true,
+    "il11_inflammatory_fibroblasts": true,
+    "infliximab_signature": false,
+    "replication_across_cohorts": true,
+    "genetic_support_named": true
+   },
+   "checklist_score": 10,
+   "checklist_max": 12,
+   "cost_usd": 4.1,
+   "minutes": 6.3,
+   "turns": 55,
+   "models": [
+    "claude-opus-5-5",
+    "claude-sonnet-5-5"
+   ],
+   "words": 2955
+  },
+  {
+   "run": "2026-11-09_rep2",
+   "statements": 119,
+   "unsupported": 0,
+   "stale": 0,
+   "key_findings": 25,
+   "key_findings_uncited": 0,
+   "evidence_cited_share": 0.774,
+   "targets": [
+    "CXCR2",
+    "CXCL8",
+    "JAK2",
+    "OSMR",
+    "IDO1",
+    "MMP1",
+    "CHI3L1",
+    "DUOX2",
+    "S100A8",
+    "HMGCS2",
+    "CLDN8",
+    "CD274",
+    "SDR16C5",
+    "CHRDL2"
+   ],
+   "checklist": {
+    "neutrophil_influx_explains_cxcr2": true,
+    "composition_adjustment_used": true,
+    "epithelial_loss_biomarkers": true,
+    "osm_osmr_circuit": false,
+    "tnf_nfkb_in_nonresponders": true,
+    "placebo_severity_caveat": true,
+    "two_exploratory_targets": true,
+    "known_targets_as_controls": true,
+    "il11_inflammatory_fibroblasts": true,
+    "infliximab_signature": false,
+    "replication_across_cohorts": true,
+    "genetic_support_named": true
+   },
+   "checklist_score": 10,
+   "checklist_max": 12,
+   "cost_usd": 4.32,
+   "minutes": 6.5,
+   "turns": 66,
+   "models": [
+    "claude-opus-5-5",
+    "claude-sonnet-5-5"
+   ],
+   "words": 2997
+  }
+ ],
+ "single": [
+  {
+   "run": "2026-11-09_single",
+   "statements": 157,
+   "unsupported": 0,
+   "stale": 0,
+   "key_findings": 19,
+   "key_findings_uncited": 0,
+   "evidence_cited_share": 0.895,
+   "targets": [
+    "CHI3L1",
+    "OSMR",
+    "CXCR2",
+    "DUOX2",
+    "MMP1",
+    "IDO1",
+    "JAK2",
+    "CXCL8",
+    "S100A8",
+    "CLDN8",
+    "HMGCS2",
+    "SDR16C5",
+    "CPXM1"
+   ],
+   "checklist": {
+    "neutrophil_influx_explains_cxcr2": true,
+    "composition_adjustment_used": true,
+    "epithelial_loss_biomarkers": true,
+    "osm_osmr_circuit": false,
+    "tnf_nfkb_in_nonresponders": true,
+    "placebo_severity_caveat": true,
+    "two_exploratory_targets": true,
+    "known_targets_as_controls": true,
+    "il11_inflammatory_fibroblasts": true,
+    "infliximab_signature": false,
+    "replication_across_cohorts": true,
+    "genetic_support_named": true
+   },
+   "checklist_score": 10,
+   "checklist_max": 12,
+   "cost_usd": 6.07,
+   "minutes": 16.8,
+   "turns": 167,
+   "models": [
+    "claude-opus-5-5"
+   ],
+   "words": 3396
+  }
+ ],
+ "target_jaccard": {
+  "2026-11-09_full vs 2026-11-09_rep1": 0.65,
+  "2026-11-09_full vs 2026-11-09_rep2": 0.75,
+  "2026-11-09_full vs 2026-11-09_single": 0.59,
+  "2026-11-09_rep1 vs 2026-11-09_rep2": 0.87,
+  "2026-11-09_rep1 vs 2026-11-09_single": 0.8,
+  "2026-11-09_rep2 vs 2026-11-09_single": 0.8
+ }
+}
