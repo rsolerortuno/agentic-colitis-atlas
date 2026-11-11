@@ -19,7 +19,7 @@ uv run python -m ucatlas.spatial_cosmx_download   # CosMx GSE312415: streams a 6
 ```
 
 Two single-cell datasets need a Broad Single Cell Portal login and are placed by hand (see `data/README.md`):
-Smillie et al. 2019 (SCP259) in `data/raw/scp259/` and Gubatan et al. 2026 (SCP3755) in `data/raw/scp3755/`.
+Smillie et al. 2019 (SCP259) in `data/raw/scp259/` and Gubatan et al. 2026 (SCP3755) in `data/raw/scp3755/`. GSE282122 (anti-TNF atlas, 3.0 GB) is fetched by `download.run_gse282122()` into `data/raw/gse282122/`.
 Every downloaded file is listed with its URL, date, size and SHA-256 in a manifest next to it. `ucatlas.download`
 also fetches the FinnGen and Liu 2023 GWAS (about 0.8 GB each), the proteomics table, the MGI reports, gnomAD constraint
 and the supplementary tables of the anti-TNF atlas. Open Targets API answers (colocalisation, safety) and Europe PMC

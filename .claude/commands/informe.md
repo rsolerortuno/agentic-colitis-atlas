@@ -49,7 +49,9 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
      whether blood and gut agree, and whether results replicate in FinnGen), and mouse models (MGI colitis
      phenotypes) where the external agent reports them.
    - `cells` (2–3 paragraphs) from `agent_cells.verified.json`: which cell makes each leading candidate (epithelium,
-     stroma, myeloid cells, neutrophils, lymphocytes), whether the attribution replicates, and which bulk changes are
+     stroma, myeloid cells, neutrophils, lymphocytes), whether the attribution replicates across the four single-cell
+     atlases (Smillie 2019, Garrido-Trigo 2023, Gubatan 2026, GSE282122: replicated = the lineage is dominant in at
+     least two of the three others; name the atlases), and which bulk changes are
      tissue changes vs. cell influx after the composition adjustment (with its over-correction caveat). Use this to
      separate targets in a cell type from markers of inflammation; neutrophil genes are the main example. Add the in-situ view (Xenium cells, Visium spots) where it
      confirms or contradicts the attribution.

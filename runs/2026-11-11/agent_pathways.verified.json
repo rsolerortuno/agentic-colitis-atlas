@@ -1,0 +1,154 @@
+{
+ "agent": "agente-vias",
+ "findings": [
+  {
+   "role": "pathway",
+   "statement": "PROGENy JAK-STAT activity is increased in all eight cohorts with none decreasing, with very strong t values in the largest cohort. This is a robust, already drug-targeted axis (JAK inhibitors), but one of many pathways raised together.",
+   "evidence_ids": [
+    "EV:pathway_activity:857e4a238866"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "role": "pathway",
+   "statement": "The STAT3 regulon is up in all eight cohorts, consistent with IL-6/gp130/OSM-family signalling. Inferred from target genes, not STAT3 mRNA.",
+   "evidence_ids": [
+    "EV:tf_activity:3872bb7e4170"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "role": "pathway",
+   "statement": "TNFa and NFkB PROGENy pathways are up in all eight cohorts with no cohort decreasing, and the RELA regulon is also up in all eight. TNF is already drug-targeted, so this confirms a validated axis rather than a new one.",
+   "evidence_ids": [
+    "EV:pathway_activity:354d06d55f30",
+    "EV:pathway_activity:83609ee9d45c",
+    "EV:tf_activity:caeb8892aad8"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "role": "pathway",
+   "statement": "EGFR, TGFb and Hypoxia pathways are each up in all eight cohorts, none down. Broad stress and repair programs: replicated but non-specific, and none is an established UC drug axis here.",
+   "evidence_ids": [
+    "EV:pathway_activity:6bce27c2d6df",
+    "EV:pathway_activity:c1edd8eab753",
+    "EV:pathway_activity:2dff0fb8bf66"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "role": "pathway",
+   "statement": "Negative result: the p53 pathway is not increased in any cohort and is lower in three; it is not a consistent inflamed-UC signal. Androgen is also heterogeneous (up in two, down in three cohorts).",
+   "evidence_ids": [
+    "EV:pathway_activity:f22c2605df7f"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CXCL8",
+   "role": "target",
+   "statement": "CXCL8 is the top-ranked cytokine candidate (third in convergence): log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.864], up in all eight cohorts. Smillie bulk-lineage attribution is myeloid macrophages (replicated in three other atlases), but in Gubatan single cell the transcripts are mostly neutrophil, mainly Neutrophil CXCR4, Neutrophil and Neutrophil OSM states. Only Phase 2 anti-IL-8 drugs exist (ABX-IL8, adakitug).",
+   "evidence_ids": [
+    "EV:expression_meta:1e78b2f07f0c",
+    "EV:sc_summary:1e78b2f07f0c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1e78b2f07f0c",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.864",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "CXCR2 ranks first in convergence (up in all eight cohorts, genetics and tractability both high; CXCR2 antagonists navarixin, reparixin, ladarixin, SX-682 are in phase two and phase three trials, mostly outside UC). Its transcripts are neutrophil-dominated in Gubatan, whereas Smillie assigns T/NK and that lineage call is not replicated across atlases, so the source is infiltrating neutrophils rather than a tissue-resident change.",
+   "evidence_ids": [
+    "EV:expression_meta:1fce9fb2531f",
+    "EV:sc_summary:1fce9fb2531f",
+    "EV:open_targets_drug:d584726e0cd6"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "mechanism",
+   "statement": "Neutrophil-to-neutrophil CXCL8-CXCR2 circuit: Neutrophil CXCR4 sends to Neutrophil receivers and the score rises strongly in inflamed versus uninflamed mucosa (largest log2 change among the top pairs), an autocrine/paracrine recruitment loop. Co-expression, not proof of signalling.",
+   "evidence_ids": [
+    "EV:communication:b9127b21b2b8"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "mechanism",
+   "statement": "Neutrophil CXCL8 also reaches ACKR1 endothelial cells (atypical chemokine receptor that presents chemokine for transmigration); Neutrophil CXCR4 to ACKR1 endothelial is the highest-scoring CXCL8 pair in inflamed mucosa. ACKR1 is not a currently drugged target.",
+   "evidence_ids": [
+    "EV:communication:c62b6bd3666d"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "OSM",
+   "role": "mechanism",
+   "statement": "Negative or weak result for the neutrophil OSM to fibroblast circuit: OSM-IL6ST scores toward LP fibroblasts are about two orders of magnitude below the CXCL8 pairs, and Neutrophil OSM to LP and crypt-bottom fibroblasts fall in inflamed versus uninflamed mucosa. Neutrophil OSM-to-fibroblast signalling is not supported as a dominant circuit by this co-expression data.",
+   "evidence_ids": [
+    "EV:communication:4d0d45341a1c",
+    "EV:communication:df2dc588b586"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "IL1B",
+   "role": "mechanism",
+   "statement": "IL1B is up in all eight cohorts. Monocyte-derived macrophages signal through IL1R2 to neutrophil states with high co-expression scores. IL1R2 is a decoy receptor, so this may dampen rather than drive signalling. IL-1 blockade (canakinumab) is approved for other diseases, not UC.",
+   "evidence_ids": [
+    "EV:communication:6e1b2d237823",
+    "EV:expression_meta:8fc39aea69af"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "TREM1",
+   "role": "target",
+   "statement": "TREM1 is up in all eight cohorts with the Phase 2 drug nangibotide, but no ligand-receptor pair passes expression thresholds in the single-cell dataset, so its sender-receiver circuit cannot be resolved here.",
+   "evidence_ids": [
+    "EV:expression_meta:cf67e67b4e3b"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "IDO1",
+   "role": "target",
+   "statement": "IDO1 is up in all eight cohorts and has literature support but no genetic evidence; drugs (epacadostat, linrodostat) exist from oncology only. A repurposing candidate, not UC-validated.",
+   "evidence_ids": [
+    "EV:expression_meta:2b76723dce27"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "Pathway and TF activities are inferred from target genes in bulk biopsies and reflect cell composition (neutrophil/monocyte infiltration) as much as tissue-intrinsic change.",
+  "Inflamed mucosa activates many pathways at once; most PROGENy pathways are up in nearly all cohorts, so they are weak discriminators.",
+  "Ligand-receptor scores are co-expression, not evidence of signalling; only top pairs per gene were returned.",
+  "IL-23 and integrin genes were not queried individually."
+ ]
+}

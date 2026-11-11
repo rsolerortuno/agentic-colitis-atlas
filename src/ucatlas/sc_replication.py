@@ -103,12 +103,17 @@ def run4(genes: list[str]) -> dict:
     import json
     top = lambda s: s.sort_values("share", ascending=False).drop_duplicates("gene").set_index("gene")
     a = shares_2019()
-    tabs = {"smillie": top(a[a["gene"].isin(genes)]), "garrido": top(shares_2023(genes)),
-            "gubatan": top(shares_gubatan(genes)), "gse282122": top(shares_gse282122(genes))}
+    full = {"smillie": a[a["gene"].isin(genes)], "garrido": shares_2023(genes), "gubatan": shares_gubatan(genes),
+            "gse282122": shares_gse282122(genes)}
+    tabs = {k: top(v) for k, v in full.items()}
     out = pd.DataFrame({"gene": tabs["smillie"].index})
     for k, t in tabs.items():
         out[f"lineage_{k}"] = out.gene.map(t["lineage"])
         out[f"share_{k}"] = out.gene.map(t["share"]).astype(float).round(3)
+    for k in ("garrido", "gubatan", "gse282122"):   # share of the Smillie lineage in each other atlas (for the figure)
+        s = full[k].set_index(["gene", "lineage"])["share"]
+        out[f"share_same_{k}"] = [round(float(s.get((g, L), 0.0)), 3) if pd.notna(out.at[i, f"lineage_{k}"]) else None
+                                  for i, (g, L) in enumerate(zip(out.gene, out.lineage_smillie))]
     others = [k for k in ATLASES if k != "smillie"]
     for k in others:
         out[f"agree_{k}"] = out[f"lineage_{k}"] == out["lineage_smillie"]

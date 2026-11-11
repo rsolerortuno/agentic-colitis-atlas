@@ -141,8 +141,8 @@ and described in [data/README.md](data/README.md).
 - **Tissue change or cell influx.** Per gene, the inflamed effect is re-estimated after adjusting for the abundance of
   neutrophils, myeloid cells, lymphocytes, plasma cells, epithelium and stroma in each biopsy; the share of the change
   that survives decides whether it is a tissue change.
-- **Cells and tissue.** Pseudobulk cell-type attribution in three single-cell datasets, and the dominant lineage
-  checked in a fourth (GSE282122, whose cells are typed here from canonical markers); in Xenium sections, the
+- **Cells and tissue.** Pseudobulk cell-type attribution in four single-cell atlases (GSE282122 typed here into
+  lineages from canonical markers); a lineage replicates when two of the three other atlases agree; in Xenium sections, the
   share of a gene's transcripts in each cell lineage and the lineages enriched around expressing cells (permutation
   test). Visium spots hold several cells, so each spot is deconvolved into 12 cell groups with the single-cell
   profiles (non-negative least squares on marker genes; candidate genes are never markers). A gene's spot expression
@@ -176,7 +176,7 @@ and described in [data/README.md](data/README.md).
 
 ## 5. Main results
 
-Numbers come from the saved, reviewed analysis (`runs/2026-11-10`). The report gives the detail and the caveats.
+Numbers come from the saved, reviewed analysis (`runs/2026-11-11`, the agent run redone with four single-cell atlases). The report gives the detail and the caveats.
 
 **Known biology is recovered.**
 Inflamed mucosa gains antimicrobial, neutrophil and tissue-remodelling genes (S100A8, LCN2, DUOX2, CXCL8, MMP3) and
@@ -248,7 +248,7 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 
 | Check | Result |
 |---|---|
-| Agent text against its evidence | 119 statements checked, no failures detected by the automatic checks; 24 of 24 key findings of the specialists reach the report |
+| Agent text against its evidence | 116 statements checked, no failures detected by the automatic checks; 28 of 28 key findings of the specialists reach the report |
 | Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (76/76), other-gene attributions (81/81) and swapped evidence (81/81); 72 % of flipped directions where the sentence cites expression evidence (23/32), 32 % of all flipped directions (literature, cell and treatment sentences are not direction-checked) |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.83, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.81; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100, none for predicted tractability alone. Retrospective: the data are not frozen at 2016 |
@@ -271,12 +271,12 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Biomarker profile against UC clinical targets | AUROC 0.79 (biomarkers are not meant to be drug targets; reported for completeness) |
 | Known-answer questions answered with the project's tools | 10 of 10 |
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
-| Repeat agent runs (final data) | Three team runs: 116–124 statements, 0 unsupported; target-list overlap (Jaccard) 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each |
-| Single agent against multi-agent (final data) | Same quality (0 unsupported; 10–11 of 12 checklist facts); the team was about 36 % cheaper ($4.79 vs $7.52 on average) and 2.5 times faster (7.6 vs 19.3 minutes); the single agent cited less of its evidence (82 % vs 90–98 %) |
+| Repeat agent runs (data of 2026-11-10) | Three team runs: 116–124 statements, 0 unsupported; target-list overlap (Jaccard) 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each |
+| Single agent against multi-agent (data of 2026-11-10) | Same quality (0 unsupported; 10–11 of 12 checklist facts); the team was about 36 % cheaper ($4.79 vs $7.52 on average) and 2.5 times faster (7.6 vs 19.3 minutes); the single agent cited less of its evidence (82 % vs 90–98 %) |
 | Single-cell lineage in four atlases | For 1,003 genes the Smillie 2019 lineage is also dominant in 804 of 995 (Garrido-Trigo 2023), 635 of 878 (Gubatan 2026) and 851 of 997 (GSE282122); 811 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
 | Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 48–54 %, PCDH17 13 %) |
-| Report validator | 630 claims, 1,241 evidence records, 1,392 citation links, all resolvable, no external resources |
-| Knowledge graph | 587,096 claims, 0 without a resolvable evidence record |
+| Report validator | 649 claims, 1,259 evidence records, 1,348 citation links, all resolvable, no external resources |
+| Knowledge graph | 587,712 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (235 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
@@ -372,7 +372,7 @@ tests/               automated tests
 |---|---|
 | `download.py`, `cohorts.py`, `reproducibility.py` | Downloads with manifests, the sample table of the eight cohorts, the frozen-input check |
 | `expression.py`, `activity.py` | Per-cohort differential expression, meta-analysis, replication; correlation with disease activity |
-| `singlecell.py`, `sc_replication.py`, `sc_neutrophil.py`, `sc_gse282122.py`, `composition.py` | Cell attribution in three single-cell datasets, lineage typing of the GSE282122 matrices and replication across four atlases, tissue change vs cell influx |
+| `singlecell.py`, `sc_replication.py`, `sc_neutrophil.py`, `sc_gse282122.py`, `composition.py` | Cell attribution in four single-cell atlases, lineage typing of the GSE282122 matrices and replication across four atlases, tissue change vs cell influx |
 | `spatial.py`, `spatial_visium.py`, `spatial_deconv.py`, `spatial_download.py` | Xenium cell typing, attribution and neighbourhoods; Visium compartments, spot deconvolution, in-situ expressers, neighbourhoods and the tissue-viewer data; range-request downloads |
 | `mr.py`, `mr_colon.py` | Mendelian randomisation with plasma pQTL and with gut eQTL (colon tissue, gut cell types), colocalisation check |
 | `structure.py`, `protein_viewer.py` | AlphaFold models, pocket detection and score, ligand-site check, 3D viewer data |

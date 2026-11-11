@@ -233,25 +233,23 @@ def neutrophil_vs_retained(genes: list[str]) -> str:
 
 
 def sc_replication_figure() -> tuple[str, dict]:
-    d = _p("sc_replication.parquet").dropna(subset=["share_2019", "share_2023"])
-    lins = d.lineage_2019.value_counts().index[:3].tolist()
+    """Share of each gene in its Smillie 2019 lineage against the share of the same lineage in each other atlas."""
+    from .sc_replication import ATLASES
+    r4 = _p("sc_replication4.parquet")
     fig = go.Figure()
-    for lin, color in zip(lins, CAT):
-        s = d[d.lineage_2019 == lin]
-        fig.add_trace(go.Scatter(x=s.share_2019, y=s.share_2023, mode="markers", name=f"dominant in Smillie: {lin}",
-                                 marker=dict(color=color, size=6, opacity=.7), text=s.gene,
+    stats_ = {"genes": int(len(r4)), "rho": {}}
+    for k, color in zip(("garrido", "gubatan", "gse282122"), CAT):
+        d = r4[["gene", "share_smillie", f"share_same_{k}"]].dropna()
+        rho = float(d.share_smillie.corr(d[f"share_same_{k}"], method="spearman"))
+        stats_["rho"][ATLASES[k]] = round(rho, 2)
+        fig.add_trace(go.Scatter(x=d.share_smillie, y=d[f"share_same_{k}"], mode="markers", name=f"{ATLASES[k]} (rho {rho:.2f})",
+                                 marker=dict(color=color, size=5, opacity=.55), text=d.gene,
                                  hovertemplate="%{text}: %{x:.2f} vs %{y:.2f}<extra></extra>"))
-    o = d[~d.lineage_2019.isin(lins)]
-    fig.add_trace(go.Scatter(x=o.share_2019, y=o.share_2023, mode="markers", name="other lineages",
-                             marker=dict(color=GRAY, size=5, opacity=.5), text=o.gene + " (" + o.lineage_2019 + ")",
-                             hovertemplate="%{text}: %{x:.2f} vs %{y:.2f}<extra></extra>"))
     fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode="lines", line=dict(color=GRAY, dash="dot", width=1), showlegend=False,
                              hoverinfo="skip"))
     fig.update_xaxes(title="share in the dominant lineage, Smillie et al. 2019", range=[0, 1.02])
-    fig.update_yaxes(title="share in the same lineage, second atlas", range=[0, 1.02])
-    rho = float(d.share_2019.corr(d.share_2023, method="spearman"))
-    stats_ = {"genes": int(len(d)), "same_lineage": int(d.same_lineage.sum()), "rho": round(rho, 2)}
-    return _html(fig, 430, f"Does a second single-cell atlas agree? (ρ = {rho:.2f}, {len(d)} genes)"), stats_
+    fig.update_yaxes(title="share in the same lineage, other atlas", range=[0, 1.02])
+    return _html(fig, 460, f"Do the other three atlases agree? ({len(r4)} genes)"), stats_
 
 
 def visium_map(section: str, title: str) -> str | None:

@@ -331,3 +331,11 @@ of 995, Gubatan 635 of 878, GSE282122 851 of 997. The cell-source light now need
 shortlist: one change, OLFML2B (stromal in Smillie and GSE282122, myeloid in Garrido-Trigo and Gubatan) goes from
 green to amber and from group A to B. New graph evidence types sc_lineage_gse282122 and sc_replication_4atlas; the
 records the agents cite are unchanged (verify final: 0 unsupported, 0 stale).
+
+**Agent run with four atlases (runs/2026-11-11).** The cell tool now returns the lineage in each atlas and the
+two-of-three rule, so the six specialists and the orchestrator were re-run on it. Verification: 116 statements,
+0 unsupported, 0 stale, 28 of 28 key findings cited (first pass dropped 33 of 73 agent statements for formatting of
+numbers; fixed by the agents from the verifier output). Content changes: CXCR2's Smillie lineage (T/NK) is confirmed
+by only the anti-TNF atlas, Garrido-Trigo and Gubatan give myeloid; MMP1, DUOX2 and HMGCS2 replicate in all three
+other atlases, CHI3L1 and IDO1 in two. Leading targets unchanged (CXCR2 first, IL12B as positive control); CHRDL2 and
+CPXM1 are the exploratory first-in-class targets.

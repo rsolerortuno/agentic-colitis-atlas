@@ -1,0 +1,11 @@
+{
+ "key_findings": 28,
+ "key_findings_not_cited": [],
+ "evidence_types_not_cited": [
+  "mouse_colitis_literature",
+  "mr_sensitivity",
+  "open_targets_tract",
+  "target_safety"
+ ],
+ "share_of_finding_evidence_cited": 0.739
+}

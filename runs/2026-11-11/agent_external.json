@@ -1,0 +1,241 @@
+{
+ "agent": "agente-externo",
+ "findings": [
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "CXCR2 is the top convergence gene: up in biopsies in all cohorts (meta log2FC [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.814]), with Open Targets genetic association, small-molecule and antibody tractability, and clinical antagonists (reparixin phase three; navarixin, ladarixin, danirixin, elubrixin, SX-682 phase two). It has no cis-pQTL or gut eQTL instrument, so MR is not tested (absence of evidence only).",
+   "evidence_ids": [
+    "EV:expression_meta:1fce9fb2531f",
+    "EV:open_targets_assoc:7d06375723b1",
+    "EV:open_targets_drug:b6ab97730b13",
+    "EV:open_targets_tract:1fce9fb2531f"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:1fce9fb2531f",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.814",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "CXCR2 has many papers in mouse colitis (including the antagonist SB225002 ameliorating acute colitis), but MGI has no curated single-gene colitis phenotype. Not strongly constrained and no known safety events or pleiotropic traits sharing the genetic signal; its Reactome pathways are neutrophil degranulation, chemokine receptor binding and G alpha(i) signalling.",
+   "evidence_ids": [
+    "EV:mouse_colitis_literature:1fce9fb2531f",
+    "EV:target_safety:1fce9fb2531f"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CD274",
+   "role": "target",
+   "statement": "CD274 (PD-L1) is the best example of blood MR and biopsy expression agreeing in direction of benefit: genetically higher plasma protein lowers UC risk, colocalises with the IBD GWAS and replicates in FinnGen and Liu 2023 [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595]. Because it is up in UC mucosa while protein is protective, this argues for a protective, compensatory induction, so inhibiting it (existing anti-PD-L1 drugs) would be the wrong direction; agonism is the therapeutic logic.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:822a01cbf7e8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:822a01cbf7e8",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "0.595",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CD274",
+   "role": "target",
+   "statement": "CD274 MR sensitivity: Steiger direction is correct and Egger intercept is not significant, but heterogeneity is present [gene=CD274; type=mr_sensitivity; source=DATASET:MR_UKBPPP_UC; layer=plasma_protein; heterogeneity_p=0.0259]. LOEUF is moderate and not flagged as strongly constrained [gene=CD274; type=target_safety; source=DATASET:SAFETY; loeuf=0.476]; no known safety events listed, although checkpoint blockade is not a UC-safe direction. No gut eQTL instrument (not tested).",
+   "evidence_ids": [
+    "EV:mr_sensitivity:27fd0fb9cfeb",
+    "EV:target_safety:822a01cbf7e8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mr_sensitivity:27fd0fb9cfeb",
+     "field": [
+      "heterogeneity_p"
+     ],
+     "display": "0.0259",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:target_safety:822a01cbf7e8",
+     "field": [
+      "loeuf"
+     ],
+     "display": "0.476",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "IL12B",
+   "role": "target",
+   "statement": "IL12B is an established UC target and the strongest plasma MR hit: higher protein raises UC risk, so inhibition is protective, colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023 [gene=IL12B; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=1.539]. It validates the MR design as a positive control. Safety: not strongly constrained; shared genetic signal with psoriasis, mouth ulcers and vasculitis traits, and MR heterogeneity is highly significant.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:9dfc6633064a",
+    "EV:target_safety:9dfc6633064a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:9dfc6633064a",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "1.539",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "IL10",
+   "role": "mechanism",
+   "statement": "IL10 is a genetically protective cytokine: one cis-pQTL Wald ratio shows higher plasma protein lowers UC risk, colocalising with the GWAS and replicating in FinnGen [gene=IL10; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.071]. The single instrument makes the effect size implausibly large; the direction supports an anti-inflammatory axis rather than an inhibitor target.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:dddeb2e6c55d"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:dddeb2e6c55d",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "0.071",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CXCL8",
+   "role": "biomarker",
+   "statement": "CXCL8 is among the most strongly and consistently induced genes in all cohorts, with a phase two anti-interleukin-8 antibody and literature support, but has zero Open Targets genetic association and plasma MR is null with no replication [gene=CXCL8; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.289]. It is better as an activity biomarker and ligand of the CXCR1 and CXCR2 axis than as a genetically supported target.",
+   "evidence_ids": [
+    "EV:expression_meta:1e78b2f07f0c",
+    "EV:mendelian_randomization:1e78b2f07f0c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:1e78b2f07f0c",
+     "field": [
+      "p"
+     ],
+     "display": "0.289",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCL5",
+   "role": "mechanism",
+   "statement": "CXCL5 is up in UC biopsies in all cohorts, yet genetically higher plasma protein lowers UC risk and replicates in FinnGen and Liu 2023, without colocalisation and using a tag variant [gene=CXCL5; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.634]. Blood genetics oppose the biopsy direction, a caution against blocking ELR+ chemokines on expression alone; it is expression-led with no drug.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:f16933725bec",
+    "EV:expression_meta:f16933725bec"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:f16933725bec",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "0.634",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "IDO1",
+   "role": "target",
+   "statement": "IDO1 is strongly induced in biopsies and has clinical-stage inhibitors (linrodostat phase three) and many mouse colitis papers, but has no Open Targets genetic association and plasma MR is not significant [gene=IDO1; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.111]; colon eQTL MR is also not significant. Expression-led, genetically unsupported.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:2b76723dce27",
+    "EV:expression_meta:2b76723dce27",
+    "EV:mouse_colitis_literature:2b76723dce27"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:2b76723dce27",
+     "field": [
+      "p"
+     ],
+     "display": "0.111",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "SLC26A3",
+   "role": "target_and_biomarker",
+   "statement": "SLC26A3 expression is lower (decreased) in UC biopsies in all cohorts [gene=SLC26A3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-1.702]. In gut cell-type eQTL MR (OLFM4+ crypt progenitor enterocytes), the genetic estimate is risk-raising for UC, colocalising and replicating in FinnGen [gene=SLC26A3; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=gut_cell; odds_ratio_per_sd=1.607]. Single instrument, one cell type; the tissue loss is likely a consequence of epithelial damage rather than the causal direction. Tissue and genetics disagree; no cis-pQTL (plasma not tested).",
+   "evidence_ids": [
+    "EV:expression_meta:6a7d4f43d1fa",
+    "EV:mendelian_randomization_gut:4fe9ea5094fd"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:6a7d4f43d1fa",
+     "field": [
+      "log2fc"
+     ],
+     "display": "-1.702",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:mendelian_randomization_gut:4fe9ea5094fd",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "1.607",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "JAK2",
+   "role": "target",
+   "statement": "JAK2 is the top-ranked known UC target by Open Targets association, but shows only a small expression change in biopsies, so genetic support is not matched by strong tissue change; the other known UC targets in the list (JAK3, TYK2, IL23A, TNF, ITGA4, ITGB7, S1PR1) are drug targets already.",
+   "evidence_ids": [
+    "EV:open_targets_assoc:3c2fb97467a0"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "IRF5",
+   "role": "mechanism",
+   "statement": "Strongest colon-tissue eQTL MR signals include IRF5 and IRF8, where higher expression in transverse colon raises UC risk with GWAS colocalisation, implicating innate and interferon regulatory transcription factors; these are single-instrument results in a different layer from plasma protein.",
+   "evidence_ids": [
+    "EV:mendelian_randomization_gut:3c706dcb8c99",
+    "EV:mendelian_randomization_gut:2750f88547e4"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "Plasma protein is not mucosal protein; most top expression genes (CXCR2, CXCL8, MMPs, S100A8/9, CHI3L1) lack a cis-pQTL or gut eQTL, so not tested is not evidence against them.",
+  "Single-instrument MR estimates (IL10, SLC26A3) have inflated effect sizes and cannot be tested for pleiotropy.",
+  "Convergence scores weight tractability and literature; many top genes have zero Open Targets genetic association.",
+  "Drugs listed come from Open Targets records in any indication, not UC-specific trials.",
+  "Findings on S1PR1, TNF etc. were not individually queried; only convergence_ranking and disease_top_targets were used for them."
+ ]
+}

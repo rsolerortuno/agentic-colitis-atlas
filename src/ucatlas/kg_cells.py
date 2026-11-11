@@ -1,8 +1,11 @@
 """M11: load the single-cell attribution (Smillie 2019, replication in Garrido-Trigo 2023, neutrophils from Gubatan 2026) into the graph (one sc_summary record per gene, with its replication).
 
 Record fields: the three clusters with the largest share of the gene's transcripts in inflamed, non-inflamed and
-healthy mucosa, the dominant lineage in inflamed mucosa with its share, the second dataset's dominant lineage and
-whether they agree. Genes: those in the meta-analysis that are measured in Smillie 2019."""
+healthy mucosa, the dominant lineage in inflamed mucosa with its share, and the replication of that lineage. Since
+2026-11-11 (agent run 2026-11-11) the replication covers four atlases: the dominant lineage in Garrido-Trigo 2023,
+Gubatan 2026 and GSE282122 (Thomas 2024), how many of the three agree with Smillie, and replicated = at least two of
+three (sc_replication.run4). Genes outside the four-atlas comparison keep the two-atlas check. Genes: those in the
+meta-analysis that are measured in Smillie 2019."""
 from __future__ import annotations
 
 from datetime import date
@@ -21,6 +24,8 @@ def summaries(genes: set[str]) -> dict[str, dict]:
     s = s[s["gene"].isin(genes)]
     rep_p = PROCESSED / "sc_replication.parquet"
     rep = pd.read_parquet(rep_p).set_index("gene") if rep_p.exists() else pd.DataFrame()
+    rep4_p = PROCESSED / "sc_replication4.parquet"
+    rep4 = pd.read_parquet(rep4_p).set_index("gene") if rep4_p.exists() else pd.DataFrame()
     from .sc_replication import shares_2019
     lin = shares_2019("inflamed")
     lin = lin[lin["gene"].isin(genes)].sort_values("share", ascending=False).drop_duplicates("gene").set_index("gene")
@@ -37,7 +42,16 @@ def summaries(genes: set[str]) -> dict[str, dict]:
                "top_clusters_healthy": h.get("healthy", [])}
         if gene in lin.index:
             rec.update(dominant_lineage=lin.loc[gene, "lineage"], dominant_lineage_share=round(float(lin.loc[gene, "share"]), 3))
-        if len(rep) and gene in rep.index:
+        if len(rep4) and gene in rep4.index:
+            r4 = rep4.loc[gene]
+            lin4 = lambda k: r4[f"lineage_{k}"] if pd.notna(r4[f"lineage_{k}"]) else "not measured"
+            rec.update(lineage_garrido2023=lin4("garrido"), lineage_gubatan2026=lin4("gubatan"),
+                       lineage_gse282122=lin4("gse282122"),
+                       share_gse282122=None if pd.isna(r4["share_gse282122"]) else float(r4["share_gse282122"]),
+                       other_atlases_agreeing=int(r4["n_agree"]), replicated=bool(r4["replicated"]),
+                       replication_rule="the Smillie 2019 lineage is also dominant in at least 2 of the 3 other atlases "
+                                        "(Garrido-Trigo 2023, Gubatan 2026, GSE282122)")
+        elif len(rep) and gene in rep.index:
             rec.update(lineage_second_dataset=rep.loc[gene, "lineage_2023"], replicated=bool(rep.loc[gene, "same_lineage"]))
         if gene in neu:
             rec.update(neutrophil_share_inflamed=neu[gene]["neutrophil_share"],
@@ -72,6 +86,9 @@ def load(store: GraphStore | None = None) -> dict:
         store.add_node(DATASET, "Dataset", "Smillie et al. 2019 colon scRNA-seq (SCP259): UC inflamed, non-inflamed, healthy")
         store.add_node(DATASET_2, "Dataset", "Garrido-Trigo et al. 2023 colon scRNA-seq (CZ CELLxGENE): UC, CD, healthy")
         store.add_node("DATASET:SCP3755", "Dataset", "Gubatan et al. 2026 UC colon scRNA-seq with neutrophils (SCP3755)")
+        if store.get_node("DATASET:GSE282122") is None:
+            store.add_node("DATASET:GSE282122", "Dataset", "Anti-TNF (adalimumab) longitudinal single-cell atlas of IBD "
+                                                          "(Thomas et al. 2024, GSE282122)")
         for gene, rec in summaries(genes).items():
             node = store.resolve(gene)
             if not node or node["type"] != "Gene":

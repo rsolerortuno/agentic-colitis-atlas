@@ -229,7 +229,49 @@ def cell_tables(genes: list[str], store: GraphStore) -> dict:
     return {"cell_rows": rows, "sc_rep_rows": sc_rep_rows, "spatial_rows": spatial_rows, "xenium_rows": xen_rows,
             "rep4": rep4,
             "xenium_sections": sec[cols].round(2).to_dict("records"), "visium": vis,
-            "sc3_cells": int(cells3.n_cells.sum())}
+            "sc3_cells": int(cells3.n_cells.sum()), "atlas_cells": atlas_cells(int(cells3.n_cells.sum()))}
+
+
+def antitnf_own_check() -> list[dict]:
+    """GSE282122 typed in this project: per-cell level of each shortlist gene (groups A and B) in its dominant
+    lineage, inflamed UC biopsies before adalimumab, non-remission vs remission. Descriptive only (six remitters)."""
+    p, sl_p = PROCESSED / "sc4_response_share.parquet", PROCESSED / "validation_shortlist.parquet"
+    if not (p.exists() and sl_p.exists()):
+        return []
+    sl = pd.read_parquet(sl_p)
+    genes = sl.gene[sl.group != "C"].tolist()
+    rs = pd.read_parquet(p, filters=[("gene", "in", genes)])
+    rs = rs[(rs.health == "inflamed") & (rs.time == "pre") & rs.response.isin(["remission", "non_remission"])]
+    rows = []
+    for g in genes:
+        d = rs[rs.gene == g]
+        if d.empty:
+            continue
+        lin = d.groupby("cluster").cp10k_sum.sum().idxmax()
+        x = d[d.cluster == lin].set_index("response")
+        if not {"remission", "non_remission"} <= set(x.index):
+            continue
+        a, b = float(x.at["non_remission", "mean_cp10k"]), float(x.at["remission", "mean_cp10k"])
+        rows.append({"gene": g, "group": sl.set_index("gene").at[g, "group"], "lineage": lin,
+                     "non_remission": _num(a, 3), "remission": _num(b, 3),
+                     "log2_ratio": _num(np.log2((a + 0.01) / (b + 0.01)), 2),
+                     "evidence_ids": [evidence_id("sc_lineage_gse282122", g)]})
+    return rows
+
+
+def atlas_cells(sc3: int) -> dict:
+    """Cells of the four single-cell atlases (Smillie 2019, Garrido-Trigo 2023, Gubatan 2026, GSE282122)."""
+    out = {"Smillie 2019": int(pd.read_parquet(PROCESSED / "sc_cells.parquet")["n_cells"].sum()), "Gubatan 2026": sc3}
+    h5 = RAW / "sc_garrido2023" / "ibd_hc_10x.h5ad"
+    if h5.exists():
+        import anndata as ad
+        a = ad.read_h5ad(h5, backed="r")
+        out["Garrido-Trigo 2023"] = int(a.n_obs)
+        a.file.close()
+    s4 = PROCESSED / "sc4_summary.json"
+    if s4.exists():
+        out["GSE282122"] = int(json.loads(s4.read_text(encoding="utf-8"))["cells_typed"])
+    return out
 
 
 def genetics_tables(genes: list[str]) -> dict:
@@ -386,8 +428,10 @@ def agents_vs_ranking(f: dict) -> list[dict]:
 
 def datasets() -> list[dict]:
     rows = []
-    for mp in [RAW / "manifest.json"] + sorted((RAW / "spatial").glob("*/manifest.json")):
+    for mp in [RAW / "manifest.json"] + sorted((RAW / "spatial").glob("*/manifest.json")) + \
+            [RAW / s / "manifest.json" for s in ("scp259", "scp3755", "gse282122") if (RAW / s / "manifest.json").exists()]:
         m = json.loads(mp.read_text(encoding="utf-8"))
+        m = m["files"] if isinstance(m.get("files"), dict) else m   # single-cell manifests keep files under "files"
         for k, v in sorted(m.items()):
             url = v.get("url") or ""
             rows.append({"file": k if mp.parent == RAW else f"{mp.parent.name}/{k}", "url": url if url.startswith("http") else None,
@@ -541,6 +585,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                               "after": "; ".join(f"{x['cell_state']} {x['coef']:+.2f}" for x in v["after_vs_before_treatment"][:3]) or "—",
                               "evidence_ids": [evidence_id("antitnf_singlecell", g)]})
         third["antitnf_rows"] = rows_
+        third["antitnf_own"] = antitnf_own_check()
     if (PROCESSED / "calprotectin.parquet").exists():
         cp = pd.read_parquet(PROCESSED / "calprotectin.parquet").set_index("gene")
         third["calprotectin"] = [{"gene": g, "rho": _num(cp.at[g, "rho"]), "padj": f"{cp.at[g, 'padj']:.2g}"}
@@ -624,7 +669,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     samples = pd.read_parquet(PROCESSED / "samples.parquet")
     xen_cells = int(pd.read_parquet(PROCESSED / "spatial_sections.parquet")["cells"].sum())
     kpis = {"universe": f["convergence"]["universe_size"], "claims": graph_stats["claims_total"], "samples": len(samples),
-            "cells": cell["sc3_cells"] + int(pd.read_parquet(PROCESSED / "sc_cells.parquet")["n_cells"].sum()),
+            "cells": sum(cell["atlas_cells"].values()),
             "spots": cell["visium"]["spots"], "xenium_cells": xen_cells,
             "mr_genes": len(set(pd.read_parquet(PROCESSED / "mr_pqtl.parquet").gene) | set(pd.read_parquet(PROCESSED / "mr_colon.parquet").gene)),
             "proteins": S["modeled"], "fic": D["status"].get("first-in-class opportunity", 0), "pool": D["pool"]}
@@ -632,7 +677,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     extra_ids = []
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
-              third.get("safety_rows", []), third.get("antitnf_rows", []), SL["rows"], cell.get("rep4", {}).get("rows", [])]
+              third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"],
+              cell.get("rep4", {}).get("rows", [])]
     for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]

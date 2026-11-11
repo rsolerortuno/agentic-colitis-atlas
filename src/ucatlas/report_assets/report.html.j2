@@ -44,7 +44,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
   <div class="kpi">{{ q("kpi_cohorts") }}<b>8</b><span>biopsy cohorts ({{ "{:,}".format(kpis.samples) }} samples)</span></div>
   <div class="kpi">{{ q("kpi_universe") }}<b>{{ "{:,}".format(kpis.universe) }}</b><span>genes scored</span></div>
   <div class="kpi">{{ q("kpi_claims") }}<b>{{ "{:,}".format(kpis.claims) }}</b><span>evidence-backed claims in the graph</span></div>
-  <div class="kpi">{{ q("kpi_cells") }}<b>{{ "{:,}".format(kpis.cells) }}</b><span>single cells (scRNA-seq)</span></div>
+  <div class="kpi">{{ q("kpi_cells") }}<b>{{ "{:,}".format(kpis.cells) }}</b><span>single cells in four scRNA-seq atlases</span></div>
   <div class="kpi">{{ q("kpi_spots") }}<b>{{ "{:,}".format(kpis.spots) }}</b><span>Visium spots and {{ "{:,}".format(kpis.xenium_cells) }} Xenium cells</span></div>
   <div class="kpi">{{ q("kpi_mr") }}<b>{{ "{:,}".format(kpis.mr_genes) }}</b><span>genes tested for a causal effect (MR)</span></div>
   <div class="kpi">{{ q("kpi_proteins") }}<b>{{ kpis.proteins }}</b><span>AlphaFold models analysed</span></div>
@@ -157,7 +157,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <section class="panel" id="tab-cells" data-name="cells">
 {{ plain('cells') }}
 <h2>Which cells make each candidate?</h2>
-<p class="lede">The cell-type calls come from the colon single-cell atlas of Gubatan et al. 2026 ({{ "{:,}".format(cell.sc3_cells) }} cells from inflamed and non-inflamed UC mucosa), the only one that captures neutrophils. "Share of transcripts" is the part of a gene's RNA in inflamed mucosa that each cell family makes. It separates a gene the lining or the stroma makes from one that arrives with infiltrating cells. The composition adjustment then asks the same question in the bulk biopsies: how much of the UC change is left once the mix of cell types is accounted for. The last blocks repeat the attribution in a second atlas and in the tissue.</p>
+<p class="lede">The cell-type calls come from the colon single-cell atlas of Gubatan et al. 2026 ({{ "{:,}".format(cell.sc3_cells) }} cells from inflamed and non-inflamed UC mucosa), the only one that captures neutrophils. "Share of transcripts" is the part of a gene's RNA in inflamed mucosa that each cell family makes. It separates a gene the lining or the stroma makes from one that arrives with infiltrating cells. The composition adjustment then asks the same question in the bulk biopsies: how much of the UC change is left once the mix of cell types is accounted for. The last blocks repeat the attribution in three more single-cell atlases and in the tissue.</p>
 {{ paras(f.narrative.sections.cells or []) }}
 <div class="grid two">
   {{ plot('dotplot', figs.dotplot) }}{{ plot('share_stack', figs.share_stack) }}
@@ -175,18 +175,10 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <td class="num">{% if t.ivh %}log2FC {{ t.ivh.log2fc }} (padj {{ t.ivh.padj }}, {{ t.ivh.cluster }}){% else %}—{% endif %}</td><td>{{ t.evidence_ids[:4] | cite | safe }}</td></tr>
 {% endfor %}</tbody></table></div>
 
-<h2>Does a second atlas agree?</h2>
-<p class="lede">Smillie et al. 2019 profiled colon biopsies of UC patients and healthy people with a different protocol and without neutrophils. Both atlases were folded into shared lineages. For {{ cell.sc_rep.genes }} candidate genes measured in both, the dominant lineage is the same in {{ cell.sc_rep.same_lineage }}, and the share in that lineage correlates at rho {{ cell.sc_rep.rho }}. Neutrophil genes cannot agree: the first atlas has no neutrophils.</p>
-<div class="grid two">
-  {{ plot('sc_replication', figs.sc_replication) }}
-  <div class="tw"><table><thead><tr><th>Gene</th><th>Smillie 2019 lineage</th><th>Share</th><th>Second atlas lineage</th><th>Share</th></tr></thead><tbody>
-  {% for r in cell.sc_rep_rows %}<tr><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage_2019 }}</td><td class="num">{{ r.share_2019 | fmt }}</td><td>{{ r.lineage_2023 }}</td><td class="num">{{ r.share_2023 | fmt }}</td></tr>{% endfor %}
-  </tbody></table></div>
-</div>
-
 {% if cell.rep4 %}{% set R4 = cell.rep4 %}
-<h2>Four atlases</h2>
-<p class="lede">The same question across four colon single-cell atlases: Smillie et al. 2019, Garrido-Trigo et al. 2023, Gubatan et al. 2026 and the anti-TNF atlas of Thomas et al. 2024 (GSE282122). For the fourth, GEO holds the count matrices without cell labels, so its {{ "{:,}".format(R4.sc4.cells_typed) }} cells ({{ R4.sc4.uc_samples }} UC biopsies before and after adalimumab and {{ R4.sc4.healthy_samples }} healthy ones, colon only) were typed here into lineages from canonical markers (k-means on a marker panel, {{ R4.sc4.clusters }} clusters). All atlases are folded into five shared lineages: epithelial, stromal (with endothelium), T and NK, plasma, myeloid (with mast cells and neutrophils); B cells are left out. For {{ R4.summary.genes }} genes, the Smillie lineage is also dominant in {% for k, v in R4.summary.agree_with_smillie.items() %}{{ v.agree }} of {{ v.measured }} in {{ R4.summary.atlases[k] }}{% if not loop.last %}, {% endif %}{% endfor %}. It is dominant in all three other atlases for {{ R4.summary.agree_count["3"] }} genes, in two for {{ R4.summary.agree_count["2"] }}, in one for {{ R4.summary.agree_count["1"] }} and in none for {{ R4.summary.agree_count["0"] }}. The cell-source light of the shortlist is green only when the lineage is dominant in at least two of the three other atlases.</p>
+<h2>Do the other atlases agree? {{ q('sc_replication') }}</h2>
+<p class="lede">The same question across four colon single-cell atlases: Smillie et al. 2019, Garrido-Trigo et al. 2023, Gubatan et al. 2026 and the anti-TNF atlas of Thomas et al. 2024 (GSE282122). For the fourth, GEO holds the count matrices without cell labels, so its {{ "{:,}".format(R4.sc4.cells_typed) }} cells ({{ R4.sc4.uc_samples }} UC biopsies before and after adalimumab and {{ R4.sc4.healthy_samples }} healthy ones, colon only) were typed here into lineages from canonical markers (k-means on a marker panel, {{ R4.sc4.clusters }} clusters). All atlases are folded into five shared lineages: epithelial, stromal (with endothelium), T and NK, plasma, myeloid (with mast cells, and neutrophils where an atlas has them: only Gubatan 2026); B cells are left out. Neutrophil genes therefore cannot agree in the three atlases without neutrophils. For {{ R4.summary.genes }} genes, the Smillie lineage is also dominant in {% for k, v in R4.summary.agree_with_smillie.items() %}{{ v.agree }} of {{ v.measured }} in {{ R4.summary.atlases[k] }}{% if not loop.last %}, {% endif %}{% endfor %}. It is dominant in all three other atlases for {{ R4.summary.agree_count["3"] }} genes, in two for {{ R4.summary.agree_count["2"] }}, in one for {{ R4.summary.agree_count["1"] }} and in none for {{ R4.summary.agree_count["0"] }}. The cell-source light of the shortlist is green only when the lineage is dominant in at least two of the three other atlases.</p>
+{{ plot('sc_replication', figs.sc_replication) }}
 <div class="tw"><table><thead><tr><th>Gene</th><th>Smillie 2019</th><th>Garrido-Trigo 2023</th><th>Gubatan 2026</th><th>GSE282122</th><th class="num">Other atlases agreeing</th><th>Evidence</th></tr></thead><tbody>
 {% for r in R4.rows %}<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong>{% if r.shortlist %} <span class="small">(shortlist)</span>{% endif %}</td>
 {% for k in ("smillie", "garrido", "gubatan", "gse282122") %}<td>{{ r[k][0] }} {% if r[k][1] is not none %}<span class="small">{{ "%.0f" | format(100 * r[k][1]) }} %</span>{% endif %}</td>{% endfor %}
@@ -576,7 +568,7 @@ These checks do not constitute complete scientific validation.{% endif %}
 </section>
 
 </main>
-<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661, GSE109142, GSE117993, GSE165512 (biopsies), SCP259 and SCP3755 (single cell), GSE312420, GSE339323, GSE312415 and GSE189184 (spatial); GSE72819 and GSE23597 (treatment response); UKB-PPP, GTEx v10, CEDAR and IBDverse via Open Targets 26.09; GWAS Catalog GCST004133; FinnGen R12; Schniers et al. 2019 proteomics; MGI; PubTator3; Europe PMC; Open Targets; STRING; UniProt; AlphaFold DB; PDBe-KB; Human Protein Atlas; HGNC. Code MIT licence, report CC BY 4.0. Not medical advice.</footer></div>
+<div class="wrap"><footer>Ulcerative colitis agentic multi-omics GraphRAG. Data: GEO GSE193677, GSE206285, GSE92415, GSE16879, GSE73661, GSE109142, GSE117993, GSE165512 (biopsies), SCP259, CZ CELLxGENE (Garrido-Trigo 2023), SCP3755 and GSE282122 (single cell), GSE312420, GSE339323, GSE312415 and GSE189184 (spatial); GSE72819 and GSE23597 (treatment response); UKB-PPP, GTEx v10, CEDAR and IBDverse via Open Targets 26.09; GWAS Catalog GCST004133; FinnGen R12; Schniers et al. 2019 proteomics; MGI; PubTator3; Europe PMC; Open Targets; STRING; UniProt; AlphaFold DB; PDBe-KB; Human Protein Atlas; HGNC. Code MIT licence, report CC BY 4.0. Not medical advice.</footer></div>
 
 <script>
 (function(){

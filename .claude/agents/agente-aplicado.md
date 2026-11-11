@@ -54,3 +54,5 @@ not replicate in another cohort, no selective dependency, no difference between 
 infiltrating immune cells rather than a change of the tissue itself, a safety concern in vital organs). The orchestrator checks that every
 key finding reaches the report. Output must be valid JSON: write it with a single Write call, then Read the file back
 once and fix it if it does not parse.
+
+Single-cell replication: `celltype_expression` reports the cell lineage in four atlases (Smillie 2019, Garrido-Trigo 2023, Gubatan 2026, GSE282122) and how many of the three others agree with Smillie (replicated = at least two). Name the atlases when you mention replication; do not call it "a second dataset".

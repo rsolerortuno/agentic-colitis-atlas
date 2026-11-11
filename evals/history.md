@@ -195,3 +195,12 @@ Designs fixed before running. Nothing below changes the convergence score or the
   explicitly), and the series mixes two Cell Ranger references (33,538 and 33,808 features), which stopped the first
   build; genes are now matched by Ensembl id. The four-atlas replication is written to a new file and new evidence
   types, so the sc_summary records cited by the agents stay as they were (0 stale). OLFML2B leaves group A.
+- **Agent run with four atlases (2026-11-11)**: runs/2026-11-11 replaces runs/2026-11-10 as the published run. The
+  sc_summary records now carry the lineage in all four atlases and replicated = two of three, so the cell tool shows the
+  agents the new replication; the old run would read as stale against them, which is why the agents were re-run rather
+  than patched. First verification dropped 33 of 73 agent statements, all for form (numbers printed next to their
+  annotation, unbound digits such as "CXCR1/2", "Phase 2-3", PMIDs; pathway findings carrying a gene field); the agents
+  fixed their files from the verifier output and four wording fixes were made by the orchestrator. Final: 116
+  statements, 0 unsupported, 0 stale, 28 of 28 key findings cited. Report: the old second-atlas block is merged into a
+  four-atlas block with a new figure, the cell count, help texts, footer and data appendix cover all four atlases, and
+  the anti-TNF section adds a descriptive remission check on the count matrices.

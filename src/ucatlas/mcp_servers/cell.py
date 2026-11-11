@@ -1,4 +1,4 @@
-"""cell-mcp: which cell makes each gene in ulcerative colitis mucosa (three single-cell datasets) and, from M12, how
+"""cell-mcp: which cell makes each gene in ulcerative colitis mucosa (four single-cell datasets) and, from M12, how
 much of a bulk change is explained by cell composition. Every record carries the evidence_id to cite."""
 from __future__ import annotations
 
@@ -27,10 +27,12 @@ def _record(ev_type: str, gene: str) -> dict | None:
 def celltype_expression(gene: str) -> dict:
     """Which cell types make a gene's transcripts in UC colon. Smillie 2019 (SCP259; 51 clusters, inflamed,
     non-inflamed and healthy mucosa; no neutrophils captured): top clusters by share of the gene's transcripts and
-    % of cells expressing; dominant lineage in inflamed mucosa and whether a second dataset (Garrido-Trigo 2023)
-    agrees. Gubatan 2026 (SCP3755; inflamed and uninflamed UC, includes five neutrophil states): share of transcripts
-    made by neutrophils and the top cell states. Shares compare cell types, not tissue abundance (dissociation
-    protocols enrich some fractions)."""
+    % of cells expressing; dominant lineage in inflamed mucosa and its replication across the three other atlases
+    (Garrido-Trigo 2023, Gubatan 2026, and GSE282122 = the anti-TNF atlas of Thomas 2024, typed into lineages here):
+    the dominant lineage in each, how many agree, replicated = at least 2 of 3. Gubatan 2026 (SCP3755; inflamed and
+    uninflamed UC, includes five neutrophil states): share of transcripts made by neutrophils and the top cell states.
+    GSE282122 has no neutrophil cluster. Shares compare cell types, not tissue abundance (dissociation protocols enrich
+    some fractions)."""
     g = canonical_gene(gene)
     return _record("sc_summary", g) or {"gene": g, "message": "not measured in the single-cell datasets"}
 

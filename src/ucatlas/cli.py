@@ -87,7 +87,7 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
             from . import sc_gse282122
             _step("GSE282122 single-cell graph", sc_gse282122.load)
             _step("single-cell replication, four atlases",
-                  lambda: (sc_replication.run4(sc_replication.genes4()), sc_replication.load4())[0])
+                  lambda: (sc_replication.run4(sc_replication.genes4()), sc_replication.load4(), kg_cells.load())[0])
         _step("pathways", lambda: (pathways.pathway_activity(), pathways.tf_activity(), pathways.communication(),
                                    pathways.load())[3])
     _step("disease activity", lambda: (activity.run(), activity.load())[1])
