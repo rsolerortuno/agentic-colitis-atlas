@@ -35,6 +35,9 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     from . import cohorts, download, enrich, expression, kg_build, literature
     from .runs import current_run
     if clean:
+        # The graph is cleared first: on Windows an open handle (e.g. an MCP server of a running session) blocks
+        # deleting the file, and failing after the processed data were deleted left a half-cleaned tree (2026-11-11).
+        _clear_graph()
         # the single-cell pseudobulk files (sc_*, sc3_*) come from long streaming steps and are kept; everything
         # else is rebuilt. They are rebuilt here only when missing.
         keep = ("sc_pseudobulk", "sc_celltype_share", "sc_celltype_de", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share",
@@ -42,7 +45,6 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         for f in PROCESSED.glob("*"):
             if not f.name.startswith(keep):
                 f.unlink() if f.is_file() else shutil.rmtree(f)
-        GRAPH_DB.unlink(missing_ok=True)
     from .runs import RUNS
     run = RUNS / run_name if run_name else current_run()
     from . import reproducibility
@@ -140,6 +142,21 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("verify final", lambda: _script("scripts/verify.py", "final", run.name))
     _step("render", lambda: _script("scripts/render.py", run.name))
     _step("validate report", lambda: _script("scripts/validate_report.py"))
+
+
+def _clear_graph() -> None:
+    """Delete the graph file; if another process holds it open (Windows), empty its tables instead."""
+    try:
+        GRAPH_DB.unlink(missing_ok=True)
+    except PermissionError:
+        import sqlite3
+        con = sqlite3.connect(GRAPH_DB, timeout=60)
+        tables = [r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type = 'table'")]
+        with con:
+            for t in tables:
+                con.execute(f'DELETE FROM "{t}"')
+        con.close()
+        print("graph file in use by another process: emptied its tables instead of deleting it", flush=True)
 
 
 TX_EXTRA = ["TNF", "IL23A", "IL12B", "ITGB7", "ITGA4", "MADCAM1", "OSM", "OSMR", "TREM1", "JAK1", "S1PR1",

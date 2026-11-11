@@ -137,7 +137,10 @@ def genes4() -> list[str]:
     m = pd.read_parquet(PROCESSED / "meta.parquet")
     m = m[(m["meta_padj"] < 0.05) & ((m["n_sig_up"] >= 2) | (m["n_sig_down"] >= 2))]
     top = m.reindex(m["meta_log2fc"].abs().sort_values(ascending=False).index).head(500)["gene"].tolist()
-    disc = pd.read_parquet(PROCESSED / "discovery_scored.parquet")["gene"].tolist() if (PROCESSED / "discovery_scored.parquet").exists() else []
+    # discovery.parquet (discovery step), not discovery_scored.parquet: the latter is written later in run-all by the
+    # report layers, and reading it here gave 390 genes instead of 1,003 in the first clean rebuild (2026-11-11)
+    p = PROCESSED / "discovery.parquet"
+    disc = pd.read_parquet(p)["gene"].tolist() if p.exists() else []
     return list(dict.fromkeys(top + disc))
 
 

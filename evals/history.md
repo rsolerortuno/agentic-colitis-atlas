@@ -204,3 +204,10 @@ Designs fixed before running. Nothing below changes the convergence score or the
   statements, 0 unsupported, 0 stale, 28 of 28 key findings cited. Report: the old second-atlas block is merged into a
   four-atlas block with a new figure, the cell count, help texts, footer and data appendix cover all four atlases, and
   the anti-TNF section adds a descriptive remission check on the count matrices.
+- **Clean rebuild check (2026-11-12)**: `run-all` from frozen inputs, twice. The first attempt stopped because an
+  idle MCP server of another session held the graph file open, after the processed data had been deleted; run-all now
+  clears the graph first and empties its tables when the file is locked. The first full rebuild then exposed an order
+  bug: the four-atlas replication read the discovery gene list from discovery_scored.parquet, which run-all writes
+  later, so it covered 390 genes instead of 1,003 (OLFML2B fell back to the two-atlas rule). Fixed to read
+  discovery.parquet; the second rebuild reproduces the published results (1,003 genes, OLFML2B in group B, 0
+  unsupported, 0 stale, report valid). The mouse-colitis literature table now follows the targets of runs/2026-11-11.
