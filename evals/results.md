@@ -272,3 +272,19 @@ Eight of the ten are secreted or surface proteins of stroma, endothelium, epithe
 cell; ERO1A (ER oxidoreductase with known inhibitors) leads on protein replication and per-cell rise. CCNO's
 "high-quality ligand" in Open Targets comes from the CDK2-cyclin O complex, not from CCNO itself. The table is a way
 to read the other layers, not a new estimate; genes with equal points are equally supported.
+
+**Literature review of the candidates (added 2026-11-11).** Europe PMC: every record naming the gene (symbol or an
+unambiguous alias) with UC anywhere in the text, plus records with the gene in the title or abstract and colitis, IBD
+or Crohn's disease: 475 records for the 36 genes. Only 62 name the gene in the title or abstract and 4 together with
+UC there; for open-access papers the full-text sentences naming the gene were added, leaving 183 readable records
+(292 name the gene only in a full text that is not open). Eight classifier subagents (Sonnet, subscription) labelled
+each record (kind, system, direction) with a verbatim sentence: 183 kept, 0 rejected by the check. A paper counts
+only in a colitis or IBD setting (deterministic text check): 63 of 183, 60 of them about the gene. Result: 24 genes have nothing specific in
+the colitis literature (only gene lists or no paper), 10 a specific expression, biomarker or genetic result, one a
+functional study supporting inhibition (RFTN1: Raftlin1 promotes pathogenic Th17 cells in C. rodentium colitis,
+PMID 37591835) and one a functional study against it (IKBIP: IKIP-deficient mice develop worse DSS colitis, PMID
+31826938; the earlier title search for mouse studies missed it because it used the symbol only). The paper count of
+the discovery screen (median 8 per gene) therefore overstates what is known: most hits name the gene in a
+supplementary table or are about another disease. New order: ERO1A, CPXM1, ADGRE3, RFTN1, CHRDL2, PCDH17, LYPD5,
+LAIR2, OLFML2B, SGIP1; IKBIP falls to 32nd.
+

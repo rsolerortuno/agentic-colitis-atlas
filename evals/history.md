@@ -176,4 +176,9 @@ Designs fixed before running. Nothing below changes the convergence score or the
   scores 0), each checked on markers and on 16 clinical targets. Adding the Mendelian field to the target-safety
   records made 3 agent statements stale (CXCR2, CD274 and one more); moved it to its own evidence record instead and
   the run is back to 0 stale.
+- **Literature review of the shortlist (2026-11-11)**: new layer shortlist_literature.py and classifier agent. First
+  retrieval run was slow (shared request helper retried 404s of closed full texts for a minute each); replaced with a
+  short-retry cached GET that caches 404s, and four genes in parallel. Classifiers flagged their own judgement calls
+  (tumour outcomes, glioma, aliases of other genes); papers outside a colitis or IBD setting were then excluded by a
+  text check rather than by hand, and list-only mentions were made grey instead of amber so they earn no points.
 

@@ -165,7 +165,7 @@ and described in [data/README.md](data/README.md).
 - **Discovery screen.** Genes that rise in UC as a tissue change, are tractable, have no clinical drug, few UC papers
   and low expression in vital organs.
 - **Validation shortlist.** Each first-in-class gene checked against eight questions a laboratory would ask
-  (reproducible, protein, tissue change, cell source, causal genetics, druggable, safety, mouse), one traffic light
+  (reproducible, protein, tissue change, cell source, causal genetics, druggable, safety, UC literature, mouse), one traffic light
   per question with fixed thresholds checked on markers and on the UC clinical targets, and a proposed first
   experiment chosen by cell source and drug route. Its own
   report tab, under Findings → New targets.
@@ -269,8 +269,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
 | Repeat agent runs (final data) | Three team runs: 116–124 statements, 0 unsupported; target-list overlap (Jaccard) 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each |
 | Single agent against multi-agent (final data) | Same quality (0 unsupported; 10–11 of 12 checklist facts); the team was about 36 % cheaper ($4.79 vs $7.52 on average) and 2.5 times faster (7.6 vs 19.3 minutes); the single agent cited less of its evidence (82 % vs 90–98 %) |
-| Report validator | 570 claims, 1,145 evidence records, 1,260 citation links, all resolvable, no external resources |
-| Knowledge graph | 564,860 claims, 0 without a resolvable evidence record |
+| Report validator | 570 claims, 1,181 evidence records, 1,296 citation links, all resolvable, no external resources |
+| Knowledge graph | 564,896 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (233 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
@@ -373,7 +373,7 @@ tests/               automated tests
 | `proteomics.py`, `mouse_models.py`, `spatial_cosmx.py` | Protein-level replication, MGI mouse colitis phenotypes, CosMx single-cell sections |
 | `report_layers.py` | Rank stability, patient subgroups, biologic suitability, immune microenvironment, discovery ordering, evidence coverage |
 | `pathways.py`, `treatment.py`, `discovery.py`, `validation_shortlist.py` | Pathway and TF activity, ligand-receptor pairs; treatment response; discovery screen; validation shortlist |
-| `literature.py`, `literature_entities.py`, `external.py`, `enrich.py` | PubTator ingestion and checked relation extraction; Open Targets, STRING, UniProt |
+| `literature.py`, `literature_entities.py`, `shortlist_literature.py`, `external.py`, `enrich.py` | PubTator ingestion and checked relation extraction; Open Targets, STRING, UniProt |
 | `graph.py`, `kg_build.py`, `kg_cells.py` | The knowledge graph and its loaders |
 | `integrate.py`, `profiles.py` | Convergence score, target and biomarker profiles, weight sensitivity |
 | `verify.py`, `semantic.py`, `provenance.py`, `coverage.py`, `assemble.py` | Sentence checks, the stale-evidence guard, key-finding coverage |

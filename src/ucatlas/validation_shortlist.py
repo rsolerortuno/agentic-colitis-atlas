@@ -35,6 +35,12 @@ Criteria (green / amber / red; grey = not measured):
   (secreted) pass; JAK3 and PDE4B (small-molecule targets) do not;
 - safety: highest vital-organ RNA (> 50 nTPM), loss-of-function constraint (LOEUF < 0.35), known safety events, and a
   Mendelian disease caused by loss of the gene (UniProt); green with none, amber with one flag, red with two or more;
+- UC literature: what the papers about the gene in UC or IBD show (shortlist_literature.py: Europe PMC records read by
+  a classifier subagent, every call backed by a verbatim sentence). Green: functional evidence of a pathogenic role
+  (inhibition should help) and none protective; red: functional evidence of a protective role only (inhibition may
+  harm); amber: a specific expression, biomarker or genetic result, or functional evidence both ways; grey: no
+  paper about the gene, or only named in gene lists or reviews. Clinical targets in the calibration are not reviewed (grey). Only papers in a colitis or IBD
+  setting count; functional results in other inflammatory settings are shown as context;
 - mouse: whether the gene has ever been perturbed in mouse colitis (information, not a score).
 Points: green 2, amber 1 (0 for a null genetic test), grey 0, red -1; sorted by points, then greens, then meta log2FC.
 Calibration: the same rules applied to the UC clinical targets that are in the discovery table
@@ -60,7 +66,7 @@ CRYPT = {"Stem", "TA 1", "TA 2", "Cycling TA", "Secretory TA", "Enterocyte Proge
 CRYPT_SHARE = 0.76
 STRONG_SM = ("High-Quality Ligand", "High-Quality Pocket", "Druggable Family", "Approved Drug", "Advanced Clinical",
              "Phase 1 Clinical")
-CRITERIA = ["reproducible", "protein", "tissue", "cell", "genetics", "druggable", "safety", "mouse"]
+CRITERIA = ["reproducible", "protein", "tissue", "cell", "genetics", "druggable", "safety", "literature", "mouse"]
 
 
 def _lineage_share() -> dict[str, tuple[str, float]]:
@@ -148,7 +154,7 @@ def _experiment(lineage: str, surface: bool, sm: bool, mouse_papers: int | None,
     route = ("a blocking antibody can be tested directly" if surface else
              "small-molecule tool compounds may exist (Open Targets ligand or pocket evidence)" if sm else "genetic tools first")
     mouse = (" Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis)."
-             if mouse_papers == 0 else f" Mouse colitis data exist ({mouse_papers} papers): check them first."
+             if mouse_papers == 0 else f" Mouse colitis data exist ({mouse_papers} paper{'s' if mouse_papers > 1 else ''}): check them first."
              if mouse_papers else "")
     return f"{system}; {route}.{mouse}"
 
@@ -171,6 +177,8 @@ def _load():
         for x in r.itertuples():
             mr_rows.setdefault(x.gene, []).append((lab, float(x.beta), float(x.q)))
     t["mr"] = mr_rows
+    lit_p = PROCESSED / "shortlist_literature.parquet"
+    t["lit"] = pd.read_parquet(lit_p).set_index("gene") if lit_p.exists() else pd.DataFrame()
     pk = pd.read_parquet(PROCESSED / "structure_pockets.parquet")
     t["pocket"] = pk[pk["rank"] == 1].set_index("gene")["pocket_score"].to_dict()
     return t
@@ -254,10 +262,16 @@ def _row(x, t) -> dict:
     vital = f"vital organs ≤ {x.vital_max_ntpm:.0f} nTPM" if pd.notna(x.vital_max_ntpm) else "vital organs not measured"
     c["safety"] = ("green" if not flags else "amber" if len(flags) == 1 else "red",
                    "; ".join(flags) if flags else f"{vital}, not constrained, no Mendelian disease")
+    lit = t["lit"]
+    c["literature"] = ((lit.at[g, "light"], lit.at[g, "verdict"])
+                       if g in lit.index else ("grey", "not reviewed"))
     papers = t["ml"].get(g)
     papers = int(papers) if papers is not None and pd.notna(papers) else None
+    mouse_lit = lit.at[g, "mouse_colitis"] if g in lit.index and "mouse_colitis" in lit.columns else ""
+    if mouse_lit:   # the literature review found a perturbation in mouse colitis that the title search missed
+        papers = max(papers or 0, mouse_lit.count("PMID"))
     c["mouse"] = ("grey", "not searched" if papers is None else "never tested in mouse colitis" if papers == 0
-                  else f"{papers} mouse colitis papers")
+                  else f"tested in mouse colitis: {mouse_lit}" if mouse_lit else f"{papers} mouse colitis papers")
     pts = {k: (0 if k == "genetics" and v[0] == "amber" else ORDER[v[0]]) for k, v in c.items() if k != "mouse"}
     return {"gene": g, "lineage": x.lineage, "track": x.track, "status": x.status,
             "meta_log2fc": round(float(x.meta_log2fc), 2), "uc_papers": int(x.uc_papers),

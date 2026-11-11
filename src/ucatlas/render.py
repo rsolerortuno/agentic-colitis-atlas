@@ -545,10 +545,17 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
         SL["criteria"] = [("reproducible", "Reproducible"), ("protein", "Protein"), ("tissue", "Tissue change"),
                           ("cell", "Cell source"), ("genetics", "Causal genetics"), ("druggable", "Druggable"),
-                          ("safety", "Safety"), ("mouse", "Mouse")]
+                          ("safety", "Safety"), ("literature", "UC literature"), ("mouse", "Mouse")]
         SL["rows"] = [{"rank": int(r.rank), "gene": r.gene, "lineage": r.lineage, "meta_log2fc": r.meta_log2fc,
                        "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria), "experiment": r.experiment,
                        "evidence_ids": [evidence_id("discovery_profile", r.gene)]} for r in sl.itertuples()]
+        lit_p = PROCESSED / "shortlist_literature.parquet"
+        if lit_p.exists():
+            lit = pd.read_parquet(lit_p).set_index("gene")
+            for row in SL["rows"]:
+                if row["gene"] in lit.index:
+                    row["papers"] = json.loads(lit.at[row["gene"], "key_papers"])
+                    row["evidence_ids"].append(evidence_id("shortlist_literature", row["gene"]))
         cal_p = PROCESSED / "validation_shortlist_calibration.parquet"
         if cal_p.exists():
             SL["cal"] = [{"gene": r.gene, "score": int(r.score)} for r in pd.read_parquet(cal_p).itertuples()]
