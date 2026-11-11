@@ -546,7 +546,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         SL["criteria"] = [("reproducible", "Reproducible"), ("protein", "Protein"), ("tissue", "Tissue change"),
                           ("cell", "Cell source"), ("genetics", "Causal genetics"), ("druggable", "Druggable"),
                           ("safety", "Safety"), ("literature", "UC literature"), ("mouse", "Mouse")]
-        SL["rows"] = [{"rank": int(r.rank), "gene": r.gene, "lineage": r.lineage, "meta_log2fc": r.meta_log2fc,
+        SL["rows"] = [{"rank": int(r.rank), "group": r.group, "stability": int(r.stability), "best_rank": int(r.best_rank),
+                       "worst_rank": int(r.worst_rank), "gene": r.gene, "lineage": r.lineage, "meta_log2fc": r.meta_log2fc,
                        "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria), "experiment": r.experiment,
                        "evidence_ids": [evidence_id("discovery_profile", r.gene)]} for r in sl.itertuples()]
         lit_p = PROCESSED / "shortlist_literature.parquet"
@@ -556,7 +557,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
             for row in SL["rows"]:
                 if row["gene"] in lit.index:
                     L = lit.loc[row["gene"]]
-                    SL["lit"].append({"rank": row["rank"], "gene": row["gene"], "light": L.light, "verdict": L.verdict,
+                    SL["lit"].append({"rank": row["rank"], "group": row["group"], "gene": row["gene"], "light": L.light, "verdict": L.verdict,
                                       "about": int(L.about_gene), "lists": int(L.list_or_review),
                                       "findings": json.loads(L.findings)})
                     row["papers"] = json.loads(lit.at[row["gene"], "key_papers"])

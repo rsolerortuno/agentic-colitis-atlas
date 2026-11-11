@@ -184,4 +184,8 @@ Designs fixed before running. Nothing below changes the convergence score or the
 - **Literature table (2026-11-11)**: the per-gene conclusions of the review were only in tooltips and in the ten
   cards; added a table to the shortlist tab with every candidate, its light and a one-line summary per specific paper
   (PubMed links), with what each kind of evidence can and cannot say.
-
+- **Groups and cell-system experiments (2026-11-11)**: a check of the shortlist order under six scorings showed that
+  only nine genes are in the top ten under all of them and that RFTN1 swings between 2nd and 23rd; the table now reports
+  groups and stability instead of positions. The experiment selection was found half written on disk (a truncated
+  string, the module did not import) when the session was forked; it was completed with nine cell systems, a second
+  system from 20 % of the RNA and the published functional lead.

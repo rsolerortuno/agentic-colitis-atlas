@@ -166,8 +166,9 @@ and described in [data/README.md](data/README.md).
   and low expression in vital organs.
 - **Validation shortlist.** Each first-in-class gene checked against eight questions a laboratory would ask
   (reproducible, protein, tissue change, cell source, causal genetics, druggable, safety, UC literature, mouse), one traffic light
-  per question with fixed thresholds checked on markers and on the UC clinical targets, and a proposed first
-  experiment chosen by cell source and drug route. Its own
+  per question with fixed thresholds checked on markers and on the UC clinical targets. Genes are reported in
+  groups, not positions: A, B or C by how many of six ways of scoring keep them in the top ten. The proposed first
+  experiment follows the concrete cell clusters that hold the gene's RNA and the drug route. Its own
   report tab, under Findings → New targets.
 
 ## 5. Main results

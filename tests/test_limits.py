@@ -215,7 +215,7 @@ def test_validation_shortlist_covers_first_in_class():
     sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
     d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
     assert set(sl.gene) == set(d.gene[d.status == "first-in-class opportunity"])
-    assert sl.score.is_monotonic_decreasing and list(sl["rank"]) == list(range(1, len(sl) + 1))
+    assert list(sl["rank"]) == list(range(1, len(sl) + 1))
     for c in sl.criteria:
         lights = json.loads(c)
         assert set(lights) == {"reproducible", "protein", "tissue", "cell", "genetics", "druggable", "safety", "literature", "mouse"}
@@ -244,3 +244,20 @@ def test_shortlist_literature_review():
     rej = json.loads((PROCESSED / "shortlist_literature_rejected.json").read_text(encoding="utf-8"))
     papers = pd.read_parquet(PROCESSED / "shortlist_literature_papers.parquet")
     assert len(rej) == 0 and len(papers) > 150
+
+
+@pytest.mark.skipif(not (PROCESSED / "validation_shortlist.parquet").exists(), reason="layer not built")
+def test_validation_shortlist_groups_and_experiments():
+    from ucatlas import validation_shortlist as vs
+    sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
+    n = len(vs.SCHEMES)
+    assert sl.stability.between(0, n).all()
+    assert (sl.group[sl.stability == n] == "A").all() and (sl.group[sl.stability == 0] == "C").all()
+    assert (sl.group[(sl.stability > 0) & (sl.stability < n)] == "B").all()
+    assert sl.stability.is_monotonic_decreasing                      # table order: groups first
+    assert all(vs._points(json.loads(c)) == s for c, s in zip(sl.criteria, sl.score))   # base scheme = stored score
+    ex = sl.set_index("gene").experiment
+    assert "endothelial" in ex["PCDH17"]                              # a vessel gene is tested in endothelium, not fibroblasts
+    assert "regulatory T cells" in ex["LAIR2"] and "organoid" in ex["CCNO"] and "Published lead" in ex["RFTN1"]
+    bias = json.loads((PROCESSED / "validation_shortlist_summary.json").read_text())["protein_bias"]
+    assert bias["median_rna_percentile_quantified"] > bias["median_rna_percentile_not_quantified"] + 0.2

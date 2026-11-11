@@ -42,12 +42,24 @@ Criteria (green / amber / red; grey = not measured):
   paper about the gene, or only named in gene lists or reviews. Clinical targets in the calibration are not reviewed (grey). Only papers in a colitis or IBD
   setting count; functional results in other inflammatory settings are shown as context;
 - mouse: whether the gene has ever been perturbed in mouse colitis (information, not a score).
-Points: green 2, amber 1 (0 for a null genetic test), grey 0, red -1; sorted by points, then greens, then meta log2FC.
+Points: green 2, amber 1 (0 for a null genetic test), grey 0, red -1.
+Groups, not positions (2026-11-11): many genes tie on points and a single weighting decides the order inside a tie, so
+the table reports how stable each gene is across six ways of scoring (the base one; without the protein light;
+without the literature light; without both; red lights costing 2; an unmeasured protein counted as amber). Stability
+is the number of the six in which the gene is among the first ten (ties at the border included): group A, in all six;
+group B, in one to five; group C, in none. The rule was fixed before it was applied. Inside a group genes are ordered by
+stability, base points, greens and meta log2FC, and that order carries no extra information.
+Protein bias: a measured protein can earn up to 2 points that an unmeasured one cannot, and mass spectrometry
+quantifies abundant proteins more often, so the protein light favours abundant genes (quantified genes sit at the 78th
+percentile of RNA abundance, the rest near the 40th, summary json). The "without protein" schemes show how much each gene
+depends on it.
 Calibration: the same rules applied to the UC clinical targets that are in the discovery table
 (validation_shortlist_calibration.parquet). They are not expected to score high on every light (several rise by
 immune influx, which is how an anti-inflammatory works); the comparison shows what each light separates.
-Proposed experiment: by dominant lineage (epithelial: patient-derived colon organoids; stromal: primary colonic
-fibroblasts; immune: lamina propria immune cells) and by route (antibody, small molecule or genetic), followed by a
+Proposed experiment: by the concrete cell systems that hold the gene's RNA in inflamed mucosa (Smillie 2019 clusters
+grouped into organoid epithelium, fibroblasts, endothelium, pericytes and glia, macrophages and DC, regulatory T cells,
+T and NK cells, B and plasma cells, mast cells): the largest, and a second one when it holds at least 20 %; by route
+(antibody, small molecule or genetic); with the published functional lead when a colitis study exists; followed by a
 mouse colitis model when none exists.
 Outputs: data/processed/validation_shortlist.parquet, validation_shortlist_calibration.parquet,
 validation_shortlist_summary.json.
@@ -86,6 +98,22 @@ class _SingleCell:
         self.w = w.reset_index()
         x = s[(s.health == "inflamed") & (s.compartment == "epithelial")]
         self.crypt = (x[x.cluster.isin(CRYPT)].groupby("gene").cp10k_sum.sum() / x.groupby("gene").cp10k_sum.sum())
+
+    def systems(self, g: str) -> list[tuple[str, float, str]]:
+        """Cell systems holding the gene's RNA in inflamed mucosa: the largest, and a second one with >= 20 %."""
+        d = self.w[self.w.gene == g].dropna(subset=["share_inflamed"]).copy()
+        d["system"] = d.cluster.map(CLUSTER_SYSTEM)
+        d = d.dropna(subset=["system"])
+        if d.empty:
+            return []
+        tot = d.groupby("system").share_inflamed.sum().sort_values(ascending=False)
+        out = []
+        for name, share in tot.items():
+            if out and (share < SYSTEM_MIN_SHARE or len(out) == 2):
+                break
+            top = d[d.system == name].nlargest(2, "share_inflamed").cluster.tolist()
+            out.append((name, float(share), " and ".join(top)))
+        return out
 
     def per_cell(self, g: str, k: int = 3) -> tuple[float, str]:
         d = self.w[self.w.gene == g].dropna(subset=["mean_cp10k_healthy", "mean_cp10k_inflamed"])
@@ -139,24 +167,64 @@ def _sm_labels():
     return get
 
 
-def _experiment(lineage: str, surface: bool, sm: bool, mouse_papers: int | None, regen: bool) -> str:
-    if lineage == "epithelial":
-        system = "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ " \
-                 "(read-outs: barrier integrity, chemokine release, epithelial death)"
-        if regen:
-            system += ", with a wound-healing or organoid regrowth assay, since the gene rises in regenerating crypt cells"
-    elif lineage in ("stromal", "endothelial"):
-        system = "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β " \
-                 "(read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture)"
+CELL_SYSTEMS = {   # cell system -> (first experiment, Smillie 2019 clusters that belong to it)
+    "epithelium": ("knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ "
+                   "(read-outs: barrier integrity, chemokine release, epithelial death)",
+                   {"Stem", "TA 1", "TA 2", "Cycling TA", "Secretory TA", "Enterocyte Progenitors", "Enterocytes",
+                    "Immature Enterocytes 1", "Immature Enterocytes 2", "Best4+ Enterocytes", "Goblet",
+                    "Immature Goblet", "Tuft", "Enteroendocrine", "M cells"}),
+    "fibroblasts": ("silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β "
+                    "(read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture)",
+                    {"Inflammatory Fibroblasts", "WNT2B+ Fos-hi", "WNT2B+ Fos-lo 1", "WNT2B+ Fos-lo 2", "WNT5B+ 1",
+                     "WNT5B+ 2", "RSPO3+", "Myofibroblasts"}),
+    "endothelium": ("silencing in primary human intestinal microvascular endothelial cells stimulated with TNF and "
+                    "IL-1β (read-outs: ICAM1 and VCAM1, leukocyte adhesion and transmigration, permeability)",
+                    {"Endothelial", "Microvascular", "Post-capillary Venules"}),
+    "pericytes and glia": ("silencing in primary pericytes or enteric glial cells stimulated with IL-1β (read-outs: "
+                           "IL-6 and chemokine release, support of endothelial tubes)", {"Pericytes", "Glia"}),
+    "macrophages and DC": ("knock-down in monocyte-derived macrophages stimulated with LPS and IFN-γ (read-outs: IL-1β, "
+                           "TNF, IL-23 and CXCL8 release, M1 polarisation)",
+                           {"Macrophages", "Inflammatory Monocytes", "DC1", "DC2", "Cycling Monocytes"}),
+    "regulatory T cells": ("knock-down or blockade in regulatory T cells (read-outs: suppression assay, FOXP3 stability, "
+                           "IL-10)", {"Tregs"}),
+    "T and NK cells": ("knock-down in blood or lamina propria CD4 and CD8 T cells (read-outs: activation, proliferation, "
+                       "IFN-γ and IL-17 production, Th17 differentiation)",
+                       {"CD4+ Activated Fos-hi", "CD4+ Activated Fos-lo", "CD4+ Memory", "CD4+ PD1+", "CD8+ IELs",
+                        "CD8+ IL17+", "CD8+ LP", "Cycling T", "ILCs", "NKs"}),
+    "B and plasma cells": ("knock-down in activated B cells and plasmablasts (read-outs: activation, class switching, "
+                           "IgA and IgG secretion)", {"Follicular", "GC", "Cycling B", "Plasma"}),
+    "mast cells": ("knock-down in mast cells (read-outs: degranulation, cytokine release)", {"CD69+ Mast", "CD69- Mast"}),
+}
+CLUSTER_SYSTEM = {c: name for name, (_, cl) in CELL_SYSTEMS.items() for c in cl}
+LINEAGE_SYSTEM = {"epithelial": "epithelium", "stromal": "fibroblasts", "endothelial": "endothelium",
+                  "myeloid": "macrophages and DC", "T/NK": "T and NK cells", "B": "B and plasma cells",
+                  "plasma": "B and plasma cells", "mast": "mast cells"}
+SYSTEM_MIN_SHARE = 0.2   # a second cell system is proposed when it holds at least 20 % of the gene's RNA
+
+
+def _experiment(systems: list, lineage: str, surface: bool, sm: bool, mouse_papers: int | None, regen: bool,
+                lead: str) -> str:
+    """systems: [(name, share of the gene's RNA, its two main clusters)], from the gene's own single-cell clusters."""
+    if not systems and LINEAGE_SYSTEM.get(lineage):
+        systems = [(LINEAGE_SYSTEM[lineage], np.nan, "")]
+    if systems:
+        name, share, clus = systems[0]
+        first = CELL_SYSTEMS[name][0]
+        if name == "epithelium" and regen:
+            first += ", with a wound-healing or organoid regrowth assay, since the gene rises in regenerating crypt cells"
+        where = f"{name}, {share:.0%} of its RNA, mainly {clus}" if not np.isnan(share) else name
+        system = f"{first} [{where}]"
+        if len(systems) > 1:
+            system += (f". Also in {systems[1][0]} ({systems[1][1]:.0%} of its RNA, mainly {systems[1][2]}) "
+                       "with the matching system")
     else:
-        system = "knock-down in lamina propria immune cells or blood-derived equivalents " \
-                 "(read-outs: activation and cytokine profile)"
+        system = "genetic tools first, in the cell type that expresses it"
     route = ("a blocking antibody can be tested directly" if surface else
              "small-molecule tool compounds may exist (Open Targets ligand or pocket evidence)" if sm else "genetic tools first")
     mouse = (" Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis)."
              if mouse_papers == 0 else f" Mouse colitis data exist ({mouse_papers} paper{'s' if mouse_papers > 1 else ''}): check them first."
              if mouse_papers else "")
-    return f"{system}; {route}.{mouse}"
+    return f"{system}; {route}.{(' Published lead: ' + lead) if lead else ''}{mouse}"
 
 
 def _load():
@@ -265,6 +333,12 @@ def _row(x, t) -> dict:
     lit = t["lit"]
     c["literature"] = ((lit.at[g, "light"], lit.at[g, "verdict"])
                        if g in lit.index else ("grey", "not reviewed"))
+    lead = ""
+    if g in lit.index and "findings" in lit.columns:
+        fl = [f for f in json.loads(lit.at[g, "findings"]) if f["kind"] == "functional" and f["ibd_setting"]
+              and f["direction"] in ("pathogenic", "protective")]
+        if fl:
+            lead = f"{fl[0]['summary'].rstrip('.')} (PMID {fl[0]['pmid']})."
     papers = t["ml"].get(g)
     papers = int(papers) if papers is not None and pd.notna(papers) else None
     mouse_lit = lit.at[g, "mouse_colitis"] if g in lit.index and "mouse_colitis" in lit.columns else ""
@@ -273,33 +347,91 @@ def _row(x, t) -> dict:
     c["mouse"] = ("grey", "not searched" if papers is None else "never tested in mouse colitis" if papers == 0
                   else f"tested in mouse colitis: {mouse_lit}" if mouse_lit else f"{papers} mouse colitis papers")
     pts = {k: (0 if k == "genetics" and v[0] == "amber" else ORDER[v[0]]) for k, v in c.items() if k != "mouse"}
+    systems = t["sc"].systems(g)
     return {"gene": g, "lineage": x.lineage, "track": x.track, "status": x.status,
             "meta_log2fc": round(float(x.meta_log2fc), 2), "uc_papers": int(x.uc_papers),
             "criteria": json.dumps(c, ensure_ascii=False), "per_cell_log2fc": None if np.isnan(pc) else round(pc, 2),
             "crypt_share": None if np.isnan(crypt) else round(crypt, 3), "regeneration_flag": regen,
             "greens": sum(v[0] == "green" for k, v in c.items() if k != "mouse"),
             "reds": sum(v[0] == "red" for k, v in c.items() if k != "mouse"), "score": int(sum(pts.values())),
-            "experiment": _experiment(x.lineage, surface, bool(strong) or (pscore or 0) >= 0.6, papers, regen)}
+            "systems": json.dumps(systems, ensure_ascii=False),
+            "experiment": _experiment(systems, x.lineage, surface, bool(strong) or (pscore or 0) >= 0.6, papers, regen, lead)}
 
 
-def _rank(rows: list[dict]) -> pd.DataFrame:
-    out = pd.DataFrame(rows).sort_values(["score", "greens", "meta_log2fc"], ascending=False).reset_index(drop=True)
+SCHEMES = {   # name -> arguments of _points
+    "base": {},
+    "without protein": {"drop": ("protein",)},
+    "without literature": {"drop": ("literature",)},
+    "without protein and literature": {"drop": ("protein", "literature")},
+    "red lights cost 2": {"red": -2},
+    "unmeasured protein as amber": {"grey_protein": 1},
+}
+TOP = 10
+
+
+def _points(c: dict, drop: tuple = (), red: int = -1, grey_protein: int = 0) -> int:
+    pts = 0
+    for k in CRITERIA[:-1]:   # the mouse light is not scored
+        if k in drop:
+            continue
+        v = c[k][0]
+        if k == "genetics" and v == "amber":
+            continue   # a null genetic test scores 0
+        if k == "protein" and v == "grey":
+            pts += grey_protein
+            continue
+        pts += red if v == "red" else ORDER[v]
+    return pts
+
+
+def _rank(rows: list[dict], stability: bool = False) -> pd.DataFrame:
+    out = pd.DataFrame(rows)
+    if stability:
+        crit = [json.loads(c) for c in out.criteria]
+        ranks = {}
+        for name, kw in SCHEMES.items():
+            pts = pd.Series([_points(c, **kw) for c in crit])
+            ranks[name] = pts.rank(ascending=False, method="min")   # ties share the better position
+        R = pd.DataFrame(ranks)
+        out["stability"] = (R <= TOP).sum(axis=1).astype(int)
+        out["best_rank"], out["worst_rank"] = R.min(axis=1).astype(int), R.max(axis=1).astype(int)
+        out["group"] = np.where(out.stability == len(SCHEMES), "A", np.where(out.stability > 0, "B", "C"))
+        out = out.sort_values(["stability", "score", "greens", "meta_log2fc"], ascending=False)
+    else:
+        out = out.sort_values(["score", "greens", "meta_log2fc"], ascending=False)
+    out = out.reset_index(drop=True)
     out["rank"] = np.arange(1, len(out) + 1)
     return out
+
+
+def protein_bias() -> dict:
+    """Do the genes that mass spectrometry quantified have more RNA than the rest? (percentile of RNA abundance)"""
+    p = pd.read_parquet(PROCESSED / "proteomics.parquet")
+    s = pd.read_parquet(PROCESSED / "sc_celltype_share.parquet", columns=["gene", "health", "cluster", "n_cells", "cp10k_sum"])
+    s = s[s.health == "inflamed"]
+    expr = s.groupby("gene").cp10k_sum.sum() / s.drop_duplicates("cluster").n_cells.sum()
+    pct = expr.rank(pct=True)
+    q = pct.index.isin(p.gene[p.padj.notna()])
+    return {"genes_compared": int(len(pct)), "quantified": int(q.sum()),
+            "median_rna_percentile_quantified": round(float(pct[q].median()), 2),
+            "median_rna_percentile_not_quantified": round(float(pct[~q].median()), 2)}
 
 
 def run() -> dict:
     from .evaluate import clinical_targets
     d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
     t = _load()
-    out = _rank([_row(x, t) for x in d[d.status == "first-in-class opportunity"].itertuples()])
+    out = _rank([_row(x, t) for x in d[d.status == "first-in-class opportunity"].itertuples()], stability=True)
     out.to_parquet(PROCESSED / "validation_shortlist.parquet", index=False)
     cal = _rank([_row(x, t) for x in d[d.gene.isin(set(clinical_targets()["gene"]))].itertuples()])
     cal.to_parquet(PROCESSED / "validation_shortlist_calibration.parquet", index=False)
 
     def greens(df):
         return {k: round(float(df.criteria.map(lambda s: json.loads(s)[k][0] == "green").mean()), 2) for k in CRITERIA[:-1]}
-    s = {"genes": len(out), "top10": out.gene.head(10).tolist(), "no_red": int((out.reds == 0).sum()),
+    s = {"genes": len(out), "groups": {g: out.gene[out.group == g].tolist() for g in "ABC"},
+         "schemes": list(SCHEMES), "stability": dict(zip(out.gene, out.stability.astype(int))),
+         "protein_quantified_in_shortlist": int((out.criteria.map(lambda c: json.loads(c)["protein"][0]) != "grey").sum()),
+         "protein_bias": protein_bias(), "no_red": int((out.reds == 0).sum()),
          "regeneration_flag": out.gene[out.regeneration_flag].tolist(),
          "mendelian_flag": out.gene[out.criteria.str.contains("loss causes")].tolist(),
          "green_share_first_in_class": greens(out), "green_share_clinical_targets": greens(cal),
@@ -316,5 +448,5 @@ if __name__ == "__main__":
         print("\n", f)
         for r in d.itertuples():
             c = json.loads(r.criteria)
-            print(f"{r.rank:>2} {r.gene:<11}{r.lineage:<11}{r.score:>3} pc={r.per_cell_log2fc} " +
+            print(f"{r.rank:>2} {getattr(r, 'group', '-')} {getattr(r, 'stability', '-')}/6 {r.gene:<11}{r.lineage:<11}{r.score:>3} " +
                   " ".join(f"{k[:4]}={v[0][:2]}" for k, v in c.items() if k != "mouse"))

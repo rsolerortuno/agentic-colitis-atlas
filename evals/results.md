@@ -288,3 +288,19 @@ the discovery screen (median 8 per gene) therefore overstates what is known: mos
 supplementary table or are about another disease. New order: ERO1A, CPXM1, ADGRE3, RFTN1, CHRDL2, PCDH17, LYPD5,
 LAIR2, OLFML2B, SGIP1; IKBIP falls to 32nd.
 
+**Groups instead of positions (added 2026-11-11).** Review of the order: many genes tie on points, and the order inside
+a tie came from tie-breakers (greens, fold change), not from evidence. The table now gives the stability of each gene
+across six scorings (base; without the protein light; without the literature light; without both; red lights costing
+2; an unmeasured protein counted as amber), as the number of them that place it among the first ten, ties at the border
+included. The rule was fixed before it was applied. Group A, all six: ERO1A, CPXM1, ADGRE3, CHRDL2, PCDH17, LYPD5, LAIR2,
+OLFML2B, SGIP1. Group B, one to five: 13 genes, among them RFTN1 (5 of 6, but its position ranges from 2nd to 23rd:
+it leans on the protein light and on a single functional paper), OSBPL3 (3) and CCNO (1). Group C, none: 14 genes.
+**Protein bias:** 7 of the 36 candidates have a quantified protein, and across all genes those quantified sit at the
+78th percentile of RNA abundance in inflamed mucosa against the 37th for the rest, so a measured protein earns points an
+unmeasured one cannot; the tab says so and the "without protein" schemes show each gene's dependence.
+**Experiments by concrete cell system:** the broad lineage sent vessel, macrophage and Treg genes to the wrong culture.
+The first experiment now follows the cell groups that hold the gene's RNA in inflamed single cells (a second system
+when it holds at least 20 %): PCDH17 endothelium (87 %), OLFML2B macrophages and DC (44 %) plus fibroblasts (29 %),
+LAIR2 regulatory T cells (48 %) plus T and NK cells (41 %), RFTN1 B and plasma cells (49 %) with the published Th17
+lead, ERO1A organoids (33 %) plus B and plasma cells (23 %), CCNO organoids with a regrowth assay (92 % in crypt
+progenitors).
