@@ -16,11 +16,25 @@ Criteria (green / amber / red; grey = not measured):
   single cells explain the rise by cell numbers); amber otherwise. Calibrated on markers: DUOX2 +7.1, MMP3 +4.9,
   CHI3L1 +4.1 (state changes), TNF +0.2, IL1B -0.5, OSM -0.6 (rise by immune influx), AQP8 -2.7;
 - cell source: share of the gene's transcripts in its dominant lineage in inflamed single cells (Smillie 2019, the
-  lineage the discovery screen uses; green >= 0.5, amber 0.3-0.5, red < 0.3); a lineage not replicated in the second
-  atlas (Kong 2023) caps it at amber. A regeneration flag also caps it at amber: an epithelial gene with >= 76 % of its
+  lineage the discovery screen uses; green >= 0.5, amber 0.3-0.5, red < 0.3). Green also needs the lineage to
+  replicate: since 2026-11-11 it must be the dominant lineage in at least 2 of the 3 other atlases (Garrido-Trigo
+  2023, Gubatan 2026, GSE282122; sc_replication.run4), otherwise amber; before, a lineage not replicated in the second
+  atlas (Garrido-Trigo 2023) capped it. A regeneration flag also caps it at amber: an epithelial gene with >= 76 % of its
   epithelial RNA in the crypt zone (stem, TA, cycling TA, secretory TA, enterocyte progenitors) that rises per cell
   there. 76 % is halfway between EPCAM (58 %, any epithelial gene) and the crypt markers LGR5, OLFM4, MKI67 and REG1A
-  (92-97 %). Such a gene may belong to the repair programme of the crypt, and blocking it could slow healing;
+  (92-97 %). Such a gene may belong to the repair programme of the crypt, and blocking it could slow healing.
+  A crypt-niche flag (added 2026-11-11) does the same for stromal genes: the fibroblasts that sit under the crypt
+  base and feed the stem cells (Smillie clusters WNT2B+ Fos-hi, WNT2B+ Fos-lo 1, WNT2B+ Fos-lo 2, RSPO3+; the
+  Inflammatory Fibroblasts are the inflammation-associated state and are not niche) hold about half of the fibroblast
+  cells (3,594 of 7,239 in inflamed mucosa), so a generic fibroblast gene has about half of its fibroblast RNA there:
+  COL1A2 52 % (COL3A1 50 %, VIM 50 %, DCN 59 %). Known niche markers sit higher: WNT2B 62 %, GREM1 70 %, RSPO3 83 %
+  (mean 72 %). The threshold, 62 %, is halfway between COL1A2 and the niche-marker mean, as the crypt threshold was
+  set between EPCAM and the crypt markers. Flag: a stromal gene with >= 62 % of its fibroblast RNA (inflamed) in the
+  niche clusters that rises per cell there (the per-cell measure of the tissue light restricted to the niche
+  clusters, >= 1 log2). It caps the cell light at amber ("possible repair programme of the crypt niche") and adds an
+  organoid-fibroblast co-culture read-out to the experiment. None of the 36 genes is flagged (2026-11-11): the group A
+  stromal genes (CHRDL2 48 %, CPXM1 52 %, SGIP1 54 %, OLFML2B 50 %, PCDH17 13 %, an endothelial gene) have the niche
+  share of a generic fibroblast gene, although all but PCDH17 rise per cell there (+2.0 to +3.4 log2);
 - causal genetics: a significant Mendelian-randomisation estimate in plasma or colon in the direction that supports
   inhibition (genetically higher level raises risk) is green, the opposite direction red, tested and null amber (it
   scores 0: a null test is not support), no instrument grey;
@@ -76,6 +90,11 @@ from .paths import PROCESSED, RAW
 ORDER = {"green": 2, "amber": 1, "grey": 0, "red": -1}
 CRYPT = {"Stem", "TA 1", "TA 2", "Cycling TA", "Secretory TA", "Enterocyte Progenitors"}
 CRYPT_SHARE = 0.76
+FIBROBLASTS = {"Inflammatory Fibroblasts", "WNT2B+ Fos-hi", "WNT2B+ Fos-lo 1", "WNT2B+ Fos-lo 2", "WNT5B+ 1",
+               "WNT5B+ 2", "RSPO3+", "Myofibroblasts"}
+NICHE = {"WNT2B+ Fos-hi", "WNT2B+ Fos-lo 1", "WNT2B+ Fos-lo 2", "RSPO3+"}   # crypt-niche fibroblasts (not inflammatory)
+NICHE_SHARE = 0.62   # halfway between COL1A2 (0.52) and the mean of WNT2B, GREM1, RSPO3 (0.72); see the docstring
+NICHE_MARKERS = {"niche": ("WNT2B", "GREM1", "RSPO3"), "generic": ("COL1A2", "COL3A1", "VIM", "DCN")}
 STRONG_SM = ("High-Quality Ligand", "High-Quality Pocket", "Druggable Family", "Approved Drug", "Advanced Clinical",
              "Phase 1 Clinical")
 CRITERIA = ["reproducible", "protein", "tissue", "cell", "genetics", "druggable", "safety", "literature", "mouse"]
@@ -89,7 +108,8 @@ def _lineage_share() -> dict[str, tuple[str, float]]:
 
 
 class _SingleCell:
-    """Per-cell change inside the gene's own clusters and the crypt-zone share (Smillie 2019)."""
+    """Per-cell change inside the gene's own clusters, the crypt-zone share and the crypt-niche share of the
+    fibroblast RNA (Smillie 2019)."""
 
     def __init__(self):
         s = pd.read_parquet(PROCESSED / "sc_celltype_share.parquet")
@@ -98,6 +118,8 @@ class _SingleCell:
         self.w = w.reset_index()
         x = s[(s.health == "inflamed") & (s.compartment == "epithelial")]
         self.crypt = (x[x.cluster.isin(CRYPT)].groupby("gene").cp10k_sum.sum() / x.groupby("gene").cp10k_sum.sum())
+        f = s[(s.health == "inflamed") & s.cluster.isin(FIBROBLASTS)]
+        self.niche = (f[f.cluster.isin(NICHE)].groupby("gene").cp10k_sum.sum() / f.groupby("gene").cp10k_sum.sum())
 
     def systems(self, g: str) -> list[tuple[str, float, str]]:
         """Cell systems holding the gene's RNA in inflamed mucosa: the largest, and a second one with >= 20 %."""
@@ -115,8 +137,10 @@ class _SingleCell:
             out.append((name, float(share), " and ".join(top)))
         return out
 
-    def per_cell(self, g: str, k: int = 3) -> tuple[float, str]:
+    def per_cell(self, g: str, k: int = 3, clusters: set | None = None) -> tuple[float, str]:
         d = self.w[self.w.gene == g].dropna(subset=["mean_cp10k_healthy", "mean_cp10k_inflamed"])
+        if clusters is not None:
+            d = d[d.cluster.isin(clusters)]
         d = d[(d.n_cells_healthy >= 50) & (d.n_cells_inflamed >= 50)].nlargest(k, "share_inflamed")
         if d.empty:
             return np.nan, ""
@@ -202,8 +226,12 @@ LINEAGE_SYSTEM = {"epithelial": "epithelium", "stromal": "fibroblasts", "endothe
 SYSTEM_MIN_SHARE = 0.2   # a second cell system is proposed when it holds at least 20 % of the gene's RNA
 
 
+COCULTURE = (", with an organoid-fibroblast co-culture read-out (crypt organoid growth and stem-cell markers with "
+             "silenced niche fibroblasts), since the gene rises in crypt-niche fibroblasts")
+
+
 def _experiment(systems: list, lineage: str, surface: bool, sm: bool, mouse_papers: int | None, regen: bool,
-                lead: str) -> str:
+                lead: str, niche: bool = False) -> str:
     """systems: [(name, share of the gene's RNA, its two main clusters)], from the gene's own single-cell clusters."""
     if not systems and LINEAGE_SYSTEM.get(lineage):
         systems = [(LINEAGE_SYSTEM[lineage], np.nan, "")]
@@ -212,11 +240,13 @@ def _experiment(systems: list, lineage: str, surface: bool, sm: bool, mouse_pape
         first = CELL_SYSTEMS[name][0]
         if name == "epithelium" and regen:
             first += ", with a wound-healing or organoid regrowth assay, since the gene rises in regenerating crypt cells"
+        if name == "fibroblasts" and niche:
+            first += COCULTURE
         where = f"{name}, {share:.0%} of its RNA, mainly {clus}" if not np.isnan(share) else name
         system = f"{first} [{where}]"
         if len(systems) > 1:
             system += (f". Also in {systems[1][0]} ({systems[1][1]:.0%} of its RNA, mainly {systems[1][2]}) "
-                       "with the matching system")
+                       "with the matching system" + (COCULTURE if systems[1][0] == "fibroblasts" and niche else ""))
     else:
         system = "genetic tools first, in the cell type that expresses it"
     route = ("a blocking antibody can be tested directly" if surface else
@@ -235,6 +265,8 @@ def _load():
          "ml": pd.read_parquet(PROCESSED / "mouse_literature.parquet").set_index("gene")["papers"].to_dict()}
     rep_p = PROCESSED / "sc_replication.parquet"
     t["screp"] = pd.read_parquet(rep_p).set_index("gene")["same_lineage"].to_dict() if rep_p.exists() else {}
+    rep4_p = PROCESSED / "sc_replication4.parquet"
+    t["rep4"] = pd.read_parquet(rep4_p).set_index("gene") if rep4_p.exists() else pd.DataFrame()
     vis = json.loads((PROCESSED / "spatial_visium_summary.json").read_text())["targets"]
     t["vis"] = {v["gene"]: v for v in vis}
     mr_rows = {}
@@ -285,15 +317,37 @@ def _row(x, t) -> dict:
     v = t["vis"].get(g, {})
     vtxt = f"; in situ {v['top_in_situ_expresser'].replace('_', ' ')}" if v.get("top_in_situ_expresser") else ""
     col = "grey" if np.isnan(lshare) else "green" if lshare >= 0.5 else "amber" if lshare >= 0.3 else "red"
-    sr = t["screp"]
-    rtxt = "" if g not in sr else "; same lineage in the second atlas" if sr[g] else "; not replicated in the second atlas"
-    if col == "green" and sr.get(g) is False:
-        col = "amber"
+    r4 = t["rep4"]
+    atlases = {}
+    if g in r4.index:   # four atlases: green needs the lineage dominant in >= 2 of the 3 others
+        from .sc_replication import ATLASES
+        n_agree = int(r4.at[g, "n_agree"])
+        atlases = {ATLASES[k]: (r4.at[g, f"lineage_{k}"] if pd.notna(r4.at[g, f"lineage_{k}"]) else None,
+                                None if pd.isna(r4.at[g, f"share_{k}"]) else float(r4.at[g, f"share_{k}"]))
+                   for k in ATLASES}
+        agree = [ATLASES[k].split(" (")[0] for k in ("garrido", "gubatan", "gse282122") if r4.at[g, f"agree_{k}"]]
+        rtxt = f"; same lineage in {n_agree} of 3 other atlases" + (f" ({', '.join(agree)})" if agree else "")
+        if col == "green" and n_agree < 2:
+            col = "amber"
+    else:
+        n_agree = None
+        sr = t["screp"]
+        rtxt = "" if g not in sr else "; same lineage in the second atlas" if sr[g] else "; not replicated in the second atlas"
+        if col == "green" and sr.get(g) is False:
+            col = "amber"
     crypt = float(t["sc"].crypt.get(g, np.nan))
     regen = bool(lname == "epithelial" and crypt >= CRYPT_SHARE and (pc if not np.isnan(pc) else 0) >= 1)
     if regen and col == "green":
         col = "amber"
     ctxt = f"; {crypt:.0%} of epithelial RNA in the crypt zone, rising there: possible repair programme" if regen else ""
+    nshare = float(t["sc"].niche.get(g, np.nan))
+    npc, _ = t["sc"].per_cell(g, clusters=NICHE) if lname == "stromal" else (np.nan, "")
+    niche = bool(lname == "stromal" and nshare >= NICHE_SHARE and (npc if not np.isnan(npc) else 0) >= 1)
+    if niche and col == "green":
+        col = "amber"
+    if niche:
+        ctxt += (f"; {nshare:.0%} of fibroblast RNA in crypt-niche fibroblasts, rising there ({npc:+.1f} log2): "
+                 "possible repair programme of the crypt niche")
     c["cell"] = (col, (f"{lname} {lshare:.0%} of transcripts{rtxt}{ctxt}{vtxt}" if not np.isnan(lshare)
                        else "not in the single-cell atlas"))
     mrs = t["mr"].get(g, [])
@@ -352,10 +406,14 @@ def _row(x, t) -> dict:
             "meta_log2fc": round(float(x.meta_log2fc), 2), "uc_papers": int(x.uc_papers),
             "criteria": json.dumps(c, ensure_ascii=False), "per_cell_log2fc": None if np.isnan(pc) else round(pc, 2),
             "crypt_share": None if np.isnan(crypt) else round(crypt, 3), "regeneration_flag": regen,
+            "niche_share": None if np.isnan(nshare) else round(nshare, 3),
+            "niche_per_cell_log2fc": None if np.isnan(npc) else round(npc, 2), "niche_flag": niche,
+            "atlases_agree": n_agree, "atlas_lineages": json.dumps(atlases, ensure_ascii=False),
             "greens": sum(v[0] == "green" for k, v in c.items() if k != "mouse"),
             "reds": sum(v[0] == "red" for k, v in c.items() if k != "mouse"), "score": int(sum(pts.values())),
             "systems": json.dumps(systems, ensure_ascii=False),
-            "experiment": _experiment(systems, x.lineage, surface, bool(strong) or (pscore or 0) >= 0.6, papers, regen, lead)}
+            "experiment": _experiment(systems, x.lineage, surface, bool(strong) or (pscore or 0) >= 0.6, papers, regen, lead,
+                                      niche)}
 
 
 SCHEMES = {   # name -> arguments of _points
@@ -417,6 +475,11 @@ def protein_bias() -> dict:
             "median_rna_percentile_not_quantified": round(float(pct[~q].median()), 2)}
 
 
+def niche_markers(sc: "_SingleCell") -> dict:
+    """Calibration of the niche threshold: share of fibroblast RNA in the crypt-niche clusters for the markers."""
+    return {k: {g: round(float(sc.niche.get(g, np.nan)), 3) for g in v} for k, v in NICHE_MARKERS.items()}
+
+
 def run() -> dict:
     from .evaluate import clinical_targets
     d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
@@ -433,6 +496,12 @@ def run() -> dict:
          "protein_quantified_in_shortlist": int((out.criteria.map(lambda c: json.loads(c)["protein"][0]) != "grey").sum()),
          "protein_bias": protein_bias(), "no_red": int((out.reds == 0).sum()),
          "regeneration_flag": out.gene[out.regeneration_flag].tolist(),
+         "niche_flag": out.gene[out.niche_flag].tolist(), "niche_threshold": NICHE_SHARE,
+         "atlases_agree": {str(k): int(v) for k, v in out.atlases_agree.dropna().astype(int).value_counts().sort_index().items()},
+         "niche_markers": niche_markers(t["sc"]),
+         "niche_stromal": {r.gene: {"group": r.group, "niche_share": r.niche_share,
+                                    "niche_per_cell_log2fc": r.niche_per_cell_log2fc}
+                           for r in out[out.lineage == "stromal"].itertuples()},
          "mendelian_flag": out.gene[out.criteria.str.contains("loss causes")].tolist(),
          "green_share_first_in_class": greens(out), "green_share_clinical_targets": greens(cal),
          "clinical_targets": len(cal), "median_points_first_in_class": float(out.score.median()),

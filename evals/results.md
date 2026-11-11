@@ -304,3 +304,30 @@ when it holds at least 20 %): PCDH17 endothelium (87 %), OLFML2B macrophages and
 LAIR2 regulatory T cells (48 %) plus T and NK cells (41 %), RFTN1 B and plasma cells (49 %) with the published Th17
 lead, ERO1A organoids (33 %) plus B and plasma cells (23 %), CCNO organoids with a regrowth assay (92 % in crypt
 progenitors).
+
+## (s) Crypt-niche flag and a fourth single-cell atlas (added 2026-11-11)
+
+**Crypt-niche flag (stroma).** The fibroblasts under the crypt base (Smillie WNT2B+ Fos-hi, WNT2B+ Fos-lo 1 and 2,
+RSPO3+; not the Inflammatory Fibroblasts) hold 3,594 of 7,239 fibroblasts in inflamed mucosa, so a generic fibroblast
+gene has about half of its fibroblast RNA there: COL1A2 52 %, COL3A1 50 %, VIM 50 %, DCN 59 %. Niche markers: WNT2B
+62 %, GREM1 70 %, RSPO3 83 %. Threshold 62 %, halfway between COL1A2 and the niche-marker mean (72 %), set as the
+crypt threshold was (EPCAM vs LGR5/OLFM4). Flag = niche share >= 62 % and a per-cell rise >= 1 log2 inside the niche
+clusters. **No shortlist gene is flagged.** Group A stromal genes: CHRDL2 48 %, CPXM1 52 %, SGIP1 54 %, OLFML2B 50 %
+(all rising per cell in the niche, +2.0 to +3.4 log2, but with the niche share of a generic fibroblast gene) and
+PCDH17 13 % (an endothelial gene). The flag would cap the cell light at amber and add an organoid-fibroblast
+co-culture read-out to the experiment.
+
+**GSE282122 as a fourth atlas.** The filtered 10x matrices (2.8 GB tar, sha256 in data/raw/gse282122/manifest.json)
+have no cell labels on GEO. 112 colon biopsies (103 UC before and after adalimumab, 9 healthy; ileum excluded),
+694,801 cells after QC, typed by k-means on a canonical marker panel (60 clusters) into nine lineages. Check: every
+marker of the eight lineages found is highest in its own lineage; no neutrophil cluster (droplet filtering loses
+them); 51,036 cells in four unclear clusters left out. The series mixes two Cell Ranger references, matched by Ensembl
+id. Tables per gene and lineage in the sc_celltype_share format, also by treatment time and remission
+(sc4_celltype_share, sc4_response_share).
+
+**Replication across four atlases** (five shared lineages, inflamed UC, 1,003 genes): the Smillie lineage is dominant
+in all three other atlases for 512 genes, in two for 299, in one for 156, in none for 36. Per atlas: Garrido-Trigo 804
+of 995, Gubatan 635 of 878, GSE282122 851 of 997. The cell-source light now needs >= 2 of 3 for green. Effect on the
+shortlist: one change, OLFML2B (stromal in Smillie and GSE282122, myeloid in Garrido-Trigo and Gubatan) goes from
+green to amber and from group A to B. New graph evidence types sc_lineage_gse282122 and sc_replication_4atlas; the
+records the agents cite are unchanged (verify final: 0 unsupported, 0 stale).

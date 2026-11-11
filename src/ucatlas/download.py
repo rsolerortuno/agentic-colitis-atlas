@@ -92,6 +92,35 @@ SOURCES: list[tuple[str, str]] = [
 ]
 
 
+# anti-TNF single-cell atlas, full data (added 2026-11-11): the 10x filtered count matrices of GSE282122 (one h5 per
+# sample, 2.8 GB tar; the 8.4 GB "raw" archive holds the unfiltered droplets and is not needed) and the series matrix
+# (sample metadata). GEO has no per-sample files and no cell annotations. Own manifest: data/raw/gse282122/manifest.json.
+GSE282122 = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE282nnn/GSE282122"
+GSE282122_SOURCES: list[tuple[str, str]] = [
+    (f"{GSE282122}/matrix/GSE282122_series_matrix.txt.gz", "GSE282122_series_matrix.txt.gz"),
+    (f"{GSE282122}/suppl/GSE282122_filtered_processed_data.tar.gz", "GSE282122_filtered_processed_data.tar.gz"),
+]
+
+
+def run_gse282122() -> dict:
+    """Fetch the GSE282122 files once (streamed to disk, gzip integrity checked) and record sha256 and size."""
+    d = RAW / "gse282122"
+    mpath = d / "manifest.json"
+    m = json.loads(mpath.read_text(encoding="utf-8")) if mpath.exists() else {}
+    m.setdefault("source", "GEO GSE282122 (Thomas et al. 2024, Nat Immunol 25:2152): filtered 10x count matrices and "
+                           "sample metadata")
+    files = m.setdefault("files", {})
+    for url, rel in GSE282122_SOURCES:
+        dest = d / rel
+        if not dest.exists():
+            print("downloading", rel, flush=True)
+            fetch(url, dest)
+            files[rel] = {"url": url, "retrieved_utc": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+        files.setdefault(rel, {"url": url, "retrieved_utc": None}).update(sha256=sha256(dest), bytes=dest.stat().st_size)
+    mpath.write_text(json.dumps(m, indent=1, sort_keys=True), encoding="utf-8")
+    return files
+
+
 def sha256(path: Path) -> str:
     h = hashlib.sha256()
     with open(path, "rb") as f:

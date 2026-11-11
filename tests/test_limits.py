@@ -261,3 +261,54 @@ def test_validation_shortlist_groups_and_experiments():
     assert "regulatory T cells" in ex["LAIR2"] and "organoid" in ex["CCNO"] and "Published lead" in ex["RFTN1"]
     bias = json.loads((PROCESSED / "validation_shortlist_summary.json").read_text())["protein_bias"]
     assert bias["median_rna_percentile_quantified"] > bias["median_rna_percentile_not_quantified"] + 0.2
+
+
+# ------------------------------------------------------------------ crypt niche and the fourth atlas (2026-11-11)
+def test_gse282122_member_names_map_to_sample_titles():
+    from ucatlas.sc_gse282122 import _title_of
+    titles = {"CID003352-2-reup", "CID003376-1"}
+    assert _title_of("filtered_processed_data/CID003352-2/filtered_feature_bc_matrix.h5", titles) == "CID003352-2-reup"
+    assert _title_of("filtered_processed_data/CID003376-1/filtered_feature_bc_matrix.h5", titles) == "CID003376-1"
+    assert _title_of("filtered_processed_data/CID009999-1/filtered_feature_bc_matrix.h5", titles) is None
+
+
+@pytest.mark.skipif(not (PROCESSED / "sc_celltype_share.parquet").exists(), reason="single cells not processed")
+def test_niche_threshold_separates_markers():
+    """The crypt-niche threshold sits halfway between a generic fibroblast gene and the niche markers."""
+    from ucatlas.validation_shortlist import NICHE_SHARE, _SingleCell, niche_markers
+    m = niche_markers(_SingleCell())
+    assert all(v >= NICHE_SHARE for v in m["niche"].values())
+    assert all(v < NICHE_SHARE for v in m["generic"].values())
+    mid = (m["generic"]["COL1A2"] + np.mean(list(m["niche"].values()))) / 2
+    assert abs(mid - NICHE_SHARE) < 0.01
+
+
+@pytest.mark.skipif(not (PROCESSED / "validation_shortlist.parquet").exists(), reason="shortlist not built")
+def test_niche_flag_caps_cell_light():
+    d = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
+    for r in d[d.niche_flag].itertuples():
+        assert json.loads(r.criteria)["cell"][0] != "green" and "crypt niche" in json.loads(r.criteria)["cell"][1]
+    assert not d[d.lineage != "stromal"].niche_flag.any()
+
+
+@pytest.mark.skipif(not (PROCESSED / "sc4_summary.json").exists(), reason="GSE282122 not processed")
+def test_gse282122_typing_on_canonical_markers():
+    s = json.loads((PROCESSED / "sc4_summary.json").read_text())
+    for lin in ("epithelial", "stromal", "endothelial", "myeloid", "T/NK", "plasma", "mast"):
+        chk = s["typing_check"][lin]
+        assert chk["present"] and chk["own_top"] >= chk["markers"] - 1, (lin, chk)
+    sh = pd.read_parquet(PROCESSED / "sc4_celltype_share.parquet", filters=[("health", "==", "inflamed")])
+    top = sh.sort_values("share").drop_duplicates("gene", keep="last").set_index("gene").cluster
+    assert top["EPCAM"] == "epithelial" and top["COL1A2"] == "stromal" and top["CD3E"] == "T/NK" and top["MZB1"] == "plasma"
+
+
+@pytest.mark.skipif(not (PROCESSED / "sc_replication4.parquet").exists(), reason="four-atlas replication not run")
+def test_four_atlas_replication_and_cell_light():
+    r = pd.read_parquet(PROCESSED / "sc_replication4.parquet")
+    agree = sum((r[f"lineage_{k}"] == r.lineage_smillie) for k in ("garrido", "gubatan", "gse282122"))
+    assert (agree == r.n_agree).all() and (r.replicated == (r.n_agree >= 2)).all()
+    assert r.n_agree.mean() > 1.5   # the attribution mostly replicates
+    sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
+    for x in sl.itertuples():
+        if json.loads(x.criteria)["cell"][0] == "green":
+            assert x.atlases_agree >= 2

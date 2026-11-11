@@ -189,3 +189,9 @@ Designs fixed before running. Nothing below changes the convergence score or the
   groups and stability instead of positions. The experiment selection was found half written on disk (a truncated
   string, the module did not import) when the session was forked; it was completed with nine cell systems, a second
   system from 20 % of the RNA and the published functional lead.
+- **Crypt-niche flag and fourth atlas (2026-11-11)**: a stromal counterpart of the crypt regeneration flag, calibrated
+  on WNT2B, GREM1 and RSPO3 against COL1A2; no shortlist gene is flagged. GSE282122 full matrices downloaded and typed
+  into lineages. Two problems on the way: the GEO sample titles carry a "-reup" suffix that the tar folders lack (mapped
+  explicitly), and the series mixes two Cell Ranger references (33,538 and 33,808 features), which stopped the first
+  build; genes are now matched by Ensembl id. The four-atlas replication is written to a new file and new evidence
+  types, so the sc_summary records cited by the agents stay as they were (0 stale). OLFML2B leaves group A.

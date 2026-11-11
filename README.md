@@ -118,7 +118,7 @@ and described in [data/README.md](data/README.md).
 | Protein in mucosa | Schniers et al. 2019 (Clin Proteomics), label-free proteomics of untreated UC vs healthy colon | 7,416 proteins mapped to genes |
 | Mouse models | MGI genotype-phenotype calls (colitis terms), single-gene models including conditional knockouts | 236 genes with a colitis phenotype |
 | Disease activity | Mayo endoscopic score (MSCCR, GSE73661) | One value per patient |
-| Single cells | Smillie et al. 2019 (Broad SCP259); Garrido-Trigo et al. 2023 (CZ CELLxGENE); Gubatan et al. 2026, with neutrophils (Broad SCP3755) | 365,492, 46,700 and 408,930 cells |
+| Single cells | Smillie et al. 2019 (Broad SCP259); Garrido-Trigo et al. 2023 (CZ CELLxGENE); Gubatan et al. 2026, with neutrophils (Broad SCP3755); anti-TNF atlas of Thomas et al. 2024, full count matrices (GEO GSE282122, typed here into lineages) | 365,492, 46,700, 408,930 and 694,801 cells (GSE282122: 103 UC biopsies before and after adalimumab, 9 healthy) |
 | Tissue sections | Xenium 5K (GSE312420, GSE339323); CosMx 6K and 1K (GSE312415); Visium whole transcriptome with H&E images (GSE189184) | 6 Xenium sections (619,017 cells); 2 CosMx slides of inflamed UC (88,409 cells); 9 Visium sections (16,699 spots, deconvolved into 12 cell groups) |
 | Human genetics | UC GWAS (de Lange et al. 2017, GWAS Catalog GCST004133); fine-mapped QTL from Open Targets 26.09: plasma pQTL (UKB-PPP), colon eQTL (GTEx v10 transverse and sigmoid colon, CEDAR colon and rectum), gut cell-type eQTL (IBDverse single cell) | 1,693 proteins; 5,852 genes in colon tissue; 6,895 genes in about 60 gut cell types |
 | Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 46 proteins (candidates and 10 UC small-molecule targets as controls) |
@@ -141,7 +141,8 @@ and described in [data/README.md](data/README.md).
 - **Tissue change or cell influx.** Per gene, the inflamed effect is re-estimated after adjusting for the abundance of
   neutrophils, myeloid cells, lymphocytes, plasma cells, epithelium and stroma in each biopsy; the share of the change
   that survives decides whether it is a tissue change.
-- **Cells and tissue.** Pseudobulk cell-type attribution in three single-cell datasets; in Xenium sections, the
+- **Cells and tissue.** Pseudobulk cell-type attribution in three single-cell datasets, and the dominant lineage
+  checked in a fourth (GSE282122, whose cells are typed here from canonical markers); in Xenium sections, the
   share of a gene's transcripts in each cell lineage and the lineages enriched around expressing cells (permutation
   test). Visium spots hold several cells, so each spot is deconvolved into 12 cell groups with the single-cell
   profiles (non-negative least squares on marker genes; candidate genes are never markers). A gene's spot expression
@@ -167,9 +168,11 @@ and described in [data/README.md](data/README.md).
 - **Validation shortlist.** Each first-in-class gene checked against eight questions a laboratory would ask
   (reproducible, protein, tissue change, cell source, causal genetics, druggable, safety, UC literature, mouse), one traffic light
   per question with fixed thresholds checked on markers and on the UC clinical targets. Genes are reported in
-  groups, not positions: A, B or C by how many of six ways of scoring keep them in the top ten. The proposed first
-  experiment follows the concrete cell clusters that hold the gene's RNA and the drug route. Its own
-  report tab, under Findings → New targets.
+  groups, not positions: A, B or C by how many of six ways of scoring keep them in the top ten. A green cell-source
+  light needs the lineage to be dominant in at least two of the three other single-cell atlases. Two repair flags
+  cap that light: crypt-zone epithelial genes and crypt-niche fibroblast genes (WNT2B+, RSPO3+) that rise per cell
+  there. The proposed first experiment follows the concrete cell clusters that hold the gene's RNA and the drug
+  route. Its own report tab, under Findings → New targets.
 
 ## 5. Main results
 
@@ -270,9 +273,11 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
 | Repeat agent runs (final data) | Three team runs: 116–124 statements, 0 unsupported; target-list overlap (Jaccard) 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each |
 | Single agent against multi-agent (final data) | Same quality (0 unsupported; 10–11 of 12 checklist facts); the team was about 36 % cheaper ($4.79 vs $7.52 on average) and 2.5 times faster (7.6 vs 19.3 minutes); the single agent cited less of its evidence (82 % vs 90–98 %) |
-| Report validator | 570 claims, 1,181 evidence records, 1,296 citation links, all resolvable, no external resources |
-| Knowledge graph | 564,896 claims, 0 without a resolvable evidence record |
-| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (233 files, SHA-256) re-creates every table and the report |
+| Single-cell lineage in four atlases | For 1,003 genes the Smillie 2019 lineage is also dominant in 804 of 995 (Garrido-Trigo 2023), 635 of 878 (Gubatan 2026) and 851 of 997 (GSE282122); 811 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
+| Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 48–54 %, PCDH17 13 %) |
+| Report validator | 630 claims, 1,241 evidence records, 1,392 citation links, all resolvable, no external resources |
+| Knowledge graph | 587,096 claims, 0 without a resolvable evidence record |
+| Clean rebuild | `uv run ucatlas run-all` from frozen inputs (235 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
 change little in biopsies, so expression-led rankings put them low; the genetics layer recovers several of them.
@@ -367,7 +372,7 @@ tests/               automated tests
 |---|---|
 | `download.py`, `cohorts.py`, `reproducibility.py` | Downloads with manifests, the sample table of the eight cohorts, the frozen-input check |
 | `expression.py`, `activity.py` | Per-cohort differential expression, meta-analysis, replication; correlation with disease activity |
-| `singlecell.py`, `sc_replication.py`, `sc_neutrophil.py`, `composition.py` | Cell attribution in three single-cell datasets, tissue change vs cell influx |
+| `singlecell.py`, `sc_replication.py`, `sc_neutrophil.py`, `sc_gse282122.py`, `composition.py` | Cell attribution in three single-cell datasets, lineage typing of the GSE282122 matrices and replication across four atlases, tissue change vs cell influx |
 | `spatial.py`, `spatial_visium.py`, `spatial_deconv.py`, `spatial_download.py` | Xenium cell typing, attribution and neighbourhoods; Visium compartments, spot deconvolution, in-situ expressers, neighbourhoods and the tissue-viewer data; range-request downloads |
 | `mr.py`, `mr_colon.py` | Mendelian randomisation with plasma pQTL and with gut eQTL (colon tissue, gut cell types), colocalisation check |
 | `structure.py`, `protein_viewer.py` | AlphaFold models, pocket detection and score, ligand-site check, 3D viewer data |

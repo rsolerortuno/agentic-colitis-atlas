@@ -212,7 +212,22 @@ def cell_tables(genes: list[str], store: GraphStore) -> dict:
     sec = pd.read_parquet(PROCESSED / "spatial_sections.parquet")
     cols = [c for c in ("gsm", "study", "state", "cells", "median_counts_per_cell", "assigned_fraction") if c in sec]
     cells3 = pd.read_parquet(PROCESSED / "sc3_celltype_share.parquet", columns=["health", "cluster", "n_cells"]).drop_duplicates()
+    rep4 = {}
+    if (PROCESSED / "sc_replication4.parquet").exists():   # four atlases (added 2026-11-11)
+        r4 = pd.read_parquet(PROCESSED / "sc_replication4.parquet").set_index("gene")
+        sl_p = PROCESSED / "validation_shortlist.parquet"
+        sl_genes = pd.read_parquet(sl_p, columns=["gene"]).gene.tolist() if sl_p.exists() else []
+        show = list(dict.fromkeys(sl_genes + list(genes)))
+        rep4 = {"summary": json.loads((PROCESSED / "sc_replication4_summary.json").read_text(encoding="utf-8")),
+                "sc4": json.loads((PROCESSED / "sc4_summary.json").read_text(encoding="utf-8")),
+                "rows": [{"gene": g, "shortlist": g in sl_genes, "n_agree": int(r4.at[g, "n_agree"]),
+                          **{k: (r4.at[g, f"lineage_{k}"] if pd.notna(r4.at[g, f"lineage_{k}"]) else "—",
+                                 _num(r4.at[g, f"share_{k}"]))
+                             for k in ("smillie", "garrido", "gubatan", "gse282122")},
+                          "evidence_ids": [evidence_id("sc_replication_4atlas", g)]}
+                         for g in show if g in r4.index][:60]}
     return {"cell_rows": rows, "sc_rep_rows": sc_rep_rows, "spatial_rows": spatial_rows, "xenium_rows": xen_rows,
+            "rep4": rep4,
             "xenium_sections": sec[cols].round(2).to_dict("records"), "visium": vis,
             "sc3_cells": int(cells3.n_cells.sum())}
 
@@ -549,7 +564,10 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         SL["rows"] = [{"rank": int(r.rank), "group": r.group, "stability": int(r.stability), "best_rank": int(r.best_rank),
                        "worst_rank": int(r.worst_rank), "gene": r.gene, "lineage": r.lineage, "meta_log2fc": r.meta_log2fc,
                        "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria), "experiment": r.experiment,
-                       "evidence_ids": [evidence_id("discovery_profile", r.gene)]} for r in sl.itertuples()]
+                       "atlases": json.loads(r.atlas_lineages) if "atlas_lineages" in sl else {},
+                       "evidence_ids": [evidence_id("discovery_profile", r.gene)] +
+                       ([evidence_id("sc_replication_4atlas", r.gene)] if "atlas_lineages" in sl and r.atlas_lineages != "{}" else [])}
+                      for r in sl.itertuples()]
         lit_p = PROCESSED / "shortlist_literature.parquet"
         if lit_p.exists():
             lit = pd.read_parquet(lit_p).set_index("gene")
@@ -614,7 +632,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     extra_ids = []
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
-              third.get("safety_rows", []), third.get("antitnf_rows", []), SL["rows"]]
+              third.get("safety_rows", []), third.get("antitnf_rows", []), SL["rows"], cell.get("rep4", {}).get("rows", [])]
     for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]

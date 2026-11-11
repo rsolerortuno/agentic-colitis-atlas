@@ -37,7 +37,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     if clean:
         # the single-cell pseudobulk files (sc_*, sc3_*) come from long streaming steps and are kept; everything
         # else is rebuilt. They are rebuilt here only when missing.
-        keep = ("sc_pseudobulk", "sc_celltype_share", "sc_celltype_de", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share")
+        keep = ("sc_pseudobulk", "sc_celltype_share", "sc_celltype_de", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share",
+                "sc4_")
         for f in PROCESSED.glob("*"):
             if not f.name.startswith(keep):
                 f.unlink() if f.is_file() else shutil.rmtree(f)
@@ -67,6 +68,11 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         _step("single cell (Smillie 2019)", lambda: singlecell.run(expression_top(None)))
     if not (PROCESSED / "sc3_celltype_share.parquet").exists() and (sc_neutrophil.D / "manifest.json").exists():
         _step("single cell with neutrophils (Gubatan 2026)", sc_neutrophil.build)
+    from . import sc_gse282122
+    if (sc_gse282122.D / "manifest.json").exists():   # fourth atlas: full GSE282122 matrices (added 2026-11-11)
+        _step("download GSE282122", lambda: f"{len(download.run_gse282122())} files checked")
+        if not (PROCESSED / "sc4_celltype_share.parquet").exists():
+            _step("single cell, anti-TNF atlas (GSE282122)", sc_gse282122.run)
     if (PROCESSED / "sc_celltype_share.parquet").exists():   # single-cell layer present (M11)
         top = expression_top(500)
         _step("single-cell replication", lambda: sc_replication.run(top))
@@ -77,6 +83,11 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     from . import activity, discovery, pathways
     if (PROCESSED / "sc3_celltype_share.parquet").exists():
         _step("discovery", lambda: (discovery.run()["status"].value_counts().to_dict(), discovery.load())[0])
+        if (PROCESSED / "sc4_celltype_share.parquet").exists():   # needs the discovery genes; before the shortlist
+            from . import sc_gse282122
+            _step("GSE282122 single-cell graph", sc_gse282122.load)
+            _step("single-cell replication, four atlases",
+                  lambda: (sc_replication.run4(sc_replication.genes4()), sc_replication.load4())[0])
         _step("pathways", lambda: (pathways.pathway_activity(), pathways.tf_activity(), pathways.communication(),
                                    pathways.load())[3])
     _step("disease activity", lambda: (activity.run(), activity.load())[1])

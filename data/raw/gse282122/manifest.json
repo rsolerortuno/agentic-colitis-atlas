@@ -1,0 +1,18 @@
+{
+ "checked_utc": "2026-11-11T13:30:00+00:00",
+ "files": {
+  "GSE282122_filtered_processed_data.tar.gz": {
+   "bytes": 3027066520,
+   "retrieved_utc": "2026-11-11T13:21:00+00:00",
+   "sha256": "ade75ed306a0fe4e47ef6d6561cca31b3801117c4033340343634981bcdec139",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE282nnn/GSE282122/suppl/GSE282122_filtered_processed_data.tar.gz"
+  },
+  "GSE282122_series_matrix.txt.gz": {
+   "bytes": 11652,
+   "retrieved_utc": "2026-11-11T13:17:00+00:00",
+   "sha256": "5159526b93ecc1ccf86aab6829dc78d3eb2effe5d3fa621c205fe7efbdaecebb",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE282nnn/GSE282122/matrix/GSE282122_series_matrix.txt.gz"
+  }
+ },
+ "source": "GEO GSE282122 (Thomas et al. 2024, Nat Immunol 25:2152): filtered 10x count matrices and sample metadata"
+}
