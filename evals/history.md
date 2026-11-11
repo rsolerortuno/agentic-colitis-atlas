@@ -181,4 +181,7 @@ Designs fixed before running. Nothing below changes the convergence score or the
   short-retry cached GET that caches 404s, and four genes in parallel. Classifiers flagged their own judgement calls
   (tumour outcomes, glioma, aliases of other genes); papers outside a colitis or IBD setting were then excluded by a
   text check rather than by hand, and list-only mentions were made grey instead of amber so they earn no points.
+- **Literature table (2026-11-11)**: the per-gene conclusions of the review were only in tooltips and in the ten
+  cards; added a table to the shortlist tab with every candidate, its light and a one-line summary per specific paper
+  (PubMed links), with what each kind of evidence can and cannot say.
 

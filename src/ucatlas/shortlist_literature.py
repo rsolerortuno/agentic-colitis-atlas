@@ -255,7 +255,13 @@ def summarize() -> dict:
             verdict += f" ({context})"
         mouse = func[(func.system == "mouse") & func.direction.isin(["pathogenic", "protective"])]
         key = pd.concat([func, x[x.kind.isin(["biomarker", "genetic"])], x[x.kind == "expression"], ctx]).drop_duplicates("id")
+        spec = pd.concat([x[~x.kind.isin(["list_mention", "review"])], ctx]).drop_duplicates("id")
+        findings = [{"pmid": r.pmid, "pmcid": r.pmcid, "year": None if pd.isna(r.year) else int(r.year), "kind": r.kind,
+                     "direction": r.direction, "system": r.system, "summary": r.summary, "ibd_setting": bool(r.relevant)}
+                    for r in spec.sort_values(["relevant", "year"], ascending=False).itertuples()]
         rows.append({"gene": g, "light": light, "verdict": verdict, "papers_any_context": len(allx),
+                     "list_or_review": int(x.kind.isin(["list_mention", "review"]).sum()),
+                     "findings": json.dumps(findings, ensure_ascii=False),
                      "mouse_colitis": "; ".join(f"{r.direction} (PMID {r.pmid})" for r in mouse.itertuples()),
                      "records_retrieved": int((rec.gene == g).sum()),
                      "records_readable": int(((rec.gene == g) & (rec.gene_in_abstract | (rec.fulltext_sentences.map(len) > 0))).sum()),

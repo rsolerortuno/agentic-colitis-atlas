@@ -540,7 +540,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         third["mouse_lit_fic"] = int(ml.gene.isin(fic_).sum())
         third["mouse_lit_rows"] = [{"gene": r_.gene, "papers": int(r_.papers), "pmids": ", ".join(list(r_.top_pmids)[:3])}
                                    for r_ in ml[~ml.gene.isin(fic_)].itertuples()]
-    SL = {"rows": [], "criteria": [], "cal": [], "summary": {}}
+    SL = {"rows": [], "criteria": [], "cal": [], "summary": {}, "lit": []}
     if (PROCESSED / "validation_shortlist.parquet").exists():
         sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
         SL["criteria"] = [("reproducible", "Reproducible"), ("protein", "Protein"), ("tissue", "Tissue change"),
@@ -552,8 +552,13 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         lit_p = PROCESSED / "shortlist_literature.parquet"
         if lit_p.exists():
             lit = pd.read_parquet(lit_p).set_index("gene")
+            SL["lit"] = []
             for row in SL["rows"]:
                 if row["gene"] in lit.index:
+                    L = lit.loc[row["gene"]]
+                    SL["lit"].append({"rank": row["rank"], "gene": row["gene"], "light": L.light, "verdict": L.verdict,
+                                      "about": int(L.about_gene), "lists": int(L.list_or_review),
+                                      "findings": json.loads(L.findings)})
                     row["papers"] = json.loads(lit.at[row["gene"], "key_papers"])
                     row["evidence_ids"].append(evidence_id("shortlist_literature", row["gene"]))
         cal_p = PROCESSED / "validation_shortlist_calibration.parquet"
