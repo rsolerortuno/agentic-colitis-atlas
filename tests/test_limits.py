@@ -326,3 +326,15 @@ def test_neutrophil_genes_are_measured_in_neutrophils():
         assert "per neutrophil" in c["tissue"][1] and c["cell"][0] != "green"
     if "ADGRE3" in set(n.gene):   # its rise is neutrophil arrival: no per-cell rise inside neutrophils
         assert json.loads(n.set_index("gene").at["ADGRE3", "criteria"])["tissue"][0] == "red"
+
+
+@pytest.mark.skipif(not (PROCESSED / "drug_indications.parquet").exists(), reason="drug indications not built")
+def test_drug_indications_split_uc_from_other_diseases():
+    """Known UC targets have UC drugs; repurposing leads have drugs only for other diseases; ATC-only is not approval."""
+    from ucatlas.drug_indications import describe
+    d = pd.read_parquet(PROCESSED / "drug_indications.parquet").set_index("gene")
+    for g in ("TNF", "ITGB7", "JAK1"):
+        assert d.at[g, "category"] == "UC"
+    assert d.at["SELP", "category"] == "other diseases" and d.at["SELP", "other_action"] == "inhibitor"
+    assert "not confirmed" in describe(d.loc["IDO1"])            # epacadostat: ATC code only
+    assert d.at["TACSTD2", "other_action"] == "action not stated"  # antibody-drug conjugates

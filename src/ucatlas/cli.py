@@ -131,6 +131,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("mouse colitis literature", lambda: (mouse_models.literature_check(mouse_models.literature_genes(run)),
                                                mouse_models.load_literature())[1])
     _step("target safety", lambda: (safety.run(), safety.load())[0])
+    from . import drug_indications   # where each gene's clinical drugs are: UC, IBD or other diseases (2026-11-12)
+    _step("drug indications", lambda: (drug_indications.run(), drug_indications.load())[1])
     from . import shortlist_literature as sl_lit, validation_shortlist
     if any(sl_lit.CLASSIFIED.glob("*.jsonl")):   # classifier output (agent step, kept in the repository)
         _step("shortlist literature", lambda: ((sl_lit.DIR / "records.parquet").exists() or sl_lit.retrieve(),

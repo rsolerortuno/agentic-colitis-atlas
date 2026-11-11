@@ -215,3 +215,8 @@ Designs fixed before running. Nothing below changes the convergence score or the
   (Smillie has no neutrophils). First fix capped the lights at amber as "not measured"; asked whether that was unfair,
   the per-cell change was then measured inside the Gubatan neutrophil states, which showed no rise for ADGRE3 (red), so
   the amber had favoured it. Group A grew to 13 through ties at the top-ten border.
+- **Drugs by indication (2026-11-12)**: on request, a column saying whether a gene's drugs are for UC, and a
+  repurposing table for discovery genes drugged only for other diseases. Two problems found while building it: Open
+  Targets lists epacadostat as approved from its ATC code alone (now "not confirmed"), and many cancer drugs act by
+  activating the target or by carrying a toxin to cells, which does not fit genes that rise in UC; the table now says
+  whether an inhibitor exists.

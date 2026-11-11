@@ -354,3 +354,15 @@ the top ten, the 9-point ties fit inside it under all six scorings, so group A g
 FJX1, OLFML2B, CYP4X1, SDR16C5 join without any change of their own points). The cell family column also shows
 "endothelial" for vessel genes (PCDH17). These genes remain valid hypotheses of another kind: blocking neutrophil
 arrival, like CXCR2.
+
+## (u) Drugs by indication and repurposing leads (added 2026-11-12)
+
+The Candidates tab listed each gene's drugs without saying what they are for, and the discovery screen sets aside every
+gene with a clinical drug. New layer drug_indications.py (Open Targets 26.09 clinical precedence; drugs with more than
+five targets set apart): 111 genes have a drug in UC, 40 in Crohn's disease or IBD only, 874 only in other diseases,
+490 only broad drugs. In the Top 25: CXCR2, CXCR1 and MMP1 have UC trials (phase 2); CXCL8, CD274 and IDO1 have drugs
+only for other diseases. In the discovery screen, 52 genes set aside as "known druggable target" are repurposing
+leads; since they rise in UC, an inhibitor is what counts: 35 have one in the clinic (Open Targets directionOnTarget
+LoF), 17 have only activators or drugs whose action is not stated (often antibody-drug conjugates, e.g. TACSTD2).
+Checks: an approval resting only on an ATC code is reported as not confirmed (epacadostat, IDO1, was never approved);
+4,922 of 101,815 approval rows are ATC-only. New evidence type clinical_indications; verify final 0 unsupported, 0 stale.

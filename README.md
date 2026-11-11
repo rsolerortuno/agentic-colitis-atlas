@@ -274,10 +274,11 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
 | Repeat agent runs (data of 2026-11-10) | Three team runs: 116–124 statements, 0 unsupported; target-list overlap (Jaccard) 0.87–1.0; CXCR2, IL12B and JAK2 in the first three of each |
 | Single agent against multi-agent (data of 2026-11-10) | Same quality (0 unsupported; 10–11 of 12 checklist facts); the team was about 36 % cheaper ($4.79 vs $7.52 on average) and 2.5 times faster (7.6 vs 19.3 minutes); the single agent cited less of its evidence (82 % vs 90–98 %) |
+| Drugs by indication | Of the 1,515 genes with a clinical drug, 111 have one in UC and 40 in Crohn's disease or IBD; 874 only for other diseases. 52 genes of the discovery screen are repurposing leads (drugs only for other diseases), 35 with an inhibitor in the clinic. Approvals known only from an ATC code are not counted as approved (epacadostat, IDO1) |
 | Single-cell lineage in four atlases | For 1,003 genes the Smillie 2019 lineage is also dominant in 804 of 995 (Garrido-Trigo 2023), 635 of 878 (Gubatan 2026) and 851 of 997 (GSE282122); 811 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
 | Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 48–54 %, PCDH17 13 %) |
-| Report validator | 649 claims, 1,259 evidence records, 1,348 citation links, all resolvable, no external resources |
-| Knowledge graph | 587,710 claims, 0 without a resolvable evidence record |
+| Report validator | 699 claims, 1,351 evidence records, 1,462 citation links, all resolvable, no external resources |
+| Knowledge graph | 589,221 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (235 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
@@ -379,7 +380,7 @@ tests/               automated tests
 | `structure.py`, `protein_viewer.py` | AlphaFold models, pocket detection and score, ligand-site check, 3D viewer data |
 | `proteomics.py`, `mouse_models.py`, `spatial_cosmx.py` | Protein-level replication, MGI mouse colitis phenotypes, CosMx single-cell sections |
 | `report_layers.py` | Rank stability, patient subgroups, biologic suitability, immune microenvironment, discovery ordering, evidence coverage |
-| `pathways.py`, `treatment.py`, `discovery.py`, `validation_shortlist.py` | Pathway and TF activity, ligand-receptor pairs; treatment response; discovery screen; validation shortlist |
+| `pathways.py`, `treatment.py`, `discovery.py`, `validation_shortlist.py`, `drug_indications.py` | Pathway and TF activity, ligand-receptor pairs; treatment response; discovery screen; validation shortlist; where each gene's clinical drugs are (UC, IBD or other diseases) and repurposing leads |
 | `literature.py`, `literature_entities.py`, `shortlist_literature.py`, `external.py`, `enrich.py` | PubTator ingestion and checked relation extraction; Open Targets, STRING, UniProt |
 | `graph.py`, `kg_build.py`, `kg_cells.py` | The knowledge graph and its loaders |
 | `integrate.py`, `profiles.py` | Convergence score, target and biomarker profiles, weight sensitivity |

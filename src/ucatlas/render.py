@@ -343,6 +343,9 @@ def structure_tables(report_genes: list[str]) -> dict:
     return {"rows": rows, "controls": controls, "config": st["config"], "modeled": st["modeled"], "summary": st}
 
 
+DRUGIND: dict = {}
+
+
 def discovery_tables(layers: dict) -> dict:
     d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
     st = {r["gene"]: r for r in json.loads((PROCESSED / "structure_summary.json").read_text())["results"]} \
@@ -365,10 +368,45 @@ def discovery_tables(layers: dict) -> dict:
     rows = [{"gene": r.gene, "track": r.track, "lineage": r.lineage, "neutrophil_share": float(r.neutrophil_share or 0),
              "novelty": round(float(r.novelty_score), 2), "log2fc": round(float(r.meta_log2fc), 2),
              "retained": _num(r.retained), "papers": int(r.uc_papers), "clinical": bool(r.clinical_drug),
+             "drug": DRUGIND.get(r.gene, {}).get("short", "yes" if r.clinical_drug else "no"),
              "tractable": ", ".join(r.tractable), "vital": _num(r.vital_max_ntpm, 1), "status": r.status,
              "evidence_ids": [evidence_id("discovery_profile", r.gene)]} for r in top.itertuples()]
     return {"pool": len(d), "by_track": d.track.value_counts().to_dict(), "fic_by_track": fic.track.value_counts().to_dict(),
+            "repurposing": repurposing_rows(DRUGIND),
             "status": d.status.value_counts().to_dict(), "cards": cards, "rows": rows, "weights": layers["novelty"]["weights"]}
+
+
+def drug_indication_view() -> dict:
+    """Where each gene's clinical drugs are (UC, Crohn's/IBD, other diseases), from drug_indications.parquet."""
+    p = PROCESSED / "drug_indications.parquet"
+    if not p.exists():
+        return {}
+    from .drug_indications import LABEL, describe, inhibitor_text
+    out = {}
+    for r in pd.read_parquet(p).to_dict("records"):
+        stage = {"UC": r["uc_stage"], "Crohn's / IBD": r["ibd_stage"], "other diseases": r["other_stage"],
+                 "broad drugs only": r["broad_stage"]}[r["category"]]
+        out[r["gene"]] = {"category": r["category"], "short": f"{r['category']} ({LABEL[stage]})", "text": describe(r),
+                          "repurposing": r["category"] == "other diseases",
+                          "inhibitor": r["other_action"] == "inhibitor", "inhibitor_text": inhibitor_text(r),
+                          "evidence_id": evidence_id("clinical_indications", r["gene"])}
+    return out
+
+
+def repurposing_rows(drugind: dict) -> list[dict]:
+    """Discovery genes set aside as 'known druggable target' whose drugs are for other diseases, never tried in UC."""
+    if not drugind:
+        return []
+    d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
+    d = d[(d.status == "known druggable target") & d.gene.map(lambda g: drugind.get(g, {}).get("repurposing", False))]
+    d = d.assign(inh=d.gene.map(lambda g: drugind[g]["inhibitor"]))
+    d = d.sort_values(["inh", "uc_papers", "meta_log2fc"], ascending=[False, True, False])
+    return [{"gene": r.gene, "lineage": r.lineage, "neutrophil_share": float(r.neutrophil_share or 0),
+             "log2fc": round(float(r.meta_log2fc), 2), "retained": _num(r.retained), "papers": int(r.uc_papers),
+             "drugs": drugind[r.gene]["text"].replace("Not in UC; ", ""),
+             "inhibitor": drugind[r.gene]["inhibitor"], "inhibitor_text": drugind[r.gene]["inhibitor_text"],
+             "evidence_ids": [evidence_id("discovery_profile", r.gene), drugind[r.gene]["evidence_id"]]}
+            for r in d.itertuples()]
 
 
 def treatment_tables() -> dict:
@@ -465,6 +503,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     f["models"] = {k: str(v).replace("�", "·") for k, v in f["models"].items()}
     store = GraphStore()
     ranking = f["convergence"]["ranking"]
+    drugind = drug_indication_view()
+    DRUGIND.update(drugind)
     top = [r["gene"] for r in ranking[:25]]
     targets = [t["gene"] for t in f.get("targets", [])]
     report_genes = list(dict.fromkeys(targets + top))
@@ -676,10 +716,12 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
             "proteins": S["modeled"], "fic": D["status"].get("first-in-class opportunity", 0), "pool": D["pool"]}
     # table evidence must be numbered too
     extra_ids = []
+    top25_drug = [{"gene": r["gene"], "evidence_ids": [drugind[r["gene"]]["evidence_id"]]} for r in ranking[:25]
+                  if r["gene"] in drugind]
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
               third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"],
-              cell.get("rep4", {}).get("rows", [])]
+              cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug]
     for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]
@@ -706,7 +748,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     env.filters["fmt"] = lambda x: "—" if x is None or (isinstance(x, float) and math.isnan(x)) else x
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
-        f=f, top25=ranking[:25], sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
+        f=f, top25=ranking[:25], drugind=drugind, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
         badges=badges(f, cell), cell=cell, third=third, SL=SL,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},

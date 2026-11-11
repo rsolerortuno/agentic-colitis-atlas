@@ -86,7 +86,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <h3>Top 25 {{ q('top25') }}</h3>
 <div class="tw"><table>
 <thead><tr><th>#</th><th>Gene</th><th>Score</th>{% for k in sw %}<th>{{ k[:6] }}.</th>{% endfor %}<th>Rank 90 % interval</th>
-<th>Meta log2FC</th><th>Cohorts</th><th>Inflamed vs non-inflamed</th><th>Drugs (max stage)</th><th>Evidence</th></tr></thead>
+<th>Meta log2FC</th><th>Cohorts</th><th>Inflamed vs non-inflamed</th><th>Drugs (max stage)</th><th>Drug in UC?</th><th>Evidence</th></tr></thead>
 <tbody>
 {% for r in top25 %}{% set ids = [] %}{% for v in r.evidence_ids.values() %}{% for i in v %}{% set _ = ids.append(i) %}{% endfor %}{% endfor %}
 <tr class="claim" data-evidence="{{ ids | evattr }}">
@@ -96,6 +96,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <td class="num">{% if r.rank_interval_90 %}{{ r.rank_interval_90.rank_p05 }}–{{ r.rank_interval_90.rank_p95 }}{% else %}—{% endif %}</td>
 <td class="num">{{ r.meta_log2fc | fmt }}</td><td class="num">{{ r.cohorts_same_direction | fmt }}/8</td><td class="num">{{ r.paired_log2fc | fmt }}</td>
 <td>{% for d in r.drugs[:3] %}{{ d.name | title }} ({{ d.max_stage | replace("_"," ") | lower }}){% if not loop.last %}; {% endif %}{% endfor %}</td>
+{% set di = drugind.get(r.gene) %}<td>{% if di %}{% if di.repurposing %}<span class="tag">repurposing</span> {% endif %}{{ di.text }} {{ [di.evidence_id] | cite | safe }}{% else %}no clinical drug{% endif %}</td>
 <td>{{ ids[:6] | cite | safe }}</td></tr>
 {% endfor %}
 </tbody></table></div>
@@ -114,6 +115,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <tr><td>Cohorts</td><td>Agreement</td><td>Cohorts whose change has the same sign as the pooled change.</td></tr>
 <tr><td>Inflamed vs non-inflamed</td><td>Local change</td><td>Paired log2 fold change in MSCCR.</td></tr>
 <tr><td>Drugs</td><td>Existing drugs</td><td>Up to three drugs aimed at the gene with their most advanced clinical stage (Open Targets).</td></tr>
+<tr><td>Drug in UC?</td><td>Where the drugs are</td><td>Most advanced trial or approval in UC; else in Crohn's disease or IBD; else for other diseases ("repurposing": reachable, partly known safety, never tried in UC). Drugs that hit more than five targets are set apart as broad drugs. Open Targets clinical precedence; an approval known only from an ATC code is shown as not confirmed.</td></tr>
 </tbody></table></div></div>
 {% if f.narrative.sections.integration %}<h3 style="margin-top:1.6em">Integration</h3>{% endif %}
 {{ paras(f.narrative.sections.integration or []) }}
@@ -338,6 +340,11 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 </div>
 {% endfor %}
 </div>
+{% if D.repurposing %}<h3>Repurposing leads: drugs for other diseases, never tried in UC</h3>
+<p class="small">The first-in-class filter sets aside every gene that already has a clinical drug. Of those, {{ D.repurposing | length }} have drugs only for other diseases, with no trial in UC, Crohn's disease or IBD: the target can be reached and its safety in people is partly known, so they are candidates to repurpose. They pass the same tissue-change filter as the first-in-class genes. These genes rise in UC, so what matters is whether an <strong>inhibitor</strong> exists: {{ D.repurposing | selectattr("inhibitor") | list | length }} have one in the clinic. For the others the drugs activate the protein, or their action is not stated, which is often an antibody that carries a toxin to cells bearing the protein (cancer drugs that would harm the colon lining). A drug made for cancer may also be too toxic for a chronic disease. Genes with an inhibitor come first, then by UC papers (least studied first); drugs that hit more than five targets are not counted.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Lineage (neutrophil share)</th><th class="num">Meta log2FC</th><th class="num">Change kept</th><th class="num">UC papers</th><th>Inhibitor in the clinic?</th><th>Most advanced drug, for</th><th>Evidence</th></tr></thead><tbody>
+{% for r in D.repurposing %}<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td><td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td>{{ r.inhibitor_text }}</td><td>{{ r.drugs }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
 {{ plot('safety', figs.safety) }}
 <h3>Screen results (top 40 per track by novelty score) {{ q('discovery_table') }}</h3>
 <div class="filters">
@@ -351,12 +358,12 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
   <span class="small" id="dcount"></span>
 </div>
 <div class="tw"><table id="dtable">
-<thead><tr><th>Gene</th><th>Track</th><th>Lineage (neutrophil share)</th><th>Novelty</th><th>Meta log2FC</th><th>Change kept</th><th>UC papers</th><th>Clinical drug</th><th>Tractability</th><th>Vital-organ max nTPM</th><th>Status</th><th>Evidence</th></tr></thead><tbody>
+<thead><tr><th>Gene</th><th>Track</th><th>Lineage (neutrophil share)</th><th>Novelty</th><th>Meta log2FC</th><th>Change kept</th><th>UC papers</th><th>Clinical drug (where)</th><th>Tractability</th><th>Vital-organ max nTPM</th><th>Status</th><th>Evidence</th></tr></thead><tbody>
 {% for r in D.rows %}
 <tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %} data-track="{{ r.track }}" data-status="{{ r.status }}" data-text="{{ (r.gene ~ ' ' ~ r.lineage) | lower }}">
 <td><strong>{{ r.gene }}</strong></td><td><span class="tag {{ r.track }}">{{ r.track }}</span></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td>
 <td class="num"><span class="score" style="width:{{ (r.novelty * 50) | round(0) | int }}px"></span>{{ r.novelty }}</td>
-<td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td>{{ "yes" if r.clinical else "no" }}</td><td>{{ r.tractable or "—" }}</td>
+<td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td>{{ r.drug }}</td><td>{{ r.tractable or "—" }}</td>
 <td class="num">{{ r.vital | fmt }}</td><td>{{ r.status }}</td><td>{{ r.evidence_ids[:3] | cite | safe }}</td></tr>
 {% endfor %}</tbody></table></div>
 <div class="note"><strong>Caveats.</strong> Literature volume is a Europe PMC title/abstract count for the gene symbol and UC terms; ambiguous or recently renamed symbols can under- or over-count. "No clinical drug" and tractability come from Open Targets (predicted tractability, not experimental). Vital-organ expression is RNA (HPA consensus), not protein. The composition adjustment uses marker-gene scores and can over-correct activated resident cells.</div>
