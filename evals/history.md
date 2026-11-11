@@ -211,3 +211,7 @@ Designs fixed before running. Nothing below changes the convergence score or the
   later, so it covered 390 genes instead of 1,003 (OLFML2B fell back to the two-atlas rule). Fixed to read
   discovery.parquet; the second rebuild reproduces the published results (1,003 genes, OLFML2B in group B, 0
   unsupported, 0 stale, report valid). The mouse-colitis literature table now follows the targets of runs/2026-11-11.
+- **Neutrophil-made genes (2026-11-12)**: a review of group A on request showed ADGRE3 scored on macrophages
+  (Smillie has no neutrophils). First fix capped the lights at amber as "not measured"; asked whether that was unfair,
+  the per-cell change was then measured inside the Gubatan neutrophil states, which showed no rise for ADGRE3 (red), so
+  the amber had favoured it. Group A grew to 13 through ties at the top-ten border.

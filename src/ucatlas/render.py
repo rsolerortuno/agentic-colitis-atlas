@@ -607,7 +607,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                           ("cell", "Cell source"), ("genetics", "Causal genetics"), ("druggable", "Druggable"),
                           ("safety", "Safety"), ("literature", "UC literature"), ("mouse", "Mouse")]
         SL["rows"] = [{"rank": int(r.rank), "group": r.group, "stability": int(r.stability), "best_rank": int(r.best_rank),
-                       "worst_rank": int(r.worst_rank), "gene": r.gene, "lineage": r.lineage, "meta_log2fc": r.meta_log2fc,
+                       "worst_rank": int(r.worst_rank), "gene": r.gene,
+                       "lineage": getattr(r, "cell_family", r.lineage), "meta_log2fc": r.meta_log2fc,
                        "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria), "experiment": r.experiment,
                        "atlases": json.loads(r.atlas_lineages) if "atlas_lineages" in sl else {},
                        "evidence_ids": [evidence_id("discovery_profile", r.gene)] +

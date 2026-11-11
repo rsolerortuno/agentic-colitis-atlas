@@ -35,6 +35,19 @@ Criteria (green / amber / red; grey = not measured):
   organoid-fibroblast co-culture read-out to the experiment. None of the 36 genes is flagged (2026-11-11): the group A
   stromal genes (CHRDL2 48 %, CPXM1 52 %, SGIP1 54 %, OLFML2B 50 %, PCDH17 13 %, an endothelial gene) have the niche
   share of a generic fibroblast gene, although all but PCDH17 rise per cell there (+2.0 to +3.4 log2);
+- neutrophil-made genes (added 2026-11-12): when neutrophils make more than half of a gene's transcripts in inflamed
+  mucosa (Gubatan 2026, the only atlas that captures them), the Smillie-based views cannot see the cell that makes it:
+  the per-cell change is measured in other cells (ADGRE3 rose +2.4 log2 "in macrophages") and the lineage agreement
+  across atlases folds neutrophils into myeloid cells, where three atlases have none. Such a gene is reported as
+  neutrophil-directed (cell family "neutrophil"): the tissue light uses the per-cell change inside the neutrophil
+  states of Gubatan 2026 instead (inflamed vs uninflamed UC mucosa, states with >= 50 cells in both, weighted by the
+  gene's inflamed share; same thresholds; the baseline is uninflamed UC, not healthy colon, which Gubatan lacks).
+  Checked: S100A8 +1.1, CXCR2 +0.7, FCGR3B +0.7 log2 per neutrophil; ADGRE3 -0.3 (its rise is all neutrophil
+  arrival, red). The cell light is amber (source known from one atlas only, so it cannot replicate) and the first
+  experiment is in blood neutrophils. This is a different kind of target (it acts on cell recruitment, like CXCR2),
+  not a weaker one. Shortlist genes: ADGRE3, CEACAM4, CLEC1A, CSGALNACT2, RILPL2; clinical targets: CXCR2, MMP9,
+  ALOX5, PDE4B, ICAM1, PTGS2. The cell family column also shows "endothelial" when vessels hold most of a gene's RNA
+  (PCDH17), which the lineage grouping folds into stroma;
 - causal genetics: a significant Mendelian-randomisation estimate in plasma or colon in the direction that supports
   inhibition (genetically higher level raises risk) is green, the opposite direction red, tested and null amber (it
   scores 0: a null test is not support), no instrument grey;
@@ -90,6 +103,7 @@ from .paths import PROCESSED, RAW
 ORDER = {"green": 2, "amber": 1, "grey": 0, "red": -1}
 CRYPT = {"Stem", "TA 1", "TA 2", "Cycling TA", "Secretory TA", "Enterocyte Progenitors"}
 CRYPT_SHARE = 0.76
+NEUTROPHIL_MADE = 0.5   # share of transcripts made by neutrophils (Gubatan 2026, inflamed) above which a gene is neutrophil-directed
 FIBROBLASTS = {"Inflammatory Fibroblasts", "WNT2B+ Fos-hi", "WNT2B+ Fos-lo 1", "WNT2B+ Fos-lo 2", "WNT5B+ 1",
                "WNT5B+ 2", "RSPO3+", "Myofibroblasts"}
 NICHE = {"WNT2B+ Fos-hi", "WNT2B+ Fos-lo 1", "WNT2B+ Fos-lo 2", "RSPO3+"}   # crypt-niche fibroblasts (not inflammatory)
@@ -147,6 +161,29 @@ class _SingleCell:
         wt = d.share_inflamed / d.share_inflamed.sum()
         lfc = np.log2((d.mean_cp10k_inflamed + 0.01) / (d.mean_cp10k_healthy + 0.01))
         return float((wt * lfc).sum()), ", ".join(f"{c} {v:+.1f}" for c, v in zip(d.cluster, lfc))
+
+
+def _neutrophil_per_cell():
+    """Per-cell change inside the neutrophil states of Gubatan 2026 (inflamed vs uninflamed UC), weighted by the
+    gene's inflamed share; states with >= 50 cells in both conditions."""
+    s = pd.read_parquet(PROCESSED / "sc3_celltype_share.parquet",
+                        columns=["gene", "health", "cluster", "compartment", "mean_cp10k", "n_cells", "share"])
+    s = s[s.compartment == "Neutrophil"]
+    w = s.pivot_table(index=["gene", "cluster"], columns="health", values=["mean_cp10k", "n_cells", "share"])
+    w.columns = [f"{a}_{b}" for a, b in w.columns]
+    w = w.reset_index().dropna(subset=["mean_cp10k_inflamed", "mean_cp10k_noninflamed"])
+    w = w[(w.n_cells_inflamed >= 50) & (w.n_cells_noninflamed >= 50)]
+    by_gene = dict(tuple(w.groupby("gene")))
+
+    def get(g: str) -> tuple[float, str]:
+        d = by_gene.get(g)
+        if d is None or d.empty:
+            return np.nan, ""
+        d = d.sort_values("share_inflamed", ascending=False)
+        lfc = np.log2((d.mean_cp10k_inflamed + 0.01) / (d.mean_cp10k_noninflamed + 0.01))
+        wt = d.share_inflamed / d.share_inflamed.sum()
+        return float((wt * lfc).sum()), ", ".join(f"{c} {v:+.1f}" for c, v in zip(d.cluster.head(3), lfc.head(3)))
+    return get
 
 
 def _topology(symbol: str) -> dict:
@@ -218,6 +255,9 @@ CELL_SYSTEMS = {   # cell system -> (first experiment, Smillie 2019 clusters tha
     "B and plasma cells": ("knock-down in activated B cells and plasmablasts (read-outs: activation, class switching, "
                            "IgA and IgG secretion)", {"Follicular", "GC", "Cycling B", "Plasma"}),
     "mast cells": ("knock-down in mast cells (read-outs: degranulation, cytokine release)", {"CD69+ Mast", "CD69- Mast"}),
+    "neutrophils": ("blocking antibody or knock-down in blood neutrophils (read-outs: migration towards CXCL8, activation "
+                    "markers, degranulation and NET formation; co-culture with colon organoids for epithelial damage)",
+                    set()),   # not in Smillie 2019: chosen from the Gubatan 2026 neutrophil share
 }
 CLUSTER_SYSTEM = {c: name for name, (_, cl) in CELL_SYSTEMS.items() for c in cl}
 LINEAGE_SYSTEM = {"epithelial": "epithelium", "stromal": "fibroblasts", "endothelial": "endothelium",
@@ -244,7 +284,10 @@ def _experiment(systems: list, lineage: str, surface: bool, sm: bool, mouse_pape
             first += COCULTURE
         where = f"{name}, {share:.0%} of its RNA, mainly {clus}" if not np.isnan(share) else name
         system = f"{first} [{where}]"
-        if len(systems) > 1:
+        if len(systems) > 1 and name == "neutrophils":
+            system += (f". In the atlas without neutrophils (Smillie 2019) it is mostly in {systems[1][0]} "
+                       f"({systems[1][1]:.0%} of the RNA there, mainly {systems[1][2]}): check that system too")
+        elif len(systems) > 1:
             system += (f". Also in {systems[1][0]} ({systems[1][1]:.0%} of its RNA, mainly {systems[1][2]}) "
                        "with the matching system" + (COCULTURE if systems[1][0] == "fibroblasts" and niche else ""))
     else:
@@ -277,6 +320,10 @@ def _load():
         for x in r.itertuples():
             mr_rows.setdefault(x.gene, []).append((lab, float(x.beta), float(x.q)))
     t["mr"] = mr_rows
+    s3 = pd.read_parquet(PROCESSED / "sc3_celltype_share.parquet", columns=["gene", "health", "cluster", "compartment", "share"])
+    s3 = s3[(s3.health == "inflamed") & (s3.compartment == "Neutrophil")].sort_values("share", ascending=False)
+    t["neu_states"] = {g: " and ".join(d.cluster.head(2)) for g, d in s3.groupby("gene", sort=False)}
+    t["neu_pc"] = _neutrophil_per_cell()
     lit_p = PROCESSED / "shortlist_literature.parquet"
     t["lit"] = pd.read_parquet(lit_p).set_index("gene") if lit_p.exists() else pd.DataFrame()
     pk = pd.read_parquet(PROCESSED / "structure_pockets.parquet")
@@ -311,8 +358,22 @@ def _row(x, t) -> dict:
     else:
         tis = "amber"
     ret = f"{float(x.retained):.0%} kept" if pd.notna(x.retained) else ""
-    c["tissue"] = (tis, f"bulk: {comp.replace('_', ' ')}{', ' + ret if ret else ''}; per cell: " +
-                   (f"{pc:+.1f} log2 ({pc_txt})" if not np.isnan(pc) else "no matched clusters"))
+    neu = float(x.neutrophil_share) if pd.notna(getattr(x, "neutrophil_share", np.nan)) else 0.0
+    neutro = neu > NEUTROPHIL_MADE
+    if neutro:   # measure the per-cell change in the cell that makes it: neutrophil states of Gubatan 2026
+        npc_, npc_txt = t["neu_pc"](g)
+        if np.isnan(npc_):
+            tis = "amber" if tis == "green" else tis
+        else:
+            tis = "red" if npc_ < 0.3 else "green" if ((comp == "intrinsic" and npc_ >= 1) or
+                                                       (comp == "partly_composition" and npc_ >= 1.5)) else "amber"
+        c["tissue"] = (tis, f"bulk: {comp.replace('_', ' ')}{', ' + ret if ret else ''}; neutrophils make {neu:.0%} of "
+                            "its transcripts (Gubatan 2026); per neutrophil, inflamed vs uninflamed UC: " +
+                       (f"{npc_:+.1f} log2 ({npc_txt})" if not np.isnan(npc_) else "not enough neutrophils") +
+                       (f"; in the atlas without neutrophils (Smillie 2019): {pc:+.1f} log2 ({pc_txt})" if not np.isnan(pc) else ""))
+    else:
+        c["tissue"] = (tis, f"bulk: {comp.replace('_', ' ')}{', ' + ret if ret else ''}; per cell: " +
+                       (f"{pc:+.1f} log2 ({pc_txt})" if not np.isnan(pc) else "no matched clusters"))
     lname, lshare = t["lin"].get(g, (x.lineage, np.nan))
     v = t["vis"].get(g, {})
     vtxt = f"; in situ {v['top_in_situ_expresser'].replace('_', ' ')}" if v.get("top_in_situ_expresser") else ""
@@ -348,8 +409,13 @@ def _row(x, t) -> dict:
     if niche:
         ctxt += (f"; {nshare:.0%} of fibroblast RNA in crypt-niche fibroblasts, rising there ({npc:+.1f} log2): "
                  "possible repair programme of the crypt niche")
-    c["cell"] = (col, (f"{lname} {lshare:.0%} of transcripts{rtxt}{ctxt}{vtxt}" if not np.isnan(lshare)
-                       else "not in the single-cell atlas"))
+    if neutro:   # the source is known from the one atlas with neutrophils: it cannot replicate
+        col = "amber" if col in ("green", "grey") else col
+        c["cell"] = (col, f"neutrophil {neu:.0%} of transcripts (Gubatan 2026, the only atlas with neutrophils; "
+                          f"cannot replicate); without neutrophils: {lname} {lshare:.0%} in Smillie 2019{rtxt}{vtxt}")
+    else:
+        c["cell"] = (col, (f"{lname} {lshare:.0%} of transcripts{rtxt}{ctxt}{vtxt}" if not np.isnan(lshare)
+                           else "not in the single-cell atlas"))
     mrs = t["mr"].get(g, [])
     sig = [m for m in mrs if m[2] < 0.05]
     if sig:
@@ -402,7 +468,13 @@ def _row(x, t) -> dict:
                   else f"tested in mouse colitis: {mouse_lit}" if mouse_lit else f"{papers} mouse colitis papers")
     pts = {k: (0 if k == "genetics" and v[0] == "amber" else ORDER[v[0]]) for k, v in c.items() if k != "mouse"}
     systems = t["sc"].systems(g)
-    return {"gene": g, "lineage": x.lineage, "track": x.track, "status": x.status,
+    if neutro:   # first system: neutrophils (Gubatan share), then the main Smillie system if it holds >= 20 %
+        states = t["neu_states"].get(g, "neutrophil states")
+        systems = [("neutrophils", neu, states)] + [s for s in systems[:1] if s[1] >= SYSTEM_MIN_SHARE]
+    family = ("neutrophil" if neutro else "endothelial" if systems and systems[0][0] == "endothelium"
+              and systems[0][1] >= 0.5 else x.lineage)
+    return {"gene": g, "lineage": x.lineage, "cell_family": family, "neutrophil_directed": neutro,
+            "neutrophil_share": round(neu, 3), "track": x.track, "status": x.status,
             "meta_log2fc": round(float(x.meta_log2fc), 2), "uc_papers": int(x.uc_papers),
             "criteria": json.dumps(c, ensure_ascii=False), "per_cell_log2fc": None if np.isnan(pc) else round(pc, 2),
             "crypt_share": None if np.isnan(crypt) else round(crypt, 3), "regeneration_flag": regen,
@@ -497,11 +569,13 @@ def run() -> dict:
          "protein_bias": protein_bias(), "no_red": int((out.reds == 0).sum()),
          "regeneration_flag": out.gene[out.regeneration_flag].tolist(),
          "niche_flag": out.gene[out.niche_flag].tolist(), "niche_threshold": NICHE_SHARE,
+         "neutrophil_directed": out.gene[out.neutrophil_directed].tolist(),
+         "neutrophil_directed_clinical": cal.gene[cal.neutrophil_directed].tolist(), "neutrophil_made": NEUTROPHIL_MADE,
          "atlases_agree": {str(k): int(v) for k, v in out.atlases_agree.dropna().astype(int).value_counts().sort_index().items()},
          "niche_markers": niche_markers(t["sc"]),
          "niche_stromal": {r.gene: {"group": r.group, "niche_share": r.niche_share,
                                     "niche_per_cell_log2fc": r.niche_per_cell_log2fc}
-                           for r in out[out.lineage == "stromal"].itertuples()},
+                           for r in out[out.cell_family == "stromal"].itertuples()},
          "mendelian_flag": out.gene[out.criteria.str.contains("loss causes")].tolist(),
          "green_share_first_in_class": greens(out), "green_share_clinical_targets": greens(cal),
          "clinical_targets": len(cal), "median_points_first_in_class": float(out.score.median()),

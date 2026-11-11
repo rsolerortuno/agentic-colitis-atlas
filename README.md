@@ -169,7 +169,8 @@ and described in [data/README.md](data/README.md).
   (reproducible, protein, tissue change, cell source, causal genetics, druggable, safety, UC literature, mouse), one traffic light
   per question with fixed thresholds checked on markers and on the UC clinical targets. Genes are reported in
   groups, not positions: A, B or C by how many of six ways of scoring keep them in the top ten. A green cell-source
-  light needs the lineage to be dominant in at least two of the three other single-cell atlases. Two repair flags
+  light needs the lineage to be dominant in at least two of the three other single-cell atlases; genes made mainly by
+  neutrophils are reported as neutrophil-directed and their per-cell change is measured inside neutrophils. Two repair flags
   cap that light: crypt-zone epithelial genes and crypt-niche fibroblast genes (WNT2B+, RSPO3+) that rise per cell
   there. The proposed first experiment follows the concrete cell clusters that hold the gene's RNA and the drug
   route. Its own report tab, under Findings → New targets.

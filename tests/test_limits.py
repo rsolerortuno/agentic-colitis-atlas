@@ -312,3 +312,17 @@ def test_four_atlas_replication_and_cell_light():
     for x in sl.itertuples():
         if json.loads(x.criteria)["cell"][0] == "green":
             assert x.atlases_agree >= 2
+
+
+@pytest.mark.skipif(not (PROCESSED / "validation_shortlist.parquet").exists(), reason="shortlist not built")
+def test_neutrophil_genes_are_measured_in_neutrophils():
+    """Genes made mainly by neutrophils take their tissue light from neutrophils (Gubatan), not from other cells."""
+    from ucatlas.validation_shortlist import NEUTROPHIL_MADE
+    d = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
+    n = d[d.neutrophil_share > NEUTROPHIL_MADE]
+    assert len(n) and n.neutrophil_directed.all() and (n.cell_family == "neutrophil").all()
+    for r in n.itertuples():
+        c = json.loads(r.criteria)
+        assert "per neutrophil" in c["tissue"][1] and c["cell"][0] != "green"
+    if "ADGRE3" in set(n.gene):   # its rise is neutrophil arrival: no per-cell rise inside neutrophils
+        assert json.loads(n.set_index("gene").at["ADGRE3", "criteria"])["tissue"][0] == "red"

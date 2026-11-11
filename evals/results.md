@@ -339,3 +339,18 @@ numbers; fixed by the agents from the verifier output). Content changes: CXCR2's
 by only the anti-TNF atlas, Garrido-Trigo and Gubatan give myeloid; MMP1, DUOX2 and HMGCS2 replicate in all three
 other atlases, CHI3L1 and IDO1 in two. Leading targets unchanged (CXCR2 first, IL12B as positive control); CHRDL2 and
 CPXM1 are the exploratory first-in-class targets.
+
+## (t) Neutrophil-made genes in the shortlist (added 2026-11-12)
+
+Review of group A found ADGRE3 scored as a macrophage gene: Smillie 2019 has no neutrophils, so its per-cell rise
+(+2.4 log2) was measured in macrophages and its lineage "replicated" in three atlases that also lack neutrophils, while
+Gubatan 2026 puts 82 % of its RNA in neutrophils. Rule (fixed before applying): a gene with more than half of its
+inflamed-mucosa transcripts in neutrophils (Gubatan) is neutrophil-directed; its tissue light uses the per-cell change
+inside the Gubatan neutrophil states (inflamed vs uninflamed UC, states with >= 50 cells, same thresholds), its cell
+light is amber (one atlas only, cannot replicate) and its first experiment is in blood neutrophils. Checks: S100A8
++1.1, CXCR2 +0.7, FCGR3B +0.7 log2 per neutrophil; ADGRE3 -0.3, MMP9 -0.2, PTGS2 -0.2 (red: rise by arrival).
+Shortlist genes affected: ADGRE3 (A to C), CEACAM4 (B to C), CLEC1A, CSGALNACT2, RILPL2 (stay C). With ADGRE3 out of
+the top ten, the 9-point ties fit inside it under all six scorings, so group A grows from 8 to 13 genes (FIBIN, XKR9,
+FJX1, OLFML2B, CYP4X1, SDR16C5 join without any change of their own points). The cell family column also shows
+"endothelial" for vessel genes (PCDH17). These genes remain valid hypotheses of another kind: blocking neutrophil
+arrival, like CXCR2.
