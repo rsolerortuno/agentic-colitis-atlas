@@ -90,10 +90,22 @@ T and NK cells, B and plasma cells, mast cells): the largest, and a second one w
 mouse colitis model when none exists.
 Outputs: data/processed/validation_shortlist.parquet, validation_shortlist_calibration.parquet,
 validation_shortlist_summary.json.
+Repurposing shortlist (added 2026-11-12): the genes the discovery screen set aside as "known druggable target" whose
+clinical drugs are only for other diseases and include an inhibitor (drug_indications.py; never tried in UC, Crohn's
+disease or IBD). Same lights and groups, with two reinterpreted: "druggable" becomes the inhibitor's stage (green
+approved, amber phase 2 to 3 or an approval known only from an ATC code, red earlier), and safety adds a flag when the
+inhibitor was made for cancer only (dose and toxicity chosen for cancer may not suit a chronic disease). Immune
+checkpoints (CTLA4, CD274, PDCD1, PDCD1LG2, LAG3, HAVCR2, TIGIT) are set red on both lights: their blockers cause
+colitis in patients, and they rise in UC as brakes on inflammation (for CD274 genetics agrees: higher protein is
+protective), so blocking them is the wrong direction. The literature
+light is grey for all of them (the literature review covered the first-in-class genes only), so it does not change
+their order. The experiment tests the existing inhibitor in the cell system that makes the gene. Outputs:
+validation_repurposing.parquet, validation_repurposing_summary.json.
 """
 from __future__ import annotations
 
 import json
+import re
 
 import numpy as np
 import pandas as pd
@@ -552,6 +564,80 @@ def niche_markers(sc: "_SingleCell") -> dict:
     return {k: {g: round(float(sc.niche.get(g, np.nan)), 3) for g in v} for k, v in NICHE_MARKERS.items()}
 
 
+CHECKPOINTS = {"CTLA4", "CD274", "PDCD1", "PDCD1LG2", "LAG3", "HAVCR2", "TIGIT"}
+CANCER = re.compile(r"cancer|carcinoma|neoplasm|tumou?r|lymphoma|leuka?emia|melanoma|myeloma|sarcoma|glioma|"
+                    r"blastoma|metasta", re.I)
+
+
+def _inhibitor_light(r: dict) -> tuple[str, str]:
+    from .drug_indications import LABEL
+    s = r["inhibitor_stage"]
+    col = "green" if s in ("APPROVAL", "PHASE_4") else "amber" if s in ("ATC", "PHASE_3", "PHASE_2_3", "PHASE_2") else "red"
+    return col, (f"inhibitor {LABEL[s]} ({', '.join(r['inhibitor_drugs'])}) for {'; '.join(r['inhibitor_diseases'])}; "
+                 "never tried in UC, Crohn's disease or IBD")
+
+
+def _repurposing_experiment(systems: list, lineage: str, r: dict) -> str:
+    from .drug_indications import LABEL
+    if not systems and LINEAGE_SYSTEM.get(lineage):
+        systems = [(LINEAGE_SYSTEM[lineage], np.nan, "")]
+    drug = f"{', '.join(r['inhibitor_drugs'][:2])} ({LABEL[r['inhibitor_stage']]})"
+    if not systems:
+        return f"Test {drug} on biopsy explants of inflamed UC mucosa (cytokine release, epithelial damage)."
+    name, share, clus = systems[0]
+    readouts = CELL_SYSTEMS[name][0].split("(read-outs: ", 1)[-1].rstrip(")")
+    where = f"{name}, {share:.0%} of its RNA, mainly {clus}" if not np.isnan(share) else name
+    return (f"Test {drug} in the cell system that makes the gene [{where}]; read-outs: {readouts}. Then on explants of "
+            "inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.")
+
+
+def repurposing(t: dict) -> dict:
+    """Repurposing shortlist: drugs only for other diseases, with an inhibitor; same lights, two reinterpreted."""
+    p = PROCESSED / "drug_indications.parquet"
+    if not p.exists():
+        return {}
+    di = pd.read_parquet(p).set_index("gene")
+    d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
+    keep = d[(d.status == "known druggable target") & d.gene.isin(di.index[(di.category == "other diseases") &
+                                                                         (di.other_action == "inhibitor")])]
+    rows = []
+    for x in keep.itertuples():
+        row = _row(x, t)
+        c = json.loads(row["criteria"])
+        r = di.loc[x.gene].to_dict()
+        c["druggable"] = _inhibitor_light(r)
+        cancer = bool(len(r["inhibitor_diseases"])) and all(CANCER.search(x) for x in r["inhibitor_diseases"])
+        if cancer:
+            col, txt = c["safety"]
+            n_flags = 0 if col == "green" else 1 if col == "amber" else 2
+            n_flags += 1
+            c["safety"] = ("green" if n_flags == 0 else "amber" if n_flags == 1 else "red",
+                           ("" if col == "green" else txt + "; ") + "inhibitor made for cancer: its dose and toxicity "
+                           "may not suit a chronic disease")
+        if x.gene in CHECKPOINTS:
+            c["druggable"] = ("red", c["druggable"][1] + "; but blocking this immune checkpoint is the wrong direction")
+            c["safety"] = ("red", "immune checkpoint: its blockers cause colitis in patients (immune-related adverse "
+                                  "event)" + ("; " + c["safety"][1] if c["safety"][0] != "green" else ""))
+        c["literature"] = ("grey", f"not reviewed for this list ({int(x.uc_papers)} UC papers name the gene)")
+        row.update(criteria=json.dumps(c, ensure_ascii=False), score=_points(c), cancer_drug=cancer,
+                   greens=sum(v[0] == "green" for k, v in c.items() if k != "mouse"),
+                   reds=sum(v[0] == "red" for k, v in c.items() if k != "mouse"),
+                   inhibitor_stage=r["inhibitor_stage"], inhibitor_drugs=list(r["inhibitor_drugs"]),
+                   experiment=_repurposing_experiment(json.loads(row["systems"]), x.lineage, r))
+        rows.append(row)
+    if not rows:
+        return {}
+    out = _rank(rows, stability=True)
+    out.to_parquet(PROCESSED / "validation_repurposing.parquet", index=False)
+    s = {"genes": len(out), "groups": {g: out.gene[out.group == g].tolist() for g in "ABC"},
+         "approved_inhibitor": int(out.inhibitor_stage.isin(["APPROVAL", "PHASE_4"]).sum()),
+         "cancer_drug": out.gene[out.cancer_drug].tolist(),
+         "checkpoints": [g for g in out.gene if g in CHECKPOINTS],
+         "neutrophil_directed": out.gene[out.neutrophil_directed].tolist()}
+    (PROCESSED / "validation_repurposing_summary.json").write_text(json.dumps(s, indent=1), encoding="utf-8")
+    return s
+
+
 def run() -> dict:
     from .evaluate import clinical_targets
     d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
@@ -580,6 +666,7 @@ def run() -> dict:
          "green_share_first_in_class": greens(out), "green_share_clinical_targets": greens(cal),
          "clinical_targets": len(cal), "median_points_first_in_class": float(out.score.median()),
          "median_points_clinical_targets": float(cal.score.median())}
+    s["repurposing"] = repurposing(t)
     (PROCESSED / "validation_shortlist_summary.json").write_text(json.dumps(s, indent=1), encoding="utf-8")
     return s
 

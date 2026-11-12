@@ -338,3 +338,19 @@ def test_drug_indications_split_uc_from_other_diseases():
     assert d.at["SELP", "category"] == "other diseases" and d.at["SELP", "other_action"] == "inhibitor"
     assert "not confirmed" in describe(d.loc["IDO1"])            # epacadostat: ATC code only
     assert d.at["TACSTD2", "other_action"] == "action not stated"  # antibody-drug conjugates
+
+
+@pytest.mark.skipif(not (PROCESSED / "validation_repurposing.parquet").exists(), reason="repurposing list not built")
+def test_repurposing_shortlist():
+    """Only genes with an inhibitor for other diseases; checkpoints red; the inhibitor light follows its stage."""
+    d = pd.read_parquet(PROCESSED / "validation_repurposing.parquet").set_index("gene")
+    di = pd.read_parquet(PROCESSED / "drug_indications.parquet").set_index("gene")
+    assert (di.loc[d.index, "category"] == "other diseases").all() and (di.loc[d.index, "other_action"] == "inhibitor").all()
+    for g in {"CTLA4", "CD274"} & set(d.index):
+        c = json.loads(d.at[g, "criteria"])
+        assert c["druggable"][0] == "red" and c["safety"][0] == "red"
+    for g, r in d.iterrows():
+        if g not in {"CTLA4", "CD274"}:
+            light = json.loads(r.criteria)["druggable"][0]
+            assert light == ("green" if r.inhibitor_stage in ("APPROVAL", "PHASE_4") else
+                             "amber" if r.inhibitor_stage in ("ATC", "PHASE_3", "PHASE_2_3", "PHASE_2") else "red")

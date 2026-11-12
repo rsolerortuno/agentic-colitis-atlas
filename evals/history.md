@@ -220,3 +220,7 @@ Designs fixed before running. Nothing below changes the convergence score or the
   Targets lists epacadostat as approved from its ATC code alone (now "not confirmed"), and many cancer drugs act by
   activating the target or by carrying a toxin to cells, which does not fit genes that rise in UC; the table now says
   whether an inhibitor exists.
+- **Repurposing shortlist (2026-11-12)**: kept apart from first-in-class (different question, and only GUCY1A1 of
+  the 35 would pass the first-in-class paper filter). First draft put CTLA4 in group A; immune checkpoints are now red.
+  A stray control character (a backspace written by a shell escape in a patch script) broke the salt-name regex; found
+  by checking the output, removed, and changed files were scanned for control characters.

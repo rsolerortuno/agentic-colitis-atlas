@@ -640,7 +640,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         third["mouse_lit_fic"] = int(ml.gene.isin(fic_).sum())
         third["mouse_lit_rows"] = [{"gene": r_.gene, "papers": int(r_.papers), "pmids": ", ".join(list(r_.top_pmids)[:3])}
                                    for r_ in ml[~ml.gene.isin(fic_)].itertuples()]
-    SL = {"rows": [], "criteria": [], "cal": [], "summary": {}, "lit": []}
+    SL = {"rows": [], "criteria": [], "cal": [], "summary": {}, "lit": [], "rp": [], "rp_criteria": [], "rp_summary": {}}
     if (PROCESSED / "validation_shortlist.parquet").exists():
         sl = pd.read_parquet(PROCESSED / "validation_shortlist.parquet")
         SL["criteria"] = [("reproducible", "Reproducible"), ("protein", "Protein"), ("tissue", "Tissue change"),
@@ -666,6 +666,17 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                                       "findings": json.loads(L.findings)})
                     row["papers"] = json.loads(lit.at[row["gene"], "key_papers"])
                     row["evidence_ids"].append(evidence_id("shortlist_literature", row["gene"]))
+        rp_p = PROCESSED / "validation_repurposing.parquet"
+        if rp_p.exists():   # repurposing shortlist (2026-11-12): same lights, druggable read as the inhibitor's stage
+            rp = pd.read_parquet(rp_p)
+            SL["rp_criteria"] = [(k, "Inhibitor (stage)" if k == "druggable" else lab) for k, lab in SL["criteria"]]
+            SL["rp"] = [{"group": r.group, "stability": int(r.stability), "best_rank": int(r.best_rank),
+                         "worst_rank": int(r.worst_rank), "gene": r.gene, "lineage": r.cell_family,
+                         "meta_log2fc": r.meta_log2fc, "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria),
+                         "experiment": r.experiment,
+                         "evidence_ids": [evidence_id("discovery_profile", r.gene), evidence_id("clinical_indications", r.gene)]}
+                        for r in rp.itertuples()]
+            SL["rp_summary"] = json.loads((PROCESSED / "validation_repurposing_summary.json").read_text(encoding="utf-8"))
         cal_p = PROCESSED / "validation_shortlist_calibration.parquet"
         if cal_p.exists():
             SL["cal"] = [{"gene": r.gene, "score": int(r.score)} for r in pd.read_parquet(cal_p).itertuples()]
@@ -720,7 +731,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                   if r["gene"] in drugind]
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
-              third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"],
+              third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"],
               cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug]
     for block in blocks:
         for r in block:

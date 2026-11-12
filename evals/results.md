@@ -366,3 +366,14 @@ leads; since they rise in UC, an inhibitor is what counts: 35 have one in the cl
 LoF), 17 have only activators or drugs whose action is not stated (often antibody-drug conjugates, e.g. TACSTD2).
 Checks: an approval resting only on an ATC code is reported as not confirmed (epacadostat, IDO1, was never approved);
 4,922 of 101,815 approval rows are ATC-only. New evidence type clinical_indications; verify final 0 unsupported, 0 stale.
+
+## (v) Repurposing shortlist (added 2026-11-12)
+
+The 35 discovery genes with an inhibitor in the clinic only for other diseases, scored with the shortlist lights.
+Two lights read differently: the inhibitor's stage replaces "druggable" (16 approved), and safety adds a flag for
+inhibitors made only for cancer (8 genes). Immune checkpoints were found in the first draft: CTLA4 reached group A on
+the strength of ipilimumab, a drug that causes colitis; CTLA4 and CD274 are now red on both lights (they rise in UC as
+brakes, and for CD274 genetics says the protein is protective). A cancer flag first caught GUCY1A1 because methylene
+blue lists "colorectal neoplasms" (it is a colonoscopy dye); the flag now needs every indication to be a cancer.
+Group A: CFB (iptacopan), SELP (crizanlizumab), GUCY1A1, NOS2, PCSK9, INHBA, LOXL2, C3 (pegcetacoplan), KDR, BIRC3,
+ICOS, ANGPT2. The literature light is grey for all (not reviewed for this list), so it does not change the order.

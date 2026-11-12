@@ -33,6 +33,8 @@ from .paths import PROCESSED, RAW
 UC = re.compile(r"ulcerative colitis", re.I)
 IBD = re.compile(r"crohn|inflammatory bowel", re.I)
 MAX_TARGETS_PER_DRUG = 5
+SALTS = (r"(?i)\s+(hydrochloride|dihydrochloride|sodium|potassium|calcium|mesylate|dimesylate|sulfate|sulphate|acetate|"
+         r"maleate|tosylate|besylate|citrate|tartrate|fumarate|succinate|phosphate|bromide|anhydrous|hydrate|monohydrate)\b")
 STAGES = ["APPROVAL", "ATC", "PHASE_4", "PHASE_3", "PHASE_2_3", "PHASE_2", "PHASE_1_2", "PHASE_1", "EARLY_PHASE_1"]
 RANK = {s: i for i, s in enumerate(STAGES)}
 LABEL = {"APPROVAL": "approved", "ATC": "ATC-coded, approval not confirmed", "PHASE_4": "phase 4", "PHASE_3": "phase 3", "PHASE_2_3": "phase 2/3",
@@ -48,6 +50,7 @@ def _best(x: pd.DataFrame) -> tuple[str | None, list[str], list[str]]:
     s = min(x.clinicalStage, key=RANK.get)
     top = x[x.clinicalStage == s]
     names = top.drugFromSource.fillna(top.drugId).str.replace(r"\s*\[.*?\]", "", regex=True).str.strip().str.title()
+    names = names.str.replace(SALTS, "", regex=True).str.strip()   # one name per drug, not one per salt
     drugs = list(dict.fromkeys(names))[:3]
     dis = list(dict.fromkeys(top.diseaseFromSource.dropna().str.lower()))[:3]
     return s, drugs, dis
