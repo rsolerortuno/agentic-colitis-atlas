@@ -1,6 +1,7 @@
 """Target safety (added 2026-11-10, fourth round). Before, safety was only "low RNA in vital organs" (discovery).
 
-Three independent views, for the report candidates, the convergence top 40, the first-in-class genes and the UC
+Three independent views, for the report candidates, the convergence top 100, every gene of the discovery screen that
+the target lists can hold (first-in-class, known druggable, well studied in UC; widened 2026-11-12) and the UC
 clinical targets (as reference):
 1. Loss-of-function constraint (gnomAD v4.1, MANE Select transcript): LOEUF (upper bound of the observed / expected
    loss-of-function ratio). LOEUF < 0.35 = strongly constrained (people rarely carry a broken copy): life-long
@@ -90,9 +91,11 @@ def genes() -> list[str]:
     f = current_run() / "findings.json"
     if f.exists():
         fj = json.loads(f.read_text(encoding="utf-8"))
-        out += [t["gene"] for t in fj.get("targets", [])] + [r["gene"] for r in fj["convergence"]["ranking"][:40]]
+        out += [t["gene"] for t in fj.get("targets", [])] + [r["gene"] for r in fj["convergence"]["ranking"][:100]]
     d = pd.read_parquet(PROCESSED / "discovery.parquet")
-    out += d[d.status == "first-in-class opportunity"].gene.tolist()
+    # every gene the three target lists can hold (2026-11-12): before, only the first-in-class genes and the convergence
+    # top 40 were checked, and list genes outside them showed "no Mendelian disease" without having been checked
+    out += d[d.status.isin(["first-in-class opportunity", "known druggable target", "well studied in UC"])].gene.tolist()
     out += sorted(set(clinical_targets()["gene"]))
     return list(dict.fromkeys(out))
 

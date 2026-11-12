@@ -509,8 +509,10 @@ def _row(x, t) -> dict:
     if defence:
         flags.append("mucosal defence or repair (" + "; ".join(defence) + "): blocking it may weaken the barrier")
     vital = f"vital organs ≤ {x.vital_max_ntpm:.0f} nTPM" if pd.notna(x.vital_max_ntpm) else "vital organs not measured"
+    if g not in saf.index:   # never claim "no Mendelian disease" for a gene the safety step did not check
+        vital += "; constraint, safety events and Mendelian disease not checked"
     c["safety"] = ("green" if not flags else "amber" if len(flags) == 1 else "red",
-                   "; ".join(flags) if flags else f"{vital}, not constrained, no Mendelian disease")
+                   "; ".join(flags) if flags else (vital if g not in saf.index else f"{vital}, not constrained, no Mendelian disease"))
     lit = t["lit"]
     c["literature"] = ((lit.at[g, "light"], lit.at[g, "verdict"])
                        if g in lit.index else ("grey", "not reviewed"))

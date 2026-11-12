@@ -442,3 +442,11 @@ because they mark IL23A, IL12B and CXCL8. Effect on every list: a safety flag an
 Calibration: no UC clinical target is flagged. Flagged: 9 well-known genes (DUOX2, DUOXA2 and REG3A leave group A),
 NOS2 and CASP1 (repurposing), none first-in-class. SERPINB5 stays first on the well-known list: the review found two
 2026 functional studies in DSS colitis in which its knock-down protected (not yet independently replicated).
+
+**Safety coverage (fixed 2026-11-12).** The safety step covered 130 genes (report candidates, convergence top 40,
+first-in-class at the time, clinical targets), so 23 of 37 well-known, 10 of 46 first-in-class and 35 of 42
+repurposing genes showed "not constrained, no Mendelian disease" without having been checked (ABCA12, whose loss
+causes congenital ichthyosis, among them). It now covers 545 genes (every discovery gene the lists can hold and the
+convergence top 100); a gene outside it would read "not checked". Effect: ABCA12 leaves well-known group A; CFB
+(complement factor B deficiency), KDR and C5AR1 leave repurposing group A, PLA2G2A and IL1R1 join it. The target_safety
+records cited by the agents are unchanged (0 stale).
