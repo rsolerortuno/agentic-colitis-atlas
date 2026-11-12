@@ -10,6 +10,11 @@ Filters, each recorded per gene:
 - safety: highest RNA level in vital organs (heart muscle, brain regions, liver, lung, kidney; HPA consensus)
   <= 50 nTPM.
 Status: 'first-in-class opportunity' when all pass; otherwise the first failing filter names the status.
+Neutrophil-made genes (added 2026-11-12): when neutrophils make more than half of a gene's transcripts in inflamed
+mucosa (Gubatan 2026), the tissue-change filter is not applied. The composition adjustment removes the neutrophil
+influx these genes are about; they go on through the other filters as neutrophil-directed candidates (blocking them
+acts on neutrophil arrival or activity, like CXCR2), and the validation lists measure their change per neutrophil.
+The neutrophil_directed column is kept out of the graph record (the agents cite these records).
 Output: data/processed/discovery.parquet.
 """
 from __future__ import annotations
@@ -24,6 +29,7 @@ from .paths import PROCESSED, RAW
 
 VITAL = ("heart muscle", "cerebral cortex", "cerebellum", "liver", "lung", "kidney")
 MAX_PAPERS, MAX_VITAL_NTPM = 15, 50
+NEUTROPHIL_MADE = 0.5   # as in validation_shortlist
 
 
 def vital_expression() -> pd.Series:
@@ -62,8 +68,10 @@ def run() -> pd.DataFrame:
                      "vital_max_ntpm": float(vital.get(g)) if g in vital.index else None})
     d = pd.DataFrame(rows)
 
+    d["neutrophil_directed"] = d["neutrophil_share"].fillna(0) > NEUTROPHIL_MADE
+
     def status(x):
-        if x["composition"] not in ("intrinsic", "partly_composition"):
+        if x["composition"] not in ("intrinsic", "partly_composition") and not x["neutrophil_directed"]:
             return "cell influx (composition)"
         if x["clinical_drug"]:
             return "known druggable target"
@@ -92,7 +100,7 @@ def load(store=None) -> int:
             node = store.resolve(r["gene"])
             if not node or node["type"] != "Gene":
                 continue
-            rec = {k: (None if isinstance(v, float) and pd.isna(v) else v) for k, v in r.items()}
+            rec = {k: (None if isinstance(v, float) and pd.isna(v) else v) for k, v in r.items() if k != "neutrophil_directed"}
             rec["tractable"] = list(rec["tractable"])
             ev = store.add_evidence(evidence_id("discovery_profile", r["gene"]), "discovery_profile", "ANALYSIS:discovery",
                                     date.today().isoformat(), **rec)

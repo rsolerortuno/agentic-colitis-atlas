@@ -137,11 +137,12 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     if any(sl_lit.CLASSIFIED.glob("*.jsonl")):   # classifier output (agent step, kept in the repository)
         _step("shortlist literature", lambda: ((sl_lit.DIR / "records.parquet").exists() or sl_lit.retrieve(),
                                                sl_lit.validate(), sl_lit.summarize(), sl_lit.load())[2])
-    rp_dir = sl_lit.SETS["repurposing"]["dir"]
-    if any((rp_dir / "classified").glob("*.jsonl")):   # literature of the repurposing genes (2026-11-12)
-        _step("repurposing literature", lambda: ((rp_dir / "records.parquet").exists() or sl_lit.retrieve(which="repurposing"),
-                                                 sl_lit.validate(which="repurposing"), sl_lit.summarize(which="repurposing"),
-                                                 sl_lit.load(which="repurposing"))[2])
+    for which in ("repurposing", "known"):   # literature of the repurposing and well-known lists (2026-11-12)
+        w_dir = sl_lit.SETS[which]["dir"]
+        if any((w_dir / "classified").glob("*.jsonl")):
+            _step(f"{which} literature", lambda which=which, w_dir=w_dir: (
+                (w_dir / "records.parquet").exists() or sl_lit.retrieve(which=which),
+                sl_lit.validate(which=which), sl_lit.summarize(which=which), sl_lit.load(which=which))[2])
     _step("validation shortlist", validation_shortlist.run)
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))

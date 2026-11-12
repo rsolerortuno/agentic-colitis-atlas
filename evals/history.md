@@ -241,3 +241,7 @@ Designs fixed before running. Nothing below changes the convergence score or the
   a weighting by where the RNA is (the per-neutrophil change alone moved CLEC1A to group A, rejected); Discovery
   spotlight follows the shortlist groups; Top 25 gets a "How to read it" column. The Top 25 table did not fit the page
   (1,777 px in 975); the duplicate drug column was merged, headers wrap and three citations are shown per row.
+- **Three lists (2026-11-12)**: "Well known in UC, no drug yet" added before the first-in-class shortlist and the
+  repurposing list (tab order as requested); neutrophil-made genes no longer removed by the discovery tissue-change
+  filter; literature reviewed for 37 + 17 genes with subagents. Europe PMC retrieval sped up (parallel full texts); the
+  first attempt with sequential full texts ran for 28 minutes without finishing.

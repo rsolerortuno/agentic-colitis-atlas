@@ -92,6 +92,10 @@ T and NK cells, B and plasma cells, mast cells): the largest, and a second one w
 mouse colitis model when none exists.
 Outputs: data/processed/validation_shortlist.parquet, validation_shortlist_calibration.parquet,
 validation_shortlist_summary.json.
+Well known in UC, no drug yet (added 2026-11-12): genes of the Candidates top 100 that rise in UC as a tissue change
+(or are neutrophil-directed), have more than 15 UC papers, no clinical drug and a predicted drug route: the biology is
+established and nobody has a drug. Same lights and groups; vital-organ expression is a safety light, not a filter.
+Outputs: validation_known.parquet, validation_known_summary.json.
 Repurposing shortlist (added 2026-11-12): the genes the discovery screen set aside as "known druggable target" whose
 clinical drugs are only for other diseases and include an inhibitor (drug_indications.py; never tried in UC, Crohn's
 disease or IBD). Same lights and groups, with two reinterpreted: "druggable" becomes the inhibitor's stage (green
@@ -602,6 +606,19 @@ def _repurposing_experiment(systems: list, lineage: str, r: dict) -> str:
             "inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.")
 
 
+def known_genes() -> list[str]:
+    """Well known in UC, no drug yet: genes of the Candidates top 100 (convergence ranking of the published run) that
+    rise in UC as a tissue change or are neutrophil-directed, have more than 15 UC papers, no clinical drug in any
+    disease, and a predicted small-molecule or antibody route. Vital-organ expression is a safety light here, not a
+    filter (it would drop AQP9 and CHI3L1, both high in liver)."""
+    from .runs import current_run
+    conv = json.loads((current_run() / "convergence.json").read_text(encoding="utf-8"))["ranking"][:100]
+    top = [r["gene"] for r in conv]
+    d = pd.read_parquet(PROCESSED / "discovery_scored.parquet").set_index("gene")
+    keep = [g for g in top if g in d.index and d.at[g, "status"] == "well studied in UC" and len(d.at[g, "tractable"])]
+    return keep
+
+
 def repurposing_genes() -> list[str]:
     """Discovery genes set aside as known druggable whose clinical drugs are only for other diseases, with an inhibitor."""
     di = pd.read_parquet(PROCESSED / "drug_indications.parquet").set_index("gene")
@@ -667,6 +684,41 @@ def repurposing(t: dict) -> dict:
     return s
 
 
+def known(t: dict) -> dict:
+    """Well known in UC, no drug yet: the same lights and groups as the first-in-class list, on known_genes(); the
+    literature light from the same review run on these genes (shortlist_literature.py, set "known")."""
+    genes = known_genes()
+    d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
+    keep = d[d.gene.isin(genes)]
+    lp = PROCESSED / "known_literature.parquet"
+    klit = pd.read_parquet(lp).set_index("gene") if lp.exists() else pd.DataFrame()
+    rows = []
+    for x in keep.itertuples():
+        row = _row(x, t)
+        c = json.loads(row["criteria"])
+        if x.gene in klit.index:
+            c["literature"] = (klit.at[x.gene, "light"], klit.at[x.gene, "verdict"])
+            if klit.at[x.gene, "mouse_colitis"]:
+                c["mouse"] = ("grey", f"tested in mouse colitis: {klit.at[x.gene, 'mouse_colitis']}")
+        else:
+            c["literature"] = ("grey", f"not reviewed yet ({int(x.uc_papers)} UC papers name the gene)")
+        row.update(criteria=json.dumps(c, ensure_ascii=False), score=_points(c),
+                   greens=sum(v[0] == "green" for k, v in c.items() if k != "mouse"),
+                   reds=sum(v[0] == "red" for k, v in c.items() if k != "mouse"))
+        rows.append(row)
+    if not rows:
+        return {}
+    out = _rank(rows, stability=True)
+    out.to_parquet(PROCESSED / "validation_known.parquet", index=False)
+    lit = out.criteria.map(lambda s: json.loads(s)["literature"][0])
+    s = {"genes": len(out), "groups": {g: out.gene[out.group == g].tolist() for g in "ABC"},
+         "neutrophil_directed": out.gene[out.neutrophil_directed].tolist(),
+         "literature_lights": lit.value_counts().to_dict(),
+         "literature_protective": out.gene[lit == "red"].tolist(), "literature_pathogenic": out.gene[lit == "green"].tolist()}
+    (PROCESSED / "validation_known_summary.json").write_text(json.dumps(s, indent=1), encoding="utf-8")
+    return s
+
+
 def run() -> dict:
     from .evaluate import clinical_targets
     d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
@@ -696,6 +748,7 @@ def run() -> dict:
          "clinical_targets": len(cal), "median_points_first_in_class": float(out.score.median()),
          "median_points_clinical_targets": float(cal.score.median())}
     s["repurposing"] = repurposing(t)
+    s["known"] = known(t)
     (PROCESSED / "validation_shortlist_summary.json").write_text(json.dumps(s, indent=1), encoding="utf-8")
     return s
 

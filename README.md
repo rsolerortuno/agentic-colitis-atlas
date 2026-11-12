@@ -173,8 +173,10 @@ and described in [data/README.md](data/README.md).
   neutrophils are reported as neutrophil-directed and their per-cell change is measured inside neutrophils. Two repair flags
   cap that light: crypt-zone epithelial genes and crypt-niche fibroblast genes (WNT2B+, RSPO3+) that rise per cell
   there. The proposed first experiment follows the concrete cell clusters that hold the gene's RNA and the drug
-  route. Its own report tab, under Findings → New targets. A separate Repurposing tab scores the 35 genes that
-  already have an inhibitor for another disease, never tried in UC, with the same lights.
+  route. Three lists under Findings → New targets, all with the same lights: "Well known in UC, no drug yet" (37
+  genes of the Candidates top 100 with established UC biology and no drug), the first-in-class shortlist (46 genes,
+  few papers, no drug) and Repurposing (42 genes with an inhibitor for another disease, never tried in UC).
+  Neutrophil-made genes pass the discovery screen as neutrophil-directed candidates.
 
 ## 5. Main results
 
@@ -278,8 +280,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Drugs by indication | Of the 1,515 genes with a clinical drug, 111 have one in UC and 40 in Crohn's disease or IBD; 874 only for other diseases. 52 genes of the discovery screen are repurposing leads (drugs only for other diseases), 35 with an inhibitor in the clinic. Approvals known only from an ATC code are not counted as approved (epacadostat, IDO1) |
 | Single-cell lineage in four atlases | For 1,003 genes the Smillie 2019 lineage is also dominant in 804 of 995 (Garrido-Trigo 2023), 635 of 878 (Gubatan 2026) and 851 of 997 (GSE282122); 811 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
 | Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 48–54 %, PCDH17 13 %) |
-| Report validator | 734 claims, 1,386 evidence records, 1,492 citation links, all resolvable, no external resources |
-| Knowledge graph | 589,256 claims, 0 without a resolvable evidence record |
+| Report validator | 802 claims, 1,490 evidence records, 1,641 citation links, all resolvable, no external resources |
+| Knowledge graph | 589,310 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (235 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)

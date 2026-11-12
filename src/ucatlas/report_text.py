@@ -8,6 +8,7 @@ PLAIN: dict[str, str] = {
     "expression": "This tab is the starting point of the analysis. It compares colon biopsies of people with ulcerative colitis with colon of people without inflammatory bowel disease, in eight public cohorts. A gene much higher in inflamed tissue may be a target or a marker. A gene much lower is usually a normal colon gene the inflamed lining has lost.",
     "cells": "A biopsy is a mix of lining cells, connective tissue, vessels and immune cells, and inflamed colon fills with neutrophils from the blood. A gene that looks high in the mix may come from any of them. This tab uses single-cell data to say which cell makes each gene, a composition adjustment to say how much of the change is cells arriving, and tissue sections to say where the gene sits and what is next to it.",
     "shortlist": "If you want to pick a new target to test in the laboratory, start here. Each first-in-class gene is checked against the questions you would ask before an experiment: is the increase reproducible and seen as protein, is it a change of the tissue, do we know which cell makes it, does genetics say it is a cause, can a drug reach it, is it safe, what do the papers on it say, and has anyone tried it in mice. Each gene also gets a suggested first experiment.",
+    "known": "Some genes are clearly part of ulcerative colitis, with dozens or hundreds of papers, and still no drug reaches them. The first-in-class list leaves them out on purpose because it looks for new genes, and the repurposing list leaves them out because they have no drug at all. For someone who wants to make a drug, these may be the clearest openings: the biology is established and nobody owns the target yet. Each gene gets the same traffic lights as the other lists.",
     "repurposing": "The Validation shortlist looks for targets that no drug reaches yet. This page looks at the opposite case: genes that change in the inflamed colon and already have a drug that blocks them, approved or in trials for another disease, but never tried in ulcerative colitis. Testing an existing drug can be faster, but it needs the same proof, and a drug made for cancer may be too harsh for a lifelong disease. Each gene gets the same traffic lights as the shortlist and a suggested first test with that drug.",
     "viewer": "This is the one place where you can look at real tissue. Pick a gene and see where it is switched on across a colon section, then click a spot to see which cells are around it.",
     "pathways": "Genes act in pathways and cells talk to each other. This tab shows which signalling pathways and transcription factors are switched on in inflamed mucosa in all eight cohorts, and which cell sends which signal to which cell. Co-expression is not proof that a signal is used.",
@@ -25,7 +26,8 @@ PLAIN: dict[str, str] = {
 
 TOUR: list[tuple[str, str, str]] = [
     ("candidates", "Candidates", "Which genes have the most agreeing evidence? The ranking, how each score is built and how stable the order is."),
-    ("shortlist", "Validation shortlist", "New targets to test: a traffic light per criterion and a proposed first experiment for each."),
+    ("known", "Well known in UC, no drug yet", "Genes with established UC biology that no drug reaches yet: the same lights as the shortlist."),
+    ("shortlist", "First-in-class shortlist", "New targets with few papers and no drug: a traffic light per criterion and a proposed first experiment."),
     ("repurposing", "Repurposing", "Genes with an inhibitor already in the clinic for another disease, never tried in UC: the same lights."),
     ("expression", "Expression", "What changes in inflamed colon, how it repeats across eight cohorts and how it follows disease activity."),
     ("cells", "Cells & space", "Which cell makes each gene, how much of the change is neutrophils arriving, and what sits next to it in tissue."),
@@ -45,7 +47,7 @@ TOUR: list[tuple[str, str, str]] = [
 
 NAV: list[tuple[str, list[tuple[str, list[str]]]]] = [
     ("Start", [("Start here", ["overview"])]),
-    ("Findings", [("Ranking", ["candidates"]), ("New targets", ["discovery", "shortlist", "repurposing"])]),
+    ("Findings", [("Ranking", ["candidates"]), ("New targets", ["discovery", "known", "shortlist", "repurposing"])]),
     ("Evidence", [("Molecular data", ["expression", "pathways"]), ("Cells and tissue", ["cells", "viewer"]),
                   ("Causal genetics", ["genetics"]), ("Protein structure", ["structure"])]),
     ("Clinical use", [("Patients and trials", ["response"]), ("Drug types", ["biologics"]),

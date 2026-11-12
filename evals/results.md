@@ -408,3 +408,27 @@ neutrophils, lost in UC, rise explained by arriving immune cells, immune brake, 
 drugs are), so it is not read as 25 targets to block. Of the 25: 9 neutrophil-made, 4 lost in UC, 1 immune brake
 (CD274), 1 explained by immune cells (CXCL5), 10 tissue changes (MMP1 and MMP7 already tried in UC; IDO1, CCL2 and
 INHBA with drugs for other diseases).
+
+## (x) Three target lists; neutrophil genes through the discovery screen (added 2026-11-12)
+
+**Discovery.** The tissue-change filter removed every neutrophil-made gene before the other filters (CXCL8 retained
+14 % of its change). Genes with more than half of their inflamed-mucosa RNA in neutrophils now pass it as
+neutrophil-directed: 88 genes released; first-in-class 36 to 46 (C19orf38, CMTM2, CYTH4, GLT1D1, LILRA1, LILRA6, MCTP1,
+PLEKHO2, RIPOR2, TMTC1), repurposing 35 to 42 (C5AR1, CCR1, CXCL8, IL1R1, LY96, SELL, TLR8). The neutrophil_directed
+column is kept out of the discovery graph records; verify final stays at 0 stale.
+
+**Well known in UC, no drug yet.** Genes of the Candidates top 100 that rise as a tissue change or are
+neutrophil-directed, have more than 15 UC papers, no clinical drug and a predicted route (37 genes; vital-organ
+expression is a safety light, not a filter, so AQP9 and CHI3L1 are in). Literature review as for the other lists
+(the 25 most cited colitis/IBD papers per gene, 821 records, 810 calls kept, 1 rejected): 9 green, 7 red (PI3, OLFM4,
+SOCS3, FPR1, FPR2, DMBT1, SAA2), 15 amber, 6 grey. Group A: SERPINB5, DUOXA2, CHI3L1, DUOX2, REG3A, KLK10.
+
+**Literature for the added genes.** 10 first-in-class (173 records, only 54 readable: these genes appear mostly in
+full text) and 7 repurposing genes (175 records) reviewed; all quotes but 2 pass the verbatim check. First-in-class
+group A gains LILRA1; repurposing group A gains C5AR1 and LY96.
+
+**Europe PMC retrieval.** Pages sized to the cap (a 100-record "core" page for 25 records), one HTTP session, the
+HGNC table read once, eight genes at a time, and full-text articles fetched by one shared pool of eight instead of
+one after another per gene: the 10 added first-in-class genes took 385 s, against more than 28 min unfinished before.
+Ambiguous aliases found by the classifiers (LIND, TC1, TCI, ACT, LI2, MIF, PI5, GP39, FSP) are excluded from future
+searches.

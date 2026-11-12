@@ -26,3 +26,5 @@ data/raw/spatial/*/*
 runs/*/report.html
 data/literature/repurposing/records.parquet
 data/literature/repurposing/batches/
+data/literature/known/records.parquet
+data/literature/known/batches/

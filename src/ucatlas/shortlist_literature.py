@@ -50,7 +50,11 @@ MAX_RECORDS = 60
 BATCH_SIZE = 25
 # aliases that name something else (another gene, a drug, a common word) are not searched
 AMBIGUOUS = {"MIG2", "LAX", "UNG2", "UDG2", "CCNU", "PP20", "DOC-1", "CPX1", "CPX-1", "CLEC1", "PRO0082", "CHGN",
-             "INAM", "BNF1"}
+             "INAM", "BNF1",
+             # found by the classifiers of the well-known list (2026-11-12): James Lind Alliance, Tc1 cells and
+             # Trypanosoma cruzi units, the word "act", Lemann index, macrophage migration inhibitory factor,
+             # a Lactobacillus strain, CD40 ligand, fibroblast-specific protein
+             "LIND", "TC1", "TCI", "ACT", "LI2", "MIF", "PI5", "GP39", "FSP"}
 CLONE = re.compile(r"^(FLJ|MGC|KIAA|DKFZ|dJ|RP\d|OTTHUMP|PRO\d|HsT|C\d+orf)", re.I)
 IBD = re.compile(r"colitis|inflammatory bowel|crohn|\bIBD\b|\bUC\b", re.I)
 KINDS = {"not_about_gene", "list_mention", "expression", "biomarker", "functional", "genetic", "review"}
@@ -63,6 +67,10 @@ SETS = {
                   "queries": ("uc_any_text", "ibd_title_abstract"),
                   "dataset": ("DATASET:SHORTLIST_LIT", "Literature review of the shortlist candidates (Europe PMC, "
                                                        "classified by a subagent, verbatim-checked)")},
+    "known": {"dir": LITERATURE / "known", "out": "known_literature", "max_records": 25,
+              "queries": ("ibd_title_abstract",),
+              "dataset": ("DATASET:KNOWN_LIT", "Literature review of the well-known undrugged UC genes (Europe PMC, "
+                                                "classified by a subagent, verbatim-checked)")},
     "repurposing": {"dir": LITERATURE / "repurposing", "out": "repurposing_literature", "max_records": 25,
                     "queries": ("ibd_title_abstract",),
                     "dataset": ("DATASET:REPURPOSING_LIT", "Literature review of the repurposing candidates (Europe "
@@ -74,6 +82,9 @@ def _genes(which: str) -> list[str]:
     if which == "repurposing":
         from .validation_shortlist import repurposing_genes
         return repurposing_genes()
+    if which == "known":
+        from .validation_shortlist import known_genes
+        return known_genes()
     return first_in_class()
 
 
@@ -82,9 +93,32 @@ def first_in_class() -> list[str]:
     return d.gene[d.status == "first-in-class opportunity"].tolist()
 
 
+_HGNC = None
+_SESSION = None
+
+
+def _hgnc() -> pd.DataFrame:
+    """HGNC table read once per process (it was read again for every gene)."""
+    global _HGNC
+    if _HGNC is None:
+        _HGNC = pd.read_csv(RAW / "hgnc_complete_set.txt", sep="\t", dtype=str,
+                            usecols=["symbol", "alias_symbol", "prev_symbol"]).set_index("symbol")
+    return _HGNC
+
+
+def _session():
+    """One HTTP session with a connection pool for the worker threads (a new TLS connection per request was slow)."""
+    global _SESSION
+    if _SESSION is None:
+        import requests
+        from requests.adapters import HTTPAdapter
+        _SESSION = requests.Session()
+        _SESSION.mount("https://", HTTPAdapter(pool_connections=4, pool_maxsize=16))
+    return _SESSION
+
+
 def names(gene: str) -> list[str]:
-    hg = pd.read_csv(RAW / "hgnc_complete_set.txt", sep="\t", dtype=str,
-                     usecols=["symbol", "alias_symbol", "prev_symbol"]).set_index("symbol")
+    hg = _hgnc()
     out = [gene]
     if gene in hg.index:
         for col in ("alias_symbol", "prev_symbol"):
@@ -102,7 +136,7 @@ def _get(url: str, params: dict | None = None, kind: str = "json"):
     def fetch():
         for attempt in range(4):
             try:
-                r = requests.get(url, params=params, timeout=40)
+                r = _session().get(url, params=params, timeout=40)
             except requests.RequestException:
                 time.sleep(2 * (attempt + 1))
                 continue
@@ -118,8 +152,10 @@ def _get(url: str, params: dict | None = None, kind: str = "json"):
 def _search(query: str, max_records: int = MAX_RECORDS) -> list[dict]:
     out, cursor = [], "*"
     while len(out) < max_records:
-        d = _get(f"{EPMC}/search", {"query": query, "format": "json", "pageSize": 100, "resultType": "core",
-                                    "cursorMark": cursor, "sort": "CITED desc"})
+        # a page only as large as needed: "core" records carry abstracts, so a 100-record page for a 25-record cap
+        # downloaded four times the data (2026-11-12)
+        d = _get(f"{EPMC}/search", {"query": query, "format": "json", "pageSize": min(100, max_records - len(out)),
+                                    "resultType": "core", "cursorMark": cursor, "sort": "CITED desc"})
         res = d.get("resultList", {}).get("result", [])
         out += res
         if not res or d.get("nextCursorMark") in (None, cursor):
@@ -146,16 +182,34 @@ def _fulltext_sentences(pmcid: str, tok: re.Pattern, k: int = 4) -> list[str]:
     return hits[:k]
 
 
-def retrieve(genes: list[str] | None = None, which: str = "shortlist") -> dict:
+def retrieve(genes: list[str] | None = None, which: str = "shortlist", missing_only: bool = False) -> dict:
+    """missing_only: fetch only genes of the set not yet in records.parquet (added to the set after its review), append
+    them and write their batches as batch_add_<date>_NNN.jsonl, so the batches already classified keep their names."""
     cfg = SETS[which]
     if genes is None:
         genes = _genes(which)
+    old = None
+    if missing_only and (cfg["dir"] / "records.parquet").exists():
+        old = pd.read_parquet(cfg["dir"] / "records.parquet")
+        genes = [g for g in genes if g not in set(old.gene)]
+        if not genes:
+            return {"genes": 0, "records": 0, "usable": 0, "batches": 0}
     from concurrent.futures import ThreadPoolExecutor
     from functools import partial
-    with ThreadPoolExecutor(4) as ex:   # Europe PMC answers slowly; four genes at a time
+    with ThreadPoolExecutor(8) as ex:   # Europe PMC answers slowly; eight genes at a time over one session
         per_gene = list(ex.map(partial(_gene_records, queries=cfg["queries"], max_records=cfg["max_records"]), genes))
     rows = [r for rs in per_gene for r in rs]
+    # full-text sentences for records whose abstract does not name the gene, fetched with one shared pool of eight
+    # requests (one after another inside each gene took about a minute per article on a slow day, 2026-11-12)
+    pending = [r for r in rows if r.pop("_pending_fulltext", False)]
+    if pending:
+        with ThreadPoolExecutor(8) as ex:
+            for r, snip in zip(pending, ex.map(lambda r: _fulltext_sentences(r["pmcid"], _token(r["names_searched"])), pending)):
+                r["fulltext_sentences"] = snip
     d = pd.DataFrame(rows)
+    if old is not None:
+        from datetime import date
+        return _write(d, genes, cfg["dir"], tag=f"add_{date.today():%Y%m%d}", old=old)
     return _write(d, genes, cfg["dir"])
 
 
@@ -179,33 +233,35 @@ def _gene_records(g: str, queries: tuple = ("uc_any_text", "ibd_title_abstract")
         for key, (r, why) in found.items():
             title, abstract = r.get("title") or "", re.sub(r"<[^>]+>", "", r.get("abstractText") or "")
             in_abs = bool(tok.search(title + " " + abstract))
-            snippets = [] if in_abs or not r.get("pmcid") else _fulltext_sentences(r["pmcid"], tok)
-            rows.append({"gene": g, "id": str(key), "pmid": r.get("pmid"), "pmcid": r.get("pmcid"),
+            pending = not in_abs and bool(r.get("pmcid"))   # fetched later with a shared pool (retrieve)
+            rows.append({"gene": g, "id": str(key), "pmid": r.get("pmid"), "pmcid": r.get("pmcid"), "_pending_fulltext": pending,
                          "year": int(r["pubYear"]) if str(r.get("pubYear", "")).isdigit() else None,
-                         "title": title, "abstract": abstract, "fulltext_sentences": snippets,
+                         "title": title, "abstract": abstract, "fulltext_sentences": [],
                          "gene_in_abstract": in_abs, "found_by": why, "names_searched": nm,
                          "pub_type": "; ".join((r.get("pubTypeList") or {}).get("pubType", []))[:120]})
     return rows
 
 
-def _write(d: pd.DataFrame, genes: list[str], base=DIR) -> dict:
+def _write(d: pd.DataFrame, genes: list[str], base=DIR, tag: str | None = None, old: pd.DataFrame | None = None) -> dict:
     base.mkdir(parents=True, exist_ok=True)
     batches = base / "batches"
-    d.to_parquet(base / "records.parquet", index=False)
+    pd.concat([old, d], ignore_index=True).to_parquet(base / "records.parquet", index=False) if old is not None \
+        else d.to_parquet(base / "records.parquet", index=False)
     # only records where the gene is visible in the text given to the classifier
     usable = d[d.gene_in_abstract | (d.fulltext_sentences.map(len) > 0)].reset_index(drop=True)
     batches.mkdir(parents=True, exist_ok=True)
-    for f in batches.glob("batch_*.jsonl"):
+    prefix = f"batch_{tag}_" if tag else "batch_"
+    for f in batches.glob(f"{prefix}*.jsonl" if tag else "batch_[0-9]*.jsonl"):
         f.unlink()
     for i in range(0, len(usable), BATCH_SIZE):
-        with open(batches / f"batch_{i // BATCH_SIZE:03d}.jsonl", "w", encoding="utf-8") as fh:
+        with open(batches / f"{prefix}{i // BATCH_SIZE:03d}.jsonl", "w", encoding="utf-8") as fh:
             for r in usable.iloc[i:i + BATCH_SIZE].itertuples():
                 fh.write(json.dumps({"gene": r.gene, "id": r.id, "names": list(r.names_searched), "title": r.title,
                                      "abstract": r.abstract, "fulltext_sentences": list(r.fulltext_sentences)},
                                     ensure_ascii=False) + "\n")
     return {"genes": len(genes), "records": len(d), "usable": len(usable),
             "gene_only_in_inaccessible_full_text": int(len(d) - len(usable)),
-            "batches": len(list(batches.glob("batch_*.jsonl")))}
+            "batches": len(list(batches.glob(f"{prefix}*.jsonl" if tag else "batch_[0-9]*.jsonl")))}
 
 
 def _norm(s: str) -> str:

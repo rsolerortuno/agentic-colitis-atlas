@@ -1,0 +1,33 @@
+{% from "macros.j2" import q, plain with context %}
+<section class="panel" id="tab-known" data-name="known">
+{{ plain('known') }}
+{% set RS = SL.kn_summary %}
+<h2>Well known in UC, no drug yet {{ q('known') }}</h2>
+<p class="lede">These {{ SL.kn | length }} genes are among the 100 with the most agreeing evidence (Candidates tab), rise in UC as a change of the tissue or are made mainly by neutrophils, have more than 15 UC papers each, a predicted antibody or small-molecule route, and no clinical drug for any disease. The first-in-class list leaves them out because it looks for little-studied genes; the repurposing list leaves them out because they have no drug. The biology is established and the target is open.</p>
+<div class="sl-legend"><span><i class="lt green"></i> meets</span><span><i class="lt amber"></i> partly</span><span><i class="lt red"></i> fails</span><span><i class="lt grey"></i> not measured</span></div>
+<div class="howbox"><h4>How to read this list</h4><ul>
+<li>The same lights, points and groups as the first-in-class shortlist (stable in the top ten under six scorings).</li>
+<li><strong>UC literature</strong> comes from the same review, run on these genes: the most cited papers that name the gene in their title or abstract with colitis or IBD, each call backed by a sentence copied from the paper. For well-studied genes this is the light that matters most: green, blocking or removing the gene helped in colitis{% if SL.kn_summary.literature_pathogenic %} ({{ SL.kn_summary.literature_pathogenic | join(", ") }}){% endif %}; red, the gene protects, so blocking it may harm{% if SL.kn_summary.literature_protective %} ({{ SL.kn_summary.literature_protective | join(", ") }}){% endif %}.</li>
+<li><strong>Safety</strong> includes expression in vital organs as a flag rather than a filter (AQP9 and CHI3L1 are high in liver).</li>
+<li>Genes made mainly by neutrophils ({{ SL.kn_summary.neutrophil_directed | join(", ") }}) are neutrophil-directed: their per-cell change is measured inside neutrophils.</li>
+<li>Several of these genes are better known as biomarkers (calprotectin S100A8/A9, CHI3L1, DUOX2): a protein that marks disease is a target only if it also drives it, which is what the literature light asks.</li></ul></div>
+<div class="tw"><table class="sl"><thead><tr><th>Group</th><th>Stable in top 10</th><th>Gene</th><th>Cell family</th><th class="num">Meta log2FC</th><th class="num">UC papers</th>
+{% for k, label in SL.criteria %}<th>{{ label }}</th>{% endfor %}<th>Evidence</th></tr></thead><tbody>
+{% for r in SL.kn %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.group }}</strong></td><td title="Position range across the six scorings: {{ r.best_rank }} to {{ r.worst_rank }}">{{ r.stability }} of 6</td><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }}</td><td class="num">{{ r.meta_log2fc }}</td><td class="num">{{ r.uc_papers }}</td>
+{% for k, label in SL.criteria %}{% set v = r.criteria[k] %}<td class="c"><i class="lt {{ v[0] }}" title="{{ label }}: {{ v[1] }}" aria-label="{{ label }}: {{ v[0] }}, {{ v[1] }}"></i></td>{% endfor %}
+<td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">Hover over a light for its values.</p>
+
+<h3>Groups A and B, with the proposed first test</h3>
+<p class="small">The first experiment is chosen as on the first-in-class list: in the cell system that holds most of the gene's RNA in inflamed single cells, by drug route.</p>
+<div class="grid">
+{% for r in SL.kn if r.group != "C" %}
+<div class="card sl-card"><h3>Group {{ r.group }}: {{ r.gene }} <span class="small">{{ r.lineage }}, in the top 10 in {{ r.stability }} of 6 scorings</span></h3>
+<dl>{% for k, label in SL.criteria %}{% set v = r.criteria[k] %}<dt><i class="lt {{ v[0] }}"></i> {{ label }}</dt><dd>{{ v[1] }}</dd>{% endfor %}</dl>
+{% if r.papers %}<p class="small"><strong>Key papers:</strong></p><ul class="small">{% for p in r.papers %}<li>{% if p.pmid %}<a href="https://pubmed.ncbi.nlm.nih.gov/{{ p.pmid }}/" target="_blank" rel="noopener">PMID {{ p.pmid }}</a>{% else %}{{ p.pmcid }}{% endif %}{% if p.year %} ({{ p.year }}){% endif %}, {{ p.kind | replace('_', ' ') }}{% if p.direction in ('pathogenic', 'protective') %}, <strong>{{ p.direction }}</strong>{% endif %}: {{ p.summary }}</li>{% endfor %}</ul>{% endif %}
+<p class="small"><strong>Proposed:</strong> {{ r.experiment }}</p></div>
+{% endfor %}
+</div>
+<div class="note"><strong>How to read this.</strong> Being well studied is not proof of a causal role: many of these genes were first described as markers of active disease. The groups say how consistently the data support each gene; the literature light and the key papers say whether blocking it has helped in colitis. None has a drug yet.</div>
+</section>
