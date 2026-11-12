@@ -224,3 +224,8 @@ Designs fixed before running. Nothing below changes the convergence score or the
   the 35 would pass the first-in-class paper filter). First draft put CTLA4 in group A; immune checkpoints are now red.
   A stray control character (a backspace written by a shell escape in a patch script) broke the salt-name regex; found
   by checking the output, removed, and changed files were scanned for control characters.
+- **Repurposing tab (2026-11-12)**: on request the repurposing list moved from the shortlist tab to its own tab
+  (Findings, New targets: Discovery, Validation shortlist, Repurposing); the shortlist tab is back to its earlier
+  content. The proposed test moved from a table column to cards, which had made the rows very wide; table headers of
+  the shortlist-style tables may now wrap, so both tables fit the page (measured in the browser: 975 px in a 975 px
+  box, rows 58 px), and the long drug texts of the Discovery leads table share one bounded column.

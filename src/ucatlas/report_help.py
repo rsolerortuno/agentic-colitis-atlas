@@ -135,6 +135,9 @@ HELP: dict[str, dict[str, str]] = {
     "shortlist": _h("The first-in-class genes checked against nine questions a laboratory would ask before testing them.",
                     "One light per criterion (green meets, amber partly, red fails, grey not measured); hover for the values. Genes are grouped by how stable their place in the top ten is under six ways of scoring (A: all six, B: some, C: none; green 2, amber 1, grey 0, red −1 points); the cards give the proposed first experiment.",
                     "Lights summarise the other tabs with fixed thresholds; a grey light is missing data, not a negative result, and a green safety light on a new gene means nothing is known yet (see the calibration on clinical targets)."),
+    "repurposing": _h("Genes that rise in UC and already have an inhibitor in the clinic for another disease, never tried in UC.",
+                      "Same lights and groups as the Validation shortlist; the druggable light becomes the inhibitor's stage, and safety flags drugs made only for cancer. Hover over a light for its values.",
+                      "Open Targets clinical records; drugs that hit more than five targets are left out, and an approval known only from an ATC code is not counted as approved."),
     "discovery_table": _h("The screen results.", "Filter by cell family or status, or search a gene.", "Tractability is predicted, not experimental."),
     # treatment and subgroups
     "treatment_controls": _h("The check: published infliximab non-response genes in every arm.",

@@ -95,8 +95,8 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 {% for k in sw %}<td class="num">{{ r.components[k] }}</td>{% endfor %}
 <td class="num">{% if r.rank_interval_90 %}{{ r.rank_interval_90.rank_p05 }}–{{ r.rank_interval_90.rank_p95 }}{% else %}—{% endif %}</td>
 <td class="num">{{ r.meta_log2fc | fmt }}</td><td class="num">{{ r.cohorts_same_direction | fmt }}/8</td><td class="num">{{ r.paired_log2fc | fmt }}</td>
-<td>{% for d in r.drugs[:3] %}{{ d.name | title }} ({{ d.max_stage | replace("_"," ") | lower }}){% if not loop.last %}; {% endif %}{% endfor %}</td>
-{% set di = drugind.get(r.gene) %}<td>{% if di %}{% if di.repurposing %}<span class="tag">repurposing</span> {% endif %}{{ di.text }} {{ [di.evidence_id] | cite | safe }}{% else %}no clinical drug{% endif %}</td>
+<td class="wrap">{% for d in r.drugs[:3] %}{{ d.name | title }} ({{ d.max_stage | replace("_"," ") | lower }}){% if not loop.last %}; {% endif %}{% endfor %}</td>
+{% set di = drugind.get(r.gene) %}<td class="wrap">{% if di %}{% if di.repurposing %}<span class="tag">repurposing</span> {% endif %}{{ di.text }} {{ [di.evidence_id] | cite | safe }}{% else %}no clinical drug{% endif %}</td>
 <td>{{ ids[:6] | cite | safe }}</td></tr>
 {% endfor %}
 </tbody></table></div>
@@ -341,9 +341,9 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 {% endfor %}
 </div>
 {% if D.repurposing %}<h3>Repurposing leads: drugs for other diseases, never tried in UC</h3>
-<p class="small">The first-in-class filter sets aside every gene that already has a clinical drug. Of those, {{ D.repurposing | length }} have drugs only for other diseases, with no trial in UC, Crohn's disease or IBD: the target can be reached and its safety in people is partly known, so they are candidates to repurpose. They pass the same tissue-change filter as the first-in-class genes. These genes rise in UC, so what matters is whether an <strong>inhibitor</strong> exists: {{ D.repurposing | selectattr("inhibitor") | list | length }} have one in the clinic. For the others the drugs activate the protein, or their action is not stated, which is often an antibody that carries a toxin to cells bearing the protein (cancer drugs that would harm the colon lining). A drug made for cancer may also be too toxic for a chronic disease. Genes with an inhibitor come first, then by UC papers (least studied first); drugs that hit more than five targets are not counted.</p>
-<div class="tw"><table><thead><tr><th>Gene</th><th>Lineage (neutrophil share)</th><th class="num">Meta log2FC</th><th class="num">Change kept</th><th class="num">UC papers</th><th>Inhibitor in the clinic?</th><th>Most advanced drug, for</th><th>Evidence</th></tr></thead><tbody>
-{% for r in D.repurposing %}<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td><td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td>{{ r.inhibitor_text }}</td><td>{{ r.drugs }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+<p class="small">The first-in-class filter sets aside every gene that already has a clinical drug. Of those, {{ D.repurposing | length }} have drugs only for other diseases, with no trial in UC, Crohn's disease or IBD: the target can be reached and its safety in people is partly known, so they are candidates to repurpose. They pass the same tissue-change filter as the first-in-class genes. These genes rise in UC, so what matters is whether an <strong>inhibitor</strong> exists: {{ D.repurposing | selectattr("inhibitor") | list | length }} have one in the clinic. For the others the drugs activate the protein, or their action is not stated, which is often an antibody that carries a toxin to cells bearing the protein (cancer drugs that would harm the colon lining). A drug made for cancer may also be too toxic for a chronic disease. Genes with an inhibitor come first, then by UC papers (least studied first); drugs that hit more than five targets are not counted. Those with an inhibitor are scored on the Repurposing page.</p>
+<div class="tw"><table><thead><tr><th>Gene</th><th>Lineage (neutrophil share)</th><th class="num">Meta log2FC</th><th class="num">Change kept</th><th class="num">UC papers</th><th>Inhibitor in the clinic? (drug, stage, indication)</th><th>Evidence</th></tr></thead><tbody>
+{% for r in D.repurposing %}<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td><td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td class="wrap">{% if r.inhibitor %}{{ r.inhibitor_text }}{% else %}{{ r.inhibitor_text }}. Most advanced drug: {{ r.drugs }}{% endif %}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
 </tbody></table></div>{% endif %}
 {{ plot('safety', figs.safety) }}
 <h3>Screen results (top 40 per track by novelty score) {{ q('discovery_table') }}</h3>
@@ -370,6 +370,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 </section>
 
 {% include "shortlist_tab.html.j2" %}
+{% if SL.rp %}{% include "repurposing_tab.html.j2" %}{% endif %}
 
 {% include "tabs_clinical.html.j2" %}
 

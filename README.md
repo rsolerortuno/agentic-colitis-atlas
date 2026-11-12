@@ -173,8 +173,8 @@ and described in [data/README.md](data/README.md).
   neutrophils are reported as neutrophil-directed and their per-cell change is measured inside neutrophils. Two repair flags
   cap that light: crypt-zone epithelial genes and crypt-niche fibroblast genes (WNT2B+, RSPO3+) that rise per cell
   there. The proposed first experiment follows the concrete cell clusters that hold the gene's RNA and the drug
-  route. Its own report tab, under Findings → New targets. A second list in the same tab scores the 35 genes that
-  already have an inhibitor for another disease, never tried in UC (repurposing), with the same lights.
+  route. Its own report tab, under Findings → New targets. A separate Repurposing tab scores the 35 genes that
+  already have an inhibitor for another disease, never tried in UC, with the same lights.
 
 ## 5. Main results
 

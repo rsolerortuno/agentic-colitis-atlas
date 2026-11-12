@@ -45,22 +45,6 @@ table.sl td.c .lt{cursor:help}
 <p class="small"><strong>Proposed:</strong> {{ r.experiment }}</p></div>
 {% endfor %}
 </div>
-{% if SL.rp %}{% set RS = SL.rp_summary %}
-<h3 id="shortlist-repurposing">Repurposing shortlist: existing inhibitors never tried in UC</h3>
-<p>The first-in-class list asks for targets with no drug at all. This second list asks the other question: which genes that rise in UC as a tissue change already have an <strong>inhibitor</strong> in the clinic for another disease, never tried in UC, Crohn's disease or IBD? There are {{ SL.rp | length }} ({{ RS.approved_inhibitor }} with an approved inhibitor). They are scored with the same lights and groups, with two read differently:</p>
-<ul class="small">
-<li><strong>Inhibitor (stage)</strong> replaces "druggable": green when the inhibitor is approved, amber in phase 2 or 3 (or an approval known only from an ATC code), red earlier.</li>
-<li><strong>Safety</strong> adds a flag when the inhibitor was made only for cancer ({{ RS.cancer_drug | join(", ") }}): a dose and toxicity chosen for cancer may not suit a chronic disease. Here a drug's known side effects are real information, not just a sign that the gene is studied.</li>
-<li><strong>Immune checkpoints</strong> ({{ RS.checkpoints | join(", ") }}) are red on both: they rise in UC as brakes on inflammation, and their blockers cause colitis in patients, so blocking them is the wrong direction.</li>
-<li>The UC literature light is grey for all of them (the literature review covered the first-in-class genes only); the UC papers column shows how studied each gene is. Most are far more studied than the first-in-class genes.</li></ul>
-<div class="tw"><table class="sl"><thead><tr><th>Group</th><th>Stable in top 10</th><th>Gene</th><th>Cell family</th><th class="num">Meta log2FC</th><th class="num">UC papers</th>
-{% for k, label in SL.rp_criteria %}<th>{{ label }}</th>{% endfor %}<th>Proposed first test</th><th>Evidence</th></tr></thead><tbody>
-{% for r in SL.rp %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.group }}</strong></td><td title="Position range across the six scorings: {{ r.best_rank }} to {{ r.worst_rank }}">{{ r.stability }} of 6</td><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }}</td><td class="num">{{ r.meta_log2fc }}</td><td class="num">{{ r.uc_papers }}</td>
-{% for k, label in SL.rp_criteria %}{% set v = r.criteria[k] %}<td class="c"><i class="lt {{ v[0] }}" title="{{ label }}: {{ v[1] }}" aria-label="{{ label }}: {{ v[0] }}, {{ v[1] }}"></i></td>{% endfor %}
-<td class="small">{% if r.group != "C" %}{{ r.experiment }}{% else %}—{% endif %}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
-</tbody></table></div>
-<p class="small">A repurposed drug still needs the same proof as a new one in UC: that blocking the target helps rather than harms the inflamed mucosa. Its advantage is speed, since a molecule with known human pharmacology exists; hover over a light for the values.</p>
-{% endif %}
 <h3 id="shortlist-literature">What the papers say, gene by gene</h3>
 <p>For each candidate, the papers in a colitis or IBD setting that report something specific about the gene, with a one-line summary written by the classifier and checked against a sentence of the paper. Papers that only name the gene in a list of many genes or in a review are counted but not listed. Functional results in other diseases are shown in grey as context; they do not set the light.</p>
 <ul class="small">

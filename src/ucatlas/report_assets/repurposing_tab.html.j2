@@ -1,0 +1,33 @@
+{% from "macros.j2" import q, plain with context %}
+<section class="panel" id="tab-repurposing" data-name="repurposing">
+{{ plain('repurposing') }}
+{% set RS = SL.rp_summary %}
+<h2>Repurposing: existing inhibitors never tried in UC {{ q('repurposing') }}</h2>
+<p class="lede">The Validation shortlist asks for targets with no drug at all. This page asks the other question: which genes that rise in UC as a change of the tissue already have an <strong>inhibitor</strong> in the clinic for another disease, never tried in UC, Crohn's disease or IBD? There are {{ SL.rp | length }}, {{ RS.approved_inhibitor }} of them with an approved inhibitor. A molecule with known human pharmacology exists, so testing it is faster; it still needs the same proof as a new drug, that blocking the target helps rather than harms the inflamed mucosa.</p>
+<div class="sl-legend"><span><i class="lt green"></i> meets</span><span><i class="lt amber"></i> partly</span><span><i class="lt red"></i> fails</span><span><i class="lt grey"></i> not measured</span></div>
+<div class="howbox"><h4>How this list differs from the Validation shortlist</h4><ul>
+<li>The same lights, points and groups (stable in the top ten under six scorings), with two lights read differently.</li>
+<li><strong>Inhibitor (stage)</strong> replaces "druggable": green when the inhibitor is approved, amber in phase 2 or 3 (or an approval known only from an ATC code), red earlier.</li>
+<li><strong>Safety</strong> adds a flag when the inhibitor was made only for cancer ({{ RS.cancer_drug | join(", ") }}): a dose and toxicity chosen for cancer may not suit a chronic disease. Here a drug's known side effects are real information, not just a sign that the gene is studied.</li>
+<li><strong>Immune checkpoints</strong> ({{ RS.checkpoints | join(", ") }}) are red on both: they rise in UC as brakes on inflammation, and their blockers cause colitis in patients, so blocking them is the wrong direction.</li>
+<li>The UC literature light is grey for all of them, because the literature review covered the first-in-class genes only. The UC papers column shows how studied each gene is: most are far more studied than the first-in-class genes.</li>
+<li>Genes made mainly by neutrophils ({{ RS.neutrophil_directed | join(", ") }}) are read as on the shortlist: their per-cell change is measured inside neutrophils.</li></ul></div>
+<div class="tw"><table class="sl"><thead><tr><th>Group</th><th>Stable in top 10</th><th>Gene</th><th>Cell family</th><th class="num">Meta log2FC</th><th class="num">UC papers</th>
+{% for k, label in SL.rp_criteria %}<th>{{ label }}</th>{% endfor %}<th>Evidence</th></tr></thead><tbody>
+{% for r in SL.rp %}<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %}><td><strong>{{ r.group }}</strong></td><td title="Position range across the six scorings: {{ r.best_rank }} to {{ r.worst_rank }}">{{ r.stability }} of 6</td><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }}</td><td class="num">{{ r.meta_log2fc }}</td><td class="num">{{ r.uc_papers }}</td>
+{% for k, label in SL.rp_criteria %}{% set v = r.criteria[k] %}<td class="c"><i class="lt {{ v[0] }}" title="{{ label }}: {{ v[1] }}" aria-label="{{ label }}: {{ v[0] }}, {{ v[1] }}"></i></td>{% endfor %}
+<td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">Hover over a light for its values. The inhibitor, its stage and its indication are in each card below.</p>
+
+<h3>Groups A and B, with the proposed first test</h3>
+<p class="small">The first test uses the existing inhibitor in the cell system that holds most of the gene's RNA in inflamed single cells, then on explants of inflamed UC mucosa, with a dose compared against its approved or trial indication.</p>
+<div class="grid">
+{% for r in SL.rp if r.group != "C" %}
+<div class="card sl-card"><h3>Group {{ r.group }}: {{ r.gene }} <span class="small">{{ r.lineage }}, in the top 10 in {{ r.stability }} of 6 scorings</span></h3>
+<dl>{% for k, label in SL.rp_criteria %}{% set v = r.criteria[k] %}<dt><i class="lt {{ v[0] }}"></i> {{ label }}</dt><dd>{{ v[1] }}</dd>{% endfor %}</dl>
+<p class="small"><strong>Proposed:</strong> {{ r.experiment }}</p></div>
+{% endfor %}
+</div>
+<div class="note"><strong>How to read this.</strong> These are leads for repurposing, ranked by the same data as the new targets. None has been tested in UC; an inhibitor made for another disease may need another dose, another route or another formulation for the colon, and drugs that kill cells carrying the protein (antibody-drug conjugates) are not on this list.</div>
+</section>
