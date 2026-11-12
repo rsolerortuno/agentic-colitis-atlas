@@ -74,5 +74,6 @@ with EFO_0000729 returns no disease, checked 2026-11-09.
 | Liu et al. 2023 UC (GCST90446794) | GWAS Catalog harmonised | third MR outcome, largest (23,252 cases, European + East Asian) | includes de Lange 2017 and FinnGen samples: reported, not combined |
 | CosMx (GSE312415) | GEO tar archive (6.5 GB, streamed) | expression matrices and cell metadata of 5 slides; 2 used (both biopsies inflamed UC) | the other slides mix biopsy states without a cell-to-biopsy key |
 | Anti-TNF single-cell atlas (GSE282122, Thomas 2024) | authors' supplementary tables (Europe PMC) | per-cell-state remission and longitudinal models for 20 UC patients | GEO matrices carry no cell annotation |
+| AlphaGenome Atlas and AlphaGenome 2 (Google DeepMind) | API (free key in ALPHAGENOME_API_KEY, not stored); every answer cached in raw/alphagenome with a sha256 manifest | predicted RNA effect of UC GWAS credible-set variants in colon tissue, blood immune cells and 12 colon cell types | outputs for non-commercial research only; not under CC BY |
 | Mouse models | MGI phenotype reports; Europe PMC search | colitis phenotypes of single-gene models; mouse colitis papers per candidate | |
 | Constraint and safety | gnomAD v4.1 constraint; Open Targets safety liabilities (API, cached) | LOEUF, curated safety events | |

@@ -121,6 +121,7 @@ and described in [data/README.md](data/README.md).
 | Single cells | Smillie et al. 2019 (Broad SCP259); Garrido-Trigo et al. 2023 (CZ CELLxGENE); Gubatan et al. 2026, with neutrophils (Broad SCP3755); anti-TNF atlas of Thomas et al. 2024, full count matrices (GEO GSE282122, typed here into lineages) | 365,492, 46,700, 408,930 and 694,801 cells (GSE282122: 103 UC biopsies before and after adalimumab, 9 healthy) |
 | Tissue sections | Xenium 5K (GSE312420, GSE339323); CosMx 6K and 1K (GSE312415); Visium whole transcriptome with H&E images (GSE189184) | 6 Xenium sections (619,017 cells); 2 CosMx slides of inflamed UC (88,409 cells); 9 Visium sections (16,699 spots, deconvolved into 12 cell groups) |
 | Human genetics | UC GWAS (de Lange et al. 2017, GWAS Catalog GCST004133); fine-mapped QTL from Open Targets 26.09: plasma pQTL (UKB-PPP), colon eQTL (GTEx v10 transverse and sigmoid colon, CEDAR colon and rectum), gut cell-type eQTL (IBDverse single cell) | 1,693 proteins; 5,852 genes in colon tissue; 6,895 genes in about 60 gut cell types |
+| Variant effects | AlphaGenome Atlas (pre-computed RNA-seq effects, colon tissue and blood immune cells) and AlphaGenome 2 (live predictions in 12 colon cell types), Google DeepMind; UC GWAS of Liu et al. 2023 (GCST90446794). Outputs for non-commercial research only | 142 UC loci outside the MHC, 2,381 credible-set variants; 1,644 cell-type predictions |
 | Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 46 proteins (candidates and 10 UC small-molecule targets as controls) |
 | Pathways and signals | PROGENy, CollecTRI (decoupler), OmniPath ligand-receptor pairs | 14 pathways, transcription factors, cell-to-cell pairs |
 | Literature | PubTator3 | 299 publications; 203 relations checked word for word |
@@ -213,6 +214,13 @@ the TNFRSF6B locus again. IDO1, MMP1 and CHI3L1 are null in the colon too. Where
 and colon (509 genes), the two estimates point the same way in 61 %. In FinnGen, an independent Finnish GWAS, 34 of
 the 64 significant plasma proteins and 168 of 296 significant gut estimates replicate (same sign, p < 0.05), including
 IL12B, IL10, CD274, TNFRSF6B, IRF5, GSDMB and NXPE1.
+AlphaGenome predicts, from DNA sequence, how the UC risk alleles of 142 GWAS loci change expression. Checked against
+measured, fine-mapped eQTL, its strongest quarter of predictions has the right direction in 94 % (colon tissue) and
+100 % (matching colon cell type, against 75 % in a wrong cell type). Above that threshold, 7 loci act on 17 genes;
+among this atlas's candidates and clinical targets only CCL20 (risk allele raises it in blood T cells and monocytes)
+and IL10 (risk allele lowers it in T cells, as the protective MR estimate expects). The candidate genes were picked
+for their change in inflamed biopsies and almost none sits at a UC risk locus, so AlphaGenome cannot fill their
+genetics.
 
 **Unexplored candidates.**
 A separate screen looks for genes that rise in UC as a tissue change, are reachable by a drug, have no clinical drug,
@@ -330,6 +338,11 @@ The online report is published automatically from `reports/uc_report.html` by
   protein. No mucosal protein QTL resource exists. All layers are European ancestry. Many candidates (CXCR2, OSM,
   DUOX2, TNF) have no instrument in any layer. A significant estimate without colocalisation can come from a
   neighbouring variant.
+- **AlphaGenome effects are predictions**, from approximate fine-mapping (one causal variant per locus) and with
+  weak predictions near chance; only those above the validated threshold are used, and they are not offered under
+  CC BY (AlphaGenome terms: non-commercial research use, not for clinical decisions). Calling the API needs a free
+  key (`ALPHAGENOME_API_KEY`, never stored in the repository); every answer is cached, so `run-all` rebuilds the layer
+  without it.
 - **Pocket scores describe shape**, not binding; they are computed on predicted monomers.
 - **CosMx cannot resolve most candidates.** Two usable slides (the others mix biopsies of different states on one
   slide without a cell-to-biopsy key), and most candidate genes sit at background level on this platform.
@@ -380,6 +393,7 @@ tests/               automated tests
 | `singlecell.py`, `sc_replication.py`, `sc_neutrophil.py`, `sc_gse282122.py`, `composition.py` | Cell attribution in four single-cell atlases, lineage typing of the GSE282122 matrices and replication across four atlases, tissue change vs cell influx |
 | `spatial.py`, `spatial_visium.py`, `spatial_deconv.py`, `spatial_download.py` | Xenium cell typing, attribution and neighbourhoods; Visium compartments, spot deconvolution, in-situ expressers, neighbourhoods and the tissue-viewer data; range-request downloads |
 | `mr.py`, `mr_colon.py` | Mendelian randomisation with plasma pQTL and with gut eQTL (colon tissue, gut cell types), colocalisation check |
+| `alphagenome_uc.py` | UC GWAS loci, approximate fine-mapping, AlphaGenome predictions of the risk alleles in colon tissue, blood immune cells and colon cell types, validation against fine-mapped eQTL |
 | `structure.py`, `protein_viewer.py` | AlphaFold models, pocket detection and score, ligand-site check, 3D viewer data |
 | `proteomics.py`, `mouse_models.py`, `spatial_cosmx.py` | Protein-level replication, MGI mouse colitis phenotypes, CosMx single-cell sections |
 | `report_layers.py` | Rank stability, patient subgroups, biologic suitability, immune microenvironment, discovery ordering, evidence coverage |

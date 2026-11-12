@@ -274,6 +274,29 @@ def atlas_cells(sc3: int) -> dict:
     return out
 
 
+def alphagenome_view() -> dict:
+    """AlphaGenome layer (2026-11-12): validation and the confident predicted effects of UC risk alleles."""
+    p = PROCESSED / "alphagenome_uc.parquet"
+    if not p.exists():
+        return {}
+    s = json.loads((PROCESSED / "alphagenome_summary.json").read_text(encoding="utf-8"))
+    d = pd.read_parquet(p)
+    c = d[d.confident & ~d.gene.str.match(r"^(ENSG|LINC|SNOR|MIR)")]   # named protein-coding genes
+    rows = []
+    for gene, x in c.groupby("gene"):
+        x = x.reindex(x.effect.abs().sort_values(ascending=False).index)
+        r0 = x.iloc[0]
+        rows.append({"gene": gene, "of_interest": bool(r0.of_interest), "locus": r0.locus_name, "lead": r0.lead_rsid,
+                     "lead_p": f"{r0.lead_p:.1e}", "top": r0.top_rsid, "top_pip": round(float(r0.top_pip), 2),
+                     "effects": "; ".join(f"{r.context} {r.effect:+.3f}" for r in x.head(3).itertuples()),
+                     "direction": "raises" if r0.effect > 0 else "lowers",
+                     "evidence_ids": [evidence_id("alphagenome_variant_effect", gene)]})
+    rows.sort(key=lambda r: (not r["of_interest"], r["gene"]))
+    ag2 = d[(d.source == "AlphaGenome 2") & d.of_interest]
+    return {"summary": s, "rows": rows, "confident_genes_all": int(d[d.confident].gene.nunique()),
+            "ag2_max_effect_of_interest": round(float(ag2.effect.abs().max()), 3) if len(ag2) else None}
+
+
 def genetics_tables(genes: list[str]) -> dict:
     from .evaluate import clinical_targets
     clin = set(clinical_targets()["gene"])
@@ -554,6 +577,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     sw = f["convergence"]["config"]["stream_weights"]
     cell = cell_tables(report_genes[:30], store)
     G = genetics_tables(report_genes)
+    G["alphagenome"] = alphagenome_view()
     S = structure_tables(report_genes)
     D = discovery_tables(layers)
     T = treatment_tables()
@@ -789,7 +813,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                   if r["gene"] in drugind]
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
-              third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"], SL["kn"],
+              third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"], SL["kn"], G.get("alphagenome", {}).get("rows", []),
               cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug]
     for block in blocks:
         for r in block:

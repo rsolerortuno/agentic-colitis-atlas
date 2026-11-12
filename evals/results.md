@@ -462,3 +462,26 @@ searched in ClinicalTrials.gov and in Europe PMC trial papers. The first version
 IL-18 antibodies matched by a fuzzy registry search); with stricter filters (the drug among the study's
 interventions, a UC/Crohn's/IBD condition that is not cancer, not a diagnostic study; trial titles naming UC, Crohn's,
 IBD or severe colitis, immunotherapy colitis and biomarker papers excluded) only IL1R1 remains.
+
+## (y) AlphaGenome: predicted effect of UC risk variants (added 2026-11-12)
+
+**Variants.** Liu et al. 2023 UC GWAS (GRCh38), SNVs with p < 5e-8 outside the MHC, 500 kb clumping: 142 loci.
+Wakefield approximate Bayes factors (prior SD 0.2, one causal variant per locus): 2,381 variants in the 95 % credible
+sets. Per locus and gene, effect = PIP-weighted mean of the predicted effects, signed for the risk allele.
+
+**Validation (fine-mapped single-variant eQTL, PIP >= 0.9, as truth).**
+
+| Check | Pairs | Same sign, all | Same sign, top quarter of abs(score) | Spearman |
+|---|---|---|---|---|
+| Atlas colon tissue vs GTEx v10 colon | 284 | 64 % | 94 % (threshold 0.033) | 0.41 |
+| AlphaGenome 2, matched colon cell type vs IBDverse | 236 | 70 % | 100 % (threshold 0.169) | 0.60 |
+| AlphaGenome 2, mismatched cell type | 236 | 56 % | 75 % | 0.26 |
+
+**Result.** 7 loci and 17 genes with a confident effect (Atlas: colon tissue, blood T cells, blood monocytes).
+Genes of interest (three lists, Candidates top 100, clinical targets): CCL20 (+0.24 T cells, +0.14 monocytes, top
+variant rs1811711) and IL10 (-0.09 T cells; consistent with the protective MR estimate). Others: TNFSF15 (-0.25
+monocytes), TNRC18 (-0.50 T cells), IL19, SLC29A4 and non-coding genes. AlphaGenome 2 in 12 colon cell types (137
+variants near genes of interest, 1,644 predictions): no gene of interest above threshold (largest 0.069).
+
+**Decision.** Shown in the Genetics tab with its evidence records (alphagenome_variant_effect); it does not change any
+score or list light, because only two genes of interest are covered and both already have genetic evidence.

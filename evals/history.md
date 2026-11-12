@@ -248,3 +248,8 @@ Designs fixed before running. Nothing below changes the convergence score or the
 - **Defence flag (2026-11-12)**: first applied as a safety flag only; DUOXA2 then stayed second while DUOX2 fell,
   so the flag also caps the tissue light, as the crypt regeneration flag caps the cell light. My earlier remark that
   SERPINB5 was an odd first gene was wrong for current evidence (two 2026 colitis knock-down studies).
+- **AlphaGenome (2026-11-12)**: new layer alphagenome_uc.py on request. Validated before use against fine-mapped
+  eQTL (GTEx colon for the Atlas, IBDverse cell types for AlphaGenome 2); weak predictions are near chance, so only the
+  top quarter of |score| counts. Atlas ontology filters reject composite cell-type terms and gene filters need
+  versioned IDs, so tracks are grouped by biosample name and genes matched after the query. Result: CCL20 and IL10
+  are the only genes of interest with a confident effect; nothing enters the target lists' scores.
