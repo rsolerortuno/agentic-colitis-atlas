@@ -355,13 +355,19 @@ def discovery_tables(layers: dict) -> dict:
     for g, e in ext.items():
         names[g] = ((e.get("open_targets") or {}).get("name") or "")
     fic = d[d.status == "first-in-class opportunity"].sort_values("novelty_score", ascending=False)
+    sl_p = PROCESSED / "validation_shortlist.parquet"
+    spot, sl = fic, None
+    if sl_p.exists():   # spotlight = shortlist groups A then B, in shortlist order (2026-11-12): the novelty score alone
+        sl = pd.read_parquet(sl_p).set_index("gene")   # put genes in front that the checks place in group C (TPK1, FBXO16)
+        spot = fic[fic.gene.isin(sl.index[sl.group != "C"])].assign(_r=lambda x: x.gene.map(sl["rank"])).sort_values("_r")
     cards = []
-    for r in fic.groupby("track").head(4).sort_values("novelty_score", ascending=False).itertuples():
+    for r in spot.groupby("track").head(4).itertuples():
         why = (f"Up {r.meta_log2fc:.1f} log2 units in UC in {int(r.cohorts_up)} cohorts; {r.retained:.0%} of the rise survives "
                f"the composition adjustment; made mostly by {r.lineage} cells; {int(r.uc_papers)} UC papers; tractable as "
                f"{', '.join(r.tractable)}; at most {r.vital_max_ntpm:.0f} nTPM in a vital organ.")
         pk = st.get(r.gene, {}).get("best_pocket_score")
         cards.append({"gene": r.gene, "name": names.get(r.gene), "track": r.track, "rank_in_track": int(r.rank_in_track),
+                      "group": sl.at[r.gene, "group"] if sl is not None and r.gene in sl.index else None,
                       "novelty": round(float(r.novelty_score), 2), "papers": int(r.uc_papers), "retained": float(r.retained),
                       "pocket": pk, "why": why, "evidence_ids": [evidence_id("discovery_profile", r.gene)]})
     top = d.sort_values("novelty_score", ascending=False).groupby("track").head(40)
@@ -391,6 +397,28 @@ def drug_indication_view() -> dict:
                           "inhibitor": r["other_action"] == "inhibitor", "inhibitor_text": inhibitor_text(r),
                           "evidence_id": evidence_id("clinical_indications", r["gene"])}
     return out
+
+
+CHECKPOINT_GENES = {"CTLA4", "CD274", "PDCD1", "PDCD1LG2", "LAG3", "HAVCR2", "TIGIT"}
+
+
+def reading(gene: str, log2fc: float, drugind: dict, disc: pd.DataFrame) -> str:
+    """How to read a convergence row, from the data (2026-11-12): the ranking scores agreement of evidence, so it
+    mixes targets, markers of arriving cells and genes lost in UC."""
+    if gene in CHECKPOINT_GENES:
+        return "immune brake: rises with inflammation; blocking it causes colitis"
+    if log2fc < 0:
+        return "lost in UC (epithelial programme): a marker, not a target to block"
+    neu = float(disc.at[gene, "neutrophil_share"]) if gene in disc.index and pd.notna(disc.at[gene, "neutrophil_share"]) else 0.0
+    comp = disc.at[gene, "composition"] if gene in disc.index else None
+    if neu > 0.5:
+        return f"made by neutrophils ({neu:.0%}): marks their arrival; a target only to stop neutrophils"
+    if comp == "composition":
+        return "rise explained by arriving immune cells: a marker of inflammation"
+    di = drugind.get(gene, {})
+    if di.get("category") == "UC":
+        return "tissue change; already tried in UC"
+    return "tissue change in resident cells" + ("; drugs exist for other diseases" if di.get("repurposing") else "")
 
 
 def repurposing_rows(drugind: dict) -> list[dict]:
@@ -505,6 +533,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     ranking = f["convergence"]["ranking"]
     drugind = drug_indication_view()
     DRUGIND.update(drugind)
+    _disc = pd.read_parquet(PROCESSED / "discovery_scored.parquet").set_index("gene")
+    top_reading = {r["gene"]: reading(r["gene"], r["meta_log2fc"], drugind, _disc) for r in ranking[:25]}
     top = [r["gene"] for r in ranking[:25]]
     targets = [t["gene"] for t in f.get("targets", [])]
     report_genes = list(dict.fromkeys(targets + top))
@@ -766,7 +796,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     env.filters["fmt"] = lambda x: "—" if x is None or (isinstance(x, float) and math.isnan(x)) else x
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
-        f=f, top25=ranking[:25], drugind=drugind, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
+        f=f, top25=ranking[:25], drugind=drugind, top_reading=top_reading, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
         badges=badges(f, cell), cell=cell, third=third, SL=SL,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},

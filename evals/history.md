@@ -237,3 +237,7 @@ Designs fixed before running. Nothing below changes the convergence score or the
 - **Hidden regex bug (2026-11-12)**: the colitis-setting test of the literature review (shortlist_literature.IBD)
   had backspace characters where word boundaries were meant, so "IBD" and "UC" as abbreviations never matched. Fixed;
   no literature light changes in either list (papers using the abbreviations also name colitis or Crohn's disease).
+- **Tops read for an expert (2026-11-12)**: composition adjustment dropped for neutrophil-made genes and replaced by
+  a weighting by where the RNA is (the per-neutrophil change alone moved CLEC1A to group A, rejected); Discovery
+  spotlight follows the shortlist groups; Top 25 gets a "How to read it" column. The Top 25 table did not fit the page
+  (1,777 px in 975); the duplicate drug column was merged, headers wrap and three citations are shown per row.

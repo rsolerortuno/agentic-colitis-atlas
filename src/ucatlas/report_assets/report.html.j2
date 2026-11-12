@@ -83,21 +83,22 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
   {{ plot('stream_stack', figs.stream_stack) }}
   {{ plot('component_heatmap', figs.component_heatmap) }}
 </div>
-<h3>Top 25 {{ q('top25') }}</h3>
-<div class="tw"><table>
+<h3 id="top25">Top 25 {{ q('top25') }}</h3>
+<p class="small">This ranking scores how many kinds of evidence agree, so its top is mostly well-known UC biology: the neutrophil chemokine axis, matrix metalloproteinases, calprotectin (S100A8/A9) and the lost epithelial programme. That is its check, not its news. It mixes three kinds of gene: changes of resident tissue, markers of arriving immune cells, and genes lost in UC; the "How to read it" column says which, from the data. New targets are in Discovery, the Validation shortlist and Repurposing.</p>
+<div class="tw"><table class="t25">
 <thead><tr><th>#</th><th>Gene</th><th>Score</th>{% for k in sw %}<th>{{ k[:6] }}.</th>{% endfor %}<th>Rank 90 % interval</th>
-<th>Meta log2FC</th><th>Cohorts</th><th>Inflamed vs non-inflamed</th><th>Drugs (max stage)</th><th>Drug in UC?</th><th>Evidence</th></tr></thead>
+<th>Meta log2FC</th><th>Cohorts</th><th>Local log2FC (paired)</th><th>How to read it</th><th>Drugs: in UC or elsewhere?</th><th>Evidence</th></tr></thead>
 <tbody>
 {% for r in top25 %}{% set ids = [] %}{% for v in r.evidence_ids.values() %}{% for i in v %}{% set _ = ids.append(i) %}{% endfor %}{% endfor %}
 <tr class="claim" data-evidence="{{ ids | evattr }}">
 <td>{{ r.rank }}</td><td><strong>{{ r.gene }}</strong></td>
-<td class="num"><span class="score" style="width:{{ (r.score * 8) | round(0) | int }}px"></span>{{ r.score }}</td>
+<td class="num"><span class="score" style="width:{{ (r.score * 5) | round(0) | int }}px"></span>{{ "%.2f" | format(r.score) }}</td>
 {% for k in sw %}<td class="num">{{ r.components[k] }}</td>{% endfor %}
 <td class="num">{% if r.rank_interval_90 %}{{ r.rank_interval_90.rank_p05 }}–{{ r.rank_interval_90.rank_p95 }}{% else %}—{% endif %}</td>
 <td class="num">{{ r.meta_log2fc | fmt }}</td><td class="num">{{ r.cohorts_same_direction | fmt }}/8</td><td class="num">{{ r.paired_log2fc | fmt }}</td>
-<td class="wrap">{% for d in r.drugs[:3] %}{{ d.name | title }} ({{ d.max_stage | replace("_"," ") | lower }}){% if not loop.last %}; {% endif %}{% endfor %}</td>
-{% set di = drugind.get(r.gene) %}<td class="wrap">{% if di %}{% if di.repurposing %}<span class="tag">repurposing</span> {% endif %}{{ di.text }} {{ [di.evidence_id] | cite | safe }}{% else %}no clinical drug{% endif %}</td>
-<td>{{ ids[:6] | cite | safe }}</td></tr>
+<td class="wrap">{{ top_reading.get(r.gene, "") }}</td>
+{% set di = drugind.get(r.gene) %}<td class="wrap">{% if di %}{{ di.text }} {{ [di.evidence_id] | cite | safe }}{% else %}no clinical drug{% endif %}</td>
+<td class="cites">{{ ids[:3] | cite | safe }}</td></tr>
 {% endfor %}
 </tbody></table></div>
 <div class="howbox calc"><h4>How each column is calculated</h4>
@@ -113,9 +114,9 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <tr><td>Rank 90 % interval</td><td>How stable the rank is</td><td>5th to 95th percentile of the gene's rank over 1,000 random changes to the weights.</td></tr>
 <tr><td>Meta log2FC</td><td>Raw change</td><td>Pooled UC minus control on a log2 scale. +1 is twice as high.</td></tr>
 <tr><td>Cohorts</td><td>Agreement</td><td>Cohorts whose change has the same sign as the pooled change.</td></tr>
-<tr><td>Inflamed vs non-inflamed</td><td>Local change</td><td>Paired log2 fold change in MSCCR.</td></tr>
-<tr><td>Drugs</td><td>Existing drugs</td><td>Up to three drugs aimed at the gene with their most advanced clinical stage (Open Targets).</td></tr>
-<tr><td>Drug in UC?</td><td>Where the drugs are</td><td>Most advanced trial or approval in UC; else in Crohn's disease or IBD; else for other diseases ("repurposing": reachable, partly known safety, never tried in UC). Drugs that hit more than five targets are set apart as broad drugs. Open Targets clinical precedence; an approval known only from an ATC code is shown as not confirmed.</td></tr>
+<tr><td>Local log2FC (paired)</td><td>Local change</td><td>Paired log2 fold change in MSCCR.</td></tr>
+<tr><td>How to read it</td><td>What kind of gene</td><td>From the data: lost in UC (pooled change below zero); made mainly by neutrophils (over half its inflamed-mucosa RNA in Gubatan 2026); rise explained by arriving immune cells (composition verdict); immune brake (checkpoint, blocking it causes colitis); otherwise a change in resident tissue, with whether drugs exist in UC or for other diseases.</td></tr>
+<tr><td>Drugs: in UC or elsewhere?</td><td>Existing drugs and where they are</td><td>Up to three drugs aimed at the gene, at their most advanced clinical stage: in UC; else in Crohn's disease or IBD; else for other diseases ("repurposing": reachable, partly known safety, never tried in UC). Drugs that hit more than five targets are set apart as broad drugs. Open Targets clinical precedence; an approval known only from an ATC code is shown as not confirmed.</td></tr>
 </tbody></table></div></div>
 {% if f.narrative.sections.integration %}<h3 style="margin-top:1.6em">Integration</h3>{% endif %}
 {{ paras(f.narrative.sections.integration or []) }}
@@ -328,12 +329,12 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
   {{ plot('discovery_scatter', figs.discovery_scatter) }}{{ plot('discovery_bars', figs.discovery_bars) }}
 </div>
 <h3>Spotlight: first-in-class candidates</h3>
-<p class="small">The best first-in-class genes of each cell family, ordered by the novelty score ({% for k, v in D.weights.items() %}{{ k | replace("_"," ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}; it only orders the list, the filters decide the status).</p>
+<p class="small">The best first-in-class genes of each cell family after the checks of the Validation shortlist (its groups A, then B, in its order), so a gene the checks place in group C is not shown here even if its novelty score is high. Novelty score ({% for k, v in D.weights.items() %}{{ k | replace("_"," ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}; it only orders the list, the filters decide the status).</p>
 <div class="grid">
 {% for r in D.cards %}
 <div class="card cand claim" data-evidence="{{ r.evidence_ids | evattr }}">
   <h3>{{ r.gene }} <span class="small">{{ r.name or "" }}</span></h3>
-  <div class="meta"><span class="tag {{ r.track }}">{{ r.track }} #{{ r.rank_in_track }}</span><span class="tag fic">first-in-class</span>
+  <div class="meta"><span class="tag {{ r.track }}">{{ r.track }} #{{ r.rank_in_track }}</span><span class="tag fic">first-in-class</span>{% if r.group %}<span class="tag">shortlist group {{ r.group }}</span>{% endif %}
     <span class="tag">novelty {{ r.novelty }}</span><span class="tag">{{ r.papers }} UC papers</span>
     <span class="tag">kept {{ "%.0f" | format(100 * r.retained) }} %</span>{% if r.pocket %}<span class="tag">pocket {{ r.pocket }}</span>{% endif %}</div>
   <p>{{ r.why }} {{ r.evidence_ids | cite | safe }}</p>

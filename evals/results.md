@@ -386,3 +386,25 @@ TREM1), 6 red (protective: BIRC3, CTLA4, CTSK, IDO1, LYN, MME), 17 amber, 3 grey
 loss worsens colitis), C3, LOXL2, ICOS and ANGPT2 move to B, SELE joins A. Group A: CFB, SELP, GUCY1A1, PCSK9, NOS2,
 SELE, INHBA, KDR. KDR stays in A on a pathogenic colitis study; its inhibitors are cancer drugs with known GI toxicity
 (safety amber), which the list states but does not score further.
+
+## (w) Neutrophil genes without the composition adjustment; tops read for an expert (added 2026-11-12)
+
+**Neutrophil-made genes.** The bulk composition adjustment removes the neutrophil influx that defines these genes, so
+using it on top of the per-neutrophil change penalised them twice (and raised their green threshold to 1.5 log2). It
+is no longer scored for them. A first version used the per-neutrophil change alone and moved CLEC1A from group C to A,
+although 47 % of its RNA is in stroma and endothelium where it does not rise per cell; the change is now weighted by
+where the RNA is (neutrophil share x per-neutrophil change + rest x per-cell change in Smillie 2019). Result: TREM1
+green (+1.3, repurposing C to B), CEACAM4 green, CLEC1A amber (+0.6), ADGRE3 and RILPL2 red; MMP9 and PTGS2 red among
+the clinical targets. First-in-class group A unchanged.
+
+**Discovery spotlight.** It showed the top first-in-class genes by novelty score alone, including genes the
+shortlist puts in group C (TPK1, a thiamine enzyme with a Mendelian disease; FBXO16, no papers and 26 % kept; ENKUR, a
+ciliary protein). It now shows shortlist groups A then B per cell family: epithelial ERO1A, LYPD5, XKR9, CYP4X1;
+stromal CPXM1, CHRDL2, PCDH17, SGIP1; immune LAIR2, RFTN1, OSBPL3, LAX1.
+
+**Candidates Top 25.** A convergence ranking recovers known UC biology (CXCL8-CXCR2, MMPs, calprotectin, the lost
+epithelial programme): that is its check. Each row now says from the data what kind of gene it is (made by
+neutrophils, lost in UC, rise explained by arriving immune cells, immune brake, or tissue change, with where its
+drugs are), so it is not read as 25 targets to block. Of the 25: 9 neutrophil-made, 4 lost in UC, 1 immune brake
+(CD274), 1 explained by immune cells (CXCL5), 10 tissue changes (MMP1 and MMP7 already tried in UC; IDO1, CCL2 and
+INHBA with drugs for other diseases).

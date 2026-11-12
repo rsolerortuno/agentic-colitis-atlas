@@ -41,7 +41,9 @@ Criteria (green / amber / red; grey = not measured):
   across atlases folds neutrophils into myeloid cells, where three atlases have none. Such a gene is reported as
   neutrophil-directed (cell family "neutrophil"): the tissue light uses the per-cell change inside the neutrophil
   states of Gubatan 2026 instead (inflamed vs uninflamed UC mucosa, states with >= 50 cells in both, weighted by the
-  gene's inflamed share; same thresholds; the baseline is uninflamed UC, not healthy colon, which Gubatan lacks).
+  gene's inflamed share; the baseline is uninflamed UC, not healthy colon, which Gubatan lacks), weighted with the
+  per-cell change in its other cells (Smillie 2019) by the neutrophil share: green >= 1 log2, red < 0.3, amber between. The bulk composition verdict is not used for them: it removes the neutrophil influx these
+  genes are about, so it would penalise them twice.
   Checked: S100A8 +1.1, CXCR2 +0.7, FCGR3B +0.7 log2 per neutrophil; ADGRE3 -0.3 (its rise is all neutrophil
   arrival, red). The cell light is amber (source known from one atlas only, so it cannot replicate) and the first
   experiment is in blood neutrophils. This is a different kind of target (it acts on cell recruitment, like CXCR2),
@@ -378,11 +380,19 @@ def _row(x, t) -> dict:
         if np.isnan(npc_):
             tis = "amber" if tis == "green" else tis
         else:
-            tis = "red" if npc_ < 0.3 else "green" if ((comp == "intrinsic" and npc_ >= 1) or
-                                                       (comp == "partly_composition" and npc_ >= 1.5)) else "amber"
-        c["tissue"] = (tis, f"bulk: {comp.replace('_', ' ')}{', ' + ret if ret else ''}; neutrophils make {neu:.0%} of "
-                            "its transcripts (Gubatan 2026); per neutrophil, inflamed vs uninflamed UC: " +
+            # the bulk composition verdict is not used here: it removes the neutrophil influx these genes are about,
+            # and the per-neutrophil change already says whether each cell makes more (2026-11-12). The rest of the
+            # gene's RNA comes from other cells, measured in Smillie 2019: the two changes are weighted by where the
+            # RNA is (CLEC1A: 53 % neutrophil, flat in its other cells)
+            mix = npc_ if np.isnan(pc) else neu * npc_ + (1 - neu) * pc
+            tis = "red" if mix < 0.3 else "green" if mix >= 1 else "amber"
+        c["tissue"] = (tis, f"neutrophils make {neu:.0%} of its transcripts (Gubatan 2026); per neutrophil, inflamed vs "
+                            "uninflamed UC: " +
                        (f"{npc_:+.1f} log2 ({npc_txt})" if not np.isnan(npc_) else "not enough neutrophils") +
+                       (f"; weighted with its other cells: {neu * npc_ + (1 - neu) * pc:+.1f} log2"
+                        if not (np.isnan(npc_) or np.isnan(pc)) else "") +
+                       (f"; bulk: {comp.replace('_', ' ')}{', ' + ret if ret else ''} (not scored: the adjustment removes "
+                        "the neutrophil influx these genes are about)") +
                        (f"; in the atlas without neutrophils (Smillie 2019): {pc:+.1f} log2 ({pc_txt})" if not np.isnan(pc) else ""))
     else:
         c["tissue"] = (tis, f"bulk: {comp.replace('_', ' ')}{', ' + ret if ret else ''}; per cell: " +
