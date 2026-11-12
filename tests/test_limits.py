@@ -381,3 +381,17 @@ def test_defence_flag_spares_clinical_targets():
         if "DUOX2" in k.index:
             c = json.loads(k.at["DUOX2", "criteria"])
             assert k.at["DUOX2", "defence_flag"] and c["tissue"][0] != "green" and "mucosal defence" in c["safety"][1]
+
+
+@pytest.mark.skipif(not (PROCESSED / "drug_indications.parquet").exists(), reason="drug indications not built")
+def test_trials_outside_open_targets_and_gain_of_function():
+    """Anakinra's IL-1 blockade trial in acute severe colitis takes IL1R1 out of the repurposing list; dye and
+    checkpoint-colitis studies do not count; PCSK9's familial hypercholesterolaemia is gain of function, not a risk."""
+    d = pd.read_parquet(PROCESSED / "drug_indications.parquet").set_index("gene")
+    assert d.at["IL1R1", "category"].startswith("tried in UC/IBD")
+    for g in ("CTLA4", "GUCY1A1", "PLAU"):
+        if g in d.index:
+            assert not d.at[g, "category"].startswith("tried")
+    s = pd.read_parquet(PROCESSED / "safety.parquet").set_index("gene")
+    if "PCSK9" in s.index:
+        assert not s.at["PCSK9", "mendelian_loss_disease"]

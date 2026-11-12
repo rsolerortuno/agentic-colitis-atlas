@@ -512,7 +512,7 @@ def _row(x, t) -> dict:
     if g not in saf.index:   # never claim "no Mendelian disease" for a gene the safety step did not check
         vital += "; constraint, safety events and Mendelian disease not checked"
     c["safety"] = ("green" if not flags else "amber" if len(flags) == 1 else "red",
-                   "; ".join(flags) if flags else (vital if g not in saf.index else f"{vital}, not constrained, no Mendelian disease"))
+                   "; ".join(flags) if flags else (vital if g not in saf.index else f"{vital}, not constrained, no Mendelian disease caused by loss of the gene"))
     lit = t["lit"]
     c["literature"] = ((lit.at[g, "light"], lit.at[g, "verdict"])
                        if g in lit.index else ("grey", "not reviewed"))

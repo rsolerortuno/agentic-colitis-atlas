@@ -391,8 +391,10 @@ def drug_indication_view() -> dict:
     out = {}
     for r in pd.read_parquet(p).to_dict("records"):
         stage = {"UC": r["uc_stage"], "Crohn's / IBD": r["ibd_stage"], "other diseases": r["other_stage"],
+                 "tried in UC/IBD (outside Open Targets)": r["other_stage"],
                  "broad drugs only": r["broad_stage"]}[r["category"]]
-        out[r["gene"]] = {"category": r["category"], "short": f"{r['category']} ({LABEL[stage]})", "text": describe(r),
+        short = (r["category"] if r["category"].startswith("tried") else f"{r['category']} ({LABEL[stage]})")
+        out[r["gene"]] = {"category": r["category"], "short": short, "text": describe(r),
                           "repurposing": r["category"] == "other diseases",
                           "inhibitor": r["other_action"] == "inhibitor", "inhibitor_text": inhibitor_text(r),
                           "evidence_id": evidence_id("clinical_indications", r["gene"])}
@@ -418,6 +420,8 @@ def reading(gene: str, log2fc: float, drugind: dict, disc: pd.DataFrame) -> str:
     di = drugind.get(gene, {})
     if di.get("category") == "UC":
         return "tissue change; already tried in UC"
+    if str(di.get("category", "")).startswith("tried"):
+        return "tissue change; already tried in UC or IBD (trial outside Open Targets)"
     return "tissue change in resident cells" + ("; drugs exist for other diseases" if di.get("repurposing") else "")
 
 

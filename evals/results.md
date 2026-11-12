@@ -450,3 +450,15 @@ causes congenital ichthyosis, among them). It now covers 545 genes (every discov
 convergence top 100); a gene outside it would read "not checked". Effect: ABCA12 leaves well-known group A; CFB
 (complement factor B deficiency), KDR and C5AR1 leave repurposing group A, PLA2G2A and IL1R1 join it. The target_safety
 records cited by the agents are unchanged (0 stale).
+
+**Two errors in repurposing group A (fixed 2026-11-12).** (1) PCSK9 carried "loss causes familial hypercholesterolaemia
+3": that disease is caused by gain-of-function variants (loss lowers LDL, and PCSK9 inhibitors are approved), but
+UniProt does not say so in the text the parser reads. A curated list of gain-of-function diseases (PCSK9, LYN, TEK
+venous malformations, TLR8) and of a somatic cancer listed as a disease (IGHG1, multiple myeloma) now corrects the
+Mendelian flag. (2) IL1R1 was listed as never tried in UC, but anakinra was tested in acute severe colitis (IASO,
+protocol PMID 30772849), a trial in neither Open Targets nor ClinicalTrials.gov. Drugs of list genes are now also
+searched in ClinicalTrials.gov and in Europe PMC trial papers. The first version found six genes, five of them false
+(ipilimumab in immunotherapy-induced colitis, methylene blue as a chromoendoscopy dye, a suPAR biomarker paper, other
+IL-18 antibodies matched by a fuzzy registry search); with stricter filters (the drug among the study's
+interventions, a UC/Crohn's/IBD condition that is not cancer, not a diagnostic study; trial titles naming UC, Crohn's,
+IBD or severe colitis, immunotherapy colitis and biomarker papers excluded) only IL1R1 remains.

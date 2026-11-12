@@ -62,6 +62,20 @@ def _ot(ens: str) -> list[dict]:
 GOF = re.compile(r"gain[- ]of[- ]function|activating mutation|constitutive(ly)? activ", re.I)
 
 
+# Diseases that UniProt lists as caused by variants of the gene without saying that the variants gain function, while
+# the literature establishes it (2026-11-12, found when the safety step was widened to every list gene): inhibiting the
+# gene does not reproduce them, so they are not a loss-of-function risk. Curated, checked against the disease
+# mechanism: PCSK9 familial hypercholesterolaemia 3 (gain-of-function variants raise LDL; loss lowers it and PCSK9
+# inhibitors are approved), LYN systemic autoinflammatory disease with vasculitis, TEK dominantly inherited venous
+# malformations (activating TIE2 variants), TLR8 immunodeficiency 98 with autoinflammation.
+GAIN_OF_FUNCTION_DISEASES = {("PCSK9", "Hypercholesterolemia, familial, 3"),
+                             ("LYN", "Autoinflammatory disease, systemic, with vasculitis"),
+                             ("TEK", "Dominantly inherited venous malformations"),
+                             ("TLR8", "Immunodeficiency 98 with autoinflammation, X-linked")}
+# not an inherited disease of loss of the gene (a somatic cancer listed in the DISEASE comments)
+NOT_GERMLINE_LOSS = {("IGHG1", "Multiple myeloma")}
+
+
 def mendelian(symbol: str) -> list[dict]:
     from .external import UNIPROT_URL, _cached, _request
     params = {"query": f"gene_exact:{symbol} AND organism_id:9606 AND reviewed:true", "fields": "accession,cc_disease",
@@ -80,7 +94,11 @@ def mendelian(symbol: str) -> list[dict]:
             text = " ".join([dz.get("description", "")] + [t.get("value", "") for t in (c.get("note") or {}).get("texts", [])])
             inh = ("recessive" if re.search(r"recessive", text, re.I) else "dominant" if re.search(r"dominant", text, re.I)
                    else "X-linked" if re.search(r"X-linked", text, re.I) else "not stated")
-            out.append({"disease": dz.get("diseaseId", ""), "inheritance": inh, "gain_of_function": bool(GOF.search(text))})
+            name = dz.get("diseaseId", "")
+            if (symbol, name) in NOT_GERMLINE_LOSS:
+                continue
+            out.append({"disease": name, "inheritance": inh,
+                        "gain_of_function": bool(GOF.search(text)) or (symbol, name) in GAIN_OF_FUNCTION_DISEASES})
     return out
 
 
