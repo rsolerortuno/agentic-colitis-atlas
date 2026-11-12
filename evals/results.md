@@ -377,3 +377,12 @@ brakes, and for CD274 genetics says the protein is protective). A cancer flag fi
 blue lists "colorectal neoplasms" (it is a colonoscopy dye); the flag now needs every indication to be a cancer.
 Group A: CFB (iptacopan), SELP (crizanlizumab), GUCY1A1, NOS2, PCSK9, INHBA, LOXL2, C3 (pegcetacoplan), KDR, BIRC3,
 ICOS, ANGPT2. The literature light is grey for all (not reviewed for this list), so it does not change the order.
+
+**Literature review of the repurposing genes (added 2026-11-12).** The same classifier and checks as the first-in-class
+review, run on the 35 repurposing genes: the 25 most cited papers per gene with the gene in the title or abstract and
+colitis, IBD or Crohn's disease (828 records, 818 readable, 33 batches). 816 calls kept, 2 rejected (quote not in the
+text). Lights: 9 green (functional evidence that blocking helps: CD40, F2R, INHBA, KDR, NAMPT, PCSK9, PLA2G2A, SELE,
+TREM1), 6 red (protective: BIRC3, CTLA4, CTSK, IDO1, LYN, MME), 17 amber, 3 grey. Effect: BIRC3 leaves group A (its
+loss worsens colitis), C3, LOXL2, ICOS and ANGPT2 move to B, SELE joins A. Group A: CFB, SELP, GUCY1A1, PCSK9, NOS2,
+SELE, INHBA, KDR. KDR stays in A on a pathogenic colitis study; its inhibitors are cancer drugs with known GI toxicity
+(safety amber), which the list states but does not score further.

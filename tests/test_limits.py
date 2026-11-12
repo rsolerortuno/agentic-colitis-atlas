@@ -354,3 +354,16 @@ def test_repurposing_shortlist():
             light = json.loads(r.criteria)["druggable"][0]
             assert light == ("green" if r.inhibitor_stage in ("APPROVAL", "PHASE_4") else
                              "amber" if r.inhibitor_stage in ("ATC", "PHASE_3", "PHASE_2_3", "PHASE_2") else "red")
+
+
+@pytest.mark.skipif(not (PROCESSED / "repurposing_literature.parquet").exists(), reason="repurposing literature not built")
+def test_repurposing_literature_feeds_the_light():
+    """The repurposing list takes its literature light from its own review; quotes were checked verbatim."""
+    lit = pd.read_parquet(PROCESSED / "repurposing_literature.parquet").set_index("gene")
+    d = pd.read_parquet(PROCESSED / "validation_repurposing.parquet").set_index("gene")
+    assert set(d.index) <= set(lit.index)
+    for g in d.index:
+        assert json.loads(d.at[g, "criteria"])["literature"][0] == lit.at[g, "light"]
+    rej = json.loads((PROCESSED / "repurposing_literature_rejected.json").read_text())
+    papers = pd.read_parquet(PROCESSED / "repurposing_literature_papers.parquet")
+    assert len(rej) < 0.05 * (len(rej) + len(papers))

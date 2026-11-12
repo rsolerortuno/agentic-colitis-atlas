@@ -229,3 +229,11 @@ Designs fixed before running. Nothing below changes the convergence score or the
   content. The proposed test moved from a table column to cards, which had made the rows very wide; table headers of
   the shortlist-style tables may now wrap, so both tables fit the page (measured in the browser: 975 px in a 975 px
   box, rows 58 px), and the long drug texts of the Discovery leads table share one bounded column.
+- **Repurposing literature (2026-11-12)**: shortlist_literature.py generalised to two gene sets with separate
+  folders and outputs (first-in-class output unchanged: 24 grey, 10 amber, 1 red, 1 green). Classification by 11
+  subagents in parallel took far longer than expected (about 1 h 50 min for three batches each, likely throttling);
+  two agents were cut off by a session restart and their three batches were rerun. 816 of 818 calls passed the
+  verbatim check.
+- **Hidden regex bug (2026-11-12)**: the colitis-setting test of the literature review (shortlist_literature.IBD)
+  had backspace characters where word boundaries were meant, so "IBD" and "UC" as abbreviations never matched. Fixed;
+  no literature light changes in either list (papers using the abbreviations also name colitis or Crohn's disease).

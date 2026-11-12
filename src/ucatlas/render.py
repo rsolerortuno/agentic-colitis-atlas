@@ -674,8 +674,15 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                          "worst_rank": int(r.worst_rank), "gene": r.gene, "lineage": r.cell_family,
                          "meta_log2fc": r.meta_log2fc, "uc_papers": int(r.uc_papers), "criteria": json.loads(r.criteria),
                          "experiment": r.experiment,
-                         "evidence_ids": [evidence_id("discovery_profile", r.gene), evidence_id("clinical_indications", r.gene)]}
+                         "evidence_ids": [evidence_id("discovery_profile", r.gene), evidence_id("clinical_indications", r.gene),
+                                          evidence_id("repurposing_literature", r.gene)]}
                         for r in rp.itertuples()]
+            rl_p = PROCESSED / "repurposing_literature.parquet"
+            if rl_p.exists():
+                rl = pd.read_parquet(rl_p).set_index("gene")
+                for row in SL["rp"]:
+                    if row["gene"] in rl.index:
+                        row["papers"] = json.loads(rl.at[row["gene"], "key_papers"])
             SL["rp_summary"] = json.loads((PROCESSED / "validation_repurposing_summary.json").read_text(encoding="utf-8"))
         cal_p = PROCESSED / "validation_shortlist_calibration.parquet"
         if cal_p.exists():

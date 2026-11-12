@@ -24,3 +24,5 @@ data/literature/shortlist/batches/
 data/raw/spatial/*/*
 !data/raw/spatial/*/manifest.json
 runs/*/report.html
+data/literature/repurposing/records.parquet
+data/literature/repurposing/batches/

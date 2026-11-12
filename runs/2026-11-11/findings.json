@@ -8,7 +8,7 @@
   "open_targets_top": 2000,
   "doid": "DOID:8577"
  },
- "generated_utc": "2026-11-12T00:14:21+00:00",
+ "generated_utc": "2026-11-12T09:08:22+00:00",
  "models": {
   "orchestrator": "Claude Opus 5.5 — Claude Code main session",
   "agents": "Claude Sonnet 5.5 — Claude Code subagents (agente-expresion, agente-literatura, agente-externo, agente-celular, agente-vias, agente-aplicado)",

@@ -21,6 +21,12 @@ The discovery screen counted UC papers per gene (Europe PMC full text) but nobod
    red: functional evidence of a protective role and none pathogenic (inhibiting it may harm);
    amber: a specific expression, biomarker or genetic result, or functional evidence in both directions;
    grey: no paper about the gene, or the gene is only named in lists of many genes or in reviews.
+Two gene sets (2026-11-12): "shortlist" (the first-in-class genes, as above) and "repurposing" (the genes with an
+inhibitor for another disease, never tried in UC; validation_shortlist.repurposing_genes). These genes have hundreds
+or thousands of UC papers, so only the second search is used for them (gene in the title or abstract with colitis,
+IBD or Crohn's disease), the 25 most cited per gene: functional studies are found there. Same classifier, same
+validation and the same light rules; separate folders (data/literature/repurposing/), outputs
+(repurposing_literature*.parquet) and evidence type (repurposing_literature).
 Outputs: data/literature/shortlist/records.parquet and batches/ (abstracts and full-text sentences: not in the
 repository, rebuilt by retrieve() from Europe PMC), classified/ (agent output, kept in the repository),
 data/processed/shortlist_literature.parquet, shortlist_literature_rejected.json.
@@ -46,10 +52,29 @@ BATCH_SIZE = 25
 AMBIGUOUS = {"MIG2", "LAX", "UNG2", "UDG2", "CCNU", "PP20", "DOC-1", "CPX1", "CPX-1", "CLEC1", "PRO0082", "CHGN",
              "INAM", "BNF1"}
 CLONE = re.compile(r"^(FLJ|MGC|KIAA|DKFZ|dJ|RP\d|OTTHUMP|PRO\d|HsT|C\d+orf)", re.I)
-IBD = re.compile(r"colitis|inflammatory bowel|crohn|IBD|UC", re.I)
+IBD = re.compile(r"colitis|inflammatory bowel|crohn|\bIBD\b|\bUC\b", re.I)
 KINDS = {"not_about_gene", "list_mention", "expression", "biomarker", "functional", "genetic", "review"}
 DIRECTIONS = {"pathogenic", "protective", "neutral", "unclear"}
 SYSTEMS = {"human_tissue", "human_blood", "mouse", "cells", "organoids", "in_silico", "other"}
+
+
+SETS = {
+    "shortlist": {"dir": LITERATURE / "shortlist", "out": "shortlist_literature", "max_records": 60,
+                  "queries": ("uc_any_text", "ibd_title_abstract"),
+                  "dataset": ("DATASET:SHORTLIST_LIT", "Literature review of the shortlist candidates (Europe PMC, "
+                                                       "classified by a subagent, verbatim-checked)")},
+    "repurposing": {"dir": LITERATURE / "repurposing", "out": "repurposing_literature", "max_records": 25,
+                    "queries": ("ibd_title_abstract",),
+                    "dataset": ("DATASET:REPURPOSING_LIT", "Literature review of the repurposing candidates (Europe "
+                                                           "PMC, classified by a subagent, verbatim-checked)")},
+}
+
+
+def _genes(which: str) -> list[str]:
+    if which == "repurposing":
+        from .validation_shortlist import repurposing_genes
+        return repurposing_genes()
+    return first_in_class()
 
 
 def first_in_class() -> list[str]:
@@ -90,9 +115,9 @@ def _get(url: str, params: dict | None = None, kind: str = "json"):
     return _cached("europepmc_shortlist", url + json.dumps(params or {}, sort_keys=True), fetch)["data"]
 
 
-def _search(query: str) -> list[dict]:
+def _search(query: str, max_records: int = MAX_RECORDS) -> list[dict]:
     out, cursor = [], "*"
-    while len(out) < MAX_RECORDS:
+    while len(out) < max_records:
         d = _get(f"{EPMC}/search", {"query": query, "format": "json", "pageSize": 100, "resultType": "core",
                                     "cursorMark": cursor, "sort": "CITED desc"})
         res = d.get("resultList", {}).get("result", [])
@@ -100,7 +125,7 @@ def _search(query: str) -> list[dict]:
         if not res or d.get("nextCursorMark") in (None, cursor):
             break
         cursor = d["nextCursorMark"]
-    return out[:MAX_RECORDS]
+    return out[:max_records]
 
 
 def _token(nm: list[str]) -> re.Pattern:
@@ -121,19 +146,20 @@ def _fulltext_sentences(pmcid: str, tok: re.Pattern, k: int = 4) -> list[str]:
     return hits[:k]
 
 
-def retrieve(genes: list[str] | None = None) -> dict:
-    from .external import DISEASE_TERMS
+def retrieve(genes: list[str] | None = None, which: str = "shortlist") -> dict:
+    cfg = SETS[which]
     if genes is None:
-        genes = first_in_class()
+        genes = _genes(which)
     from concurrent.futures import ThreadPoolExecutor
+    from functools import partial
     with ThreadPoolExecutor(4) as ex:   # Europe PMC answers slowly; four genes at a time
-        per_gene = list(ex.map(_gene_records, genes))
+        per_gene = list(ex.map(partial(_gene_records, queries=cfg["queries"], max_records=cfg["max_records"]), genes))
     rows = [r for rs in per_gene for r in rs]
     d = pd.DataFrame(rows)
-    return _write(d, genes)
+    return _write(d, genes, cfg["dir"])
 
 
-def _gene_records(g: str) -> list[dict]:
+def _gene_records(g: str, queries: tuple = ("uc_any_text", "ibd_title_abstract"), max_records: int = MAX_RECORDS) -> list[dict]:
     from .external import DISEASE_TERMS
     rows = []
     if True:
@@ -144,7 +170,9 @@ def _gene_records(g: str) -> list[dict]:
         found = {}
         for q, why in ((f"({q_names}) AND {DISEASE_TERMS}", "uc_any_text"),
                        (f'({q_abs}) AND (colitis OR "inflammatory bowel" OR crohn*)', "ibd_title_abstract")):
-            for r in _search(q):
+            if why not in queries:
+                continue
+            for r in _search(q, max_records):
                 key = r.get("pmid") or r.get("id")
                 if key not in found:
                     found[key] = (r, why)
@@ -160,34 +188,36 @@ def _gene_records(g: str) -> list[dict]:
     return rows
 
 
-def _write(d: pd.DataFrame, genes: list[str]) -> dict:
-    DIR.mkdir(parents=True, exist_ok=True)
-    d.to_parquet(DIR / "records.parquet", index=False)
+def _write(d: pd.DataFrame, genes: list[str], base=DIR) -> dict:
+    base.mkdir(parents=True, exist_ok=True)
+    batches = base / "batches"
+    d.to_parquet(base / "records.parquet", index=False)
     # only records where the gene is visible in the text given to the classifier
     usable = d[d.gene_in_abstract | (d.fulltext_sentences.map(len) > 0)].reset_index(drop=True)
-    BATCHES.mkdir(parents=True, exist_ok=True)
-    for f in BATCHES.glob("batch_*.jsonl"):
+    batches.mkdir(parents=True, exist_ok=True)
+    for f in batches.glob("batch_*.jsonl"):
         f.unlink()
     for i in range(0, len(usable), BATCH_SIZE):
-        with open(BATCHES / f"batch_{i // BATCH_SIZE:03d}.jsonl", "w", encoding="utf-8") as fh:
+        with open(batches / f"batch_{i // BATCH_SIZE:03d}.jsonl", "w", encoding="utf-8") as fh:
             for r in usable.iloc[i:i + BATCH_SIZE].itertuples():
                 fh.write(json.dumps({"gene": r.gene, "id": r.id, "names": list(r.names_searched), "title": r.title,
                                      "abstract": r.abstract, "fulltext_sentences": list(r.fulltext_sentences)},
                                     ensure_ascii=False) + "\n")
     return {"genes": len(genes), "records": len(d), "usable": len(usable),
             "gene_only_in_inaccessible_full_text": int(len(d) - len(usable)),
-            "batches": len(list(BATCHES.glob("batch_*.jsonl")))}
+            "batches": len(list(batches.glob("batch_*.jsonl")))}
 
 
 def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip().lower()
 
 
-def validate() -> dict:
-    rec = pd.read_parquet(DIR / "records.parquet")
+def validate(which: str = "shortlist") -> dict:
+    cfg = SETS[which]
+    rec = pd.read_parquet(cfg["dir"] / "records.parquet")
     text = {(r.gene, r.id): _norm(" ".join([r.title, r.abstract] + list(r.fulltext_sentences))) for r in rec.itertuples()}
     kept, rejected = [], []
-    for f in sorted(CLASSIFIED.glob("*.jsonl")):
+    for f in sorted((cfg["dir"] / "classified").glob("*.jsonl")):
         for line in f.read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue
@@ -216,19 +246,20 @@ def validate() -> dict:
                              "summary": (r.get("summary") or "")[:300]})
     k = pd.DataFrame(kept).drop_duplicates(["gene", "id"], keep="last")
     k = k.merge(rec[["gene", "id", "pmid", "pmcid", "year", "title"]], on=["gene", "id"], how="left")
-    k.to_parquet(PROCESSED / "shortlist_literature_papers.parquet", index=False)
-    (PROCESSED / "shortlist_literature_rejected.json").write_text(json.dumps(rejected, indent=1), encoding="utf-8")
+    k.to_parquet(PROCESSED / f"{cfg['out']}_papers.parquet", index=False)
+    (PROCESSED / f"{cfg['out']}_rejected.json").write_text(json.dumps(rejected, indent=1), encoding="utf-8")
     return {"kept": len(k), "rejected": len(rejected),
             "rejected_by_reason": pd.Series([x["reason"] for x in rejected]).value_counts().to_dict() if rejected else {}}
 
 
-def summarize() -> dict:
-    p = pd.read_parquet(PROCESSED / "shortlist_literature_papers.parquet")
-    rec = pd.read_parquet(DIR / "records.parquet")
+def summarize(which: str = "shortlist") -> dict:
+    cfg = SETS[which]
+    p = pd.read_parquet(PROCESSED / f"{cfg['out']}_papers.parquet")
+    rec = pd.read_parquet(cfg["dir"] / "records.parquet")
     txt = {(r.gene, r.id): " ".join([r.title, r.abstract] + list(r.fulltext_sentences)) for r in rec.itertuples()}
     p["relevant"] = [bool(IBD.search(txt[(g, i)])) for g, i in zip(p.gene, p.id)]
-    p.to_parquet(PROCESSED / "shortlist_literature_papers.parquet", index=False)
-    genes = first_in_class()
+    p.to_parquet(PROCESSED / f"{cfg['out']}_papers.parquet", index=False)
+    genes = _genes(which)
     rows = []
     for g in genes:
         allx = p[(p.gene == g) & (p.kind != "not_about_gene")]
@@ -272,30 +303,30 @@ def summarize() -> dict:
                                                 "quote": r.quote, "summary": r.summary} for r in key.head(4).itertuples()],
                                               ensure_ascii=False)})
     d = pd.DataFrame(rows)
-    d.to_parquet(PROCESSED / "shortlist_literature.parquet", index=False)
+    d.to_parquet(PROCESSED / f"{cfg['out']}.parquet", index=False)
     return {"genes": len(d), "lights": d.light.value_counts().to_dict(),
             "green": d.gene[d.light == "green"].tolist(), "red": d.gene[d.light == "red"].tolist()}
 
 
-def load(store=None) -> int:
+def load(store=None, which: str = "shortlist") -> int:
     from datetime import date
     from .graph import GraphStore, evidence_id
     store = store or GraphStore()
-    d = pd.read_parquet(PROCESSED / "shortlist_literature.parquet")
+    cfg = SETS[which]
+    d = pd.read_parquet(PROCESSED / f"{cfg['out']}.parquet")
     n = 0
     with store.batch():
-        store.add_node("DATASET:SHORTLIST_LIT", "Dataset",
-                       "Literature review of the shortlist candidates (Europe PMC, classified by a subagent, verbatim-checked)")
+        store.add_node(cfg["dataset"][0], "Dataset", cfg["dataset"][1])
         for r in d.itertuples():
             node = store.resolve(r.gene)
             if not node or node["type"] != "Gene":
                 continue
-            ev = store.add_evidence(evidence_id("shortlist_literature", r.gene), "shortlist_literature",
-                                    "DATASET:SHORTLIST_LIT", date.today().isoformat(), gene=r.gene, light=r.light,
+            ev = store.add_evidence(evidence_id(cfg["out"], r.gene), cfg["out"],
+                                    cfg["dataset"][0], date.today().isoformat(), gene=r.gene, light=r.light,
                                     verdict=r.verdict, papers_about_gene=int(r.about_gene), functional=int(r.functional),
                                     pathogenic=int(r.pathogenic), protective=int(r.protective),
                                     key_papers=json.loads(r.key_papers))
-            store.add_claim(node["id"], "has_literature_review_in", "DATASET:SHORTLIST_LIT", ev)
+            store.add_claim(node["id"], "has_literature_review_in", cfg["dataset"][0], ev)
             n += 1
     return n
 
@@ -303,4 +334,6 @@ def load(store=None) -> int:
 if __name__ == "__main__":
     import sys
     step = sys.argv[1] if len(sys.argv) > 1 else "retrieve"
-    print(json.dumps({"retrieve": retrieve, "validate": validate, "summarize": summarize}[step](), indent=1))
+    which = sys.argv[2] if len(sys.argv) > 2 else "shortlist"
+    fn = {"retrieve": retrieve, "validate": validate, "summarize": summarize}[step]
+    print(json.dumps(fn(which=which), indent=1))

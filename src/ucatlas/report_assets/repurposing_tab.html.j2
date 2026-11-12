@@ -10,7 +10,7 @@
 <li><strong>Inhibitor (stage)</strong> replaces "druggable": green when the inhibitor is approved, amber in phase 2 or 3 (or an approval known only from an ATC code), red earlier.</li>
 <li><strong>Safety</strong> adds a flag when the inhibitor was made only for cancer ({{ RS.cancer_drug | join(", ") }}): a dose and toxicity chosen for cancer may not suit a chronic disease. Here a drug's known side effects are real information, not just a sign that the gene is studied.</li>
 <li><strong>Immune checkpoints</strong> ({{ RS.checkpoints | join(", ") }}) are red on both: they rise in UC as brakes on inflammation, and their blockers cause colitis in patients, so blocking them is the wrong direction.</li>
-<li>The UC literature light is grey for all of them, because the literature review covered the first-in-class genes only. The UC papers column shows how studied each gene is: most are far more studied than the first-in-class genes.</li>
+<li><strong>UC literature</strong> comes from the same review as the shortlist, run on these genes: the most cited papers that name the gene in their title or abstract with colitis or IBD, each call backed by a sentence copied from the paper. Green: blocking or removing the gene helped in colitis; red: the gene protects (its loss worsened colitis), so an inhibitor may harm{% if RS.literature_protective %} ({{ RS.literature_protective | join(", ") }}){% endif %}. This is what tells, for a well-studied gene, whether the inhibitor goes in the right direction.</li>
 <li>Genes made mainly by neutrophils ({{ RS.neutrophil_directed | join(", ") }}) are read as on the shortlist: their per-cell change is measured inside neutrophils.</li></ul></div>
 <div class="tw"><table class="sl"><thead><tr><th>Group</th><th>Stable in top 10</th><th>Gene</th><th>Cell family</th><th class="num">Meta log2FC</th><th class="num">UC papers</th>
 {% for k, label in SL.rp_criteria %}<th>{{ label }}</th>{% endfor %}<th>Evidence</th></tr></thead><tbody>
@@ -26,6 +26,7 @@
 {% for r in SL.rp if r.group != "C" %}
 <div class="card sl-card"><h3>Group {{ r.group }}: {{ r.gene }} <span class="small">{{ r.lineage }}, in the top 10 in {{ r.stability }} of 6 scorings</span></h3>
 <dl>{% for k, label in SL.rp_criteria %}{% set v = r.criteria[k] %}<dt><i class="lt {{ v[0] }}"></i> {{ label }}</dt><dd>{{ v[1] }}</dd>{% endfor %}</dl>
+{% if r.papers %}<p class="small"><strong>Key papers:</strong></p><ul class="small">{% for p in r.papers %}<li>{% if p.pmid %}<a href="https://pubmed.ncbi.nlm.nih.gov/{{ p.pmid }}/" target="_blank" rel="noopener">PMID {{ p.pmid }}</a>{% else %}{{ p.pmcid }}{% endif %}{% if p.year %} ({{ p.year }}){% endif %}, {{ p.kind | replace('_', ' ') }}{% if p.direction in ('pathogenic', 'protective') %}, <strong>{{ p.direction }}</strong>{% endif %}: {{ p.summary }}</li>{% endfor %}</ul>{% endif %}
 <p class="small"><strong>Proposed:</strong> {{ r.experiment }}</p></div>
 {% endfor %}
 </div>

@@ -98,8 +98,9 @@ inhibitor was made for cancer only (dose and toxicity chosen for cancer may not 
 checkpoints (CTLA4, CD274, PDCD1, PDCD1LG2, LAG3, HAVCR2, TIGIT) are set red on both lights: their blockers cause
 colitis in patients, and they rise in UC as brakes on inflammation (for CD274 genetics agrees: higher protein is
 protective), so blocking them is the wrong direction. The literature
-light is grey for all of them (the literature review covered the first-in-class genes only), so it does not change
-their order. The experiment tests the existing inhibitor in the cell system that makes the gene. Outputs:
+light comes from the same review run on these genes (shortlist_literature.py, set "repurposing": the most cited papers
+that name the gene in the title or abstract with colitis or IBD); it is what tells whether blocking a gene helped or
+harmed in colitis. The experiment tests the existing inhibitor in the cell system that makes the gene. Outputs:
 validation_repurposing.parquet, validation_repurposing_summary.json.
 """
 from __future__ import annotations
@@ -591,6 +592,14 @@ def _repurposing_experiment(systems: list, lineage: str, r: dict) -> str:
             "inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.")
 
 
+def repurposing_genes() -> list[str]:
+    """Discovery genes set aside as known druggable whose clinical drugs are only for other diseases, with an inhibitor."""
+    di = pd.read_parquet(PROCESSED / "drug_indications.parquet").set_index("gene")
+    d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
+    ok = di.index[(di.category == "other diseases") & (di.other_action == "inhibitor")]
+    return d.gene[(d.status == "known druggable target") & d.gene.isin(ok)].tolist()
+
+
 def repurposing(t: dict) -> dict:
     """Repurposing shortlist: drugs only for other diseases, with an inhibitor; same lights, two reinterpreted."""
     p = PROCESSED / "drug_indications.parquet"
@@ -600,6 +609,8 @@ def repurposing(t: dict) -> dict:
     d = pd.read_parquet(PROCESSED / "discovery_scored.parquet")
     keep = d[(d.status == "known druggable target") & d.gene.isin(di.index[(di.category == "other diseases") &
                                                                          (di.other_action == "inhibitor")])]
+    lp = PROCESSED / "repurposing_literature.parquet"
+    rlit = pd.read_parquet(lp).set_index("gene") if lp.exists() else pd.DataFrame()
     rows = []
     for x in keep.itertuples():
         row = _row(x, t)
@@ -618,7 +629,12 @@ def repurposing(t: dict) -> dict:
             c["druggable"] = ("red", c["druggable"][1] + "; but blocking this immune checkpoint is the wrong direction")
             c["safety"] = ("red", "immune checkpoint: its blockers cause colitis in patients (immune-related adverse "
                                   "event)" + ("; " + c["safety"][1] if c["safety"][0] != "green" else ""))
-        c["literature"] = ("grey", f"not reviewed for this list ({int(x.uc_papers)} UC papers name the gene)")
+        if x.gene in rlit.index:
+            c["literature"] = (rlit.at[x.gene, "light"], rlit.at[x.gene, "verdict"])
+            if rlit.at[x.gene, "mouse_colitis"]:
+                c["mouse"] = ("grey", f"tested in mouse colitis: {rlit.at[x.gene, 'mouse_colitis']}")
+        else:
+            c["literature"] = ("grey", f"not reviewed for this list ({int(x.uc_papers)} UC papers name the gene)")
         row.update(criteria=json.dumps(c, ensure_ascii=False), score=_points(c), cancer_drug=cancer,
                    greens=sum(v[0] == "green" for k, v in c.items() if k != "mouse"),
                    reds=sum(v[0] == "red" for k, v in c.items() if k != "mouse"),
@@ -633,7 +649,10 @@ def repurposing(t: dict) -> dict:
          "approved_inhibitor": int(out.inhibitor_stage.isin(["APPROVAL", "PHASE_4"]).sum()),
          "cancer_drug": out.gene[out.cancer_drug].tolist(),
          "checkpoints": [g for g in out.gene if g in CHECKPOINTS],
-         "neutrophil_directed": out.gene[out.neutrophil_directed].tolist()}
+         "neutrophil_directed": out.gene[out.neutrophil_directed].tolist(),
+         "literature_lights": out.criteria.map(lambda s: json.loads(s)["literature"][0]).value_counts().to_dict(),
+         "literature_protective": out.gene[out.criteria.map(lambda s: json.loads(s)["literature"][0] == "red")].tolist(),
+         "literature_pathogenic": out.gene[out.criteria.map(lambda s: json.loads(s)["literature"][0] == "green")].tolist()}
     (PROCESSED / "validation_repurposing_summary.json").write_text(json.dumps(s, indent=1), encoding="utf-8")
     return s
 
