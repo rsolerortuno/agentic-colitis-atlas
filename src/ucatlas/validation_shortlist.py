@@ -50,6 +50,17 @@ Criteria (green / amber / red; grey = not measured):
   not a weaker one. Shortlist genes: ADGRE3, CEACAM4, CLEC1A, CSGALNACT2, RILPL2; clinical targets: CXCR2, MMP9,
   ALOX5, PDE4B, ICAM1, PTGS2. The cell family column also shows "endothelial" when vessels hold most of a gene's RNA
   (PCDH17), which the lineage grouping folds into stroma;
+- mucosal defence flag (added 2026-11-12): a gene annotated in UniProt (Gene Ontology biological process) as an effector
+  of mucosal defence or repair (DEFENCE_TERMS: hydrogen peroxide production, antibacterial response, killing of
+  microbes, defence response to bacterium, wound healing) adds a safety flag: such genes rise in inflamed mucosa as a
+  protective response, so blocking them may weaken the barrier (DUOX2 loss-of-function variants predispose to
+  very-early-onset IBD). Cytokine-level terms ("defence response to Gram-negative bacterium", antimicrobial-peptide
+  terms that also cover chemokines) are not used: they mark IL23A, IL12B and CXCL8. Checked on the clinical targets:
+  none is flagged. Flagged: DUOX2, DUOXA2, REG3A, S100A8, S100A9, S100A12, PI3, FPR2, IGHG1 (well known), NOS2, CASP1
+  (repurposing), none among first-in-class. The flag also caps the tissue-change light at amber, as the regeneration
+  flag caps the cell light: the per-cell rise of a defence effector is the protective response itself, not evidence
+  for blocking it (with the safety flag alone, DUOXA2 stayed second on the well-known list while DUOX2 dropped). The
+  experiment adds a defence read-out;
 - causal genetics: a significant Mendelian-randomisation estimate in plasma or colon in the direction that supports
   inhibition (genetically higher level raises risk) is green, the opposite direction red, tested and null amber (it
   scores 0: a null test is not support), no instrument grey;
@@ -122,6 +133,9 @@ from .paths import PROCESSED, RAW
 ORDER = {"green": 2, "amber": 1, "grey": 0, "red": -1}
 CRYPT = {"Stem", "TA 1", "TA 2", "Cycling TA", "Secretory TA", "Enterocyte Progenitors"}
 CRYPT_SHARE = 0.76
+DEFENCE_TERMS = {"antibacterial humoral response", "killing of cells of another organism",
+                 "hydrogen peroxide biosynthetic process", "positive regulation of wound healing", "wound healing",
+                 "defense response to bacterium"}
 NEUTROPHIL_MADE = 0.5   # share of transcripts made by neutrophils (Gubatan 2026, inflamed) above which a gene is neutrophil-directed
 FIBROBLASTS = {"Inflammatory Fibroblasts", "WNT2B+ Fos-hi", "WNT2B+ Fos-lo 1", "WNT2B+ Fos-lo 2", "WNT5B+ 1",
                "WNT5B+ 2", "RSPO3+", "Myofibroblasts"}
@@ -222,6 +236,20 @@ def _topology(symbol: str) -> dict:
             "gpi": any(x["type"] == "Lipidation" and "GPI" in x.get("description", "") for x in f),
             "secreted": any(x.startswith("Secreted") for x in locs),
             "er_membrane": any(x.startswith("Endoplasmic reticulum membrane") for x in locs)}
+
+
+def defence_terms(symbol: str) -> list[str]:
+    """UniProt Gene Ontology biological-process terms of mucosal defence or repair (cached UniProt answer)."""
+    from .external import UNIPROT_URL, _cached, _request
+    params = {"query": f"gene_exact:{symbol} AND organism_id:9606 AND reviewed:true", "fields": "accession,go_p",
+              "format": "json", "size": 1}
+    d = _cached("uniprot", json.dumps(params, sort_keys=True),
+                lambda: _request("GET", UNIPROT_URL, params=params).json())["data"]
+    if not d.get("results"):
+        return []
+    terms = {x["properties"][0]["value"][2:] for x in d["results"][0].get("uniProtKBCrossReferences", [])
+             if x["database"] == "GO" and x["properties"][0]["value"].startswith("P:")}
+    return sorted(terms & DEFENCE_TERMS)
 
 
 def antibody_route(symbol: str) -> tuple[str, str]:
@@ -401,6 +429,9 @@ def _row(x, t) -> dict:
     else:
         c["tissue"] = (tis, f"bulk: {comp.replace('_', ' ')}{', ' + ret if ret else ''}; per cell: " +
                        (f"{pc:+.1f} log2 ({pc_txt})" if not np.isnan(pc) else "no matched clusters"))
+    early_defence = defence_terms(g)
+    if early_defence and c["tissue"][0] == "green":   # the per-cell rise of a defence effector is the protective response
+        c["tissue"] = ("amber", c["tissue"][1] + "; capped: the rise is part of the mucosal defence response")
     lname, lshare = t["lin"].get(g, (x.lineage, np.nan))
     v = t["vis"].get(g, {})
     vtxt = f"; in situ {v['top_in_situ_expresser'].replace('_', ' ')}" if v.get("top_in_situ_expresser") else ""
@@ -474,6 +505,9 @@ def _row(x, t) -> dict:
             flags.append("known safety events")
         if "mendelian_loss_disease" in saf.columns and saf.at[g, "mendelian_loss_disease"]:
             flags.append("loss causes " + "; ".join(saf.at[g, "mendelian_diseases"]))
+    defence = defence_terms(g)
+    if defence:
+        flags.append("mucosal defence or repair (" + "; ".join(defence) + "): blocking it may weaken the barrier")
     vital = f"vital organs ≤ {x.vital_max_ntpm:.0f} nTPM" if pd.notna(x.vital_max_ntpm) else "vital organs not measured"
     c["safety"] = ("green" if not flags else "amber" if len(flags) == 1 else "red",
                    "; ".join(flags) if flags else f"{vital}, not constrained, no Mendelian disease")
@@ -494,6 +528,7 @@ def _row(x, t) -> dict:
     c["mouse"] = ("grey", "not searched" if papers is None else "never tested in mouse colitis" if papers == 0
                   else f"tested in mouse colitis: {mouse_lit}" if mouse_lit else f"{papers} mouse colitis papers")
     pts = {k: (0 if k == "genetics" and v[0] == "amber" else ORDER[v[0]]) for k, v in c.items() if k != "mouse"}
+    defence_flag = bool(defence)
     systems = t["sc"].systems(g)
     if neutro:   # first system: neutrophils (Gubatan share), then the main Smillie system if it holds >= 20 %
         states = t["neu_states"].get(g, "neutrophil states")
@@ -511,8 +546,10 @@ def _row(x, t) -> dict:
             "greens": sum(v[0] == "green" for k, v in c.items() if k != "mouse"),
             "reds": sum(v[0] == "red" for k, v in c.items() if k != "mouse"), "score": int(sum(pts.values())),
             "systems": json.dumps(systems, ensure_ascii=False),
+            "defence_flag": defence_flag,
             "experiment": _experiment(systems, x.lineage, surface, bool(strong) or (pscore or 0) >= 0.6, papers, regen, lead,
-                                      niche)}
+                                      niche) + (" Add a defence read-out (bacterial killing, barrier integrity, wound "
+                                                "closure), since the gene is part of the mucosal defence." if defence_flag else "")}
 
 
 SCHEMES = {   # name -> arguments of _points
@@ -677,6 +714,7 @@ def repurposing(t: dict) -> dict:
          "cancer_drug": out.gene[out.cancer_drug].tolist(),
          "checkpoints": [g for g in out.gene if g in CHECKPOINTS],
          "neutrophil_directed": out.gene[out.neutrophil_directed].tolist(),
+         "defence_flag": out.gene[out.defence_flag].tolist(),
          "literature_lights": out.criteria.map(lambda s: json.loads(s)["literature"][0]).value_counts().to_dict(),
          "literature_protective": out.gene[out.criteria.map(lambda s: json.loads(s)["literature"][0] == "red")].tolist(),
          "literature_pathogenic": out.gene[out.criteria.map(lambda s: json.loads(s)["literature"][0] == "green")].tolist()}
@@ -713,6 +751,7 @@ def known(t: dict) -> dict:
     lit = out.criteria.map(lambda s: json.loads(s)["literature"][0])
     s = {"genes": len(out), "groups": {g: out.gene[out.group == g].tolist() for g in "ABC"},
          "neutrophil_directed": out.gene[out.neutrophil_directed].tolist(),
+         "defence_flag": out.gene[out.defence_flag].tolist(),
          "literature_lights": lit.value_counts().to_dict(),
          "literature_protective": out.gene[lit == "red"].tolist(), "literature_pathogenic": out.gene[lit == "green"].tolist()}
     (PROCESSED / "validation_known_summary.json").write_text(json.dumps(s, indent=1), encoding="utf-8")
@@ -737,7 +776,8 @@ def run() -> dict:
          "regeneration_flag": out.gene[out.regeneration_flag].tolist(),
          "niche_flag": out.gene[out.niche_flag].tolist(), "niche_threshold": NICHE_SHARE,
          "neutrophil_directed": out.gene[out.neutrophil_directed].tolist(),
-         "neutrophil_directed_clinical": cal.gene[cal.neutrophil_directed].tolist(), "neutrophil_made": NEUTROPHIL_MADE,
+         "neutrophil_directed_clinical": cal.gene[cal.neutrophil_directed].tolist(),
+         "defence_flag": out.gene[out.defence_flag].tolist(), "defence_flag_clinical": cal.gene[cal.defence_flag].tolist(), "neutrophil_made": NEUTROPHIL_MADE,
          "atlases_agree": {str(k): int(v) for k, v in out.atlases_agree.dropna().astype(int).value_counts().sort_index().items()},
          "niche_markers": niche_markers(t["sc"]),
          "niche_stromal": {r.gene: {"group": r.group, "niche_share": r.niche_share,

@@ -432,3 +432,13 @@ HGNC table read once, eight genes at a time, and full-text articles fetched by o
 one after another per gene: the 10 added first-in-class genes took 385 s, against more than 28 min unfinished before.
 Ambiguous aliases found by the classifiers (LIND, TC1, TCI, ACT, LI2, MIF, PI5, GP39, FSP) are excluded from future
 searches.
+
+**Mucosal defence flag (added 2026-11-12).** Read against UC knowledge, the top of the well-known list held defence
+effectors (DUOX2 and DUOXA2, the hydrogen-peroxide system whose loss-of-function variants predispose to very-early-onset
+IBD; REG3A, an antimicrobial and repair peptide): the lights rewarded their per-cell rise, which is the protective
+response itself. Flag from UniProt GO biological process, narrow terms only (hydrogen peroxide production,
+antibacterial response, killing of microbes, defence response to bacterium, wound healing); broader terms were rejected
+because they mark IL23A, IL12B and CXCL8. Effect on every list: a safety flag and the tissue light capped at amber.
+Calibration: no UC clinical target is flagged. Flagged: 9 well-known genes (DUOX2, DUOXA2 and REG3A leave group A),
+NOS2 and CASP1 (repurposing), none first-in-class. SERPINB5 stays first on the well-known list: the review found two
+2026 functional studies in DSS colitis in which its knock-down protected (not yet independently replicated).

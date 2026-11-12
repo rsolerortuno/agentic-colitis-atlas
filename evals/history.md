@@ -245,3 +245,6 @@ Designs fixed before running. Nothing below changes the convergence score or the
   repurposing list (tab order as requested); neutrophil-made genes no longer removed by the discovery tissue-change
   filter; literature reviewed for 37 + 17 genes with subagents. Europe PMC retrieval sped up (parallel full texts); the
   first attempt with sequential full texts ran for 28 minutes without finishing.
+- **Defence flag (2026-11-12)**: first applied as a safety flag only; DUOXA2 then stayed second while DUOX2 fell,
+  so the flag also caps the tissue light, as the crypt regeneration flag caps the cell light. My earlier remark that
+  SERPINB5 was an odd first gene was wrong for current evidence (two 2026 colitis knock-down studies).

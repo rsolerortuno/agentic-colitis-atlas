@@ -367,3 +367,17 @@ def test_repurposing_literature_feeds_the_light():
     rej = json.loads((PROCESSED / "repurposing_literature_rejected.json").read_text())
     papers = pd.read_parquet(PROCESSED / "repurposing_literature_papers.parquet")
     assert len(rej) < 0.05 * (len(rej) + len(papers))
+
+
+@pytest.mark.skipif(not (PROCESSED / "validation_shortlist_calibration.parquet").exists(), reason="shortlist not built")
+def test_defence_flag_spares_clinical_targets():
+    """The mucosal-defence flag marks defence effectors (DUOX2) and no UC clinical target (IL23A, IL12B carry broader
+    bacterial-defence terms and must not be flagged)."""
+    cal = pd.read_parquet(PROCESSED / "validation_shortlist_calibration.parquet")
+    assert not cal.defence_flag.any()
+    p = PROCESSED / "validation_known.parquet"
+    if p.exists():
+        k = pd.read_parquet(p).set_index("gene")
+        if "DUOX2" in k.index:
+            c = json.loads(k.at["DUOX2", "criteria"])
+            assert k.at["DUOX2", "defence_flag"] and c["tissue"][0] != "green" and "mucosal defence" in c["safety"][1]
