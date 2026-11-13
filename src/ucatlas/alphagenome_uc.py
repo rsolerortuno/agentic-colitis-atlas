@@ -27,6 +27,11 @@ CCL20 (risk allele raises it in blood T cells and monocytes) and IL10 (risk alle
 protective MR estimate expects). The candidate genes were chosen for their change in inflamed biopsies and rarely sit
 at UC risk loci. No gene of interest reaches the AlphaGenome 2 threshold in a colon cell type.
 
+Correction (2026-11-13): that result called a gene from the size of its predicted change alone, which tests the
+direction of a known eQTL and not which gene a variant acts on. It is withdrawn; genetic_targets.py assigns genes with
+a rule checked for that question, and under it CCL20 and IL10 are not assigned. This module keeps the API access, the
+cache and the validation.
+
 The API key is read from the ALPHAGENOME_API_KEY environment variable, never from a file in the repository. Every API
 answer is cached (data/raw/alphagenome/, with a sha256 manifest) so that run-all reproduces without the key.
 Outputs: data/processed/alphagenome_uc_loci.parquet (credible sets), alphagenome_uc.parquet (locus x gene x track
@@ -395,7 +400,7 @@ def load(store=None) -> dict:
 def write_manifest() -> dict:
     """sha256 of every cached AlphaGenome answer (data/raw/alphagenome/manifest.json)."""
     files = {}
-    for f in sorted(CACHE.rglob("*.parquet")):
+    for f in sorted(list(CACHE.rglob("*.parquet")) + list(CACHE.glob("flipped_variants.json"))):
         files[f.relative_to(CACHE).as_posix()] = {"sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
                                                   "bytes": f.stat().st_size}
     m = {"source": "AlphaGenome API (alphagenome 2.0.0: Atlas RNA_SEQ scores and AlphaGenome 2 live predictions); "

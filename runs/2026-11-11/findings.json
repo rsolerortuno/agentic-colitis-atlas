@@ -8,7 +8,7 @@
   "open_targets_top": 2000,
   "doid": "DOID:8577"
  },
- "generated_utc": "2026-11-12T13:37:58+00:00",
+ "generated_utc": "2026-11-13T02:02:11+00:00",
  "models": {
   "orchestrator": "Claude Opus 5.5 — Claude Code main session",
   "agents": "Claude Sonnet 5.5 — Claude Code subagents (agente-expresion, agente-literatura, agente-externo, agente-celular, agente-vias, agente-aplicado)",
@@ -206,6 +206,13 @@
    "bytes": 72189
   },
   {
+   "file": "extra/ot_uc_ibd_gwas_credible_sets.parquet",
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/credible_set/ (200 parts, filtered to the UC and IBD GWAS studies GCST90446794, GCST004133, FINNGEN_R12_K11_UC_STRICT2, GCST90480319, GCST90473823, GCST90292538, GCST004131, FINNGEN_R12_K11_IBD_STRICT)",
+   "retrieved_utc": "2026-11-12T22:51:33+00:00",
+   "sha256": "d91f7ca122cec0bedbb2f771dbfd47ac21dad6a1ffed58a38e7bab53f8e1ee3d",
+   "bytes": 391553
+  },
+  {
    "file": "extra/proteomics_schniers2019.xlsx",
    "url": "https://static-content.springer.com/esm/art%3A10.1186%2Fs12014-019-9224-6/MediaObjects/12014_2019_9224_MOESM2_ESM.xlsx",
    "retrieved_utc": "2026-11-10T14:44:42+00:00",
@@ -239,6 +246,160 @@
    "retrieved_utc": "2026-11-10T14:44:25+00:00",
    "sha256": "1bd90b5a430a70bc3acc338f17f3f7cf776908b1bd42e2edf7e5e7a20af25a76",
    "bytes": 813163082
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr1.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr1.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:09+00:00",
+   "sha256": "cbb1341f7a29893c1b118915e0858c289e4e59f75967147f5fa6d83132b26fe4",
+   "bytes": 25654911
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr10.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr10.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:35+00:00",
+   "sha256": "0f3ddf725df4bd1c2d7a7e0616f9c01762952a56ce70a26338a6d0f6e3966b8d",
+   "bytes": 16902587
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr11.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr11.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:38+00:00",
+   "sha256": "cf4d30c5fa1edf0cc1ca6d54f7bdbc4169d29e84194f4e5aca81af83399ddc53",
+   "bytes": 16347679
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr12.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr12.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:40+00:00",
+   "sha256": "9cfc904c3794d8bf76cc4337cacda7b6caf7cd85fcfa284797af87e3263dbd59",
+   "bytes": 15992391
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr13.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr13.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:43+00:00",
+   "sha256": "60e309d830c8d572b2c26839828f365e87ce00e0239934d370486e8793a9187b",
+   "bytes": 12193352
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr14.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr14.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:45+00:00",
+   "sha256": "467f91fc502ede5a91be52d8b9ca5f071d0005e2ea1ee59468b0ec0a0a935486",
+   "bytes": 10894523
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr15.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr15.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:47+00:00",
+   "sha256": "e41dec3f8e55f44d2fbdee99ebd8b4e84e423a885e532070eb584c2209b97391",
+   "bytes": 9542063
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr16.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr16.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:49+00:00",
+   "sha256": "0fbc83e35217c5e87559f74cc5301f8b7bd14681592c79d90e03a1e1fa374edd",
+   "bytes": 10426862
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr17.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr17.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:51+00:00",
+   "sha256": "083b501d588a030da2afce819d17200689f4f53b517a2462f38125732770a1f2",
+   "bytes": 9110571
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr18.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr18.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:53+00:00",
+   "sha256": "6665eb2bd11e3b84d162303563bd3faf49d8b76e4a89deae104b1515a11fe9ce",
+   "bytes": 9492483
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr19.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr19.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:55+00:00",
+   "sha256": "b9ad35628950cd2e870ee3a09d7a06419c64ea64693d5f636eb5478f95203475",
+   "bytes": 7903059
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr2.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr2.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:13+00:00",
+   "sha256": "3fa296e006c89ea05cd468d3a02d5d5f36cf540087eb81d79030c0716e424169",
+   "bytes": 27772388
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr20.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr20.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:57+00:00",
+   "sha256": "10cbc73ae6695204e4571e511674aae0871a420ab107c68935ddc939c6b90ff4",
+   "bytes": 7437625
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr21.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr21.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:58+00:00",
+   "sha256": "2a720ca9c41e50e7b6db8f862f4b604195ceeca0114e1534c208b2ad3a7386f1",
+   "bytes": 4562200
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr22.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr22.txt.gz",
+   "retrieved_utc": "2026-11-12T22:44:00+00:00",
+   "sha256": "6b8a1397e331726ae87dc3b0ad039057c69d35105a498a7e1e6016c53fb79864",
+   "bytes": 4717065
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr3.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr3.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:16+00:00",
+   "sha256": "7de2fad9e540edaf1bba172d7e3ab4dde9e74e389596d46e6f224e8675949ed4",
+   "bytes": 23389461
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr4.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr4.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:19+00:00",
+   "sha256": "534de5ade79f7aeff6cd9ec26604d1e912cf9591696c4f3284788cf3430e44c6",
+   "bytes": 24012018
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr5.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr5.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:22+00:00",
+   "sha256": "1a3452560d910924c93434ffe829961a1cf979d52334248d5ec43897728ed993",
+   "bytes": 21304360
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr6.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr6.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:25+00:00",
+   "sha256": "ac03376757de0021055000273ac494e671be552900b0255d214d7c23e6d2e9c1",
+   "bytes": 22254034
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr7.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr7.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:28+00:00",
+   "sha256": "125f9bf81fda90dc3c51b0c49a03033cc28103ebd18f348449aec9908d85fb1b",
+   "bytes": 19584672
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr8.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr8.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:30+00:00",
+   "sha256": "31bc60c6cd71e7d975fbcaa57fd47e72498c7327079d1ca3cf734eb1aa54f0fd",
+   "bytes": 18006360
+  },
+  {
+   "file": "gwas/lyu2025_uc/EUR_UC_chr9.txt.gz",
+   "url": "https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/d870c5d27bb6964e1659d35321f2a3ff8e8e3991/GWAS_Meta_SS/EUR_UC/EUR_UC_chr9.txt.gz",
+   "retrieved_utc": "2026-11-12T22:43:33+00:00",
+   "sha256": "afd303c9f355ef3965f07f5ee9f4da0677a7c1bf34914a2387ac863c4d0ba3dd",
+   "bytes": 14403987
   },
   {
    "file": "hgnc_complete_set.txt",

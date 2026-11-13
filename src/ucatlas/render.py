@@ -291,10 +291,34 @@ def alphagenome_view() -> dict:
                      "effects": "; ".join(f"{r.context} {r.effect:+.3f}" for r in x.head(3).itertuples()),
                      "direction": "raises" if r0.effect > 0 else "lowers",
                      "evidence_ids": [evidence_id("alphagenome_variant_effect", gene)]})
-    rows.sort(key=lambda r: (not r["of_interest"], r["gene"]))
+    rows = []   # 2026-11-13: the table by effect size alone is withdrawn (see genetic_targets.thresholds)
     ag2 = d[(d.source == "AlphaGenome 2") & d.of_interest]
     return {"summary": s, "rows": rows, "confident_genes_all": int(d[d.confident].gene.nunique()),
             "ag2_max_effect_of_interest": round(float(ag2.effect.abs().max()), 3) if len(ag2) else None}
+
+
+def genetic_targets_view() -> dict:
+    """Genetics-first list (2026-11-13): one row per gene, with what the rest of the atlas says about it."""
+    p = PROCESSED / "genetic_targets.parquet"
+    if not p.exists():
+        return {}
+    d = pd.read_parquet(p)
+    rows = []
+    for r in d.itertuples():
+        tissue = ("no change" if r.tissue_change == "no change" or pd.isna(r.meta_log2fc)
+                  else f"{r.meta_log2fc:+.2f} log2FC, {r.tissue_change}")
+        if isinstance(r.atlas_lineage, str):
+            tissue += f"; made by {r.atlas_lineage}" + (" (matches)" if r.cell_match else "")
+        mr_txt = r.mr if pd.isna(r.mr_q) else f"{r.mr}: OR {r.mr_or:.2f}, q {r.mr_q:.1e} ({r.mr_layer})"
+        drug = r.drug + (f": {str(r.drug_names)[:60]}" if isinstance(r.drug_names, str) and r.drug_names
+                         and r.drug != "no clinical drug" else "")
+        rows.append({"gene": r.gene, "group": r.group, "risk_allele": r.risk_allele, "hypothesis": r.hypothesis,
+                     "contexts": r.contexts, "tier": r.tier, "pip_support": f"{r.pip_support:.2f}",
+                     "top_rsid": r.top_rsid, "top_pip": f"{r.top_pip:.2f}", "gwas": r.gwas, "lead_p": f"{r.lead_p:.0e}",
+                     "preprint_only": bool(r.preprint_only), "ibd_signal": bool(r.ibd_signal), "tissue": tissue,
+                     "mr": mr_txt, "drug": drug, "points": int(r.points), "in_lists": r.in_lists,
+                     "evidence_ids": [evidence_id("genetic_target", r.gene)]})
+    return {"rows": rows, "summary": json.loads((PROCESSED / "genetic_targets_summary.json").read_text(encoding="utf-8"))}
 
 
 def genetics_tables(genes: list[str]) -> dict:
@@ -578,6 +602,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     cell = cell_tables(report_genes[:30], store)
     G = genetics_tables(report_genes)
     G["alphagenome"] = alphagenome_view()
+    GT = genetic_targets_view()
     S = structure_tables(report_genes)
     D = discovery_tables(layers)
     T = treatment_tables()
@@ -813,7 +838,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
                   if r["gene"] in drugind]
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
-              third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"], SL["kn"], G.get("alphagenome", {}).get("rows", []),
+              third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"], SL["kn"], G.get("alphagenome", {}).get("rows", []), GT.get("rows", []),
               cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug]
     for block in blocks:
         for r in block:
@@ -842,7 +867,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], drugind=drugind, top_reading=top_reading, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), cell=cell, third=third, SL=SL,
+        badges=badges(f, cell), cell=cell, third=third, SL=SL, GT=GT,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,

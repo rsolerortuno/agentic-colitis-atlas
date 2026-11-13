@@ -146,8 +146,11 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("validation shortlist", validation_shortlist.run)
     from . import alphagenome_uc   # predicted effect of UC risk variants (2026-11-12); cached answers, key only if missing
     if (alphagenome_uc.CACHE / "manifest.json").exists() or alphagenome_uc._key():
-        _step("AlphaGenome (UC risk variants)", lambda: (alphagenome_uc.run()["loci_with_confident_effect"],
-                                                         alphagenome_uc.load())[1])
+        # the eQTL validation of AlphaGenome; its per-gene records by effect size alone are no longer loaded (2026-11-13)
+        _step("AlphaGenome (validation)", lambda: alphagenome_uc.run()["validation_atlas"]["agreement_top_25pct"])
+        from . import genetic_targets   # genetics-first list (2026-11-13): needs the credible-set extract and the GWAS
+        if genetic_targets.EXTRACT.exists() and (genetic_targets.LYU / "EUR_UC_chr1.txt.gz").exists():
+            _step("genetics-first targets", lambda: (genetic_targets.run()["genes"], genetic_targets.load())[1])
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))

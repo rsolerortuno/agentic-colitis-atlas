@@ -485,3 +485,35 @@ variants near genes of interest, 1,644 predictions): no gene of interest above t
 
 **Decision.** Shown in the Genetics tab with its evidence records (alphagenome_variant_effect); it does not change any
 score or list light, because only two genes of interest are covered and both already have genetic evidence.
+
+## (z) Genetics-first list (added 2026-11-13; corrects (y))
+
+**Risk signals.** Open Targets 26.09 credible sets (p < 5e-8, SNVs, MHC excluded) of five UC GWAS and, when one of
+their variants has p < 1e-4 for UC, three IBD GWAS; cross-study duplicates merged (shared variant, or leads within
+250 kb in different studies). Loci of the Lyu 2025 European UC meta-analysis (preprint; 136 loci, 32 outside the 142
+of Liu 2023) that no credible set covers are fine-mapped approximately. Total 263 signals, 2,375 variants: Liu 2023
+UC 148, Liu 2023 IBD 52, MVP 22, Lyu 2025 only 22, FinnGen UC 9, de Lange IBD 4, de Lange UC 3, FinnGen IBD 3.
+
+**Predictions.** Atlas for every variant with PIP >= 0.01 (up to 50 per signal); AlphaGenome 2 for the three most
+likely variants with PIP >= 0.1 (352 variants) in 15 conditions: 5,280 predictions.
+
+**What the size threshold does not test.** Around the eQTL variants of the validation, 2.4 % of the other
+protein-coding genes pass the cell-type threshold 0.026 (0.6 % at 0.169): about 0.35 genes per variant and cell type.
+A list built on size alone had 316 genes (28 confident); its direction agreed with significant MR in 3 of 7 confident
+and 12 of 25 probable genes.
+
+**Gene-assignment rule and its check on fine-mapped eQTL.**
+
+| Rule | Tissue (GTEx colon) | Cell type (IBDverse, matched) |
+|---|---|---|
+| Top-scoring gene of the variant | measured eQTL gene in 38 % | 47 % |
+| Top gene, at least twice the second, above the size threshold | 88 % of 48 (direction right in 98 %) | 93 % of 76 (direction right in 94 %) |
+
+**Result.** 6 of 263 signals get a gene. Group A: TUFM (risk allele raises it, strongest in neutrophils and
+monocytes; MR in sigmoid colon agrees, OR 1.19) and RORC (risk allele lowers it in monocytes; also lower in inflamed
+biopsies). Group B: IL19 (lowered; same variant as IL10, rs3024493) and MAP3K8 (lowered in T cells). Likely, with an
+uncertain causal variant: CSPG5 (IBD signal) and LSP1 (MR disagrees). None is on the other three lists. IL10 and
+CCL20, named in (y), are not assigned under this rule.
+
+**Decision.** The list is published as a fourth tab with this result stated first; it changes no score. The per-gene
+alphagenome_variant_effect records of (y) are no longer loaded.

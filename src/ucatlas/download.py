@@ -37,6 +37,7 @@ def _ncbi_counts(gse: str) -> tuple[str, str]:
 
 OT = "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output"
 
+LYU2025_COMMIT = "d870c5d27bb6964e1659d35321f2a3ff8e8e3991"
 SOURCES: list[tuple[str, str]] = [
     *_series("GSE193677", "GSE193677_MSCCR_Biopsy_counts.txt.gz"),           # Mount Sinai MSCCR, RNA-seq (discovery)
     *_series("GSE206285", "GSE206285_additional_sample_metadata.tsv.gz"),     # UNIFI, ustekinumab
@@ -89,6 +90,11 @@ SOURCES: list[tuple[str, str]] = [
     # anti-TNF longitudinal single-cell atlas (Thomas et al. 2024, GSE282122): the authors' cell-state results
     # (supplementary tables; Europe PMC package of PMC11519010)
     ("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11519010/supplementaryFiles", "extra/thomas2024_supplement.zip"),
+    # --- added 2026-11-12: UC GWAS meta-analysis of Lyu et al. 2025 (medRxiv 10.1101/2025.09.23.25336483, preprint, not
+    # peer reviewed): European meta-analysis of MVP, FinnGen R12, Pan-UK Biobank and IIBDGC, GRCh38, METAL output, one
+    # file per chromosome in the authors' repository (MIT licence), pinned to a commit. Used for the genetics-first list.
+    *[(f"https://raw.githubusercontent.com/XingyiGuo/IBD_genetics/{LYU2025_COMMIT}/GWAS_Meta_SS/EUR_UC/EUR_UC_chr{c}.txt.gz",
+       f"gwas/lyu2025_uc/EUR_UC_chr{c}.txt.gz") for c in range(1, 23)],
 ]
 
 

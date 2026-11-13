@@ -253,3 +253,11 @@ Designs fixed before running. Nothing below changes the convergence score or the
   top quarter of |score| counts. Atlas ontology filters reject composite cell-type terms and gene filters need
   versioned IDs, so tracks are grouped by biosample name and genes matched after the query. Result: CCL20 and IL10
   are the only genes of interest with a confident effect; nothing enters the target lists' scores.
+- **Genetics-first list (2026-11-13)**: requested as a fourth list from AlphaGenome over all UC risk signals. Two
+  errors found and fixed on the way. (1) The Lyu 2025 files list alleles alphabetically, not as reference and
+  alternative; the Atlas rejected the variants and half of the Open Targets variants did not match. (2) My first
+  rule kept every gene whose predicted change was large enough for the direction of a known eQTL to be right, and I
+  had lowered the cell-type threshold on that basis. It gave 316 genes that agreed with Mendelian randomisation at
+  chance (3 of 7 confident), because the check measured direction, not which gene: 2.4 % of the other genes near an
+  eQTL variant pass. The rule now requires the top gene at its variant, twice the next one; 6 genes remain. The
+  CCL20 and IL10 calls published on 2026-11-12 used the first rule and are withdrawn in the Genetics tab.
