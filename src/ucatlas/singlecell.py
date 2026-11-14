@@ -80,7 +80,8 @@ def celltype_share(pb: pd.DataFrame) -> pd.DataFrame:
     cells = pb.drop_duplicates(["subject", "health", "cluster"]).groupby(["health", "cluster"])["n_cells"].sum()
     g["n_cells"] = [cells.get((h, c), np.nan) for h, c in zip(g["health"], g["cluster"])]
     g["mean_cp10k"] = g["cp10k_sum"] / g["n_cells"]
-    g["pct_expressing"] = 100 * g["n_expressing"] / g["n_cells"]
+    # two older symbols of one gene are summed above; a cell with both would count twice, so the percentage is capped
+    g["pct_expressing"] = (100 * g["n_expressing"] / g["n_cells"]).clip(upper=100)
     g["share"] = g["cp10k_sum"] / g.groupby(["gene", "health"])["cp10k_sum"].transform("sum")
     g.to_parquet(PROCESSED / "sc_celltype_share.parquet", index=False)
     return g

@@ -1,53 +1,53 @@
 {
- "run": "2026-11-13",
- "statements_passing": 122,
+ "run": "2026-11-14",
+ "statements_passing": 115,
  "seed": 7,
  "corruptions": {
   "number": {
-   "applied": 77,
-   "caught": 77,
+   "applied": 84,
+   "caught": 84,
    "missed_examples": [],
    "rate": 1.0
   },
   "direction": {
-   "applied": 63,
-   "caught": 22,
+   "applied": 53,
+   "caught": 14,
    "missed_examples": [
     {
+     "location": "agent_findings.expression[0]",
+     "text": "CXCR2 tops the convergence ranking: pooled UC vs control log2FC is down in all eight cohorts [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.838]. In the same patients inflamed mucosa is higher than non-inflamed "
+    },
+    {
      "location": "agent_findings.literature[2]",
-     "text": "A single preclinical study reports IDO1 reduced in UC patients and colitis mice, driving pro-inflammatory macrophage polarization via an ER stress pathway. An IDO1 inhibitor (methyl-tryptophan) ameliorated DSS colitis weight loss, colon sho"
+     "text": "A single experimental study reports IDO1 reduced in UC patients, correlated with classically activated (pro-inflammatory) macrophage polarization, driving UC progression through the ER stress GRP78 and XBP pathway; the tryptophan analogue i"
+    },
+    {
+     "location": "agent_findings.literature[3]",
+     "text": "CHI3L1 is reported downregulated in UC, correlated with NLRP3 inflammasome expression, and promoting macrophage pyroptosis via the BCAT1/NF-kappaB axis (inhibition was protective). A second study reports velpatasvir binding recombinant CHI3"
     },
     {
      "location": "agent_findings.literature[4]",
-     "text": "CHI3L1 was downregulated in UC patients and correlated with NLRP3 inflammasome expression, and it promoted macrophage pyroptosis through the BCAT1/NF-kappaB axis. Inhibiting CHI3L1 was protective in that study. Velpatasvir binding to recomb"
-    },
-    {
-     "location": "agent_findings.literature[5]",
-     "text": "DUOX2 protein was among the most reduced in inflamed UC biopsies versus healthy controls in a proteomic study, alongside LCN2. DUOX2 was listed with S100A8, IL1B, CXCL1, MMP10 and others as a credible diagnostic and therapeutic biomarker in"
+     "text": "DUOX2 is reported among the most reduced proteins in inflamed UC biopsies versus healthy controls (with HLA-DRA, CD74 and LCN2) and is listed among credible biomarker genes for UC diagnosis and therapy in a bioinformatic study. One herbal-f"
     },
     {
      "location": "agent_findings.literature[6]",
-     "text": "S100A9 expression was reported to perform excellently in diagnosing active UC (ROC analysis, one study) and was underexpressed in colitis mice. In a tofacitinib single-cell study, response was associated with downregulation of S100A9, FCGR3"
-    },
-    {
-     "location": "agent_findings.literature[7]",
-     "text": "AQP9 was predominantly expressed in neutrophils and downregulated in UC colon of mice and in PMA-stimulated neutrophils. In that study, neutrophil AQP9 promoted NET formation through JAK2-STAT3-mediated pyroptosis and aggravated epithelial "
+     "text": "MMP10 is downregulated in active UC versus remission UC, Crohn's disease and controls, and in preclinical UC (pre-diagnostic samples) together with CXCL11 among several up-regulated proteins. It is also in a credible UC biomarker panel. Thi"
     }
    ],
-   "applied_with_de_evidence": 28,
-   "caught_with_de_evidence": 22,
-   "rate": 0.349,
-   "rate_with_de_evidence": 0.786
+   "applied_with_de_evidence": 21,
+   "caught_with_de_evidence": 14,
+   "rate": 0.264,
+   "rate_with_de_evidence": 0.667
   },
   "gene": {
-   "applied": 82,
-   "caught": 82,
+   "applied": 80,
+   "caught": 80,
    "missed_examples": [],
    "rate": 1.0
   },
   "evidence": {
-   "applied": 82,
-   "caught": 82,
+   "applied": 80,
+   "caught": 80,
    "missed_examples": [],
    "rate": 1.0
   }

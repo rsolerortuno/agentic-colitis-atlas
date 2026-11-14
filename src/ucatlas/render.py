@@ -309,7 +309,7 @@ def genetic_targets_view() -> dict:
                   else f"{r.meta_log2fc:+.2f} log2FC, {r.tissue_change}")
         if isinstance(r.atlas_lineage, str):
             tissue += f"; made by {r.atlas_lineage}" + (" (matches)" if r.cell_match else "")
-        mr_txt = r.mr if pd.isna(r.mr_q) else f"{r.mr}: OR {r.mr_or:.2f}, q {r.mr_q:.1e} ({r.mr_layer})"
+        mr_txt = r.mr if pd.isna(r.mr_q) else f"{r.mr}: {r.mr_detail}"
         drug = r.drug + (f": {str(r.drug_names)[:60]}" if isinstance(r.drug_names, str) and r.drug_names
                          and r.drug != "no clinical drug" else "")
         rows.append({"gene": r.gene, "group": r.group, "risk_allele": r.risk_allele, "hypothesis": r.hypothesis,

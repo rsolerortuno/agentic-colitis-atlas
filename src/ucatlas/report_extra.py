@@ -6,66 +6,8 @@ import json
 
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 
 from .paths import PROCESSED, ROOT
-
-
-def _fig(fig: go.Figure, h=420) -> str:
-    from .render import _fig as base
-    return base(fig, h)
-
-
-def cells_figure(genes: list[str]) -> str:
-    comp = pd.read_parquet(PROCESSED / "composition_effect.parquet").set_index("gene")
-    sh = pd.read_parquet(PROCESSED / "sc3_celltype_share.parquet")
-    sh = sh[(sh["health"] == "inflamed") & sh["gene"].isin(genes)]
-    neu = sh[sh["compartment"] == "Neutrophil"].groupby("gene")["share"].sum().reindex(genes).fillna(0)
-    ret = comp["retained"].reindex(genes).fillna(np.nan)
-    fig = go.Figure()
-    fig.add_trace(go.Bar(y=genes[::-1], x=neu[genes[::-1]], orientation="h", name="share of transcripts in neutrophils",
-                         marker_color="#eb6834"))
-    fig.add_trace(go.Bar(y=genes[::-1], x=ret[genes[::-1]].clip(0, 1), orientation="h",
-                         name="share of the bulk change kept after composition adjustment", marker_color="#2a78d6"))
-    fig.update_layout(barmode="group", title="Neutrophil share vs tissue change (top candidates)", xaxis_title="fraction",
-                      legend=dict(orientation="h", y=-0.12))
-    return _fig(fig, max(420, 22 * len(genes) + 140))
-
-
-def mr_figure() -> str:
-    """Mendelian randomisation: log odds ratio per SD of plasma protein vs -log10 p, every tested protein."""
-    r = pd.read_parquet(PROCESSED / "mr_pqtl.parquet")
-    y = -np.log10(r["p"].clip(lower=1e-300))
-    sig = r["q"] < 0.05
-    col = np.where(~sig, "#c9c8c0", np.where(r["beta"] > 0, "#e34948", "#2a78d6"))
-    fig = go.Figure(go.Scattergl(x=r["beta"], y=y, mode="markers", marker=dict(size=5, color=col), text=r["gene"],
-                                 hovertemplate="%{text}<br>log OR per SD %{x:.2f}<br>-log10 p %{y:.1f}<extra></extra>"))
-    lab = r[sig].nsmallest(15, "p")
-    fig.add_trace(go.Scatter(x=lab["beta"], y=-np.log10(lab["p"].clip(lower=1e-300)), mode="markers+text", text=lab["gene"],
-                             textposition="top center", marker=dict(size=7, color="#1c1c1b"), hoverinfo="skip"))
-    fig.update_layout(showlegend=False, title=f"Plasma protein (UKB-PPP cis-pQTL) on UC risk: {len(r):,} proteins",
-                      xaxis_title="log odds ratio of UC per SD of protein", yaxis_title="-log10 p")
-    return _fig(fig, 460)
-
-
-def pathway_heatmap() -> str:
-    d = pd.read_parquet(PROCESSED / "pathway_activity.parquet")
-    m = d.pivot_table(index="source", columns="cohort", values="t")
-    fig = go.Figure(go.Heatmap(z=m.values, x=list(m.columns), y=list(m.index), colorscale="RdBu_r", zmid=0,
-                               colorbar=dict(title="t"), hovertemplate="%{y} · %{x}<br>t %{z:.1f}<extra></extra>"))
-    fig.update_layout(title="Pathway activity, inflamed / UC vs control (PROGENy)")
-    return _fig(fig, 460)
-
-
-def response_heatmap() -> str:
-    d = pd.read_parquet(PROCESSED / "response_pathways.parquet")
-    d = d[d["kind"] == "pathway"]
-    m = d.pivot_table(index="name", columns="arm", values="t_nr_vs_r")
-    fig = go.Figure(go.Heatmap(z=m.values, x=list(m.columns), y=list(m.index), colorscale="RdBu_r", zmid=0,
-                               colorbar=dict(title="t (NR − R)"),
-                               hovertemplate="%{y} · %{x}<br>t %{z:.1f}<extra></extra>"))
-    fig.update_layout(title="Pathway activity in non-responders vs responders, by arm")
-    return _fig(fig, 460)
 
 
 def tables(genes: list[str] | None = None) -> dict:

@@ -207,6 +207,8 @@ def retrieve(genes: list[str] | None = None, which: str = "shortlist", missing_o
             for r, snip in zip(pending, ex.map(lambda r: _fulltext_sentences(r["pmcid"], _token(r["names_searched"])), pending)):
                 r["fulltext_sentences"] = snip
     d = pd.DataFrame(rows)
+    if d.empty:   # Europe PMC has no record for these genes: nothing to write
+        return {"genes": len(genes), "records": 0, "usable": 0, "batches": 0}
     if old is not None:
         from datetime import date
         return _write(d, genes, cfg["dir"], tag=f"add_{date.today():%Y%m%d}", old=old)

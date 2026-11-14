@@ -19,10 +19,15 @@ and blood cell types for the most likely variants. A prediction counts per varia
 probability shown next to it. Two tiers, calibrated on fine-mapped eQTL (alphagenome_uc.validate_*):
 A gene is assigned to a variant in a context when it is the top-scoring protein-coding gene of that variant there,
 its |score| is at least twice the second gene's and above the size threshold of the eQTL check (see thresholds(): on
-fine-mapped eQTL this picks the measured eQTL gene in 93 % of tissue and 100 % of cell-type cases, with the right
+fine-mapped eQTL this picks the measured eQTL gene in 88 % of tissue and 93 % of cell-type cases, with the right
 direction in 98 % and 94 %). Tiers by the causal probability of the variants that carry the effect: confident (at least
 half of the signal's posterior probability) and likely (10 to 50 %). Size alone was tried first and rejected: it let
 about five genes per variant through and agreed with Mendelian randomisation only at chance.
+
+Correction (2026-11-14): effects() read the cell-type predictions only for planned variants that already had a
+confident tissue gene (6 of 352), so the list had 6 genes. With every planned variant read it has 29. Mendelian
+randomisation, now compared over every significant layer, agrees for 1 of the 8 genes it can test, disagrees for 5 and
+is mixed for 2; none of the disagreements is in the predicted cell type. The report says so.
 """
 from __future__ import annotations
 
@@ -368,11 +373,14 @@ def effects(workers: int = 4) -> pd.DataFrame:
              .groupby("signal").head(ATLAS_PER_SIGNAL))
     plan = ag2_plan(s)
     at, flipped = _atlas_checked(sorted(set(a_sel.variant) | set(plan.variant)))
+    # every variant the Atlas accepted (one whose alleles match the genome). Until 2026-11-14 this set was taken after
+    # the filter below, so only the 6 planned variants with a confident Atlas gene got their cell-type predictions and
+    # the other 346 were never read.
+    scored = set(at.variant)
     at = at.melt(id_vars=["variant", "gene"], value_vars=list(ag.ATLAS_GROUPS), var_name="context", value_name="score")
     at = _top_gene(at, ["variant", "context"])
     at = at[(at.ab >= th["atlas_confident"]) & (at.ratio >= RATIO)].copy()
     at["source"], at["lineage"], at["tier"] = "Atlas", at.context.map(ATLAS_LINEAGE), "confident"
-    scored = set(at.variant)
     jobs = [(v, c) for v in sorted(set(plan.variant) & scored) for c in CONDITIONS]
     if jobs:
         _ag2_checked(*jobs[0], flipped)                           # create the client once, before the threads
@@ -459,13 +467,29 @@ def targets() -> dict:
     mrs = []
     for f in ("mr_pqtl", "mr_colon"):
         m = pd.read_parquet(PROCESSED / f"{f}.parquet")
-        m = m[m.q < 0.05].sort_values("q").drop_duplicates("gene")
+        m = m[m.q < 0.05]
         mrs.append(m.assign(layer="plasma protein" if f == "mr_pqtl" else m.get("label", "gut expression"))[
             ["gene", "beta", "or_per_sd", "q", "layer"]])
-    mrt = pd.concat(mrs).sort_values("q").drop_duplicates("gene").set_index("gene")
+    # every significant estimate of the gene counts (plasma protein, colon tissue, strongest gut cell type). Until
+    # 2026-11-14 only the one with the smallest q was compared, which called INAVA "agrees" although colon tissue
+    # points the other way, and LSP1 "disagrees" although a gut T-cell estimate agrees.
+    mra = pd.concat(mrs).sort_values("q")
+    mrt = mra.drop_duplicates("gene").set_index("gene")
+    signs = mra.groupby("gene").beta.apply(lambda b: set(np.sign(b)))
+    detail = mra.groupby("gene").apply(
+        lambda d: "; ".join(f"OR {r.or_per_sd:.2f}, q {r.q:.1e} ({r.layer})" for r in d.head(3).itertuples())
+        + (f"; {len(d) - 3} more" if len(d) > 3 else ""), include_groups=False)
     best["mr_or"], best["mr_q"], best["mr_layer"] = best.gene.map(mrt.or_per_sd), best.gene.map(mrt.q), best.gene.map(mrt.layer)
-    best["mr"] = np.select([best.mr_q.notna() & (np.sign(best.gene.map(mrt.beta)) == np.sign(best.effect)), best.mr_q.notna()],
-                           ["agrees", "disagrees"], "not significant or not testable")
+    best["mr_detail"] = best.gene.map(detail)
+
+    def mr_call(gene, effect):
+        sg = signs.get(gene)
+        if not sg:
+            return "not significant or not testable"
+        same, opposite = np.sign(effect) in sg, -np.sign(effect) in sg
+        return "mixed" if same and opposite else "agrees" if same else "disagrees"
+
+    best["mr"] = [mr_call(g, e) for g, e in zip(best.gene, best.effect)]
     di = pd.read_parquet(PROCESSED / "drug_indications.parquet").set_index("gene")
     best["drug"] = best.gene.map(di.category).fillna("no clinical drug")
     best["drug_names"] = best.gene.map(di.uc_drugs.where(di.uc_drugs.astype(str).str.len() > 0, di.other_drugs))
@@ -498,6 +522,7 @@ def targets() -> dict:
                "by_group": best.group.value_counts().to_dict(),
                "in_other_lists": best[best.in_lists != ""].gene.tolist(),
                "mr_agrees": best[best.mr == "agrees"].gene.tolist(), "mr_disagrees": best[best.mr == "disagrees"].gene.tolist(),
+               "mr_mixed": best[best.mr == "mixed"].gene.tolist(),
                "ag2_variants": int(plan.variant.nunique()), "ag2_predictions": int(plan.variant.nunique() * len(CONDITIONS)),
                "conditions": [v[0] for v in CONDITIONS.values()], "thresholds": th}
     (PROCESSED / "genetic_targets_summary.json").write_text(json.dumps(summary, indent=1), encoding="utf-8")

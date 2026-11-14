@@ -42,7 +42,10 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         # else is rebuilt. They are rebuilt here only when missing.
         # sc_celltype_de is not kept (2026-11-13): it holds only the genes of the list it was first built for, and it
         # predated the symbol mapping of the pseudobulk, so 2,695 listed genes (CXCL8 among them) had no test.
-        keep = ("sc_pseudobulk", "sc_celltype_share", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share", "sc4_")
+        # sc_celltype_share is not kept either (2026-11-14): it predated the symbol mapping too, so 47 genes with an
+        # older symbol (S1PR3, AREG, MRC1) had two rows per cluster and shares that added up to 2. It is rebuilt
+        # from the kept pseudobulk in about a minute.
+        keep = ("sc_pseudobulk", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share", "sc4_")
         for f in PROCESSED.glob("*"):
             if not f.name.startswith(keep):
                 f.unlink() if f.is_file() else shutil.rmtree(f)

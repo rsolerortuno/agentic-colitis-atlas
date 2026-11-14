@@ -12,8 +12,15 @@ the 5K panel are covered by the whole-transcriptome Visium sections (spatial_vis
    candidate that is a marker is reported with that flag).
 2. Attribution in situ: share of a gene's transcripts in each lineage, per section.
 3. Neighbourhood: for the cells expressing a gene (>= 1 count), the lineage mix of their 10 nearest neighbours,
-   compared with the same number of random cells of the section (1,000 permutations, seed fixed per gene). When
-   more than 5,000 cells express a gene, a random subset of 5,000 of them is tested (same seed).
+   over the mean mix of all cells of the section (enrichment). P-value (changed 2026-11-14): cells of one type lie
+   together, so the cells that express a gene are not independent and drawing random cells as the null gave p-values
+   that were far too small (40 % of all gene and lineage pairs passed). The units are now tissue tiles: the section
+   is cut into square tiles (side = 10 x the median distance to the 10th neighbour, about 200 um; tiles with fewer
+   than 20 cells are left out; the test is repeated with tiles of twice and four times that side and the largest
+   p-value is kept, because a pattern can be clustered at any of these scales), each tile has a neighbourhood mix (mean over its cells) and a fraction of cells that
+   express the gene, and the statistic is the mix of the tiles weighted by their expressing cells. The null permutes
+   the expressing fractions among the tiles (2,000 permutations, seed fixed per gene), so a gene confined to one
+   region counts as a few tiles, not as thousands of cells. Benjamini-Hochberg over all genes, lineages and sections.
 Outputs: data/processed/spatial_attribution.parquet, spatial_neighbourhood.parquet, spatial_sections.parquet.
 """
 from __future__ import annotations
@@ -136,19 +143,55 @@ def attribution(m, genes, lab, targets) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-MAX_EXPRESSING = 5000  # added 2026-11-10 for the 190,000-280,000-cell GSE339323 sections
+# tile sides, in median distances to the k-th neighbour (about 200, 400 and 800 um in Xenium): a pattern may be
+# clustered at any of these scales, so the test is run at each and the largest p-value is kept
+TILE_RADII = (10, 20, 40)
+MIN_TILE_UNITS, MIN_TILES = 20, 8
 
 
-def neighbourhood(m, genes, lab, xy, targets, k=10, n_perm=1000) -> pd.DataFrame:
+def tiles(xy: np.ndarray, side: float, min_units: int = MIN_TILE_UNITS) -> tuple[np.ndarray, np.ndarray]:
+    """Square tissue tiles: tile index per cell or spot (-1 when its tile has fewer than min_units) and tile sizes."""
+    _, t = np.unique(np.floor(xy / side).astype(np.int64), axis=0, return_inverse=True)
+    t = np.asarray(t).ravel()
+    n = np.bincount(t)
+    new = np.full(len(n), -1)
+    new[n >= min_units] = np.arange(int((n >= min_units).sum()))
+    return new[t], n[n >= min_units]
+
+
+def tile_means(tile: np.ndarray, values: np.ndarray, n_tiles: int) -> np.ndarray:
+    """Mean of each column of values over the cells or spots of each tile."""
+    inside = tile >= 0
+    sums = np.stack([np.bincount(tile[inside], weights=values[inside, j], minlength=n_tiles)
+                     for j in range(values.shape[1])], axis=1)
+    return sums / np.bincount(tile[inside], minlength=n_tiles)[:, None]
+
+
+def tile_statistic(tile_n: np.ndarray, tile_mix: np.ndarray, frac: np.ndarray, rng, n_perm: int):
+    """Sums behind the tile statistic (mix of the tiles weighted by their expressing cells) and behind its null, in
+    which the expressing fractions are permuted among the tiles. Returns (numerator, denominator) observed and
+    permuted, so that sections can be added before dividing."""
+    w = tile_n * frac
+    perm = rng.permuted(np.tile(frac, (n_perm, 1)), axis=1) * tile_n
+    return w @ tile_mix, w.sum(), perm @ tile_mix, perm.sum(axis=1)
+
+
+def neighbourhood(m, genes, lab, xy, targets, k=10, n_perm=2000) -> pd.DataFrame:
     idx = {g: i for i, g in enumerate(genes)}
     ok = ~np.isnan(xy).any(axis=1)
     tree = cKDTree(xy[ok])
-    _, nn = tree.query(xy[ok], k=k + 1)
+    dist, nn = tree.query(xy[ok], k=k + 1)
     nn = nn[:, 1:]
     labs = lab[ok]
     lineages = sorted(set(labs) - {"unassigned"})
     onehot = np.stack([(labs == L).astype(float) for L in lineages], axis=1)
     mix = onehot[nn].mean(axis=1)                       # per cell: lineage mix of its k neighbours
+    expected = mix.mean(axis=0)
+    scales = []
+    for r in TILE_RADII:
+        tile, tile_n = tiles(xy[ok], r * float(np.median(dist[:, -1])))
+        if len(tile_n) >= MIN_TILES:
+            scales.append((tile, tile_n, tile_means(tile, mix, len(tile_n))))
     rows = []
     for g in targets:
         if g not in idx:
@@ -158,19 +201,36 @@ def neighbourhood(m, genes, lab, xy, targets, k=10, n_perm=1000) -> pd.DataFrame
         if n_all < 20:
             continue
         rng = np.random.default_rng(zlib.crc32(g.encode()))  # seed fixed per gene (reproducible)
-        where = np.flatnonzero(expr)
-        if n_all > MAX_EXPRESSING:  # large sections: a random subset of the expressing cells, same test
-            where = np.sort(rng.choice(where, MAX_EXPRESSING, replace=False))
-        n = len(where)
-        obs = mix[where].mean(axis=0)
-        null = np.stack([mix[rng.choice(len(mix), n, replace=False)].mean(axis=0) for _ in range(n_perm)])
+        obs = mix[expr].mean(axis=0)
+        ps, n_tiles, tiles_expr = [], 0, 0
+        for i, (tile, tile_n, tile_mix) in enumerate(scales):
+            in_tile = expr & (tile >= 0)
+            frac = np.bincount(tile[in_tile], minlength=len(tile_n)) / tile_n
+            if frac.sum() == 0:
+                continue
+            num, den, pnum, pden = tile_statistic(tile_n, tile_mix, frac, rng, n_perm)
+            ps.append(((pnum / pden[:, None] >= num / den).sum(axis=0) + 1) / (n_perm + 1))
+            if i == 0:
+                n_tiles, tiles_expr = int(len(tile_n)), int((frac > 0).sum())
+        p = np.max(ps, axis=0) if ps else np.full(len(lineages), np.nan)   # the most conservative scale
         for j, L in enumerate(lineages):
-            p = (np.sum(null[:, j] >= obs[j]) + 1) / (n_perm + 1)
             rows.append({"gene": g, "neighbour_lineage": L, "observed": round(float(obs[j]), 4),
-                         "expected": round(float(null[:, j].mean()), 4),
-                         "enrichment": round(float(obs[j] / max(null[:, j].mean(), 1e-9)), 3),
-                         "p_enriched": round(float(p), 4), "n_expressing_cells": n_all, "n_tested_cells": n})
+                         "expected": round(float(expected[j]), 4),
+                         "enrichment": round(float(obs[j] / max(expected[j], 1e-9)), 3),
+                         "p_enriched": float(p[j]), "n_expressing_cells": n_all, "n_tested_cells": n_all,
+                         "n_tiles": n_tiles, "tiles_expressing": tiles_expr})
     return pd.DataFrame(rows)
+
+
+def adjust(n: pd.DataFrame) -> pd.DataFrame:
+    """Benjamini-Hochberg over every tested gene, lineage and section of the table."""
+    from statsmodels.stats.multitest import multipletests
+    n = n.reset_index(drop=True)
+    n["padj"] = np.nan
+    t = n["p_enriched"].notna()
+    if t.any():
+        n.loc[t, "padj"] = multipletests(n.loc[t, "p_enriched"], method="fdr_bh")[1]
+    return n
 
 
 def run(targets: list[str]) -> dict:
@@ -186,7 +246,7 @@ def run(targets: list[str]) -> dict:
         if state != "healthy":
             nbh.append(neighbourhood(m, genes, lab, xy, targets).assign(gsm=gsm, state=state))
         print(gsm, state, m.shape, flush=True)
-    a, n, s = pd.concat(att), pd.concat(nbh), pd.DataFrame(sec)
+    a, n, s = pd.concat(att), adjust(pd.concat(nbh)), pd.DataFrame(sec)
     s["assigned_fraction"] = 1 - s["n_unassigned"] / s["cells"]
     a.to_parquet(PROCESSED / "spatial_attribution.parquet", index=False)
     n.to_parquet(PROCESSED / "spatial_neighbourhood.parquet", index=False)
@@ -222,11 +282,13 @@ def load(store=None, min_assigned: float = 0.5) -> int:
             if not node or node["type"] != "Gene":
                 continue
             att = {st: dd.groupby("lineage")["share"].mean().round(3).nlargest(3).to_dict() for st, dd in d.groupby("state")}
-            nn = nb[(nb["gene"] == gene) & (nb["p_enriched"] < 0.05) & (nb["enrichment"] > 1.2)]
+            nn = nb[(nb["gene"] == gene) & (nb["padj"] < 0.05) & (nb["enrichment"] > 1.2)]
             rec = {"gene": gene, "attribution_by_state": att, "panel": "Xenium 5K", "studies": ["GSE312420", "GSE339323"],
                    "enriched_neighbours": [{"lineage": r.neighbour_lineage, "enrichment": r.enrichment,
-                                            "p": r.p_enriched, "section_state": r.state, "n_cells": r.n_expressing_cells}
+                                            "padj": float(f"{r.padj:.3g}"), "section_state": r.state,
+                                            "n_cells": r.n_expressing_cells, "tiles": r.tiles_expressing}
                                            for r in nn.itertuples()],
+                   "neighbour_test": "tissue tiles permuted, Benjamini-Hochberg",
                    "sections_used": sorted(good), "sections_left_out_low_counts": dropped}
             ev = store.add_evidence(evidence_id("spatial_summary", gene), "spatial_summary", "DATASET:GSE312420",
                                     date.today().isoformat(), **rec)

@@ -29,7 +29,8 @@ at UC risk loci. No gene of interest reaches the AlphaGenome 2 threshold in a co
 
 Correction (2026-11-13): that result called a gene from the size of its predicted change alone, which tests the
 direction of a known eQTL and not which gene a variant acts on. It is withdrawn; genetic_targets.py assigns genes with
-a rule checked for that question, and under it CCL20 and IL10 are not assigned. This module keeps the API access, the
+a rule checked for that question. Under it IL10 is not assigned; CCL20 is (2026-11-14, once the cell-type predictions
+of every planned variant were read), but as lowered by the risk allele in colon goblet cells. This module keeps the API access, the
 cache and the validation.
 
 The API key is read from the ALPHAGENOME_API_KEY environment variable, never from a file in the repository. Every API

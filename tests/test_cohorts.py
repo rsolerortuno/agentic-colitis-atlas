@@ -49,3 +49,17 @@ def test_response_labels(s):
     assert ifx[True] == 8 and ifx[False] == 16
     ust = uc[(uc.cohort == "GSE206285") & (uc.treatment == "ustekinumab")]
     assert len(ust) == 364
+
+
+def test_response_arms_count_each_patient_once():
+    """ACT1 patient P13 has two baseline biopsies; they entered the infliximab arm as two patients."""
+    from ucatlas.paths import PROCESSED
+    if not (PROCESSED / "expr_GSE23597.parquet").exists():
+        pytest.skip("treatment cohorts not built")
+    import pandas as pd
+    from ucatlas.treatment import ARMS, _arm
+    s = pd.read_parquet(PROCESSED / "samples.parquet")
+    for arm, (cohort, tr) in ARMS.items():
+        x, r = _arm(cohort, tr)
+        d = s[(s.cohort == cohort) & (s.timepoint == "baseline") & (s.group == "UC") & (s.treatment == tr) & s.response.notna()]
+        assert x.shape[1] == len(r) == d.patient.nunique(), arm

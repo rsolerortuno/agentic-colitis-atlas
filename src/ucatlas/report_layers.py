@@ -473,7 +473,7 @@ def negative_control() -> dict:
     (1) Spearman correlation of each score with the mean expression of the gene in MSCCR and with the Open Targets
     literature score; (2) matched AUROC for UC clinical targets: each target is compared only with non-target genes in
     the same decile of mean expression (and, separately, of the literature score), so expression level or fame cannot
-    explain the result; (3) the same matched AUROC for 1,000 random gene sets of the same size (empirical null)."""
+    explain the result; (3) the same matched AUROC for 200 random gene sets of the same size (empirical null)."""
     from .evaluate import clinical_targets
     t = pd.read_parquet(PROCESSED / "convergence_table.parquet")
     x = pd.read_parquet(PROCESSED / "expr_GSE193677.parquet")

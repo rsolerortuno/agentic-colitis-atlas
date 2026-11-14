@@ -25,7 +25,7 @@
       <p class="small">Orange: mean share in the six neighbours of the high spots. Blue: the same average over every spot in the section.</p></div>
     <div class="card" style="margin-top:14px"><h3 style="margin-top:0">Selected spot</h3><div id="v-sel"><p class="small">Click a spot on the tissue.</p></div></div>
     <div class="card" style="margin-top:14px"><h3 style="margin-top:0">Tested over the seven UC sections</h3><div id="v-stats"></div>
-      <p class="small">Permutation test, adjusted over genes and cell groups. This is the evidence; the live bars above only describe the picked section.</p></div>
+      <p class="small">Permutation test over tissue tiles of about 400 micrometres (neighbouring spots are not independent), adjusted over genes and cell groups. This is the evidence; the live bars above only describe the picked section.</p></div>
   </div>
 </div>
 <div id="vtip"></div>
@@ -157,12 +157,11 @@
   function ramp(t){t=Math.max(0,Math.min(1,t));var a=[255,237,160],b=[177,0,38];return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
   function values(){var s=cur;if(colSel.value==='gene'){var e=s.expr[geneSel.value]||[];return {v:e,max:Math.max.apply(null,e.concat([1]))};}
     var sh=s.shares[colSel.value];return {v:sh,max:Math.max.apply(null,sh.concat([1]))};}
-  function computeHigh(){var e=cur.expr[geneSel.value]||[];var pos=[];e.forEach(function(x){if(x>0)pos.push(x);});
-    highIdx=[];if(pos.length<20)return; pos.sort(function(a,b){return a-b;});var thr=pos[Math.floor(pos.length*0.9)];
-    e.forEach(function(x,i){if(x>0&&x>=thr)highIdx.push(i);});}
+  // the high spots come from the analysis (spatial_deconv.high_spots), so the rings are the spots the test used
+  function computeHigh(){highIdx=(cur.high&&cur.high[geneSel.value])||[];}
   function nbMean(i){var nb=cur.neighbors[i];if(!nb.length)return null;var out={};V.groups.forEach(function(g){var t=0;nb.forEach(function(j){t+=cur.shares[g][j];});out[g]=t/nb.length;});return out;}
   function bars(){var box=$('v-bars');box.innerHTML='';computeHigh();$('v-nhigh').textContent=highIdx.length?'('+highIdx.length+' high spots)':'';
-    if(!highIdx.length){box.innerHTML='<p class="small">Too few spots with this gene in this section (fewer than 20). Pick another section or gene.</p>';return;}
+    if(!highIdx.length){box.innerHTML='<p class="small">Too few spots with this gene in this section (fewer than 10). Pick another section or gene.</p>';return;}
     var obs={},exp={},nh=0,ne=0;V.groups.forEach(function(g){obs[g]=0;exp[g]=0;});
     highIdx.forEach(function(i){var m=nbMean(i);if(m){nh++;V.groups.forEach(function(g){obs[g]+=m[g];});}});
     for(var i=0;i<cur.n_spots;i++){var m2=nbMean(i);if(m2){ne++;V.groups.forEach(function(g){exp[g]+=m2[g];});}}
@@ -172,7 +171,7 @@
     rows.forEach(function(r){var d=document.createElement('div');d.innerHTML='<div class="bar"><span class="lab">'+(NAMES[r.g]||r.g)+'</span><span class="track"><span class="fill b" style="display:block;width:'+(100*r.o/mx)+'%"></span></span><span class="val">'+r.o.toFixed(1)+' %</span></div><div class="bar"><span class="lab"></span><span class="track"><span class="fill" style="display:block;width:'+(100*r.e/mx)+'%"></span></span><span class="val">'+r.e.toFixed(1)+' %</span></div>';box.appendChild(d);});}
   function stats(){var box=$('v-stats'),g=geneSel.value,st=V.stats[g],n=V.stats_n[g];
     if(!st){box.innerHTML='<p class="small">No permutation result for this gene.</p>';return;}
-    var rows=st.slice().sort(function(a,b){return b.log2-a.log2;}).filter(function(r){return r.padj<0.05;});
+    var rows=st.slice().sort(function(a,b){return b.log2-a.log2;}).filter(function(r){return r.padj!==null&&r.padj<0.05;});
     var h='<p class="small">'+n.n_high_spots+' high spots in '+n.n_sections+' UC sections.</p>';
     if(!rows.length)h+='<p class="small">No cell group is significantly enriched or depleted next to this gene.</p>';
     else{h+='<table><thead><tr><th>Cell group</th><th>log2 obs/exp</th><th>q</th></tr></thead><tbody>';rows.forEach(function(r){h+='<tr><td>'+(NAMES[r.cell_group]||r.cell_group)+'</td><td class="num">'+(r.log2>0?'+':'')+r.log2.toFixed(2)+'</td><td class="num">'+r.padj+'</td></tr>';});h+='</tbody></table>';}

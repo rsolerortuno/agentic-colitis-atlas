@@ -378,7 +378,8 @@ def _load():
     return t
 
 
-def _row(x, t) -> dict:
+def _row(x, t, lit=None) -> dict:
+    """lit: the literature review of the list the gene belongs to (default: the first-in-class review)."""
     g = x.gene
     c = {}
     rep = "green" if x.cohorts_up >= 6 else "amber" if x.cohorts_up >= 4 else "red"
@@ -513,7 +514,7 @@ def _row(x, t) -> dict:
         vital += "; constraint, safety events and Mendelian disease not checked"
     c["safety"] = ("green" if not flags else "amber" if len(flags) == 1 else "red",
                    "; ".join(flags) if flags else (vital if g not in saf.index else f"{vital}, not constrained, no Mendelian disease caused by loss of the gene"))
-    lit = t["lit"]
+    lit = t["lit"] if lit is None else lit
     c["literature"] = ((lit.at[g, "light"], lit.at[g, "verdict"])
                        if g in lit.index else ("grey", "not reviewed"))
     lead = ""
@@ -679,7 +680,7 @@ def repurposing(t: dict) -> dict:
     rlit = pd.read_parquet(lp).set_index("gene") if lp.exists() else pd.DataFrame()
     rows = []
     for x in keep.itertuples():
-        row = _row(x, t)
+        row = _row(x, t, rlit)
         c = json.loads(row["criteria"])
         r = di.loc[x.gene].to_dict()
         c["druggable"] = _inhibitor_light(r)
@@ -734,7 +735,7 @@ def known(t: dict) -> dict:
     klit = pd.read_parquet(lp).set_index("gene") if lp.exists() else pd.DataFrame()
     rows = []
     for x in keep.itertuples():
-        row = _row(x, t)
+        row = _row(x, t, klit)   # its own review: published lead and mouse studies in the proposed experiment
         c = json.loads(row["criteria"])
         if x.gene in klit.index:
             c["literature"] = (klit.at[x.gene, "light"], klit.at[x.gene, "verdict"])

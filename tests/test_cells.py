@@ -44,3 +44,15 @@ def test_per_cluster_test_covers_the_listed_genes():
     assert "CXCL8" in set(de["gene"])
     assert len(listed - set(de["gene"])) <= 0.01 * len(listed)      # genes seen only in non-inflamed UC have no test
     assert not de.duplicated(["gene", "cluster"]).any()
+
+
+def test_each_gene_has_one_row_per_cluster_and_shares_add_up():
+    """The kept share table predated the symbol mapping: 47 genes had two rows per cluster and shares adding up to 2."""
+    for name in ("sc_celltype_share", "sc3_celltype_share", "sc4_celltype_share"):
+        p = PROCESSED / f"{name}.parquet"
+        if not p.exists():
+            continue
+        s = pd.read_parquet(p, columns=["gene", "health", "cluster", "share"])
+        assert not s.duplicated(["gene", "health", "cluster"]).any(), name
+        tot = s.groupby(["gene", "health"]).share.sum()
+        assert ((tot - 1).abs() < 1e-3).all(), name

@@ -145,10 +145,12 @@ and described in [data/README.md](data/README.md).
 - **Cells and tissue.** Pseudobulk cell-type attribution in four single-cell atlases (GSE282122 typed here into
   lineages from canonical markers); a lineage replicates when two of the three other atlases agree; in Xenium sections, the
   share of a gene's transcripts in each cell lineage and the lineages enriched around expressing cells (permutation
-  test). Visium spots hold several cells, so each spot is deconvolved into 12 cell groups with the single-cell
+  of tissue tiles). Visium spots hold several cells, so each spot is deconvolved into 12 cell groups with the single-cell
   profiles (non-negative least squares on marker genes; candidate genes are never markers). A gene's spot expression
   is then regressed on the spot shares to name the cell group that explains it in the tissue, and the cell groups
-  around its top-decile spots are tested against random spots (permutation test), as in the kidney atlas.
+  around its top-decile spots are compared with the section average. Neighbouring spots and cells are not
+  independent, so the p-values of all neighbourhood tests (Visium, Xenium, CosMx) come from permuting tissue tiles
+  of about 200 to 800 micrometres, not single spots or cells.
 - **Mendelian randomisation.** Fine-mapped cis instruments on the UC GWAS, in three layers: plasma protein (UKB-PPP),
   gene expression in colon tissue (GTEx v10, CEDAR) and in single gut cell types (IBDverse). Wald ratio or
   inverse-variance weighted estimate, Benjamini-Hochberg over genes, and a colocalisation check with IBD GWAS signals
@@ -181,7 +183,7 @@ and described in [data/README.md](data/README.md).
 
 ## 5. Main results
 
-Numbers come from the saved, reviewed analysis (`runs/2026-11-13`, the agent run redone after the cohort correction of 2026-11-13). The report gives the detail and the caveats.
+Numbers come from the saved, reviewed analysis (`runs/2026-11-14`, the agent run redone after the corrections of 2026-11-14). The report gives the detail and the caveats.
 
 **Known biology is recovered.**
 Inflamed mucosa gains antimicrobial, neutrophil and tissue-remodelling genes (S100A8, LCN2, DUOX2, CXCL8, MMP3) and
@@ -219,9 +221,14 @@ of five UC and three IBD GWAS, plus 22 loci found only in the 2025 preprint of L
 direction predicted from DNA sequence by AlphaGenome in colon tissue, blood and 15 colon and blood cell types. The
 honest result is that it is short. A gene is assigned only when it has the largest predicted change at its variant,
 at least twice the next gene (on fine-mapped eQTL this picks the measured gene in 88 % of tissue and 93 % of
-cell-type cases); that holds for 6 of 263 signals: TUFM and RORC (group A), IL19 and MAP3K8, and CSPG5 and LSP1 with
-an uncertain causal variant. A first version that used the size of the predicted change alone listed 316 genes and
-agreed with Mendelian randomisation only at chance; it was withdrawn, with the CCL20 and IL10 calls it had produced.
+cell-type cases); that holds for 29 of 263 signals, 20 of them with a well-defined causal variant: TUFM, RORC,
+CFAP90, FIGNL1 and CEBPB in group A, then IL19, MAP3K8, INAVA, IRGM, CIITA and ten more. Mendelian randomisation does
+not confirm the directions: it can test 8 of the 29 genes, agrees for TUFM, is mixed for INAVA and LSP1 and disagrees
+for CCL20, ICOSLG, MUC1, ITGB8 and RNF186. In each disagreement the measured eQTL is in another cell type than the
+predicted one, so both can be true, but a measured effect outranks a prediction and those genes lose points. A first
+version that used the size of the predicted change alone listed 316 genes and agreed with Mendelian randomisation only
+at chance; it was withdrawn. Until 2026-11-14 the list had 6 genes because the cell-type predictions were read for
+only 6 of the 352 planned variants.
 
 **Unexplored candidates.**
 A separate screen looks for genes that rise in UC as a tissue change, are reachable by a drug, have no clinical drug,
@@ -261,8 +268,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 
 | Check | Result |
 |---|---|
-| Agent text against its evidence | 122 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
-| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (77/77), other-gene attributions (82/82) and swapped evidence (82/82); 79 % of flipped directions where the sentence cites expression evidence (22/28), 35 % of all flipped directions (literature, cell and treatment sentences are not direction-checked) |
+| Agent text against its evidence | 115 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
+| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (84/84), other-gene attributions (80/80) and swapped evidence (80/80); 67 % of flipped directions where the sentence cites expression evidence (14/21), 26 % of all flipped directions (literature, cell and treatment sentences are not direction-checked) |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.82, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.80; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100. Predicted tractability alone is a yes/no value and cannot order a top 100. Retrospective: the data are not frozen at 2016 |
 | Convergence score (includes literature and drug history) | AUROC 0.87, partly circular; data-only version 0.78 |
@@ -275,7 +282,7 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | MR sensitivity | Plasma, 48 proteins with >= 3 instruments: no directional pleiotropy in 43 (MR-Egger), weighted median agrees in 45; Steiger direction correct for every significant estimate in all layers |
 | Covariate adjustment (MSCCR: colon segment, age, sex) | Adjusted and unadjusted changes correlate at rho 0.99; all 1,086 clear changes hold |
 | Negative control | Clinical targets compared only with genes of similar expression: convergence AUROC 0.85, target profile 0.81, random sets <= 0.57; matched on literature 0.74 and 0.70 |
-| Target safety | Of the 496 genes of the target lists and rankings that were checked, 23 are strongly constrained (5 of 59 clinical targets); PheWAS recovers psoriasis for IL12B and blood counts for ITGA4; UniProt lists a Mendelian disease caused by the gene for 123 of them (CCNO: primary ciliary dyskinesia) and for 23 clinical targets |
+| Target safety | Of the 555 genes of the target lists and rankings that were checked, 23 are strongly constrained (5 of 59 clinical targets); PheWAS recovers psoriasis for IL12B and blood counts for ITGA4; UniProt lists a Mendelian disease caused by the gene for 123 of them (CCNO: primary ciliary dyskinesia) and for 23 clinical targets |
 | Protein-level replication (Schniers 2019) | 77 % of clear RNA changes replicate as protein (293 of 381); RNA-protein rho 0.61 over 6,112 genes |
 | Mouse colitis models (MGI) | 24 % of UC clinical targets and 14 % of the convergence top 100 have a colitis phenotype, against 1.2 % of all genes |
 | CosMx single cells | 23 of 109 candidate genes on the 6K panel above background (epithelial, myeloid, plasma genes); the neutrophil and stromal candidates are not resolved |
@@ -289,8 +296,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Drugs by indication | Of the 1,515 genes with a clinical drug, 111 have one in UC and 40 in Crohn's disease or IBD; 873 only for other diseases. 59 genes of the discovery screen are repurposing leads (drugs only for other diseases), 41 with an inhibitor in the clinic. Approvals known only from an ATC code are not counted as approved (epacadostat, IDO1) |
 | Single-cell lineage in four atlases | For 1,029 genes the Smillie 2019 lineage is also dominant in 815 of 1,020 (Garrido-Trigo 2023), 645 of 903 (Gubatan 2026) and 867 of 1,022 (GSE282122); 822 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
 | Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 13–54 %) |
-| Report validator | 828 claims, 1,539 evidence records, 1,734 citation links, all resolvable, no external resources |
-| Knowledge graph | 589,462 claims, 0 without a resolvable evidence record |
+| Report validator | 848 claims, 1,560 evidence records, 1,738 citation links, all resolvable, no external resources |
+| Knowledge graph | 589,485 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (7,096 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
@@ -339,9 +346,11 @@ The online report is published automatically from `reports/uc_report.html` by
   protein. No mucosal protein QTL resource exists. All layers are European ancestry. Many candidates (CXCR2, OSM,
   DUOX2, TNF) have no instrument in any layer. A significant estimate without colocalisation can come from a
   neighbouring variant.
-- **The genetics-first list is predicted, and short.** AlphaGenome assigns a gene to 6 of 263 UC risk signals; the
-  others stay unexplained, and a gene missing from the list is not evidence against it (IL10 shares its variant with
-  IL19, which scores higher). Cell states the model does not cover (stimulated immune cells, inflamed epithelium) are
+- **The genetics-first list is predicted, short, and not confirmed by Mendelian randomisation.** AlphaGenome assigns
+  a gene to 29 of 263 UC risk signals; the others stay unexplained, and a gene missing from the list is not evidence
+  against it (IL10 shares its variant with IL19, which scores higher). Of the 8 listed genes that Mendelian
+  randomisation can test, it agrees with the predicted direction for 1, disagrees for 5 and is mixed for 2, always in
+  another cell type than the predicted one. Cell states the model does not cover (stimulated immune cells, inflamed epithelium) are
   not tested. 22 signals rest on a preprint. The outputs are not offered under CC BY (AlphaGenome terms:
   non-commercial research use, not for clinical decisions). Calling the API needs a free
   key (`ALPHAGENOME_API_KEY`, never stored in the repository); every answer is cached, so `run-all` rebuilds the layer
@@ -349,10 +358,10 @@ The online report is published automatically from `reports/uc_report.html` by
 - **Pocket scores describe shape**, not binding; they are computed on predicted monomers.
 - **CosMx cannot resolve most candidates.** Two usable slides (the others mix biopsies of different states on one
   slide without a cell-to-biopsy key), and most candidate genes sit at background level on this platform.
-- **Neighbourhood p-values are too small.** The Visium, Xenium and CosMx neighbourhood tests compare the surroundings
-  of expressing spots or cells with randomly chosen ones. Cells of one type lie together, so random picks are not a
-  fair null: about half of the Visium pairs and four in ten Xenium pairs pass. The enrichment size is the result;
-  the p-value only removes noise.
+- **Neighbourhood tests treat tissue tiles as independent.** Until 2026-11-14 they drew random spots or cells as
+  the null, which gave 24 to 42 % false positives on clustered patterns placed at random; tiles are now permuted
+  (1 to 4 % in the same simulation, up to 13 % when a pattern is two or three patches wider than a tile on the
+  largest section). Zones larger than 800 micrometres, such as a whole ulcer, are still few independent units.
 - **Mouse and protein checks are incomplete.** Most leading candidates have no mouse colitis model and some proteins
   are not quantified by mass spectrometry: untested is not negative.
 - **Treatment-response tests are weak.** Infliximab and vedolizumab arms are small and no gene separates a drug from

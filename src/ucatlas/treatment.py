@@ -3,8 +3,8 @@
 Cohorts and endpoints (data/README.md): UNIFI ustekinumab vs placebo (mucosal healing at week 8), PURSUIT golimumab vs
 placebo (clinical response at week 6), GSE16879 infliximab (endoscopic and histological response), GSE73661
 vedolizumab (earliest post-treatment response label); added 2026-11-10: EUCALYPTUS etrolizumab (GSE72819, remission
-at week 10, RNA-seq) and ACT1 infliximab vs placebo (GSE23597, response at week 8; patients of GSE12251 are a subset). GSE73661's infliximab patients probably overlap GSE16879 and
-are not used.
+at week 10, RNA-seq) and ACT1 infliximab vs placebo (GSE23597, response at week 8; patients of GSE12251 are a subset). GSE73661's infliximab patients are those of GSE16879 measured on
+another array and are not used. A patient with two baseline biopsies (ACT1, P13) enters once, with their mean.
 
 1. Per drug arm and gene: non-responders vs responders at baseline (Welch t on log2 expression, BH). Positive
    difference = higher in non-responders.
@@ -42,7 +42,11 @@ def _arm(cohort: str, treatment: str) -> tuple[pd.DataFrame, pd.Series]:
           & s.response.notna()].set_index("geo")
     x = pd.read_parquet(PROCESSED / f"expr_{cohort}.parquet")
     keep = [c for c in x.columns if c in s.index]
-    return x[keep], s.loc[keep, "response"].astype(bool)
+    x, pat = x[keep], s.loc[keep, "patient"]
+    if pat.duplicated().any():   # two baseline biopsies of one patient (ACT1, P13): their mean, so the patient counts once
+        resp = s.loc[keep].groupby("patient", sort=False)["response"].first().astype(bool)
+        return x.T.groupby(pat.values, sort=False).mean().T[resp.index], resp
+    return x, s.loc[keep, "response"].astype(bool)
 
 
 def response_genes() -> pd.DataFrame:
@@ -164,7 +168,6 @@ def load(store=None) -> int:
             rec = {"name": name, "kind": kind, "arms": {r.arm: {"t_nr_vs_r": round(float(r.t_nr_vs_r), 2),
                                                                "padj": float(f"{r.padj:.3g}")} for r in d.itertuples()}}
             ev = store.add_evidence(evidence_id("response_pathway", kind, name), "response_pathway", "ANALYSIS:treatment", today, **rec)
-            store.add_claim("ANALYSIS:treatment", "assessed", "ANALYSIS:treatment", ev) if False else None
             nid = f"{'PATHWAY' if kind == 'pathway' else 'TF'}ACT:{name}"
             if store.get_node(nid):
                 store.add_claim(nid, "response_assessed_in", "ANALYSIS:treatment", ev)

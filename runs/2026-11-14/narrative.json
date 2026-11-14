@@ -1,0 +1,427 @@
+{
+ "summary": [
+  {
+   "gene": "CXCR2",
+   "text": "CXCR2 heads the convergence ranking: its pooled change across the eight cohorts is [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.838], it is higher in inflamed than in paired non-inflamed mucosa [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.6972], and reparixin and other CXCR1 and CXCR2 antagonists are in clinical development outside UC. Single-cell data show that its transcripts in inflamed mucosa come almost entirely from neutrophils (neutrophil share [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965]). Mendelian randomisation could not test it for lack of an instrument, and its baseline association with ustekinumab non-response is mirrored in the UNIFI placebo arm (padj [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0126]). It is best read as a neutrophil-recruitment target whose expression mostly marks influx and disease severity.",
+   "evidence_ids": ["EV:expression_meta:1fce9fb2531f", "EV:omics_de:8110a38ac4fd", "EV:sc_summary:1fce9fb2531f", "EV:treatment_response:1fce9fb2531f", "EV:open_targets_drug:d584726e0cd6"],
+   "numeric_claims": [
+    {"evidence_id": "EV:expression_meta:1fce9fb2531f", "field": ["log2fc"], "display": "2.838", "unit": "native"},
+    {"evidence_id": "EV:omics_de:8110a38ac4fd", "field": ["log2fc"], "display": "1.6972", "unit": "native"},
+    {"evidence_id": "EV:sc_summary:1fce9fb2531f", "field": ["neutrophil_share_inflamed"], "display": "0.965", "unit": "native"},
+    {"evidence_id": "EV:treatment_response:1fce9fb2531f", "field": ["arms", "placebo (UNIFI)", "padj"], "display": "0.0126", "unit": "native"}
+   ]
+  },
+  {
+   "text": "Across eight biopsy cohorts the most reproducible changes of UC mucosa are a loss of epithelial metabolic and transport genes and a gain of neutrophil, antimicrobial and tissue-remodelling genes. HMGCS2 is lost in all eight cohorts [gene=HMGCS2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-4.039] and at protein level [gene=HMGCS2; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=-3.094], AQP8 shows the largest pooled loss [gene=AQP8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-5.7633], and CHI3L1 [gene=CHI3L1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.913] and the calprotectin subunit S100A8 [gene=S100A8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.793] are among the largest gains. These genes are consistent markers of active disease rather than targets.",
+   "evidence_ids": ["EV:expression_meta:f0b27322cee4", "EV:proteomics_de:f0b27322cee4", "EV:expression_meta:752c95b3a829", "EV:expression_meta:b3f7b3e784f8", "EV:expression_meta:6ff831ae12f7"],
+   "numeric_claims": [
+    {"evidence_id": "EV:expression_meta:f0b27322cee4", "field": ["log2fc"], "display": "-4.039", "unit": "native"},
+    {"evidence_id": "EV:proteomics_de:f0b27322cee4", "field": ["log2_ratio"], "display": "-3.094", "unit": "native"},
+    {"evidence_id": "EV:expression_meta:752c95b3a829", "field": ["log2fc"], "display": "-5.7633", "unit": "native"},
+    {"evidence_id": "EV:expression_meta:b3f7b3e784f8", "field": ["log2fc"], "display": "4.913", "unit": "native"},
+    {"evidence_id": "EV:expression_meta:6ff831ae12f7", "field": ["log2fc"], "display": "4.793", "unit": "native"}
+   ]
+  },
+  {
+   "text": "Cell-level data split the leading genes into two groups. Neutrophil and myeloid genes (CXCR2, CXCL8, AQP9, TREM1) lose much or all of their bulk change after composition adjustment, and CXCL8 is no longer significant (adjusted padj [gene=CXCL8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0525]). By contrast MMP1 in inflammatory fibroblasts [gene=MMP1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.2636], DUOX2 in enterocytes [gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161] and CHI3L1 in stroma [gene=CHI3L1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3967] keep a clear change after adjustment, so they are changes of the tissue itself, each replicated in at least two other single-cell atlases.",
+   "evidence_ids": ["EV:composition_effect:1e78b2f07f0c", "EV:composition_effect:221893f3b477", "EV:composition_effect:69eb34ed119c", "EV:composition_effect:b3f7b3e784f8", "EV:composition_effect:1fce9fb2531f", "EV:composition_effect:324a25b2f283", "EV:composition_effect:cf67e67b4e3b"],
+   "numeric_claims": [
+    {"evidence_id": "EV:composition_effect:1e78b2f07f0c", "field": ["adjusted_padj"], "display": "0.0525", "unit": "native"},
+    {"evidence_id": "EV:composition_effect:221893f3b477", "field": ["adjusted_log2fc"], "display": "1.2636", "unit": "native"},
+    {"evidence_id": "EV:composition_effect:69eb34ed119c", "field": ["adjusted_log2fc"], "display": "1.3161", "unit": "native"},
+    {"evidence_id": "EV:composition_effect:b3f7b3e784f8", "field": ["adjusted_log2fc"], "display": "1.3967", "unit": "native"}
+   ]
+  },
+  {
+   "text": "Human genetics separates causes from consequences. Plasma Mendelian randomisation recovers the established UC target IL12B, where higher protein raises risk (OR per SD [gene=IL12B; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=1.539]), a positive control. For CD274 (PD-L1) genetically higher protein is protective (OR per SD [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595]), so PD-L1 blockade would act against the protective direction. CXCL5 is also protective in plasma MR (OR per SD [gene=CXCL5; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.634]), while CXCL8 (p [gene=CXCL8; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.289]) and IDO1 (p [gene=IDO1; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.111]) are null, marking them as activity biomarkers rather than causes.",
+   "evidence_ids": ["EV:mendelian_randomization:9dfc6633064a", "EV:mendelian_randomization:822a01cbf7e8", "EV:mendelian_randomization:f16933725bec", "EV:mendelian_randomization:1e78b2f07f0c", "EV:mendelian_randomization:2b76723dce27"],
+   "numeric_claims": [
+    {"evidence_id": "EV:mendelian_randomization:9dfc6633064a", "field": ["odds_ratio_per_sd"], "display": "1.539", "unit": "native"},
+    {"evidence_id": "EV:mendelian_randomization:822a01cbf7e8", "field": ["odds_ratio_per_sd"], "display": "0.595", "unit": "native"},
+    {"evidence_id": "EV:mendelian_randomization:f16933725bec", "field": ["odds_ratio_per_sd"], "display": "0.634", "unit": "native"},
+    {"evidence_id": "EV:mendelian_randomization:1e78b2f07f0c", "field": ["p"], "display": "0.289", "unit": "native"},
+    {"evidence_id": "EV:mendelian_randomization:2b76723dce27", "field": ["p"], "display": "0.111", "unit": "native"}
+   ]
+  },
+  {
+   "text": "Baseline signals of non-response to ustekinumab (the TNFa pathway, OSM, TREM1, CXCL8 and CXCR2) also separate placebo non-responders or show null drug-by-placebo interactions, so they mark disease severity rather than drug-specific resistance. Among first-in-class hypotheses, the stromal CHRDL2 and the epithelial XKR9 are the most defensible discovery-screen candidates, but neither has response, genetic or functional evidence yet.",
+   "evidence_ids": ["EV:response_pathway:fc27db5790e8", "EV:treatment_response:59a56a600884", "EV:treatment_response:cf67e67b4e3b", "EV:treatment_response:1e78b2f07f0c", "EV:treatment_response:1fce9fb2531f", "EV:discovery_profile:c77baf64a62b", "EV:discovery_profile:6eb069569835"]
+  }
+ ],
+ "sections": {
+  "expression": [
+   {
+    "text": "The meta-analysis across eight cohorts places neutrophil chemokine, interferon-response and tissue-remodelling genes at the top of the increases. CXCL8 [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.687] and its receptor CXCR2 [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.838] form a neutrophil-recruitment axis together with CXCR1, CXCL1 and CXCL5. IDO1 rises in all eight cohorts [gene=IDO1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.102]. MMP3 [gene=MMP3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.8223] heads a family of matrix metalloproteinases (MMP1, MMP3, MMP7, MMP10) that marks stromal and epithelial remodelling, and DUOX2 [gene=DUOX2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.3033] is a reproducible epithelial antimicrobial and oxidative-stress response. CHI3L1 and the calprotectin subunits S100A8 and S100A9 complete the list of the largest, most consistent gains.",
+    "evidence_ids": ["EV:expression_meta:1e78b2f07f0c", "EV:expression_meta:1fce9fb2531f", "EV:expression_meta:2b76723dce27", "EV:expression_meta:de1e9e07b063", "EV:expression_meta:69eb34ed119c"],
+    "numeric_claims": [
+     {"evidence_id": "EV:expression_meta:1e78b2f07f0c", "field": ["log2fc"], "display": "3.687", "unit": "native"},
+     {"evidence_id": "EV:expression_meta:1fce9fb2531f", "field": ["log2fc"], "display": "2.838", "unit": "native"},
+     {"evidence_id": "EV:expression_meta:2b76723dce27", "field": ["log2fc"], "display": "3.102", "unit": "native"},
+     {"evidence_id": "EV:expression_meta:de1e9e07b063", "field": ["log2fc"], "display": "4.8223", "unit": "native"},
+     {"evidence_id": "EV:expression_meta:69eb34ed119c", "field": ["log2fc"], "display": "4.3033", "unit": "native"}
+    ]
+   },
+   {
+    "text": "The strongest losses describe an epithelium that has stopped doing its normal metabolic and absorptive work. AQP8 shows the largest pooled decrease in the dataset [gene=AQP8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-5.7633], together with CLDN8, SLC26A2, PCK1 and UGT2A3. HMGCS2, the rate-limiting enzyme of ketogenesis that colonocytes use to handle butyrate, is lost in all eight cohorts [gene=HMGCS2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-4.039]. These losses are biomarkers of epithelial damage, not targets.",
+    "evidence_ids": ["EV:expression_meta:752c95b3a829", "EV:expression_meta:f0b27322cee4"],
+    "numeric_claims": [
+     {"evidence_id": "EV:expression_meta:752c95b3a829", "field": ["log2fc"], "display": "-5.7633", "unit": "native"},
+     {"evidence_id": "EV:expression_meta:f0b27322cee4", "field": ["log2fc"], "display": "-4.039", "unit": "native"}
+    ]
+   },
+   {
+    "gene": "JAK2",
+    "text": "JAK2 shows that expression size and target value are different questions: its rise is small but significant in all eight cohorts [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.8326], and its place in the convergence ranking comes mainly from genetic association and drug history. The JAK class is approved in UC, so JAK2 serves as a positive control for genetics-supported targets whose RNA change is modest.",
+    "evidence_ids": ["EV:expression_meta:c36b80d82ff8", "EV:open_targets_assoc:3c2fb97467a0"],
+    "numeric_claims": [
+     {"evidence_id": "EV:expression_meta:c36b80d82ff8", "field": ["log2fc"], "display": "0.8326", "unit": "native"}
+    ]
+   }
+  ],
+  "inflammation": [
+   {
+    "text": "Comparing inflamed with non-inflamed mucosa of the same patients (GSE193677) shows that most leading changes are local to inflammation. CXCR2 is higher in inflamed than in paired non-inflamed mucosa [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.6972], as are CXCL8 [gene=CXCL8; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=1.968] and MMP3 [gene=MMP3; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=2.337]. The loss of HMGCS2 is entirely local: in non-inflamed mucosa it does not differ from control [gene=HMGCS2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=-0.0649].",
+    "evidence_ids": ["EV:omics_de:8110a38ac4fd", "EV:omics_de:4b4308ba9576", "EV:omics_de:286b35705246", "EV:omics_de:d965802705ac"],
+    "numeric_claims": [
+     {"evidence_id": "EV:omics_de:8110a38ac4fd", "field": ["log2fc"], "display": "1.6972", "unit": "native"},
+     {"evidence_id": "EV:omics_de:4b4308ba9576", "field": ["log2fc"], "display": "1.968", "unit": "native"},
+     {"evidence_id": "EV:omics_de:286b35705246", "field": ["log2fc"], "display": "2.337", "unit": "native"},
+     {"evidence_id": "EV:omics_de:d965802705ac", "field": ["log2fc"], "display": "-0.0649", "unit": "native"}
+    ]
+   },
+   {
+    "text": "A few changes are already present before visible inflammation. IDO1 is modestly raised in non-inflamed UC mucosa compared with controls [gene=IDO1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.535], and CXCR2 shows a small rise there too [gene=CXCR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.6399]. These disease-level shifts are much smaller than the inflamed changes, so the leading genes are mainly markers of local activity rather than of the UC background. The inflamed CXCR2 change is not an artefact of sampling site or demographics: it holds after adjusting for colon segment, age and sex [gene=CXCR2; type=expression_adjusted; source=DATASET:GSE193677; cohort=GSE193677; contrast=inflamed UC vs control, biopsy level; adjusted_log2fc=2.552].",
+    "evidence_ids": ["EV:omics_de:0d29bc1e7f4b", "EV:omics_de:cae5dacd356b", "EV:expression_adjusted:1fce9fb2531f"],
+    "numeric_claims": [
+     {"evidence_id": "EV:expression_adjusted:1fce9fb2531f", "field": ["adjusted_log2fc"], "display": "2.552", "unit": "native"},
+     {"evidence_id": "EV:omics_de:0d29bc1e7f4b", "field": ["log2fc"], "display": "0.535", "unit": "native"},
+     {"evidence_id": "EV:omics_de:cae5dacd356b", "field": ["log2fc"], "display": "0.6399", "unit": "native"}
+    ]
+   }
+  ],
+  "replication": [
+   {
+    "text": "Replication is strong for direction and weaker for size. The leading genes change in the same direction as the discovery cohort in all four microarray and three RNA-seq replication cohorts: CXCR2, for example, moves the same way in every one of the eight cohort-level comparisons. Heterogeneity of effect size between cohorts is high, so cohorts agree on which genes move and in which direction, not on how much. At protein level, in an independent proteomics study of inflamed UC mucosa, HMGCS2 loss replicates [gene=HMGCS2; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=-3.094] and S100A8 gain replicates [gene=S100A8; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=2.749], whereas CHI3L1 moves in the same direction but much less [gene=CHI3L1; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=0.607] and was not called significant by the study authors.",
+    "evidence_ids": ["EV:omics_de:7952e2d09dbe", "EV:omics_de:002d3e0f3170", "EV:omics_de:1fd1de79ac11", "EV:omics_de:0c7d73d2f182", "EV:omics_de:8e805f351f7a", "EV:omics_de:452347e79ddf", "EV:omics_de:1b5ba8776dc3", "EV:omics_de:a51ff376f3d0", "EV:proteomics_de:f0b27322cee4", "EV:proteomics_de:6ff831ae12f7", "EV:proteomics_de:b3f7b3e784f8"],
+    "numeric_claims": [
+     {"evidence_id": "EV:proteomics_de:f0b27322cee4", "field": ["log2_ratio"], "display": "-3.094", "unit": "native"},
+     {"evidence_id": "EV:proteomics_de:6ff831ae12f7", "field": ["log2_ratio"], "display": "2.749", "unit": "native"},
+     {"evidence_id": "EV:proteomics_de:b3f7b3e784f8", "field": ["log2_ratio"], "display": "0.607", "unit": "native"}
+    ]
+   }
+  ],
+  "literature": [
+   {
+    "text": "Published support is thinner than the expression signal for the top candidates. CXCR2 has no verbatim-checked literature relation in the graph; its support is a bioinformatic and genetic abstract proposing CXCR1 and CXCR2 as neutrophil extracellular trap-related targets in UC and another linking the CXCL5 to CXCR2 axis to neutrophilic inflammation, not UC trials. IDO1 rests on a single experimental study in which it drove UC progression through classically activated macrophages and ER stress, with a tryptophan-analogue inhibitor ameliorating DSS colitis in mice. AQP9 is described as predominantly neutrophil-expressed, promoting neutrophil extracellular traps through JAK2-STAT3-mediated pyroptosis in mouse colitis, which supports reading its bulk signal as neutrophil influx rather than an epithelial change.",
+    "evidence_ids": ["EV:chunk:ccd7cc761771", "EV:chunk:a93c0a9b8786", "EV:pubtator_relations:1fce9fb2531f", "EV:literature:d1d97e1a9042", "EV:literature:bf184fc9a3bd", "EV:literature:f2ede5da8622", "EV:literature:25b19ac1c291", "EV:literature:edbfbecae6d9"]
+   },
+   {
+    "text": "For biomarkers the literature is more useful. MMP1 is among the transcripts modified by mirikizumab that correlate with the modified Mayo score, Geboes score and Robarts Histopathology Index, so it tracks response to an IL-23 antibody. MMP10 is reported in active versus remission UC and in pre-diagnostic samples. CXCL1 is proposed as a diagnostic marker in several bioinformatic studies, but alone it performs modestly and reaches strong discrimination only within a multi-gene model, so it is a weak stand-alone marker. CHI3L1 is linked to NLRP3 inflammasome activity and macrophage pyroptosis, with only exploratory pharmacology, and DUOX2 appears among the most elevated proteins in inflamed UC biopsies without an established inhibitor.",
+    "evidence_ids": ["EV:literature:8a5730511173", "EV:literature:bfc8520ae2f5", "EV:literature:b7cef02b17a6", "EV:literature:7d54a0fc31f0", "EV:literature:12aa37a7bfcb", "EV:literature:09c00158dd8e", "EV:literature:2fc20563c788", "EV:literature:b362caea066b", "EV:literature:4720b127faf8"]
+   }
+  ],
+  "external": [
+   {
+    "text": "Approved UC targets behave as positive controls. IL12B has the top Open Targets association and is the leading plasma MR hit: genetically higher protein raises UC risk (OR per SD [gene=IL12B; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=1.539]), the signal colocalises with the IBD GWAS locus and replicates in FinnGen, so inhibition is the protective direction, as the approved antibodies against the shared IL12B subunit confirm. JAK2 has a high genetic association and approved class inhibitors but no MR instrument. The expression-led leaders CXCR2 and CXCR1 have clinical-stage antagonists (reparixin in late-stage trials, navarixin, ladarixin and others in mid-stage trials) developed for other indications, a high and a moderate Open Targets genetic score respectively, and no cis-pQTL or gut eQTL instrument, so their causal direction is untested rather than refuted. CXCR2 has no curated safety events; mouse support is literature only, including a selective antagonist that ameliorated acute colitis, and MGI has no single-gene colitis phenotype for it.",
+    "evidence_ids": ["EV:mendelian_randomization:9dfc6633064a", "EV:open_targets_assoc:93c96b29b09a", "EV:open_targets_assoc:3c2fb97467a0", "EV:open_targets_assoc:7d06375723b1", "EV:open_targets_tract:1fce9fb2531f", "EV:open_targets_drug:b6ab97730b13", "EV:open_targets_assoc:b086d247accc", "EV:target_safety:1fce9fb2531f", "EV:mouse_colitis_literature:1fce9fb2531f", "EV:string:9bf5af659675"],
+    "numeric_claims": [
+     {"evidence_id": "EV:mendelian_randomization:9dfc6633064a", "field": ["odds_ratio_per_sd"], "display": "1.539", "unit": "native"}
+    ]
+   },
+   {
+    "text": "Among expression-led candidates without a UC drug, genetics often points the other way. For CD274 (PD-L1), genetically higher plasma protein lowers UC risk (OR per SD [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595]), with colocalisation and replication in FinnGen and a second UC GWAS; the MR shows heterogeneity but no Egger pleiotropy and the correct Steiger direction, and CD274 is not strongly constrained (LOEUF [gene=CD274; type=target_safety; source=DATASET:SAFETY; loeuf=0.476]). Its biopsy increase therefore looks compensatory and PD-L1 blockade would be harmful. CXCL5 is protective in plasma MR (OR per SD [gene=CXCL5; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.634]) but relies on a tag variant without colocalisation. CXCL8 (p [gene=CXCL8; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.289]) and IDO1 (p [gene=IDO1; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.111]) are null in plasma, and IDO1 is also null in colon eQTL MR. In the gut layer, SLC26A3 is decreased in inflamed mucosa, yet in IBDverse OLFM4+ crypt progenitors the UC risk allele goes with the opposite sign of expression change (OR per SD [gene=SLC26A3; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=gut_cell; odds_ratio_per_sd=1.607]), colocalising and replicating in FinnGen. Plasma and gut layers were rarely both available, so blood-gut agreement could not be judged for most genes, and MGI had no curated colitis phenotype for the genes checked.",
+    "evidence_ids": ["EV:mendelian_randomization:822a01cbf7e8", "EV:target_safety:822a01cbf7e8", "EV:open_targets_tract:822a01cbf7e8", "EV:mendelian_randomization:f16933725bec", "EV:mendelian_randomization:1e78b2f07f0c", "EV:mendelian_randomization:2b76723dce27", "EV:mendelian_randomization_gut:4fe9ea5094fd", "EV:expression_meta:6a7d4f43d1fa", "EV:mouse_colitis_literature:822a01cbf7e8"],
+    "numeric_claims": [
+     {"evidence_id": "EV:mendelian_randomization:822a01cbf7e8", "field": ["odds_ratio_per_sd"], "display": "0.595", "unit": "native"},
+     {"evidence_id": "EV:target_safety:822a01cbf7e8", "field": ["loeuf"], "display": "0.476", "unit": "native"},
+     {"evidence_id": "EV:mendelian_randomization:f16933725bec", "field": ["odds_ratio_per_sd"], "display": "0.634", "unit": "native"},
+     {"evidence_id": "EV:mendelian_randomization:1e78b2f07f0c", "field": ["p"], "display": "0.289", "unit": "native"},
+     {"evidence_id": "EV:mendelian_randomization:2b76723dce27", "field": ["p"], "display": "0.111", "unit": "native"},
+     {"evidence_id": "EV:mendelian_randomization_gut:4fe9ea5094fd", "field": ["odds_ratio_per_sd"], "display": "1.607", "unit": "native"}
+    ]
+   }
+  ],
+  "cells": [
+   {
+    "text": "Neutrophils make most of the top-ranked receptor and chemokine genes. In the Gubatan 2026 atlas, which includes neutrophils, they carry almost all CXCR2 transcripts in inflamed mucosa [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965]; Smillie 2019 captured no neutrophils and assigns the sparse CXCR2 reads to T/NK cells, so the CXCR2 lineage call does not replicate across Garrido-Trigo 2023, Gubatan 2026 and GSE282122 by the two-of-three rule. After composition adjustment CXCR2 keeps only a small change [gene=CXCR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4409]. CXCL8 is made by myeloid cells (replicated in Garrido-Trigo 2023, Gubatan 2026 and GSE282122) and by neutrophils [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873], and its bulk increase loses significance after adjustment (adjusted padj [gene=CXCL8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0525]). AQP9 [gene=AQP9; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.92] and TREM1 [gene=TREM1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.894] are myeloid in all four atlases and mostly neutrophil in Gubatan 2026, with residual adjusted changes of [gene=AQP9; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8551] and [gene=TREM1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.6621]. These genes are best read as markers of neutrophil and myeloid influx, with some activation of resident myeloid cells for TREM1. The adjustment can over-correct when resident cells are activated, so a lost signal is not proof of pure influx.",
+    "evidence_ids": ["EV:sc_summary:1fce9fb2531f", "EV:composition_effect:1fce9fb2531f", "EV:sc_summary:1e78b2f07f0c", "EV:composition_effect:1e78b2f07f0c", "EV:sc_summary:324a25b2f283", "EV:composition_effect:324a25b2f283", "EV:sc_summary:cf67e67b4e3b", "EV:composition_effect:cf67e67b4e3b"],
+    "numeric_claims": [
+     {"evidence_id": "EV:sc_summary:1fce9fb2531f", "field": ["neutrophil_share_inflamed"], "display": "0.965", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:1fce9fb2531f", "field": ["adjusted_log2fc"], "display": "0.4409", "unit": "native"},
+     {"evidence_id": "EV:sc_summary:1e78b2f07f0c", "field": ["neutrophil_share_inflamed"], "display": "0.873", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:1e78b2f07f0c", "field": ["adjusted_padj"], "display": "0.0525", "unit": "native"},
+     {"evidence_id": "EV:sc_summary:324a25b2f283", "field": ["neutrophil_share_inflamed"], "display": "0.92", "unit": "native"},
+     {"evidence_id": "EV:sc_summary:cf67e67b4e3b", "field": ["neutrophil_share_inflamed"], "display": "0.894", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:324a25b2f283", "field": ["adjusted_log2fc"], "display": "0.8551", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:cf67e67b4e3b", "field": ["adjusted_log2fc"], "display": "0.6621", "unit": "native"}
+    ]
+   },
+   {
+    "text": "Several leading genes are changes of the tissue itself. MMP1 is made by inflammatory fibroblasts (stromal lineage dominant in Smillie 2019 and replicated in Garrido-Trigo 2023, Gubatan 2026 and GSE282122) and stays clearly changed after adjustment [gene=MMP1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.2636]. DUOX2 is epithelial, with an enterocyte share of [gene=DUOX2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.947] in Smillie 2019 replicated in all three other atlases, and keeps a strong adjusted change [gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161]. CHI3L1 is stromal (inflammatory fibroblasts, share [gene=CHI3L1; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.941] in Smillie 2019), replicated in Garrido-Trigo 2023 and GSE282122 while Gubatan 2026 calls it myeloid because neutrophils also contribute, and its change persists after adjustment [gene=CHI3L1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3967]. The HMGCS2 loss is epithelial and persists after adjustment [gene=HMGCS2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=-0.8548], reflecting loss of mature absorptive cells or butyrate metabolism rather than influx.",
+    "evidence_ids": ["EV:sc_summary:221893f3b477", "EV:composition_effect:221893f3b477", "EV:sc_summary:69eb34ed119c", "EV:composition_effect:69eb34ed119c", "EV:sc_summary:b3f7b3e784f8", "EV:composition_effect:b3f7b3e784f8", "EV:sc_summary:f0b27322cee4", "EV:composition_effect:f0b27322cee4"],
+    "numeric_claims": [
+     {"evidence_id": "EV:composition_effect:221893f3b477", "field": ["adjusted_log2fc"], "display": "1.2636", "unit": "native"},
+     {"evidence_id": "EV:sc_summary:69eb34ed119c", "field": ["dominant_lineage_share"], "display": "0.947", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:69eb34ed119c", "field": ["adjusted_log2fc"], "display": "1.3161", "unit": "native"},
+     {"evidence_id": "EV:sc_summary:b3f7b3e784f8", "field": ["dominant_lineage_share"], "display": "0.941", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:b3f7b3e784f8", "field": ["adjusted_log2fc"], "display": "1.3967", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:f0b27322cee4", "field": ["adjusted_log2fc"], "display": "-0.8548", "unit": "native"}
+    ]
+   },
+   {
+    "text": "Two immune-regulatory genes have mixed or diffuse sources. IDO1 is myeloid in Smillie 2019 (macrophages and DC1), replicated in Garrido-Trigo 2023 and GSE282122, while Gubatan 2026 assigns it to enterocytes, and its change survives adjustment [gene=IDO1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8505], indicating induction within the tissue. CD274 is spread across plasma cells, macrophages and epithelium, with neutrophils carrying much of it in Gubatan 2026 [gene=CD274; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.687]; the replication rule is met but the attribution is weak, and a change remains after adjustment [gene=CD274; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4978]. In situ, Visium deconvolution confirms the fibroblast attribution of MMP1, whereas CosMx detected it only at background and Xenium did not cover it.",
+    "evidence_ids": ["EV:sc_summary:2b76723dce27", "EV:composition_effect:2b76723dce27", "EV:sc_summary:822a01cbf7e8", "EV:composition_effect:822a01cbf7e8", "EV:spatial_visium_cell:221893f3b477"],
+    "numeric_claims": [
+     {"evidence_id": "EV:composition_effect:2b76723dce27", "field": ["adjusted_log2fc"], "display": "0.8505", "unit": "native"},
+     {"evidence_id": "EV:sc_summary:822a01cbf7e8", "field": ["neutrophil_share_inflamed"], "display": "0.687", "unit": "native"},
+     {"evidence_id": "EV:composition_effect:822a01cbf7e8", "field": ["adjusted_log2fc"], "display": "0.4978", "unit": "native"}
+    ]
+   }
+  ],
+  "spatial": [
+   {
+    "gene": "MMP1",
+    "text": "In the deconvolved Visium spots, inflammatory fibroblasts explain most of the in-situ MMP1 signal [gene=MMP1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.568], which agrees with the single-cell attribution of MMP1 to inflammatory fibroblasts in all four atlases. The single-cell imaging platforms do not add to this: CosMx detected MMP1 only at background and Xenium did not include it. The cell neighbourhood of MMP1-high spots was not reported in this run, and the other leading candidates were not analysed in situ, so tissue and single-cell data can be compared only for MMP1, where they agree.",
+    "evidence_ids": ["EV:spatial_visium_cell:221893f3b477", "EV:sc_summary:221893f3b477"],
+    "numeric_claims": [
+     {"evidence_id": "EV:spatial_visium_cell:221893f3b477", "field": ["in_situ_contribution"], "display": "0.568", "unit": "native"}
+    ]
+   }
+  ],
+  "pathways": [
+   {
+    "text": "Pathway activity inferred from the bulk transcriptomes is broadly raised in inflamed mucosa. The TNFa pathway is increased versus control in all eight cohorts, with a t statistic of [type=pathway_activity; source=ANALYSIS:pathways; per_cohort.GSE206285.t=20.07] in one of them, and NFkB, JAK-STAT, MAPK, PI3K, TGFb, EGFR and Hypoxia are each increased in all eight with no cohort showing a decrease. Because so many pathways rise together these signals are robust but not specific; the inflamed signature is not uniform, since Androgen falls in several cohorts, p53 is not increased in any and WNT fails in one. Among transcription factors, STAT3 regulon activity is increased in all eight cohorts (t statistic [type=tf_activity; source=ANALYSIS:pathways; per_cohort.GSE206285.t=24.0] in one), and RELA, AP1, CEBPB, CEBPD, ATF3 and ATF4 follow the same pattern; these are inferred from target genes and reflect shared inflammatory output.",
+    "evidence_ids": ["EV:pathway_activity:354d06d55f30", "EV:pathway_activity:83609ee9d45c", "EV:pathway_activity:857e4a238866", "EV:pathway_activity:6bce27c2d6df", "EV:pathway_activity:3eaa6c455429", "EV:pathway_activity:c1edd8eab753", "EV:pathway_activity:2dff0fb8bf66", "EV:pathway_activity:f22c2605df7f", "EV:tf_activity:3872bb7e4170"],
+    "numeric_claims": [
+     {"evidence_id": "EV:pathway_activity:354d06d55f30", "field": ["per_cohort", "GSE206285", "t"], "display": "20.07", "unit": "native"},
+     {"evidence_id": "EV:tf_activity:3872bb7e4170", "field": ["per_cohort", "GSE206285", "t"], "display": "24.0", "unit": "native"}
+    ]
+   },
+   {
+    "text": "The most specific cell-cell circuits in the Gubatan 2026 single-cell data centre on neutrophils. CXCL8 to CXCR2 co-expression is a neutrophil-to-neutrophil circuit (Neutrophil CXCR4 state as sender and receiver), with a change versus uninflamed of [type=cell_communication; source=ANALYSIS:communication; log2_change=2.755]. A second circuit sends CXCL8 from neutrophils to ACKR1 venular endothelium [type=cell_communication; source=ANALYSIS:communication; log2_change=1.324]; ACKR1 is an atypical receptor, so this suggests chemokine presentation on venules rather than classical signalling. Myeloid IL1B mainly pairs with the decoy receptor IL1R2 on neutrophil states, for example from monocyte-derived macrophages to the Neutrophil PADI4 state [type=cell_communication; source=ANALYSIS:communication; log2_change=1.168]. The proposed neutrophil OSM to IL6ST circuit on lamina propria fibroblasts is weak here [type=cell_communication; source=ANALYSIS:communication; log2_change=-0.709] and is not stronger in inflamed mucosa, with only a low-scoring Neutrophil PADI4 to fibroblast pair appearing newly. These are co-expression scores in one dataset and do not prove signalling.",
+    "evidence_ids": ["EV:communication:b9127b21b2b8", "EV:communication:c62b6bd3666d", "EV:communication:6e1b2d237823", "EV:communication:df2dc588b586", "EV:communication:4d0d45341a1c"],
+    "numeric_claims": [
+     {"evidence_id": "EV:communication:b9127b21b2b8", "field": ["log2_change"], "display": "2.755", "unit": "native"},
+     {"evidence_id": "EV:communication:c62b6bd3666d", "field": ["log2_change"], "display": "1.324", "unit": "native"},
+     {"evidence_id": "EV:communication:6e1b2d237823", "field": ["log2_change"], "display": "1.168", "unit": "native"},
+     {"evidence_id": "EV:communication:df2dc588b586", "field": ["log2_change"], "display": "-0.709", "unit": "native"}
+    ]
+   },
+   {
+    "text": "The TNF, IL-23, JAK-STAT and integrin axes are already drugged in UC. The least exploited convergent signals are the CXCL8 to CXCR1 and CXCR2 neutrophil axis (CXCR2 has clinical-stage antagonists, none established in UC), TREM1 (a mid-stage inhibitor peptide, nangibotide, but no genetic evidence and no ligand-receptor pair above threshold), IDO1 (oncology inhibitors, no genetic association) and the MMPs. CHI3L1 has the profile of a replicated inflamed-mucosa marker with literature support but no drug and no genetic score, like AQP9, CXCL1, DUOX2, MMP10 and SERPINB5, and is better treated as a biomarker than a target.",
+    "evidence_ids": ["EV:expression_meta:1fce9fb2531f", "EV:open_targets_drug:d584726e0cd6", "EV:expression_meta:cf67e67b4e3b", "EV:expression_meta:2b76723dce27", "EV:expression_meta:b3f7b3e784f8"]
+   }
+  ],
+  "treatment": [
+   {
+    "text": "At pathway level, TNFa activity is higher at baseline in non-responders to ustekinumab (t [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.t_nr_vs_r=4.79]) and infliximab (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.infliximab.padj=0.000294]), but it also separates UNIFI placebo non-responders (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.00608]), so it tracks general severity rather than a drug-specific mechanism; PURSUIT placebo shows nothing (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (PURSUIT).padj=0.932]), probably for lack of power. JAK-STAT activity is higher in ustekinumab non-responders (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0124]) but not in golimumab (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.golimumab.padj=0.204]), and the vedolizumab, etrolizumab and ACT1 arms do not survive correction. The drug target transcript itself carries no signal: IL23A baseline expression is unrelated to ustekinumab response (BH padj [gene=IL23A; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.977]).",
+    "evidence_ids": ["EV:response_pathway:fc27db5790e8", "EV:response_pathway:c77a5b95ab65", "EV:treatment_response:97ffcb2862ee"],
+    "numeric_claims": [
+     {"evidence_id": "EV:response_pathway:fc27db5790e8", "field": ["arms", "ustekinumab", "t_nr_vs_r"], "display": "4.79", "unit": "native"},
+     {"evidence_id": "EV:response_pathway:fc27db5790e8", "field": ["arms", "infliximab", "padj"], "display": "0.000294", "unit": "native"},
+     {"evidence_id": "EV:response_pathway:fc27db5790e8", "field": ["arms", "placebo (UNIFI)", "padj"], "display": "0.00608", "unit": "native"},
+     {"evidence_id": "EV:response_pathway:fc27db5790e8", "field": ["arms", "placebo (PURSUIT)", "padj"], "display": "0.932", "unit": "native"},
+     {"evidence_id": "EV:response_pathway:c77a5b95ab65", "field": ["arms", "ustekinumab", "padj"], "display": "0.0124", "unit": "native"},
+     {"evidence_id": "EV:response_pathway:c77a5b95ab65", "field": ["arms", "golimumab", "padj"], "display": "0.204", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:97ffcb2862ee", "field": ["arms", "ustekinumab", "padj"], "display": "0.977", "unit": "native"}
+    ]
+   },
+   {
+    "text": "Gene-level non-response signals are severity markers. OSM is higher at baseline in ustekinumab non-responders (BH padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000264]) but not in golimumab (BH padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.golimumab.padj=0.994]); its drug-by-placebo interaction is null (BH padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; interaction.ustekinumab.padj=0.974]) and UNIFI placebo is borderline (BH padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.116]), and in the adalimumab single-cell atlas no OSM-expressing cell state differs between remitters and non-remitters. TREM1 is higher in ustekinumab non-responders (BH padj [gene=TREM1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000474]) and in UNIFI placebo non-responders (BH padj [gene=TREM1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0234]). CXCL8 follows the same pattern (BH padj [gene=CXCL8; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.000102] with ustekinumab and [gene=CXCL8; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0154] with placebo), as does CXCR2 (BH padj [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=9.69e-6] with ustekinumab, [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0126] with placebo and [gene=CXCR2; type=treatment_response; source=ANALYSIS:treatment; arms.golimumab.padj=0.994] with golimumab). A neutrophil-rich, severe baseline is therefore associated with poor outcome whatever the treatment, and none of these genes yet points to a drug-specific resistance mechanism.",
+    "evidence_ids": ["EV:treatment_response:59a56a600884", "EV:treatment_response:cf67e67b4e3b", "EV:treatment_response:1e78b2f07f0c", "EV:treatment_response:1fce9fb2531f"],
+    "numeric_claims": [
+     {"evidence_id": "EV:treatment_response:59a56a600884", "field": ["arms", "ustekinumab", "padj"], "display": "0.0000264", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:59a56a600884", "field": ["arms", "golimumab", "padj"], "display": "0.994", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:59a56a600884", "field": ["interaction", "ustekinumab", "padj"], "display": "0.974", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:59a56a600884", "field": ["arms", "placebo (UNIFI)", "padj"], "display": "0.116", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:cf67e67b4e3b", "field": ["arms", "ustekinumab", "padj"], "display": "0.0000474", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:cf67e67b4e3b", "field": ["arms", "placebo (UNIFI)", "padj"], "display": "0.0234", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:1e78b2f07f0c", "field": ["arms", "ustekinumab", "padj"], "display": "0.000102", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:1e78b2f07f0c", "field": ["arms", "placebo (UNIFI)", "padj"], "display": "0.0154", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:1fce9fb2531f", "field": ["arms", "ustekinumab", "padj"], "display": "9.69e-6", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:1fce9fb2531f", "field": ["arms", "placebo (UNIFI)", "padj"], "display": "0.0126", "unit": "native"},
+     {"evidence_id": "EV:treatment_response:1fce9fb2531f", "field": ["arms", "golimumab", "padj"], "display": "0.994", "unit": "native"}
+    ]
+   }
+  ],
+  "discovery": [
+   {
+    "gene": "CHRDL2",
+    "text": "CHRDL2 leads the discovery screen as a hypothesis for experimental validation. It is made by inflammatory fibroblasts in Smillie 2019 and the stromal attribution replicates in Garrido-Trigo 2023, Gubatan 2026 and GSE282122. It is antibody-tractable with no clinical drug. Its weaknesses are that only part of its bulk change is independent of cell composition (retained share [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; retained=0.276]) and that it has the highest vital-organ RNA of the shortlist (nTPM [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; vital_max_ntpm=42.6]), a safety point to check. Response data, genetic support and functional work in fibroblasts are all missing.",
+    "evidence_ids": ["EV:discovery_profile:c77baf64a62b", "EV:sc_summary:c77baf64a62b"],
+    "numeric_claims": [
+     {"evidence_id": "EV:discovery_profile:c77baf64a62b", "field": ["retained"], "display": "0.276", "unit": "native"},
+     {"evidence_id": "EV:discovery_profile:c77baf64a62b", "field": ["vital_max_ntpm"], "display": "42.6", "unit": "native"}
+    ]
+   },
+   {
+    "gene": "XKR9",
+    "text": "XKR9 is the only leading discovery hit classed as intrinsic and epithelial: most of its bulk change survives composition adjustment (retained share [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; retained=0.798]), the epithelial lineage replicates in Gubatan 2026 and GSE282122, and vital-organ RNA is low (nTPM [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; vital_max_ntpm=3.1]), which favours safety. Against it, it is consistent in the fewest cohorts of the shortlist, few epithelial cells express it, and there is no response, genetic or functional evidence. It is a hypothesis about epithelial phospholipid scrambling that needs an in-vitro test before any target claim.",
+    "evidence_ids": ["EV:discovery_profile:6eb069569835", "EV:sc_summary:6eb069569835"],
+    "numeric_claims": [
+     {"evidence_id": "EV:discovery_profile:6eb069569835", "field": ["retained"], "display": "0.798", "unit": "native"},
+     {"evidence_id": "EV:discovery_profile:6eb069569835", "field": ["vital_max_ntpm"], "display": "3.1", "unit": "native"}
+    ]
+   },
+   {
+    "text": "The rest of the screen is mostly negative, and these negative results narrow the field. CPXM1 is another replicated stromal candidate (Garrido-Trigo 2023 and GSE282122; Gubatan 2026 calls it epithelial) with the best retained share among stromal hits ([gene=CPXM1; type=discovery_profile; source=ANALYSIS:discovery; retained=0.414]) but no functional or genetic support. LAX1 is consistent in all eight cohorts with very low vital-organ RNA, yet its T/NK lineage call does not replicate and most of its signal tracks composition ([gene=LAX1; type=discovery_profile; source=ANALYSIS:discovery; retained=0.230]), so it reflects lymphocyte infiltration. GLT1D1 passes the novelty filter but is overwhelmingly neutrophil-derived (neutrophil share [gene=GLT1D1; type=discovery_profile; source=ANALYSIS:discovery; neutrophil_share=0.891]) with no retained tissue change, so it marks neutrophil influx.",
+    "evidence_ids": ["EV:discovery_profile:79bd85b07bd0", "EV:sc_summary:79bd85b07bd0", "EV:discovery_profile:f6931f7fe14d", "EV:sc_summary:f6931f7fe14d", "EV:discovery_profile:ca6b62596104"],
+    "numeric_claims": [
+     {"evidence_id": "EV:discovery_profile:79bd85b07bd0", "field": ["retained"], "display": "0.414", "unit": "native"},
+     {"evidence_id": "EV:discovery_profile:f6931f7fe14d", "field": ["retained"], "display": "0.230", "unit": "native"},
+     {"evidence_id": "EV:discovery_profile:ca6b62596104", "field": ["neutrophil_share"], "display": "0.891", "unit": "native"}
+    ]
+   }
+  ],
+  "integration": [
+   {
+    "text": "The streams agree on a core picture. Expression, replication, paired inflamed-versus-non-inflamed data and the pathway layer all point to a neutrophil-rich, TNFa-, NFkB- and STAT3-driven inflamed mucosa with loss of epithelial metabolism. Single-cell data and the composition adjustment agree with the literature that CXCR2, CXCL8, AQP9 and S100A8 largely report neutrophil and myeloid influx, and the treatment data agree that the same signals mark severity in drug and placebo arms alike. Genetics and expression agree for the positive controls: IL12B and the JAK family carry the strongest genetic support and are already UC drug targets. Single-cell, composition and in-situ data agree that MMP1 is a fibroblast change of the tissue itself.",
+    "evidence_ids": ["EV:expression_meta:1fce9fb2531f", "EV:sc_summary:1fce9fb2531f", "EV:literature:25b19ac1c291", "EV:pathway_activity:354d06d55f30", "EV:tf_activity:3872bb7e4170", "EV:treatment_response:1fce9fb2531f", "EV:mendelian_randomization:9dfc6633064a", "EV:open_targets_assoc:3c2fb97467a0", "EV:composition_effect:221893f3b477", "EV:spatial_visium_cell:221893f3b477"]
+   },
+   {
+    "text": "The streams disagree on causality. The numerically strongest expression genes (CXCL8, IDO1, CHI3L1, DUOX2, the MMPs) have no or null human genetic support, so they read as consequences of inflammation and as biomarkers. For CD274 and CXCL5 genetics runs opposite to an inhibitor strategy, since genetically higher protein is protective, and for SLC26A3 the gut eQTL direction disagrees with the biopsy loss. CXCR2 ranks first on convergence but cannot be tested by Mendelian randomisation, its literature support is bioinformatic, and its single-cell attribution fails replication because one atlas lacks neutrophils. Its rank therefore rests on expression, tractability and Open Targets association rather than on causal evidence.",
+    "evidence_ids": ["EV:mendelian_randomization:1e78b2f07f0c", "EV:mendelian_randomization:2b76723dce27", "EV:expression_meta:b3f7b3e784f8", "EV:mendelian_randomization:822a01cbf7e8", "EV:mendelian_randomization:f16933725bec", "EV:mendelian_randomization_gut:4fe9ea5094fd", "EV:chunk:ccd7cc761771", "EV:target_safety:1fce9fb2531f", "EV:open_targets_assoc:7d06375723b1"]
+   }
+  ]
+ },
+ "targets": [
+  {
+   "gene": "CXCR2",
+   "category": "target_and_biomarker",
+   "rationale": "First in the convergence ranking and kept first here: the pooled change [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.838] is consistent in all eight cohorts, and clinical-stage CXCR1 and CXCR2 antagonists exist outside UC. Its transcripts are almost all neutrophil, its baseline association with ustekinumab non-response is mirrored in placebo, and Mendelian randomisation could not test it. It is a neutrophil-recruitment target to test as such, and a severity biomarker.",
+   "evidence_ids": ["EV:expression_meta:1fce9fb2531f", "EV:sc_summary:1fce9fb2531f", "EV:open_targets_drug:d584726e0cd6", "EV:treatment_response:1fce9fb2531f", "EV:mouse_colitis_literature:1fce9fb2531f"],
+   "numeric_claims": [
+    {"evidence_id": "EV:expression_meta:1fce9fb2531f", "field": ["log2fc"], "display": "2.838", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "IL12B",
+   "category": "target",
+   "rationale": "Positive control, placed above its convergence rank because it has the strongest causal genetics of any candidate: genetically higher plasma IL12B raises UC risk (OR per SD [gene=IL12B; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=1.539]), colocalises with the IBD GWAS locus and replicates in FinnGen. It is already targeted by approved UC antibodies, which shows the genetic layer recovers known biology.",
+   "evidence_ids": ["EV:mendelian_randomization:9dfc6633064a", "EV:open_targets_assoc:93c96b29b09a", "EV:mouse_colitis_literature:9dfc6633064a"],
+   "numeric_claims": [
+    {"evidence_id": "EV:mendelian_randomization:9dfc6633064a", "field": ["odds_ratio_per_sd"], "display": "1.539", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "JAK2",
+   "category": "target",
+   "rationale": "Positive control: high Open Targets genetic association and approved JAK-class inhibitors in UC, with a small but fully reproducible expression change [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.8326]. It shows that genetics and tractability can carry a real target whose biopsy signal is modest.",
+   "evidence_ids": ["EV:expression_meta:c36b80d82ff8", "EV:open_targets_assoc:3c2fb97467a0", "EV:open_targets_drug:0ab40df0a337"],
+   "numeric_claims": [
+    {"evidence_id": "EV:expression_meta:c36b80d82ff8", "field": ["log2fc"], "display": "0.8326", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "MMP1",
+   "category": "target_and_biomarker",
+   "rationale": "Placed above several higher-ranked genes because it is a change of the tissue itself, made by inflammatory fibroblasts in all four atlases: it keeps a clear change after composition adjustment [gene=MMP1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.2636], Visium deconvolution assigns its in-situ signal to the same fibroblasts, and it tracks histological response to mirikizumab. Broad MMP inhibitors have a poor record, so it is first a response biomarker and a fibroblast-state target only with a selective agent.",
+   "evidence_ids": ["EV:composition_effect:221893f3b477", "EV:sc_summary:221893f3b477", "EV:spatial_visium_cell:221893f3b477", "EV:literature:8a5730511173"],
+   "numeric_claims": [
+    {"evidence_id": "EV:composition_effect:221893f3b477", "field": ["adjusted_log2fc"], "display": "1.2636", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "TREM1",
+   "category": "target",
+   "rationale": "Myeloid activation receptor with part of its change retained after composition adjustment [gene=TREM1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.6621] and a mid-stage inhibitor peptide (nangibotide) from other indications. It lacks genetic support and a defined circuit, and its association with ustekinumab non-response is also seen in placebo, so it is an untested myeloid target rather than a validated one.",
+   "evidence_ids": ["EV:composition_effect:cf67e67b4e3b", "EV:sc_summary:cf67e67b4e3b", "EV:expression_meta:cf67e67b4e3b", "EV:treatment_response:cf67e67b4e3b"],
+   "numeric_claims": [
+    {"evidence_id": "EV:composition_effect:cf67e67b4e3b", "field": ["adjusted_log2fc"], "display": "0.6621", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "CD274",
+   "category": "biomarker",
+   "rationale": "High in the convergence ranking, but genetics argues against inhibition: genetically higher plasma PD-L1 is protective (OR per SD [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595]) with colocalisation and FinnGen replication. Its mucosal increase looks compensatory, so PD-L1 blockade is a caution and an agonist strategy is the only target hypothesis; meanwhile it is a marker of an immune-regulatory response.",
+   "evidence_ids": ["EV:mendelian_randomization:822a01cbf7e8", "EV:composition_effect:822a01cbf7e8", "EV:target_safety:822a01cbf7e8"],
+   "numeric_claims": [
+    {"evidence_id": "EV:mendelian_randomization:822a01cbf7e8", "field": ["odds_ratio_per_sd"], "display": "0.595", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "DUOX2",
+   "category": "biomarker",
+   "rationale": "Intrinsic epithelial response: enterocyte-derived in all four atlases, consistent in all eight cohorts [gene=DUOX2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.3033], retained after composition adjustment, and among the most elevated proteins in inflamed biopsies in the literature. No inhibitor or genetic support, so it is a tissue biomarker of epithelial oxidative and antimicrobial stress.",
+   "evidence_ids": ["EV:expression_meta:69eb34ed119c", "EV:sc_summary:69eb34ed119c", "EV:composition_effect:69eb34ed119c", "EV:literature:4720b127faf8"],
+   "numeric_claims": [
+    {"evidence_id": "EV:expression_meta:69eb34ed119c", "field": ["log2fc"], "display": "4.3033", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "CHI3L1",
+   "category": "biomarker",
+   "rationale": "One of the largest consistent RNA gains [gene=CHI3L1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.913], stromal and retained after adjustment, but the protein change in an independent study is much smaller and not called significant, and it has no genetic support or drug. A strong tissue biomarker; targeting is only exploratory.",
+   "evidence_ids": ["EV:expression_meta:b3f7b3e784f8", "EV:proteomics_de:b3f7b3e784f8", "EV:composition_effect:b3f7b3e784f8", "EV:literature:2fc20563c788"],
+   "numeric_claims": [
+    {"evidence_id": "EV:expression_meta:b3f7b3e784f8", "field": ["log2fc"], "display": "4.913", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "IDO1",
+   "category": "biomarker",
+   "rationale": "Consistent in all eight cohorts and already modestly raised in non-inflamed mucosa, with a mixed myeloid and epithelial source and oncology inhibitors available. Plasma MR is null (p [gene=IDO1; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.111]) and the target literature is a single mouse study, so it is an interferon-response biomarker and at most a repurposing hypothesis.",
+   "evidence_ids": ["EV:expression_meta:2b76723dce27", "EV:omics_de:0d29bc1e7f4b", "EV:mendelian_randomization:2b76723dce27", "EV:literature:d1d97e1a9042", "EV:composition_effect:2b76723dce27"],
+   "numeric_claims": [
+    {"evidence_id": "EV:mendelian_randomization:2b76723dce27", "field": ["p"], "display": "0.111", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "CXCL8",
+   "category": "biomarker",
+   "rationale": "Ranked third numerically but moved down: it is consistent in all eight cohorts, yet its bulk change loses significance after composition adjustment (adjusted padj [gene=CXCL8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0525]), plasma MR is null and Open Targets genetics is zero. It is an activity biomarker of myeloid and neutrophil influx and a severity marker in drug and placebo arms.",
+   "evidence_ids": ["EV:expression_meta:1e78b2f07f0c", "EV:composition_effect:1e78b2f07f0c", "EV:mendelian_randomization:1e78b2f07f0c", "EV:treatment_response:1e78b2f07f0c"],
+   "numeric_claims": [
+    {"evidence_id": "EV:composition_effect:1e78b2f07f0c", "field": ["adjusted_padj"], "display": "0.0525", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "HMGCS2",
+   "category": "biomarker",
+   "rationale": "The clearest epithelial loss: unchanged in non-inflamed mucosa, but lost in inflamed tissue in all eight cohorts and at protein level [gene=HMGCS2; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=-3.094], and retained after composition adjustment. A marker of local epithelial metabolic failure, not a target.",
+   "evidence_ids": ["EV:expression_meta:f0b27322cee4", "EV:proteomics_de:f0b27322cee4", "EV:omics_de:d965802705ac", "EV:composition_effect:f0b27322cee4"],
+   "numeric_claims": [
+    {"evidence_id": "EV:proteomics_de:f0b27322cee4", "field": ["log2_ratio"], "display": "-3.094", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "S100A8",
+   "category": "biomarker",
+   "rationale": "Calprotectin subunit, consistent in all eight cohorts and replicated at protein level [gene=S100A8; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=2.749]. It is a neutrophil and myeloid product and is the tissue counterpart of the established faecal calprotectin test, so it is a biomarker rather than a target.",
+   "evidence_ids": ["EV:expression_meta:6ff831ae12f7", "EV:proteomics_de:6ff831ae12f7"],
+   "numeric_claims": [
+    {"evidence_id": "EV:proteomics_de:6ff831ae12f7", "field": ["log2_ratio"], "display": "2.749", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "CHRDL2",
+   "category": "target",
+   "rationale": "Exploratory: the leading first-in-class hypothesis from the discovery screen, an antibody-tractable secreted protein of inflammatory fibroblasts replicated across the single-cell atlases, with no clinical drug. Only part of its change is independent of composition (retained share [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; retained=0.276]) and vital-organ RNA is the highest of the shortlist, and response and genetic evidence are missing.",
+   "evidence_ids": ["EV:discovery_profile:c77baf64a62b", "EV:sc_summary:c77baf64a62b"],
+   "numeric_claims": [
+    {"evidence_id": "EV:discovery_profile:c77baf64a62b", "field": ["retained"], "display": "0.276", "unit": "native"}
+   ]
+  },
+  {
+   "gene": "XKR9",
+   "category": "target",
+   "rationale": "Exploratory: the only intrinsic epithelial hit of the discovery screen, with most of its change retained after composition adjustment (retained share [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; retained=0.798]) and low vital-organ RNA. Expression is sparse and less consistent across cohorts, and there is no response, genetic or functional evidence.",
+   "evidence_ids": ["EV:discovery_profile:6eb069569835", "EV:sc_summary:6eb069569835"],
+   "numeric_claims": [
+    {"evidence_id": "EV:discovery_profile:6eb069569835", "field": ["retained"], "display": "0.798", "unit": "native"}
+   ]
+  }
+ ],
+ "limitations": [
+  {"text": "Bulk biopsy changes of neutrophil and myeloid genes mix tissue change with cell influx. The composition adjustment separates them only approximately and can over-correct when resident cells are activated."},
+  {"text": "Smillie 2019 captured no neutrophils, so lineage calls for neutrophil genes such as CXCR2 and CXCR1 rest on Gubatan 2026, and the two-of-three replication rule fails for CXCR2 for technical rather than biological reasons."},
+  {"text": "Effect sizes are highly heterogeneous between cohorts; the report relies on consistency of direction and significance rather than on the size of pooled fold changes."},
+  {"text": "Mendelian randomisation had no instrument for several candidates (CXCR2, CXCR1, JAK2), which is not evidence against them; plasma protein is not mucosal protein, and blood and gut layers were rarely both available."},
+  {"text": "In-situ evidence was examined only for MMP1, and the cell neighbourhood of high-expression spots was not reported, so the spatial section cannot confirm or contradict the attribution of the other candidates."},
+  {"text": "Treatment-response results are baseline associations in unbalanced arms (UNIFI has many more non-responders than responders; golimumab, infliximab and vedolizumab arms are small). Non-significant arms are low-power, and none of the findings is a validated predictor."},
+  {"text": "Much of the gene-level literature in the corpus is bioinformatic hub-gene discovery, and several top candidates (CXCR2, CXCR1, CD274, TREM1, JAK2) have no verbatim-checked literature relation. Numbers quoted in literature sentences were not bound to records and are described in words."},
+  {"text": "The IL-23 and integrin axes were not queried individually by the pathway specialist, and only part of the top of the ranking was analysed at cell level or for protein replication."},
+  {"text": "Discovery candidates (CHRDL2, XKR9, CPXM1) have no response, genetic or functional evidence; they are hypotheses for experimental validation, not targets."},
+  {"text": "Passing the automatic checks means that evidence linkage, numeric bindings and an up/down rule were satisfied. It does not validate causal interpretations or treatment efficacy."}
+ ]
+}

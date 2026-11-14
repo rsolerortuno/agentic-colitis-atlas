@@ -55,3 +55,34 @@ def test_list_rows_are_consistent():
     assert (d[d.group == "C"].tier == "likely").all() and set(d.tier) <= {"confident", "likely"}
     s = json.loads((PROCESSED / "genetic_targets_summary.json").read_text(encoding="utf-8"))
     assert s["genes"] == len(d) and s["signals_with_gene"] <= s["signals"]
+
+
+def test_every_planned_variant_gets_its_cell_type_predictions():
+    """Until 2026-11-14 the cell-type predictions were read only for planned variants that already had a confident
+    tissue gene (6 of 352), although the summary counted all of them."""
+    from ucatlas import alphagenome_uc as ag
+    from ucatlas.genetic_targets import CONDITIONS, ag2_plan
+    s = pd.read_parquet(PROCESSED / "genetic_signals.parquet")
+    plan = set(ag2_plan(s).variant)
+    e = pd.read_parquet(PROCESSED / "genetic_effects.parquet")
+    only_ag2 = set(e[e.source == "AlphaGenome 2"].variant) - set(e[e.source == "Atlas"].variant)
+    assert len(only_ag2) > 10 and only_ag2 <= plan
+    flipped = set(json.loads((ag.CACHE / "flipped_variants.json").read_text(encoding="utf-8"))) \
+        if (ag.CACHE / "flipped_variants.json").exists() else set()
+    swap = lambda v: "_".join([v.split("_")[i] for i in (0, 1, 3, 2)])
+    missing = [(v, c) for v in plan for c in CONDITIONS
+               if not ag._cache_path("ag2", (swap(v) if v in flipped else v) + "|" + c).exists()]
+    assert not missing, missing[:5]
+
+
+def test_mendelian_randomisation_call_uses_every_significant_layer():
+    d = pd.read_parquet(PROCESSED / "genetic_targets.parquet")
+    est = pd.concat([pd.read_parquet(PROCESSED / f"{f}.parquet")[["gene", "beta", "q"]] for f in ("mr_pqtl", "mr_colon")])
+    est = est[est.q < 0.05]
+    for r in d.itertuples():
+        b = est[est.gene == r.gene].beta
+        same, opposite = (np.sign(b) == np.sign(r.effect)).any(), (np.sign(b) == -np.sign(r.effect)).any()
+        want = ("not significant or not testable" if b.empty else "mixed" if same and opposite
+                else "agrees" if same else "disagrees")
+        assert r.mr == want, (r.gene, r.mr, want)
+    assert ((d.mr == "agrees") | (d.mr == "disagrees") | (d.mr == "mixed")).sum() == d.gene.isin(est.gene).sum()

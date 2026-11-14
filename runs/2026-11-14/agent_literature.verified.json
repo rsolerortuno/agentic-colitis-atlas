@@ -1,0 +1,161 @@
+{
+ "agent": "agente-literatura",
+ "findings": [
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "CXCR2 (rank one in convergence) has no verbatim-checked literature relation in the graph, but the corpus has an abstract proposing CXCR1 and CXCR2 as neutrophil extracellular trap-related treatment targets in ulcerative colitis (Mendelian randomization, colocalization, transcriptomics) and another linking the CXCL5-CXCR2 axis to neutrophilic inflammation in UC (eQTL, pQTL, transcriptome). PubTator3 (machine-extracted) links CXCR2 to UC in several publications. These are bioinformatic and genetic studies, not UC clinical trials; the clinical-stage CXCR1 and CXCR2 antagonists in Open Targets (reparixin, navarixin, ladarixin) are not UC-specific evidence here.",
+   "evidence_ids": [
+    "EV:chunk:ccd7cc761771",
+    "EV:chunk:a93c0a9b8786",
+    "EV:pubtator_relations:1fce9fb2531f",
+    "EV:open_targets_drug:d584726e0cd6"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "target_and_biomarker",
+   "statement": "The literature states that the CXCL8 axis with CXCR1 and CXCR2 participates in UC pathogenesis through PI3K/Akt, MAPK and NF-kappaB signaling. CXCL8 is also reported as a blood diagnostic biomarker in IBD (blood RNA-seq validation, second to ITGA5), which supports an IBD-level rather than UC-specific biomarker claim. Evidence is a mechanistic review plus bioinformatics; no UC trial of anti-IL-8 appears in the retrieved sentences.",
+   "evidence_ids": [
+    "EV:literature:c7d52659876e",
+    "EV:literature:91f0ff7ebee0"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "IDO1",
+   "role": "target",
+   "statement": "A single experimental study reports IDO1 elevated in UC patients, correlated with classically activated (pro-inflammatory) macrophage polarization, driving UC progression through the ER stress GRP78 and XBP pathway; the tryptophan analogue inhibitor ameliorated DSS colitis. This is preclinical (mouse DSS) evidence from one paper; IDO1 inhibitors are clinical-stage in other indications only.",
+   "evidence_ids": [
+    "EV:literature:d1d97e1a9042",
+    "EV:literature:bf184fc9a3bd",
+    "EV:literature:f2ede5da8622"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "target_and_biomarker",
+   "statement": "CHI3L1 is reported upregulated in UC, correlated with NLRP3 inflammasome expression, and promoting macrophage pyroptosis via the BCAT1/NF-kappaB axis (inhibition was protective). A second study reports velpatasvir binding recombinant CHI3L1 by microscale thermophoresis with a micromolar-range KD, so pharmacological targeting is exploratory. CHI3L1 has one of the strongest expression changes among the top-ranked genes but no approved or clinical-stage drug.",
+   "evidence_ids": [
+    "EV:literature:2fc20563c788",
+    "EV:literature:b362caea066b",
+    "EV:literature:8d66721bd093"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "DUOX2",
+   "role": "target_and_biomarker",
+   "statement": "DUOX2 is reported among the most elevated proteins in inflamed UC biopsies versus healthy controls (with HLA-DRA, CD74 and LCN2) and is listed among credible biomarker genes for UC diagnosis and therapy in a bioinformatic study. One herbal-formula study (TLXDS) says DUOX2 inhibition reduces inflammation and ferroptosis and that DUOX2 may serve as a therapeutic target; no specific DUOX2 inhibitor is established.",
+   "evidence_ids": [
+    "EV:literature:4720b127faf8",
+    "EV:literature:fe80697a88f3",
+    "EV:literature:8e1cd17f4bc3"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "MMP1",
+   "role": "biomarker",
+   "statement": "MMP1 is reported with strong diagnostic potential for UC-associated CRC (bioinformatic; ilomastat only as a docking prediction), and is among transcripts modified by mirikizumab that correlate with the modified Mayo score, Geboes score and Robarts Histopathology Index, so it tracks response to an interleukin-23 antibody. No MMP inhibitor has UC clinical evidence in this corpus.",
+   "evidence_ids": [
+    "EV:literature:b7cef02b17a6",
+    "EV:literature:8a5730511173",
+    "EV:literature:bfc8520ae2f5"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "MMP10",
+   "role": "biomarker",
+   "statement": "MMP10 is upregulated in active UC versus remission UC, Crohn's disease and controls, and in preclinical UC (pre-diagnostic samples) together with CXCL11 among several up-regulated proteins. It is also in a credible UC biomarker panel. This is replicated across independent studies, but there is no therapeutic targeting.",
+   "evidence_ids": [
+    "EV:literature:7d54a0fc31f0",
+    "EV:literature:12aa37a7bfcb"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CXCL1",
+   "role": "biomarker",
+   "statement": "CXCL1 is proposed as a UC diagnostic biomarker in several bioinformatic studies, but its individual performance is modest in one study (lower AUC than CYP2R1, NEU4 and LPCAT1 in the same analysis). Strong discrimination arises only in a combined five-gene model. It is therefore a weak stand-alone marker.",
+   "evidence_ids": [
+    "EV:literature:09c00158dd8e"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "S100A9",
+   "role": "biomarker",
+   "statement": "S100A9 is reported to perform excellently in diagnosing active UC by ROC, is overexpressed in mouse colitis, and is upregulated in UC by nanopore RNA-seq. In a tofacitinib study, S100A9 was downregulated in resident macrophages with response, which suggests the signal is immune-cell driven.",
+   "evidence_ids": [
+    "EV:literature:3f6b72c806c7",
+    "EV:literature:1295d8fd8384"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "LCN2",
+   "role": "biomarker",
+   "statement": "LCN2 is upregulated in UC, and a UC-associated carcinogenesis study reports expression higher in short-duration UC than long-duration UC, which was higher than UC-associated cancer, all above normal. This dependence on disease duration suggests LCN2 is better as an activity marker than a cancer marker.",
+   "evidence_ids": [
+    "EV:literature:6fb1ac12a544",
+    "EV:literature:d51c8c1b2104"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "AQP9",
+   "role": "mechanism",
+   "statement": "AQP9 is predominantly expressed in neutrophils, upregulated in UC mouse colon, and promotes neutrophil extracellular trap formation via JAK2-STAT3-mediated pyroptosis, aggravating epithelial injury. This suggests the strong expression signal reflects neutrophil infiltration rather than a change of the epithelium. Evidence is one mouse study.",
+   "evidence_ids": [
+    "EV:literature:25b19ac1c291",
+    "EV:literature:edbfbecae6d9"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "SLC26A3",
+   "role": "mechanism",
+   "statement": "SLC26A3 is reported significantly lower in UC than normal controls in nanopore RNA-seq, consistent with a downregulated epithelial transport and barrier signature. Only one verbatim-checked relation exists in this corpus, so literature support is thin despite genetic support in Open Targets.",
+   "evidence_ids": [
+    "EV:literature:19bcc7948503"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "JAK2",
+   "role": "target",
+   "statement": "JAK2 enters the convergence ranking through Open Targets genetic association, drug history and a replicated but modest expression increase, not through literature: the graph holds no verbatim-checked literature relation for JAK2. The literature specialist therefore cannot confirm JAK2 as a UC-specific target from this corpus.",
+   "evidence_ids": [
+    "EV:expression_meta:c36b80d82ff8",
+    "EV:open_targets_assoc:3c2fb97467a0",
+    "EV:open_targets_drug:0ab40df0a337"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "Most gene-level literature in this corpus is bioinformatic hub-gene or biomarker discovery; few clinical validation studies appear.",
+  "CXCR2, CXCR1, CD274, INHBA, FCGR2A, JAK2, IL2RA, TREM1, CXCL5, REG1A, PI3 and CLDN2 have zero verbatim-checked relations despite high Open Targets literature or genetics scores.",
+  "AUC values quoted in sentences come from different cohorts and are not comparable.",
+  "Many top-ranked expression genes (S100A8, S100A9, LCN2, CXCL8, AQP9) likely reflect neutrophil or myeloid infiltration; the literature does not separate tissue-intrinsic from infiltrating-cell signal except for AQP9.",
+  "The corpus has a tofacitinib biopsy study reporting incomplete response linked to macrophage activation, but it is not linked to JAK2 in the graph, so it is not cited as JAK2 evidence.",
+  "Numeric values from sentences are described in words, not bound to records."
+ ]
+}

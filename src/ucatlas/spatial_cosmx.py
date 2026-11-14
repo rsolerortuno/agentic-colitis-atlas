@@ -12,7 +12,7 @@ the neutrophil and stromal candidates do not, so CosMx does not resolve them in 
 
 Per slide: cells typed against the single-cell reference profiles (cell_types below; candidates are not markers),
 then with the Xenium functions (spatial.py): share of each candidate's transcripts per lineage, and lineages
-enriched among the 10 nearest neighbours of expressing cells (permutation test). Negative-probe and system-control
+enriched among the 10 nearest neighbours of expressing cells (permutation of tissue tiles, see spatial.py). Negative-probe and system-control
 columns are dropped; cells with fewer than 20 counts are left out.
 Outputs: data/processed/cosmx_attribution.parquet, cosmx_neighbourhood.parquet, cosmx_sections.parquet.
 """
@@ -23,7 +23,7 @@ import pandas as pd
 from scipy import sparse
 
 from .paths import PROCESSED, RAW
-from .spatial import attribution, neighbourhood
+from .spatial import adjust, attribution, neighbourhood
 
 D = RAW / "spatial" / "GSE312415"
 USED = {"Cos1380R387RRNA6K4u2716": ("6k", "inflamed", "I0380+I0387"),
@@ -92,7 +92,7 @@ def run(targets: list[str]) -> dict:
         att.append(attribution(m, genes, lab, targets).assign(slide=stem, panel=panel, state=state))
         nbh.append(neighbourhood(m, genes, lab, xy, targets).assign(slide=stem, panel=panel, state=state))
         print(stem, m.shape, flush=True)
-    a, n, s = pd.concat(att), pd.concat(nbh), pd.DataFrame(sec)
+    a, n, s = pd.concat(att), adjust(pd.concat(nbh)), pd.DataFrame(sec)
     s["assigned_fraction"] = 1 - s.get("n_unassigned", 0) / s["cells"]
     # above background: among typed cells, % expressing in the best lineage over the median % of the other lineages
     t = a[a.lineage != "unassigned"]
@@ -127,15 +127,18 @@ def load(store=None) -> int:
             if not node or node["type"] != "Gene":
                 continue
             shares = {p: dd.groupby("lineage")["share"].mean().round(3).nlargest(3).to_dict() for p, dd in d.groupby("panel")}
-            nn = nb[(nb.gene == gene) & (nb.p_enriched < 0.05) & (nb.enrichment > 1.2)]
+            nn = nb[(nb.gene == gene) & (nb.padj < 0.05) & (nb.enrichment > 1.2)]
             dd = det[det.gene == gene]
             rec = {"gene": gene, "platform": "CosMx (single cell)", "state": "inflamed UC rectum",
                    "detection": [{"panel": r.panel, "best_lineage": r.best_lineage, "pct_cells_best": r.pct_best,
                                   "pct_cells_other_median": r.pct_others_median, "specificity": r.specificity,
                                   "above_background": bool(r.above_background)} for r in dd.itertuples()],
                    "lineage_share_by_panel": shares,
-                   "enriched_neighbours": [{"lineage": r.neighbour_lineage, "enrichment": r.enrichment, "p": r.p_enriched,
-                                            "panel": r.panel, "n_cells": r.n_expressing_cells} for r in nn.itertuples()]}
+                   "enriched_neighbours": [{"lineage": r.neighbour_lineage, "enrichment": r.enrichment,
+                                            "padj": float(f"{r.padj:.3g}"), "panel": r.panel,
+                                            "n_cells": r.n_expressing_cells, "tiles": r.tiles_expressing}
+                                           for r in nn.itertuples()],
+                   "neighbour_test": "tissue tiles permuted, Benjamini-Hochberg"}
             ev = store.add_evidence(evidence_id("spatial_cosmx", gene), "spatial_cosmx", "DATASET:GSE312415",
                                     date.today().isoformat(), **rec)
             store.add_claim(node["id"], "observed_in_situ_in", "DATASET:GSE312415", ev)

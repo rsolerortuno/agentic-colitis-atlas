@@ -284,3 +284,46 @@ Designs fixed before running. Nothing below changes the convergence score or the
   composition adjustment, discovery screen, profiles, treatment response, disease activity, the adjusted model,
   proteomics and the Mendelian-randomisation estimators. Not read line by line: validation_shortlist.py, the
   literature modules and the spatial viewers.
+- **Rest of the review (2026-11-14)**: the parts left unread or unfixed the day before.
+  (1) Neighbourhood tests (Visium, Xenium, CosMx) rewritten. The null drew random spots or cells, which treats
+  neighbouring cells as independent. Measured on two real Xenium sections with synthetic patterns (patches of 50 to
+  1,000 um placed uniformly in the tissue, so unrelated to the cell types by construction): the old test passed 24 to
+  42 % of them at 0.05. Now the units are tissue tiles: each tile has a mean neighbourhood composition and a fraction
+  of expressing cells (or high spots), the statistic is the tile composition weighted by the expressing cells, and
+  the null permutes the fractions among the tiles. One tile size (about 200 um) passed 4 to 7 % of the patterns with
+  small patches but 10 to 28 % with patches wider than a tile, so the test is run at three tile sizes (about 200,
+  400 and 800 um; 400 and 800 um for Visium) and the largest p-value is kept: 1 to 4 % on the small section, 1 to
+  13 % on the 283,000-cell section (the worst case is three patches of 0.8 to 2 mm). Xenium and CosMx p-values are
+  now also corrected (Benjamini-Hochberg; before, raw p < 0.05). Share of gene and cell-group pairs that pass:
+  Visium 51 % to 26 %, Xenium 35 % to 11 %, CosMx 7 % to 3.5 %. Effect sizes are unchanged; the leading results
+  hold (neutrophils around S100A8, CXCL8, OSM, CXCR2; inflammatory fibroblasts around MMP1, MMP3, IL11, CHI3L1).
+  The design was chosen after seeing that the first version (one tile size) was still liberal.
+  (2) Tissue viewer: it ringed the top tenth of the spots that express a gene, while the test uses the top tenth of
+  all spots of the section; the high spots now come from the analysis itself. A missing p-value would have been
+  written as NaN, which is not valid JSON.
+  (3) Treatment response: ACT1 patient P13 has two baseline biopsies, counted as two patients in the infliximab arm;
+  their mean is used. The other repeated baseline biopsy (a GSE73661 control) was already out of every contrast
+  since 2026-11-13. A line of dead code removed.
+  (4) Shortlists: the "well known" and repurposing lists built the proposed experiment with the literature review
+  of the first-in-class list, so 20 and 22 genes with a functional colitis study had no published lead and the mouse
+  sentence ignored their own review; each list now uses its own review. Read line by line without finding other
+  errors: validation_shortlist.py (scores recomputed from the stored lights for the four tables: all agree; no
+  gene with opposite significant MR directions; constraint flag checked), shortlist_literature.py, literature.py,
+  literature_entities.py (every usable record classified; functional calls whose quote does not name the gene
+  inspected one by one: aliases such as BRP-39, Reg3g, PK2, activin A), integrate.py, verify.py, evaluate.py,
+  treatment.py, the spatial modules and both viewers.
+  (5) The three quotes rejected in earlier classifications (IDO1, INHBA, CXCL9) were classified again: 0 rejected
+  lines in the three reviews.
+  (6) The single-cell share table of Smillie 2019 was a kept file built before the symbol mapping: 47 genes with an
+  older symbol had two rows per cluster and shares adding up to 2 (S1PR3 read 57 % macrophages; it is 14 % plasma and
+  11 % macrophages). It is rebuilt on every run; the other genes are identical. (7) Genetics-first list:
+  `effects()` took the set of scored variants after filtering to confident tissue genes, so the cell-type predictions
+  were read for 6 of the 352 planned variants although 341 were already cached and the report counted 5,280
+  predictions. With all of them read (153 missing predictions requested) the list has 29 genes, not 6. The comparison
+  with Mendelian randomisation used only the estimate with the smallest q; it now uses every significant layer. The
+  result does not flatter the list: 1 agrees (TUFM, same variant and tissue), 5 disagree, 2 are mixed, and every
+  disagreement is across cell types. The report and the README say so; the CCL20 call is back, as lowered in goblet
+  cells, with Mendelian randomisation against it. (8) Read line by line without finding errors: Mendelian
+  randomisation (three modules), adjusted expression, disease activity, pathways, report layers, render, figures,
+  graph, provenance, sabotage, downloads. Dead figure functions in report_extra.py that called a function that no
+  longer exists were removed.

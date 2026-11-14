@@ -16,8 +16,13 @@ gene's expression in situ, with the design of the kidney atlas (Li et al. 2022 V
 4. Composition-corrected source: in-situ mean group share x single-cell profile, normalised (removes dissociation bias:
    the single-cell atlas over-represents immune cells and under-represents epithelium and stroma).
 5. Neighbourhood: top decile spots of the gene (>= 1 UMI) per UC section; mean share of each group in their ring-1
-   neighbours (6 adjacent spots, about 100 um) against random spots of the same sections (observed / expected),
-   PERMUTATIONS section-stratified permutations (per-gene seed), Benjamini-Hochberg across genes x groups.
+   neighbours (6 adjacent spots, about 100 um) over the mean of all spots of the same sections (observed / expected,
+   the enrichment). P-value (changed 2026-11-14): spots of one tissue zone lie together, so drawing random spots as
+   the null gave p-values that were far too small (51 % of all gene and group pairs passed). The units are now tissue
+   tiles of 4 x 4 spot spacings (about 400 um; tiles with fewer than MIN_TILE_SPOTS spots are left out; the test is
+   repeated with 8 x 8 tiles and the larger p-value is kept): each tile has a mean neighbour share and a fraction of high spots, the statistic is the tile shares weighted
+   by their high spots, and the null permutes the high-spot fractions among the tiles of each section (PERMUTATIONS
+   permutations, per-gene seed; two-sided). Benjamini-Hochberg across genes x groups.
 Outputs: data/processed/spatial_visium_deconvolution.parquet, spatial_visium_expressers.parquet,
 spatial_visium_neighbors.parquet, spatial_visium_summary.json, spatial_viewer.json (tissue viewer of the report).
 """
@@ -32,7 +37,7 @@ from scipy import sparse, stats
 from scipy.optimize import nnls
 
 from .paths import PROCESSED
-from .spatial import read_10x_h5
+from .spatial import read_10x_h5, tile_means, tile_statistic, tiles
 from .spatial_download import VISIUM
 from .spatial_visium import D, MIN_SPOTS_EXPRESSING, load
 
@@ -56,7 +61,10 @@ CELL_GROUPS = {
     "Eosinophil": ["Eosinophil"],
 }
 MARKERS_PER_GROUP, MIN_MARKER_CPM = 40, 20.0
-HIGH_QUANTILE, MIN_HIGH_SPOTS, PERMUTATIONS, SEED = 0.9, 10, 1000, 20261110
+HIGH_QUANTILE, MIN_HIGH_SPOTS, PERMUTATIONS, SEED = 0.9, 10, 2000, 20261110
+# tissue tiles, the units of the neighbourhood permutation: sides of 4 and 8 spot spacings (about 400 and 800 um);
+# the test is run at both and the larger p-value is kept
+TILE_SPOTS, MIN_TILE_SPOTS, MIN_TILES = (4, 8), 5, 8
 # lineage genes whose correlation with the matching share is reported as a sanity check (they may be markers)
 VALIDATION = {"EPCAM": "Epithelial", "COL1A1": "Fibroblast", "PECAM1": "Endothelial", "CD68": "Myeloid",
               "CD3E": "T_NK", "JCHAIN": "Plasma", "FCGR3B": "Neutrophil", "MS4A1": "B", "TPSAB1": "Mast",
@@ -140,6 +148,30 @@ def neighbors(spots: pd.DataFrame) -> sparse.csr_matrix:
     return sparse.diags(1 / np.maximum(np.asarray(A.sum(axis=1)).ravel(), 1)) @ A
 
 
+def section_tiles(spots: pd.DataFrame, NP: np.ndarray, has_nb: np.ndarray, size: int) -> dict:
+    """Per section: the tile of each spot (-1 outside the tested tiles), tile sizes and the mean neighbour share of
+    each tile, for tiles of `size` spot spacings. Only spots that have neighbours count."""
+    from scipy.spatial import cKDTree
+    out = {}
+    for s, idx in spots.groupby("section").indices.items():
+        idx = idx[has_nb[idx]]
+        xy = spots[["x", "y"]].to_numpy()[idx]
+        spacing = float(np.median(cKDTree(xy).query(xy, k=2)[0][:, 1]))
+        tile, tile_n = tiles(xy, size * spacing, MIN_TILE_SPOTS)
+        out[s] = {"idx": idx, "tile": tile, "n": tile_n, "mix": tile_means(tile, NP[idx], len(tile_n))}
+    return out
+
+
+def high_spots(cpm: np.ndarray, umi: np.ndarray) -> np.ndarray:
+    """Positions of a gene's high spots in one section: the top decile of CPM over all its spots, with at least one
+    UMI. Empty when fewer than MIN_HIGH_SPOTS spots have the gene or pass. Used by the test and by the tissue viewer,
+    so the viewer rings the spots the test used."""
+    if (umi > 0).sum() < MIN_HIGH_SPOTS:
+        return np.array([], dtype=int)
+    h = np.flatnonzero((cpm >= np.quantile(cpm, HIGH_QUANTILE)) & (umi > 0))
+    return h if len(h) >= MIN_HIGH_SPOTS else np.array([], dtype=int)
+
+
 def _rng(gene: str) -> np.random.Generator:
     return np.random.default_rng([SEED, int(hashlib.sha256(gene.encode()).hexdigest()[:8], 16)])
 
@@ -164,6 +196,7 @@ def run(targets: list[str]) -> dict:
     A = neighbors(spots)
     NP = A @ P
     has_nb = np.asarray((A > 0).sum(axis=1)).ravel() > 0
+    sec_tiles = [section_tiles(spots, NP, has_nb, size) for size in TILE_SPOTS]
     sections = spots["section"].to_numpy()
     uc = (spots["state"] == "UC_inflamed").to_numpy()
     lib = np.asarray(counts.sum(axis=1)).ravel()
@@ -191,10 +224,8 @@ def run(targets: list[str]) -> dict:
         used = []
         for s in np.unique(sections[uc]):
             idx = np.flatnonzero(sections == s)
-            if (umi[idx] > 0).sum() < MIN_HIGH_SPOTS:
-                continue
-            h = idx[(cpm[idx] >= np.quantile(cpm[idx], HIGH_QUANTILE)) & (umi[idx] > 0)]
-            if len(h) >= MIN_HIGH_SPOTS:
+            h = idx[high_spots(cpm[idx], umi[idx])]
+            if len(h):
                 high[h] = True
                 used.append(s)
         entry = {"gene": gene, "spots_with_umi": int((umi[uc] > 0).sum()), "sections_used": len(used),
@@ -204,8 +235,9 @@ def run(targets: list[str]) -> dict:
                  "top_corrected_source": groups[int(np.argmax(src))] if src.sum() > 0 else None}
         if used:
             rng = _rng(gene)
-            obs_s, exp_s = np.zeros(len(groups)), np.zeros(len(groups))
-            null, n_high = np.zeros((PERMUTATIONS, len(groups))), 0
+            obs_s, exp_s, n_high = np.zeros(len(groups)), np.zeros(len(groups)), 0
+            acc = [{"num": np.zeros(len(groups)), "den": 0.0, "pnum": np.zeros((PERMUTATIONS, len(groups))),
+                    "pden": np.zeros(PERMUTATIONS), "tiles": 0} for _ in TILE_SPOTS]
             for s in used:
                 pool = np.flatnonzero((sections == s) & has_nb)
                 h = np.flatnonzero(high & (sections == s) & has_nb)
@@ -214,19 +246,39 @@ def run(targets: list[str]) -> dict:
                 n_high += len(h)
                 obs_s += NP[h].sum(axis=0)
                 exp_s += len(h) * NP[pool].mean(axis=0)
-                draws = np.vstack([rng.choice(pool, size=len(h), replace=False) for _ in range(PERMUTATIONS)])
-                null += NP[draws].sum(axis=1)
-            obs, exp, null = obs_s / n_high, exp_s / n_high, null / n_high
+                for a, tl in zip(acc, sec_tiles):
+                    st = tl[s]
+                    inside = high[st["idx"]] & (st["tile"] >= 0)
+                    frac = np.bincount(st["tile"][inside], minlength=len(st["n"])) / np.maximum(st["n"], 1)
+                    if frac.sum() == 0:
+                        continue
+                    n_, d_, pn, pd_ = tile_statistic(st["n"], st["mix"], frac, rng, PERMUTATIONS)
+                    a["num"], a["den"], a["pnum"], a["pden"] = a["num"] + n_, a["den"] + d_, a["pnum"] + pn, a["pden"] + pd_
+                    a["tiles"] += len(st["n"])
+            obs, exp = obs_s / n_high, exp_s / n_high
             lr = np.log2((obs + 1e-4) / (exp + 1e-4))
-            lrn = np.log2((null + 1e-4) / (exp + 1e-4))
-            p = (1 + (np.abs(lrn) >= np.abs(lr)).sum(axis=0)) / (1 + PERMUTATIONS)
+            ps, tile_lr, n_tiles = [], np.full(len(groups), np.nan), acc[0]["tiles"]
+            for i, a in enumerate(acc):   # two-sided, on the tile statistic against the mean of its own null
+                if a["tiles"] < MIN_TILES or a["den"] == 0:
+                    continue
+                t_obs, t_null = a["num"] / a["den"], a["pnum"] / a["pden"][:, None]
+                centre = t_null.mean(axis=0)
+                l_obs = np.log2((t_obs + 1e-4) / (centre + 1e-4))
+                ps.append((1 + (np.abs(np.log2((t_null + 1e-4) / (centre + 1e-4))) >= np.abs(l_obs)).sum(axis=0))
+                          / (1 + PERMUTATIONS))
+                if i == 0:
+                    tile_lr = l_obs
+            p = np.max(ps, axis=0) if ps else np.full(len(groups), np.nan)   # the most conservative tile size
             for k, g in enumerate(groups):
                 nb_rows.append({"gene": gene, "cell_group": g, "observed_neighbor_share": float(obs[k]),
                                 "expected_neighbor_share": float(exp[k]), "log2_enrichment": float(lr[k]),
-                                "pvalue": float(p[k]), "n_high_spots": int(n_high), "n_sections": len(used)})
+                                "tile_log2_enrichment": float(tile_lr[k]), "pvalue": float(p[k]),
+                                "n_high_spots": int(n_high), "n_sections": len(used), "n_tiles": int(n_tiles)})
         summ.append(entry)
     nb = pd.DataFrame(nb_rows)
-    nb["padj"] = multipletests(nb["pvalue"], method="fdr_bh")[1]
+    nb["padj"] = np.nan
+    tested = nb["pvalue"].notna()
+    nb.loc[tested, "padj"] = multipletests(nb.loc[tested, "pvalue"], method="fdr_bh")[1]
     nb.to_parquet(PROCESSED / "spatial_visium_neighbors.parquet", index=False)
     pd.DataFrame(ex_rows).to_parquet(PROCESSED / "spatial_visium_expressers.parquet", index=False)
     for t in summ:
@@ -265,9 +317,12 @@ def viewer(genes: list[str], max_px: int = 900, expr_scale: float = 20.0) -> dic
     nb = pd.read_parquet(PROCESSED / "spatial_visium_neighbors.parquet")
     genes = [g for g in dict.fromkeys(genes) if g in set(nb.gene)]
     secs = []
+    loaded = {gsm: load(gsm) for gsm in VISIUM}
+    common = sorted(set.intersection(*[set(g) for _, g in loaded.values()]))   # the gene axis of run()
     for gsm, (stem, state) in VISIUM.items():
-        m, gnames = load(gsm)
+        m, gnames = loaded[gsm]
         gi = {g: i for i, g in enumerate(gnames)}
+        lib_common = np.asarray(m[:, pd.Index(gnames).get_indexer(common)].sum(axis=1)).ravel()
         sf = json.loads((D / f"{gsm}_scalefactors_json.json").read_text())
         img = Image.open(D / f"{gsm}_tissue_lowres_image.png").convert("RGB")
         s = dec[dec.section == gsm].reset_index(drop=True)
@@ -285,14 +340,20 @@ def viewer(genes: list[str], max_px: int = 900, expr_scale: float = 20.0) -> dic
         lib = np.asarray(m.sum(axis=1)).ravel()
         expr = {g: np.round(np.log1p(m[:, gi[g]].toarray().ravel() / np.maximum(lib, 1) * 1e6) * expr_scale)
                 .astype(int).tolist() for g in genes if g in gi}
+        high = {}
+        for g in genes:   # the same high spots as the test (run): CPM over the common genes
+            if g in gi:
+                umi = m[:, gi[g]].toarray().ravel()
+                high[g] = high_spots(umi / np.maximum(lib_common, 1) * 1e6, umi).tolist()
         A = neighbors(s).tocsr()
         secs.append({"id": gsm, "region": "UC inflamed" if state == "UC_inflamed" else "healthy", "donor": stem,
                      "n_spots": len(s), "width": crop.size[0], "height": crop.size[1], "spot_px": round(diam * f, 2),
                      "image": "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode(),
                      "x": np.round((xy[:, 0] - x0) * f, 1).tolist(), "y": np.round((xy[:, 1] - y0) * f, 1).tolist(),
                      "shares": {g: np.round(s[g].to_numpy() * 100).astype(int).tolist() for g in groups},
-                     "expr": expr, "neighbors": [A.indices[A.indptr[i]:A.indptr[i + 1]].tolist() for i in range(len(s))]})
-    st = {g: [{"cell_group": r.cell_group, "log2": round(float(r.log2_enrichment), 3), "padj": float(f"{r.padj:.3g}"),
+                     "expr": expr, "high": high, "neighbors": [A.indices[A.indptr[i]:A.indptr[i + 1]].tolist() for i in range(len(s))]})
+    st = {g: [{"cell_group": r.cell_group, "log2": round(float(r.log2_enrichment), 3),
+               "padj": None if pd.isna(r.padj) else float(f"{r.padj:.3g}"),
                "observed": round(float(r.observed_neighbor_share), 4), "expected": round(float(r.expected_neighbor_share), 4)}
               for r in d.itertuples()] for g, d in nb[nb.gene.isin(genes)].groupby("gene")}
     n_high = nb.groupby("gene")[["n_high_spots", "n_sections"]].first().to_dict("index")
