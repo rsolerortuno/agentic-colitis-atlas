@@ -122,7 +122,7 @@ and described in [data/README.md](data/README.md).
 | Tissue sections | Xenium 5K (GSE312420, GSE339323); CosMx 6K and 1K (GSE312415); Visium whole transcriptome with H&E images (GSE189184) | 6 Xenium sections (619,017 cells); 2 CosMx slides of inflamed UC (88,409 cells); 9 Visium sections (16,699 spots, deconvolved into 12 cell groups) |
 | Human genetics | UC GWAS (de Lange et al. 2017, GWAS Catalog GCST004133); fine-mapped QTL from Open Targets 26.09: plasma pQTL (UKB-PPP), colon eQTL (GTEx v10 transverse and sigmoid colon, CEDAR colon and rectum), gut cell-type eQTL (IBDverse single cell) | 1,693 proteins; 5,852 genes in colon tissue; 6,895 genes in about 60 gut cell types |
 | Variant effects | AlphaGenome Atlas (pre-computed RNA-seq effects, colon tissue and blood immune cells) and AlphaGenome 2 (live predictions in 12 colon cell types), Google DeepMind; UC risk signals from Open Targets 26.09 credible sets (five UC and three IBD GWAS) and the UC meta-analysis of Lyu et al. 2025 (medRxiv, not peer reviewed; authors' repository). Outputs for non-commercial research only | 263 risk signals, 2,375 credible-set variants; 5,280 cell-type predictions in 15 cell types |
-| Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 85 proteins (candidates and 10 UC small-molecule targets as controls) |
+| Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 86 proteins (candidates and 10 UC small-molecule targets as controls) |
 | Pathways and signals | PROGENy, CollecTRI (decoupler), OmniPath ligand-receptor pairs | 14 pathways, transcription factors, cell-to-cell pairs |
 | Literature | PubTator3 | 299 publications; 203 relations checked word for word |
 | Drugs and druggability | Open Targets 26.09, STRING, UniProt, Reactome, Human Protein Atlas | Clinical stage, tractability for every gene, vital-organ expression |
@@ -287,7 +287,7 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Mouse colitis models (MGI) | 24 % of UC clinical targets and 14 % of the convergence top 100 have a colitis phenotype, against 1.2 % of all genes |
 | CosMx single cells | 23 of 109 candidate genes on the 6K panel above background (epithelial, myeloid, plasma genes); the neutrophil and stromal candidates are not resolved |
 | Weight stability of the other scores | Biologic, immune and pocket scores: median rank correlation 0.97-0.99 under random weights; the novelty ordering's exact top 10 is unstable (it only orders the table) |
-| Pocket score against UC small-molecule targets | The 9 controls (JAK1, JAK3, TYK2, S1PR1, S1PR5, PDE4B, PTGS2, PPARG, DHODH) rank 7 to 45 of 83 proteins; detected cavities cover a median 53 % of experimentally ligand-bound residues (28 proteins) |
+| Pocket score against UC small-molecule targets | The 9 controls (JAK1, JAK3, TYK2, S1PR1, S1PR5, PDE4B, PTGS2, PPARG, DHODH) rank 7 to 45 of 84 proteins; detected cavities cover a median 54 % of experimentally ligand-bound residues (35 proteins) |
 | Biomarker profile against UC clinical targets | AUROC 0.79 (biomarkers are not meant to be drug targets; reported for completeness) |
 | Known-answer questions answered with the project's tools | 10 of 10 |
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
@@ -296,8 +296,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Drugs by indication | Of the 1,515 genes with a clinical drug, 111 have one in UC and 40 in Crohn's disease or IBD; 873 only for other diseases. 59 genes of the discovery screen are repurposing leads (drugs only for other diseases), 41 with an inhibitor in the clinic. Approvals known only from an ATC code are not counted as approved (epacadostat, IDO1) |
 | Single-cell lineage in four atlases | For 1,029 genes the Smillie 2019 lineage is also dominant in 815 of 1,020 (Garrido-Trigo 2023), 645 of 903 (Gubatan 2026) and 867 of 1,022 (GSE282122); 822 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
 | Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 13–54 %) |
-| Report validator | 848 claims, 1,560 evidence records, 1,738 citation links, all resolvable, no external resources |
-| Knowledge graph | 589,485 claims, 0 without a resolvable evidence record |
+| Report validator | 849 claims, 1,561 evidence records, 1,739 citation links, all resolvable, no external resources |
+| Knowledge graph | 589,486 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (7,096 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)

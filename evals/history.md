@@ -327,3 +327,7 @@ Designs fixed before running. Nothing below changes the convergence score or the
   randomisation (three modules), adjusted expression, disease activity, pathways, report layers, render, figures,
   graph, provenance, sabotage, downloads. Dead figure functions in report_extra.py that called a function that no
   longer exists were removed.
+  (9) A full rebuild from scratch after these corrections gave the same results except the structure layer: its
+  protein list comes from the targets of the agent run, and it had not been recomputed after the new run (86 proteins,
+  not 85; one more evidence record). The typed figures that depend on it were corrected, and the README figure for
+  the ligand-site check, stale since it was first written (53 % of 28 proteins), now reads 54 % of 35.
