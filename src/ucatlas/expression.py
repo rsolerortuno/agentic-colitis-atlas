@@ -7,7 +7,8 @@ counts once (biopsies of one person are not independent).
 Contrasts
 - GSE193677 (RNA-seq): UC inflamed vs control, UC non-inflamed vs control, and inflamed vs non-inflamed within the
   same patient (paired; 135 patients).
-- Microarray cohorts: UC at baseline vs healthy controls.
+- Microarray cohorts: UC at baseline vs healthy controls. GSE16879 uses its colon controls only; GSE73661 uses the
+  patients and controls that are not also in GSE16879 (vedolizumab and placebo arms, six later controls).
 - RNA-seq replication cohorts (added 2026-11-10): PROTECT (GSE109142) and RISK (GSE117993), paediatric rectum at
   diagnosis, and GSE165512, adult colon; UC vs healthy controls, NCBI-generated raw counts. They let genes that are not
   on the arrays (mostly lncRNAs and newer genes) meet more than one cohort.
@@ -200,7 +201,7 @@ def run() -> dict:
     for gse in ARRAYS:
         xa, smap = array_genes(gse)
         smap_all.update(smap)
-        s = base[base["cohort"] == gse].set_index("geo")
+        s = base[(base["cohort"] == gse) & ~base["in_gse16879"]].set_index("geo")   # people measured once
         xa = xa[[c for c in xa.columns if c in s.index]]
         uc = [c for c in xa.columns if s.loc[c, "group"] == "UC"]
         hc = [c for c in xa.columns if s.loc[c, "group"] == "healthy"]

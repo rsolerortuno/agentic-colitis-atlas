@@ -30,3 +30,17 @@ def test_composition_separates_influx_from_tissue_change():
 def test_replication_share():
     r = pd.read_parquet(PROCESSED / "sc_replication.parquet")
     assert r["same_lineage"].mean() > 0.75
+
+
+def test_per_cluster_test_covers_the_listed_genes():
+    """The inflamed vs healthy test per cluster is rebuilt with the gene list (it was a kept file that predated the
+    symbol mapping, so CXCL8 and 2,695 other listed genes had no test until 2026-11-13)."""
+    import pandas as pd
+    from ucatlas.cli import expression_top
+    from ucatlas.paths import PROCESSED
+    de = pd.read_parquet(PROCESSED / "sc_celltype_de.parquet")
+    atlas = set(pd.read_parquet(PROCESSED / "sc_pseudobulk.parquet", columns=["gene"])["gene"].unique())
+    listed = set(expression_top(None)) & atlas
+    assert "CXCL8" in set(de["gene"])
+    assert len(listed - set(de["gene"])) <= 0.01 * len(listed)      # genes seen only in non-inflamed UC have no test
+    assert not de.duplicated(["gene", "cluster"]).any()

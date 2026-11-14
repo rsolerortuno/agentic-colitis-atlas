@@ -67,7 +67,7 @@ Criteria (green / amber / red; grey = not measured):
 - druggable: an antibody route or strong small-molecule evidence in
   Open Targets (high-quality ligand, high-quality pocket, druggable family, clinical precedent) is green; a pocket
   score >= 0.6 alone, a weak bucket (structure with ligand) or a predicted membrane or signal peptide only is amber
-  (the pocket score ranked the UC small-molecule targets 4th to 25th of 45 proteins: it does not discriminate alone).
+  (the pocket score ranked the UC small-molecule targets 7th to 45th of 83 proteins: it does not discriminate alone).
   Antibody route = an extracellular part, from UniProt topology: an extracellular topological domain, a GPI anchor or
   secretion. "Membrane" or "Cell membrane" as a location is not enough (OSBPL3, EHD3 and RFTN1 sit on the cytoplasmic
   face); a protein marked secreted but also resident in the ER membrane (ERO1A) counts as amber. Checked on the UC

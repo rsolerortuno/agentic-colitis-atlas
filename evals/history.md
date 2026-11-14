@@ -261,3 +261,26 @@ Designs fixed before running. Nothing below changes the convergence score or the
   chance (3 of 7 confident), because the check measured direction, not which gene: 2.4 % of the other genes near an
   eQTL variant pass. The rule now requires the top gene at its variant, twice the next one; 6 genes remain. The
   CCL20 and IL10 calls published on 2026-11-12 used the first rule and are withdrawn in the Genetics tab.
+- **Review of the whole atlas (2026-11-13)**: requested to find what was still wrong. Found and fixed:
+  (1) GSE16879 compared UC colon with twelve controls of which six are ileal biopsies; only the six colon controls are
+  used now. (2) The infliximab patients and six controls of GSE73661 are the people of GSE16879 measured on another
+  array (matching expression profiles pairs 22 of 24 patients and controls CO2-CO5; biopsy numbers below 600), so the
+  meta-analysis counted them twice. GSE73661 now enters UC vs control with its 44 vedolizumab and placebo patients and
+  its 6 later controls; response and disease activity are unchanged. Effect: leading genes barely move (CXCR2 2.81 to
+  2.84, S100A8 4.77 to 4.79), two-fold changes 1,625 to 1,657, screening pool 1,111 to 1,127, first-in-class 49 with
+  six genes replaced at the margin. (3) sc_celltype_de.parquet was a kept file built before the symbol mapping of the
+  pseudobulk and for an older gene list: 2,695 listed genes, CXCL8 among them, had no inflamed vs healthy test per
+  cluster. It is rebuilt on every run (vectorised, 12 s instead of over 20 minutes; same values on 306 comparisons).
+  (4) The published report printed "cost $0.00, 0.0 minutes" because the 2026-11-11 run had no session.json.
+  (5) Typed numbers that had drifted: the literature-matched AUROC range, the pocket-score control ranks (4th to 25th
+  of 45 proteins; now 7th to 45th of 83) and about twenty README figures. Measured and documented, not changed: the
+  Visium, Xenium and CosMx neighbourhood tests draw random spots or cells as their null, so their p-values are too
+  small (51 % of Visium pairs and 40 % of Xenium pairs pass); the report and README now say to read the enrichment
+  size. Because every meta-analysis value moved, the agent run was redone (runs/2026-11-13: 122 statements, 0
+  unsupported, 29 of 29 key findings cited) after the literature of the eight genes that entered the lists was
+  retrieved and classified. Sabotage on the new run: numbers 77/77, gene 82/82, evidence 82/82, direction 22/28 with
+  expression evidence. Checked without finding errors: the sample tables of the other cohorts, the differential
+  expression and meta-analysis code, claim directions in the graph, evidence descriptions for all 54 record types,
+  composition adjustment, discovery screen, profiles, treatment response, disease activity, the adjusted model,
+  proteomics and the Mendelian-randomisation estimators. Not read line by line: validation_shortlist.py, the
+  literature modules and the spatial viewers.

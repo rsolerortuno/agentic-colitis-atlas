@@ -1,0 +1,52 @@
+{
+ "agents": {
+  "agent_expression.json": {
+   "submitted": 12,
+   "kept": 12,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 0
+  },
+  "agent_literature.json": {
+   "submitted": 13,
+   "kept": 13,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 3
+  },
+  "agent_external.json": {
+   "submitted": 12,
+   "kept": 12,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 2
+  },
+  "agent_cells.json": {
+   "submitted": 11,
+   "kept": 11,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 0
+  },
+  "agent_pathways.json": {
+   "submitted": 15,
+   "kept": 15,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 0
+  },
+  "agent_applied.json": {
+   "submitted": 15,
+   "kept": 15,
+   "dropped": 0,
+   "dropped_detail": [],
+   "semantic_failures": 0,
+   "ids_removed": 0
+  }
+ }
+}

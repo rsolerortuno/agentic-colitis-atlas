@@ -26,7 +26,7 @@ from .expression import COHORTS  # noqa: E402  (eight bulk cohorts)
 
 def _cohort_matrix(cohort: str) -> tuple[pd.DataFrame, list[str], list[str]]:
     s = pd.read_parquet(PROCESSED / "samples.parquet")
-    s = s[(s.cohort == cohort) & (s.timepoint == "baseline")]
+    s = s[(s.cohort == cohort) & (s.timepoint == "baseline") & ~s.in_gse16879]   # same samples as expression.py
     x = pd.read_parquet(PROCESSED / f"expr_{cohort}.parquet")
     if cohort == "GSE193677":
         from .expression import patient_means

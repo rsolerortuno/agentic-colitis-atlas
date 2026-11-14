@@ -11,16 +11,19 @@ Only colon and rectum biopsies of ulcerative colitis (UC) patients and non-IBD c
 | GSE193677 (Mount Sinai MSCCR, PMID 36109152) | Discovery: inflamed vs non-inflamed vs control | RNA-seq, GPL16791 (raw counts) | 2,490 biopsies, all regions, UC/CD/control | UC inflamed 293, UC non-inflamed 391, control 340; 135 UC patients have both an inflamed and a non-inflamed colon biopsy | As expected. Mayo endoscopic score, Nancy and GHAS histology, calprotectin and CRP are available |
 | GSE206285 (UNIFI, ustekinumab; PMIDs 36192482, 36170836) | Replication; response | Affymetrix HT HG-U133+ PM, GPL13158 | 568 | UC 550 (ustekinumab 364, placebo 186), healthy 18 | As expected (550 + 18). Endpoints: mucosal healing and clinical remission at week 8 |
 | GSE92415 (PURSUIT-SC, golimumab) | Replication; response | GPL13158 | 183 | UC 87 at week 0 (golimumab 59, placebo 28), healthy 21; 75 at week 6 | As expected (87 + 21). Endpoint: clinical response at week 6; Mayo score |
-| GSE16879 (infliximab; PMID 19956723) | Replication; response | Affymetrix HG-U133 Plus 2, GPL570 | 133 (UC, CD, control; before and after) | UC 24 before infliximab (8 responders, 16 non-responders), control 12 (CD excluded) | Matches the paper (24 UC, 8 responders) |
+| GSE16879 (infliximab; PMID 19956723) | Replication; response | Affymetrix HG-U133 Plus 2, GPL570 | 133 (UC, CD, control; before and after) | UC 24 before infliximab (8 responders, 16 non-responders), colon control 6 (CD and the 6 ileal controls excluded) | Matches the paper (24 UC, 8 responders) |
 | GSE73661 (infliximab and vedolizumab; PMID 27802155) | Replication; response | Affymetrix HuGene 1.0 ST, GPL6244 | 178 | UC 67 at week 0 (infliximab 23, vedolizumab 41, placebo 3), control 12 | Response is the label of each patient's earliest post-treatment biopsy (W4–6 infliximab, W6 or W12 vedolizumab): infliximab 8 R / 15 NR, vedolizumab 9 R / 32 NR. A third-party summary reported 15 R / 8 NR for infliximab; GEO titles say 8 R / 15 NR, and GEO is used |
 
 | GSE109142 (PROTECT; PMID 30604764) | Replication (added 2026-11-10) | RNA-seq, NCBI-generated raw counts (GRCh38.p13) | 226 rectal biopsies | UC 206 (treatment-naive, paediatric), control 20 | As expected (206 + 20) |
 | GSE117993 (RISK) | Replication (added 2026-11-10) | RNA-seq, NCBI-generated raw counts | 190 rectal biopsies | UC 43, control 55 (Crohn's disease 92 excluded) | As expected |
 | GSE165512 (IL23-IL17 axis in IBD) | Replication (added 2026-11-10) | RNA-seq, NCBI-generated raw counts | 170 (colon and ileum) | UC colon 40, healthy colon 35 (31 in the count file); ileum and Crohn's excluded | Four control samples of the series are missing from the NCBI count file |
 
-**Caveat: infliximab patients probably overlap.** GSE16879 and GSE73661 come from the same Leuven group, with
-nearly the same infliximab split (8 R / 16 NR and 8 R / 15 NR). They are not treated as independent replication
-cohorts for infliximab response: GSE16879 is used for infliximab, GSE73661 for vedolizumab.
+**The infliximab patients are the same people.** GSE16879 and GSE73661 come from the same Leuven group. Matching the
+expression profiles of the two series pairs 22 of the 24 GSE16879 patients with an infliximab patient of GSE73661, and
+its colon controls CO2-CO5 with four GSE73661 controls: the 23 infliximab patients and six controls of GSE73661
+(biopsy numbers below 600) were measured again on another array. Each person is used once: GSE16879 for infliximab
+response and for UC vs control (24 UC, 6 colon controls); GSE73661 for vedolizumab response and, in UC vs control, only
+its 44 vedolizumab and placebo patients and its 6 later controls. Disease activity uses all 67 GSE73661 patients.
 
 ## Single cell (for M11)
 

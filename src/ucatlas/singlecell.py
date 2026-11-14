@@ -89,20 +89,24 @@ def celltype_share(pb: pd.DataFrame) -> pd.DataFrame:
 def celltype_de(pb: pd.DataFrame, min_donors: int = 3) -> pd.DataFrame:
     """Per gene and cluster: inflamed vs healthy, one value per donor (mean CP10K of the donor's cells, log2(x+1))."""
     from statsmodels.stats.multitest import multipletests
-    pb = pb[pb["health"].isin(["inflamed", "healthy"])].copy()
-    pb["mean"] = np.log2(pb["cp10k_sum"] / pb["n_cells"] + 1)
+    pb = pb[pb["health"].isin(["inflamed", "healthy"])]
     # donors that have the cluster but no reads for the gene count as 0
-    donors = pb.drop_duplicates(["subject", "health", "cluster"])[["subject", "health", "cluster"]]
+    donors = pb.drop_duplicates(["subject", "health", "cluster"])[["subject", "health", "cluster", "n_cells"]]
+    # two older symbols of one gene are summed first, so a donor counts once per gene
+    pb = pb.groupby(["gene", "subject", "health", "cluster"], as_index=False)["cp10k_sum"].sum()
     rows = []
-    for (gene, cl), d in pb.groupby(["gene", "cluster"]):
+    for cl, d in pb.groupby("cluster"):       # one matrix per cluster (genes x donors) instead of one test per gene
         dn = donors[donors["cluster"] == cl]
-        v = dn.merge(d[["subject", "health", "mean"]], on=["subject", "health"], how="left").fillna({"mean": 0.0})
-        a, b = v.loc[v.health == "inflamed", "mean"], v.loc[v.health == "healthy", "mean"]
-        if len(a) < min_donors or len(b) < min_donors:
+        cols = pd.MultiIndex.from_frame(dn[["subject", "health"]])
+        infl = (dn["health"] == "inflamed").to_numpy()
+        if infl.sum() < min_donors or (~infl).sum() < min_donors:
             continue
-        t, p = stats.ttest_ind(a, b, equal_var=False)
-        rows.append((gene, cl, a.mean() - b.mean(), p, len(a), len(b)))
-    de = pd.DataFrame(rows, columns=["gene", "cluster", "log2fc", "p", "n_inflamed", "n_healthy"])
+        m = d.pivot(index="gene", columns=["subject", "health"], values="cp10k_sum").reindex(columns=cols).fillna(0.0)
+        x = np.log2(m.to_numpy(float) / dn["n_cells"].to_numpy(float) + 1)
+        t, p = stats.ttest_ind(x[:, infl], x[:, ~infl], axis=1, equal_var=False)
+        rows.append(pd.DataFrame({"gene": m.index, "cluster": cl, "log2fc": x[:, infl].mean(axis=1) - x[:, ~infl].mean(axis=1),
+                                  "p": p, "n_inflamed": int(infl.sum()), "n_healthy": int((~infl).sum())}))
+    de = pd.concat(rows, ignore_index=True).sort_values(["gene", "cluster"]).reset_index(drop=True)
     ok = de["p"].notna()
     de["padj"] = np.nan
     de.loc[ok, "padj"] = multipletests(de.loc[ok, "p"], method="fdr_bh")[1]

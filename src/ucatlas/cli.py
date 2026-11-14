@@ -40,8 +40,9 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         _clear_graph()
         # the single-cell pseudobulk files (sc_*, sc3_*) come from long streaming steps and are kept; everything
         # else is rebuilt. They are rebuilt here only when missing.
-        keep = ("sc_pseudobulk", "sc_celltype_share", "sc_celltype_de", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share",
-                "sc4_")
+        # sc_celltype_de is not kept (2026-11-13): it holds only the genes of the list it was first built for, and it
+        # predated the symbol mapping of the pseudobulk, so 2,695 listed genes (CXCL8 among them) had no test.
+        keep = ("sc_pseudobulk", "sc_celltype_share", "sc_cells", "sc3_pseudobulk", "sc3_celltype_share", "sc4_")
         for f in PROCESSED.glob("*"):
             if not f.name.startswith(keep):
                 f.unlink() if f.is_file() else shutil.rmtree(f)
@@ -68,6 +69,9 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     from . import composition, kg_cells, sc_replication, sc_neutrophil, singlecell
     if not (PROCESSED / "sc_celltype_share.parquet").exists() and (singlecell.SC / "manifest.json").exists():
         _step("single cell (Smillie 2019)", lambda: singlecell.run(expression_top(None)))
+    elif not (PROCESSED / "sc_celltype_de.parquet").exists() and (PROCESSED / "sc_pseudobulk.parquet").exists():
+        _step("single cell, inflamed vs healthy per cluster",
+              lambda: len(singlecell.celltype_de(_listed(pd_read(PROCESSED / "sc_pseudobulk.parquet")))))
     if not (PROCESSED / "sc3_celltype_share.parquet").exists() and (sc_neutrophil.D / "manifest.json").exists():
         _step("single cell with neutrophils (Gubatan 2026)", sc_neutrophil.build)
     from . import sc_gse282122
@@ -176,6 +180,16 @@ def _clear_graph() -> None:
 
 TX_EXTRA = ["TNF", "IL23A", "IL12B", "ITGB7", "ITGA4", "MADCAM1", "OSM", "OSMR", "TREM1", "JAK1", "S1PR1",
             "TNFSF15", "IL11"]
+
+
+def pd_read(path):
+    import pandas as pd
+    return pd.read_parquet(path)
+
+
+def _listed(pb):
+    """Pseudobulk rows of the genes that change in the meta-analysis (the list the per-cluster test is run on)."""
+    return pb[pb["gene"].isin(set(expression_top(None)))]
 
 
 def expression_top(n):

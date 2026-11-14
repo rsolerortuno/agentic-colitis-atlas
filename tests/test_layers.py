@@ -47,3 +47,19 @@ def test_tractability_covers_the_genome():
     from ucatlas.profiles import tractability_table
     t = tractability_table()
     assert len(t) > 15000 and t["predicted"].sum() > 3000
+
+
+def test_pocket_control_ranks_in_the_texts_match_the_data():
+    """The shortlist help says where the UC small-molecule targets rank by pocket score; it was typed and had drifted."""
+    import json
+    import re
+    from ucatlas.paths import PROCESSED, ROOT
+    p = PROCESSED / "structure_summary.json"
+    if not p.exists():
+        pytest.skip("structure layer not built")
+    rows = [r for r in json.loads(p.read_text(encoding="utf-8"))["results"] if r.get("best_pocket_score") is not None]
+    rows.sort(key=lambda r: -r["best_pocket_score"])
+    ranks = [i + 1 for i, r in enumerate(rows) if r["control"]]
+    text = (ROOT / "src/ucatlas/report_assets/shortlist_tab.html.j2").read_text(encoding="utf-8")
+    m = re.search(r"small-molecule targets (\d+)th to (\d+)th of (\d+) proteins", text)
+    assert m and (int(m.group(1)), int(m.group(2)), int(m.group(3))) == (min(ranks), max(ranks), len(rows))

@@ -74,5 +74,5 @@
 <li><h3>Tools must be reachable</h3><p>A test starts every MCP server the way the agents do and checks that each tool is registered. It was added after the first run with the genetics tools found them missing: they were registered after the server had started.</p></li>
 <li><h3>Sabotage test</h3><p>Copies of the published sentences were corrupted on purpose (changed numbers, another gene, swapped evidence, flipped direction) to see what the verifier catches: {{ sabotage }}.</p></li>
 </ol>
-<p class="small">Published run: {{ session.run }}, {{ session.statements }} statements, {{ session.unsupported }} unsupported, cost ${{ session.cost }}, {{ session.minutes }} minutes. The benchmark runs use the final data (every evidence layer of this version); a first benchmark on the 2026-11-09 data, with the same conclusion, is described in evals/history.md.</p>
+<p class="small">Published run: {{ session.run }}, {{ session.statements }} statements, {{ session.unsupported }} unsupported{% if session.minutes %}, cost ${{ session.cost }}, {{ session.minutes }} minutes{% endif %}. The benchmark runs use the final data (every evidence layer of this version); a first benchmark on the 2026-11-09 data, with the same conclusion, is described in evals/history.md.</p>
 </section>

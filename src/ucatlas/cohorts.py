@@ -88,7 +88,9 @@ def _pursuit() -> pd.DataFrame:
 
 def _gse16879() -> pd.DataFrame:
     m = series_meta("GSE16879")
-    keep = m["disease"].isin(["UC", "Control"])
+    # Colon only: six of the twelve controls of the series are ileal biopsies (titles IL1-IL6), which were compared
+    # with UC colon until 2026-11-13.
+    keep = m["disease"].isin(["UC", "Control"]) & m["tissue"].eq("Colon")
     m = m[keep].reset_index(drop=True)
     when = m["before or after first infliximab treatment"].map(
         {"Before first infliximab treatment": "baseline", "After first infliximab treatment": "after infliximab",
@@ -131,6 +133,12 @@ def _gse73661() -> pd.DataFrame:
                         "age": None, "sex": None, "title": m["title"]})
     out.loc[out["group"] == "healthy", "response"] = None
     out["response_endpoint"] = "endoscopic response (authors, Mayo endoscopic subscore)"
+    # The infliximab patients and six of the controls are the people of GSE16879, hybridised again on another array
+    # (biopsy numbers below 600; 22 of the 24 GSE16879 patients and its colon controls CO2-CO5 pair with them by
+    # expression). They are kept for response and disease activity but left out of the UC vs control contrast, so the
+    # meta-analysis does not count the same people twice (2026-11-13).
+    bp = pd.to_numeric(m["title"].str.extract(r"^Bp(\d+)")[0], errors="coerce")
+    out["in_gse16879"] = (drug.eq("infliximab") | (group.eq("healthy") & (bp < 600))).to_numpy()
     return out
 
 
@@ -210,6 +218,7 @@ def build() -> pd.DataFrame:
              _gse72819(), _gse23597()]
     df = pd.concat(parts, ignore_index=True)
     df["response"] = df["response"].astype("object").where(df["response"].notna(), None)
+    df["in_gse16879"] = df["in_gse16879"].astype("boolean").fillna(False).astype(bool)
     keep = [c for c in df.columns if not c.startswith("_")]
     df = df[keep]
     df.to_parquet(PROCESSED / "samples.parquet", index=False)
