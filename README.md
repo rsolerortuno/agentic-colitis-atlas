@@ -155,6 +155,9 @@ and described in [data/README.md](data/README.md).
   gene expression in colon tissue (GTEx v10, CEDAR) and in single gut cell types (IBDverse). Wald ratio or
   inverse-variance weighted estimate, Benjamini-Hochberg over genes, and a colocalisation check with IBD GWAS signals
   for the significant ones. Every estimate is repeated with FinnGen R12 as an independent outcome and combined.
+  A separate count follows the UC GWAS through each layer: QTL signals, those matched to the GWAS, those at a
+  genome-wide UC variant, MR significant, colocalised; and, from the GWAS side, how many UC risk signals share a
+  credible-set variant with a QTL and how many colocalise with one (Open Targets coloc and eCAVIAR).
 - **Independent checks.** Protein-level replication in a separate proteomics study; mouse knockouts with colitis
   phenotypes (MGI); CosMx single-cell sections; machine-extracted PubTator3 relations next to the checked ones.
 - **Protein structure.** AlphaFold models trimmed below pLDDT 50, cavities detected with pyKVFinder and ordered by a
@@ -216,6 +219,30 @@ the TNFRSF6B locus again. IDO1, MMP1 and CHI3L1 are null in the colon too. Where
 and colon (509 genes), the two estimates point the same way in 61 %. In FinnGen, an independent Finnish GWAS, 34 of
 the 64 significant plasma proteins and 168 of 296 significant gut estimates replicate (same sign, p < 0.05), including
 IL12B, IL10, CD274, TNFRSF6B, IRF5, GSDMB and NXPE1.
+
+How much each layer adds, followed from the UC GWAS (de Lange 2017) through each QTL source:
+
+| Step | Plasma pQTL (UKB-PPP) | Colon eQTL (GTEx v10, CEDAR) | Gut sc-eQTL (IBDverse) |
+|---|---:|---:|---:|
+| QTL signals (cis credible sets, p < 5e-8, MHC out; independent within a study) | 13,581 | 14,963 | 53,013 |
+| Genes or proteins with a QTL signal | 1,874 | 7,241 | 8,215 |
+| Signals matched to the UC GWAS (MR instruments) | 8,013 (59 %) | 10,355 (69 %) | 32,812 (62 %) |
+| Genes or proteins tested by MR | 1,693 | 5,852 | 6,895 |
+| Genes whose estimate uses two or more instruments | 1,286 | 803 | 228 |
+| Instruments at a genome-wide UC variant | 16 | 35 | 77 |
+| MR significant (q < 0.05) | 64 | 135 | 161 |
+| MR significant and colocalised with a UC or IBD signal | 17 | 38 | 60 |
+| UC risk signals (of 241) sharing a credible-set variant with a QTL | 12 | 17 | 41 |
+| UC risk signals that colocalise with a QTL | 10 | 13 | 36 |
+
+The layers complement each other more than they repeat each other. Of the 99 genes that are MR significant and
+colocalise in at least one layer, 15 come only from plasma, 24 only from colon tissue and 45 only from gut cell
+types; 13 are shared by the two gut layers, 1 by plasma and gut cells, and one, SULT1A1, by all three. From the GWAS
+side, 47 of the 241 UC risk signals with a credible set colocalise with a QTL in at least one layer (9 only in plasma,
+2 only in colon tissue, 24 only in gut cell types, 11 in both gut layers, 1 in plasma and gut cells, none in all
+three); 194 have no colocalising QTL in these data. Sharing a variant is not enough: 6 signals share a credible-set
+variant with a QTL without colocalising. Cell-type eQTL explain the most UC signals, mostly ones that tissue eQTL
+miss, and plasma pQTL add signals (IL10, IL12B, CD274, FCGR2A) that neither gut layer has.
 A fourth list starts from genetics instead of biopsies: 263 independent UC risk signals (Open Targets credible sets
 of five UC and three IBD GWAS, plus 22 loci found only in the 2025 preprint of Lyu et al.), with the gene, cell and
 direction predicted from DNA sequence by AlphaGenome in colon tissue, blood and 15 colon and blood cell types. The
@@ -410,6 +437,7 @@ tests/               automated tests
 | `singlecell.py`, `sc_replication.py`, `sc_neutrophil.py`, `sc_gse282122.py`, `composition.py` | Cell attribution in four single-cell atlases, lineage typing of the GSE282122 matrices and replication across four atlases, tissue change vs cell influx |
 | `spatial.py`, `spatial_visium.py`, `spatial_deconv.py`, `spatial_download.py` | Xenium cell typing, attribution and neighbourhoods; Visium compartments, spot deconvolution, in-situ expressers, neighbourhoods and the tissue-viewer data; range-request downloads |
 | `mr.py`, `mr_colon.py` | Mendelian randomisation with plasma pQTL and with gut eQTL (colon tissue, gut cell types), colocalisation check |
+| `qtl_overlap.py` | The UC GWAS followed through the three QTL layers: matched instruments, colocalised UC risk signals, overlap between layers |
 | `alphagenome_uc.py`, `genetic_targets.py` | AlphaGenome access with a cache and its validation against fine-mapped eQTL; the genetics-first list: UC risk signals from Open Targets credible sets and the Lyu 2025 preprint, the gene-assignment rule and its check, cross-reference with the rest of the atlas |
 | `structure.py`, `protein_viewer.py` | AlphaFold models, pocket detection and score, ligand-site check, 3D viewer data |
 | `proteomics.py`, `mouse_models.py`, `spatial_cosmx.py` | Protein-level replication, MGI mouse colitis phenotypes, CosMx single-cell sections |

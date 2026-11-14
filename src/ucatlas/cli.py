@@ -158,6 +158,10 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         from . import genetic_targets   # genetics-first list (2026-11-13): needs the credible-set extract and the GWAS
         if genetic_targets.EXTRACT.exists() and (genetic_targets.LYU / "EUR_UC_chr1.txt.gz").exists():
             _step("genetics-first targets", lambda: (genetic_targets.run()["genes"], genetic_targets.load())[1])
+            from . import qtl_overlap   # UC GWAS against the three QTL layers (2026-11-14): needs the signals and MR
+            if mr_colon.EXTRACT.exists() and (PROCESSED / "mr_colon.parquet").exists():
+                _step("UC GWAS against the QTL layers",
+                      lambda: f"{qtl_overlap.run()['uc_signals_colocalised_any_layer']} UC signals colocalise")
     _step("graph statistics", _write_graph_stats)   # after every load, ranking included (the report shows these counts)
     _step("verify agents", lambda: _script("scripts/verify.py", "agents", run.name))
     _step("assemble", lambda: _script("scripts/assemble.py", run.name))

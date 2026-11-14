@@ -602,6 +602,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     cell = cell_tables(report_genes[:30], store)
     G = genetics_tables(report_genes)
     G["alphagenome"] = alphagenome_view()
+    qo = PROCESSED / "qtl_overlap.json"   # UC GWAS against the three QTL layers (2026-11-14)
+    G["overlap"] = json.loads(qo.read_text(encoding="utf-8")) if qo.exists() else None
     GT = genetic_targets_view()
     S = structure_tables(report_genes)
     D = discovery_tables(layers)

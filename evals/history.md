@@ -331,3 +331,11 @@ Designs fixed before running. Nothing below changes the convergence score or the
   protein list comes from the targets of the agent run, and it had not been recomputed after the new run (86 proteins,
   not 85; one more evidence record). The typed figures that depend on it were corrected, and the README figure for
   the ligand-site check, stale since it was first written (53 % of 28 proteins), now reads 54 % of 35.
+- **UC GWAS against the three QTL layers (2026-11-14)**: requested to know how much each QTL source adds. The MR tables said how many genes were tested and significant per
+  layer, not how many QTL signals reach the UC GWAS or how many UC risk signals each layer explains. qtl_overlap.py
+  follows the GWAS through each layer with the MR instruments: 13,581 / 14,963 / 53,013 QTL signals (plasma, colon
+  tissue, gut cells), 59-69 % matched to the GWAS, 16 / 35 / 77 instruments at a genome-wide UC variant, 17 / 38 / 60
+  genes MR significant and colocalised. From the GWAS side (Open Targets colocalisation queried for the credible set
+  of each of the 241 UC risk signals that have one), 10 / 13 / 36 signals colocalise, 47 in any layer, none in all
+  three; 6 share a credible-set variant without colocalising. One gene, SULT1A1, is MR significant and colocalised in
+  all three layers. Measured once, reported as found.
