@@ -126,9 +126,39 @@ check did not read (pathway and transcription-factor activity, treatment respons
 hidden by an ordering word elsewhere in the sentence ("tops the ranking: log2FC is down"); about 11 were literature
 sentences. The check now reads all of these (the literature through the direction of the verbatim sentence cited, when
 it speaks of the gene's expression and not of an experiment on it): direction 44/53 (83 %), 18/21 with bulk evidence,
-and none of the 115 real statements is newly flagged. Still missed: flips of ordering words ("moved down",
-"lower-ranked"), sentences that become self-contradictory ("increased (lower)"), negated clauses, clauses naming
-several genes, and pathways whose cohorts disagree.
+and none of the 115 real statements is newly flagged. A negation now counts only before the direction word ("most
+reduced ... without an inhibitor" is not negated), and a clause naming several genes is checked when it contradicts
+the evidence of every gene it names; a clause naming none is about the gene of the previous clause: direction 46/53
+(87 %), 19/21 with bulk evidence, still no real statement flagged. Still missed: flips of ordering words ("moved
+down", "lower-ranked"), a sentence made self-contradictory ("increased (lower)"), a pathway the statement cites no
+evidence for, a comparison with the rest of the shortlist ("fewest cohorts"), and comparisons that are not
+expression directions (AUC, mouse versus human).
+
+## (g2) Reading check (2026-11-23)
+
+The deterministic checks cannot tell whether a claim is contained in what is cited. claim_check.py gives every
+statement that passes verification, with the full records it cites and the abstracts of cited papers, to a reader
+subagent (.claude/agents/lector-afirmaciones.md; this first time run as general-purpose agents on the same model and
+instructions, because a new agent type loads only in a new session). The reader splits each statement into claims and
+calls each supported, contradicted or not in the evidence, with a quote that must be verbatim in the evidence (all
+were). The 53 direction-flipped copies were mixed in under opaque ids.
+
+- Real statements: 606 claims, 3 contradicted, 130 not in the cited evidence. The 3 were checked by hand and are real:
+  targets.IDO1 calls the IDO1 paper "a single mouse study" although it measured IDO1 in UC patients (GEO and western
+  blot); narrative.sections.spatial says the neighbourhood of MMP1-high spots "was not reported in this run" although
+  the cited Visium record gives it (inflammatory fibroblasts, log2 enrichment 1.13, and neutrophils, 1.06); and
+  narrative.sections.pathways names "Neutrophil CXCR4" as receiver of CXCL8 to CXCR2, where the record says
+  "Neutrophil". The 130 unsupported claims are about 23 comparisons across genes backed by one gene's record ("the
+  largest", "the only"), 33 drug names or approval status, 9 gene functions, 58 results of other analyses of this atlas
+  that the sentence does not cite (cell source, CosMx, MR sensitivity, other pathways), and 7 literature claims taken
+  from an abstract or paper not cited (CXCL1 "five-gene model" and "several studies", S100A9 "nanopore RNA-seq",
+  MMP10 "biomarker panel", IDO1 "single experimental study"). These are citation gaps, not wrong facts, except the
+  three above.
+- Sabotage copies: 51 of 53 flips caught (a flagged claim containing the flipped word); the two missed are the
+  ranking-word flips ("moved up", "lower-ranked") that the instructions exclude. The deterministic checks catch 46.
+
+The reader is a language model; its verdicts are shown in the report as a review aid and do not change the verified
+evidence. Correcting the three statements needs a new agent run.
 
 ## (h) What the agentic layer adds (closed-book baseline, review of 2026-11-10)
 

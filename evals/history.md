@@ -349,3 +349,15 @@ Designs fixed before running. Nothing below changes the convergence score or the
   literature sentence cited when it speaks of the gene's expression (not negated, no knockdown or treatment).
   Ordering and score words now exempt only their own clause. Sabotage on run 2026-11-14: direction 44/53 (83 %, was
   14/53), 18/21 with bulk evidence (was 14/21); the 115 real statements still all pass. 8 tests added.
+- **Negation scope, multi-gene clauses and a reading check (2026-11-23)**: of the 9 flips still missed, the user asked
+  which a reading check would catch, then asked for both fixes. Deterministic: a negation counts only before the
+  direction word, a clause naming several genes is checked when it contradicts every gene it names, and a clause naming
+  none takes the gene of the previous clause (direction 46/53, 19/21 with bulk evidence; no real statement flagged; 2
+  tests). Reading: claim_check.py and the reader subagent lector-afirmaciones (run this time as general-purpose agents
+  with the same instructions and model, since a new agent type loads only in a new session) checked 606 claims of the
+  115 statements against their cited records and abstracts. 3 claims are contradicted by their own evidence and were
+  confirmed by hand (IDO1 "single mouse study", MMP1-high neighbourhood "not reported", the CXCR2 receiver state);
+  130 are not in the cited evidence, nearly all citation gaps (comparisons across genes, drug status, other analyses,
+  7 literature claims from uncited abstracts or papers). On the 53 flipped copies, mixed in under opaque ids, the
+  reader caught 51; it missed the two ranking-word flips. Shown in the Agents tab and the README as a review aid; the
+  three statements need a new agent run to be corrected. 3 tests.

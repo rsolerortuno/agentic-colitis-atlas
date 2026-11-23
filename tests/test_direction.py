@@ -69,3 +69,21 @@ def test_literature_lists_of_genes_and_interventions():
     uc = {"type": "literature_relation", "subject_text": "UC", "object_text": "IBD",
           "sentence": "UC expression of the marker was increased."}
     assert not _direction("Expression is decreased in UC.", None, [uc])
+
+
+def test_negation_after_the_direction_word_does_not_negate_it():
+    lit = {"type": "literature_relation", "subject_text": "DUOX2", "object_text": "UC",
+           "sentence": "Proteins most highly elevated in inflamed UC biopsies were HLA-DRA and DUOX2."}
+    assert _direction("DUOX2 appears among the most reduced proteins in inflamed UC biopsies without an "
+                      "established inhibitor.", None, [lit])
+    assert not _direction("DUOX2 is not reduced in inflamed UC biopsies.", None, [lit])
+
+
+def test_clause_about_several_genes_and_carried_subject():
+    mr2 = [MR, {**MR, "gene": "CXCL5", "beta": -0.45}]
+    text = "For CD274 and CXCL5 genetics runs opposite to an inhibitor strategy, since genetically lower protein is protective."
+    assert _direction(text, None, mr2)
+    assert not _direction(text.replace("lower protein", "higher protein"), None, mr2)
+    # genes that disagree: nothing is attributed
+    mixed = [MR, {**MR, "gene": "CXCL5", "beta": 0.45}]
+    assert not _direction("CD274 and CXCL5: genetically lower protein is protective.", None, mixed)

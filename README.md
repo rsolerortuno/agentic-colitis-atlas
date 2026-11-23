@@ -296,7 +296,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Check | Result |
 |---|---|
 | Agent text against its evidence | 115 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
-| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (84/84), other-gene attributions (80/80) and swapped evidence (80/80); 83 % of all flipped directions (44/53) and 86 % where the sentence cites bulk expression evidence (18/21); directions are compared with bulk, pathway and treatment-response changes, Mendelian randomisation and the cited literature sentence (until 2026-11-23 only with bulk expression: 26 %) |
+| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (84/84), other-gene attributions (80/80) and swapped evidence (80/80); 87 % of all flipped directions (46/53) and 90 % where the sentence cites bulk expression evidence (19/21); directions are compared with bulk, pathway and treatment-response changes, Mendelian randomisation and the cited literature sentence (until 2026-11-23 only with bulk expression: 26 %) |
+| Reading check: each claim against the evidence its statement cites (reader subagent, `claim_check.py`) | 606 claims in the 115 statements: 3 contradicted by their own evidence (the IDO1 paper called a single mouse study although it also measured UC patients; the MMP1-high spot neighbourhood said to be unreported although the Visium record gives it; a cell-state name), 130 not in the cited evidence (mostly comparisons across genes, drug status and results of other analyses that the sentence does not cite). On the 53 direction-flipped copies it caught 51, missing only flips of ranking words. A language-model review aid, not part of the deterministic verification |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.82, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.80; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100. Predicted tractability alone is a yes/no value and cannot order a top 100. Retrospective: the data are not frozen at 2016 |
 | Convergence score (includes literature and drug history) | AUROC 0.87, partly circular; data-only version 0.78 |
@@ -419,7 +420,7 @@ The online report is published automatically from `reports/uc_report.html` by
 config.yaml          thresholds and weights, set before looking at results
 src/ucatlas/         the code
 scripts/             commands used by the agent step
-.claude/agents/      the six agents and the literature extractor
+.claude/agents/      the six agents, the literature extractor and classifier, the claim reader
 .claude/commands/    the orchestrator command (and the single-agent arm of the benchmark)
 data/                downloaded data and results (not in git; see data/README.md)
 reproducibility/     frozen input list and hashes
@@ -449,6 +450,7 @@ tests/               automated tests
 | `verify.py`, `semantic.py`, `provenance.py`, `coverage.py`, `assemble.py` | Sentence checks, the stale-evidence guard, key-finding coverage |
 | `mcp_servers/` | The tools the agents use |
 | `evaluate.py`, `qa.py`, `baselines.py`, `sabotage.py`, `agent_benchmark.py` | Tests against clinical targets, known-answer questions, a memory-only model, corrupted statements, one agent vs the team |
+| `claim_check.py` | Reading check: a reader subagent (`.claude/agents/lector-afirmaciones.md`) checks each claim against the evidence its statement cites, on the real statements and the sabotage copies |
 | `render.py`, `report_figures.py`, `report_extra.py`, `report_help.py`, `report_text.py`, `report_assets/` | The HTML report: figures, plain-language help, tissue and protein viewers |
 
 ## 10. Glossary

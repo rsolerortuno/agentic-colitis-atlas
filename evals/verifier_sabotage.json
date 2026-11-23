@@ -11,7 +11,7 @@
   },
   "direction": {
    "applied": 53,
-   "caught": 44,
+   "caught": 46,
    "missed_examples": [
     {
      "location": "agent_findings.literature[7]",
@@ -35,9 +35,9 @@
     }
    ],
    "applied_with_de_evidence": 21,
-   "caught_with_de_evidence": 18,
-   "rate": 0.83,
-   "rate_with_de_evidence": 0.857
+   "caught_with_de_evidence": 19,
+   "rate": 0.868,
+   "rate_with_de_evidence": 0.905
   },
   "gene": {
    "applied": 80,

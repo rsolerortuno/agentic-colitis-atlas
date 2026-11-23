@@ -826,6 +826,10 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     if sb_p.exists():
         sb = json.loads(sb_p.read_text(encoding="utf-8"))["corruptions"]
         sabotage = "; ".join(f"{k} {v['caught']}/{v['applied']}" for k, v in sb.items())
+    cc_p = ROOT / "evals" / "claim_check.json"   # reader subagent, claims against cited evidence (2026-11-23)
+    claim_check = json.loads(cc_p.read_text(encoding="utf-8")) if cc_p.exists() else None
+    if claim_check and claim_check.get("run") != findings_path.parent.name:
+        claim_check = None
     graph_stats = json.loads((PROCESSED / "graph_stats.json").read_text())
     samples = pd.read_parquet(PROCESSED / "samples.parquet")
     xen_cells = int(pd.read_parquet(PROCESSED / "spatial_sections.parquet")["cells"].sum())
@@ -877,7 +881,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         confirm_rows=confirm_rows(report_genes), profiles=f["convergence"].get("profiles") or {},
         profile_weights=f["convergence"].get("profile_weights") or {}, evals=evals,
         baselines=json.loads((ROOT / "evals" / "baselines.json").read_text(encoding="utf-8")),
-        agents_vs_ranking=agents_vs_ranking(f), AB=ab, team_mean=team_mean, session=session, sabotage=sabotage,
+        agents_vs_ranking=agents_vs_ranking(f), AB=ab, team_mean=team_mean, session=session, sabotage=sabotage, claim_check=claim_check,
         verification=verification, graph_stats=graph_stats, datasets=datasets(),
         css=(ASSETS / "style.css").read_text(encoding="utf-8"), plotly_js=get_plotlyjs(),
         cytoscape_js=(ASSETS / "cytoscape.min.js").read_text(encoding="utf-8"),

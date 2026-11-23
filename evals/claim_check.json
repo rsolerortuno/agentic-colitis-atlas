@@ -1,0 +1,1236 @@
+{
+ "run": "2026-11-14",
+ "reader": ".claude/agents/lector-afirmaciones.md (Claude Code subscription)",
+ "statements": 115,
+ "claims": 606,
+ "claims_contradicted": 3,
+ "claims_not_in_evidence": 130,
+ "statements_with_a_contradicted_claim": [
+  "narrative.sections.pathways[1]",
+  "narrative.sections.spatial[0]",
+  "targets.IDO1"
+ ],
+ "statements_with_an_unsupported_claim": [
+  "agent_findings.applied[12]",
+  "agent_findings.applied[3]",
+  "agent_findings.applied[6]",
+  "agent_findings.applied[8]",
+  "agent_findings.applied[9]",
+  "agent_findings.cells[2]",
+  "agent_findings.expression[0]",
+  "agent_findings.expression[1]",
+  "agent_findings.expression[2]",
+  "agent_findings.expression[4]",
+  "agent_findings.expression[5]",
+  "agent_findings.expression[7]",
+  "agent_findings.expression[8]",
+  "agent_findings.expression[9]",
+  "agent_findings.external[0]",
+  "agent_findings.external[10]",
+  "agent_findings.external[11]",
+  "agent_findings.external[12]",
+  "agent_findings.external[1]",
+  "agent_findings.external[2]",
+  "agent_findings.external[3]",
+  "agent_findings.external[4]",
+  "agent_findings.external[5]",
+  "agent_findings.external[7]",
+  "agent_findings.external[8]",
+  "agent_findings.literature[0]",
+  "agent_findings.literature[11]",
+  "agent_findings.literature[2]",
+  "agent_findings.literature[3]",
+  "agent_findings.literature[6]",
+  "agent_findings.literature[7]",
+  "agent_findings.literature[8]",
+  "agent_findings.pathways[0]",
+  "agent_findings.pathways[10]",
+  "agent_findings.pathways[11]",
+  "agent_findings.pathways[12]",
+  "agent_findings.pathways[1]",
+  "agent_findings.pathways[2]",
+  "agent_findings.pathways[3]",
+  "agent_findings.pathways[4]",
+  "agent_findings.pathways[6]",
+  "agent_findings.pathways[8]",
+  "agent_findings.pathways[9]",
+  "narrative.sections.cells[0]",
+  "narrative.sections.cells[2]",
+  "narrative.sections.discovery[0]",
+  "narrative.sections.discovery[1]",
+  "narrative.sections.discovery[2]",
+  "narrative.sections.expression[0]",
+  "narrative.sections.expression[1]",
+  "narrative.sections.expression[2]",
+  "narrative.sections.external[0]",
+  "narrative.sections.external[1]",
+  "narrative.sections.integration[0]",
+  "narrative.sections.integration[1]",
+  "narrative.sections.literature[0]",
+  "narrative.sections.literature[1]",
+  "narrative.sections.pathways[0]",
+  "narrative.sections.pathways[1]",
+  "narrative.sections.pathways[2]",
+  "narrative.sections.replication[0]",
+  "narrative.sections.spatial[0]",
+  "narrative.sections.treatment[1]",
+  "narrative.summary[0]",
+  "narrative.summary[1]",
+  "narrative.summary[2]",
+  "targets.CHI3L1",
+  "targets.CHRDL2",
+  "targets.CXCL8",
+  "targets.IDO1",
+  "targets.IL12B",
+  "targets.JAK2",
+  "targets.MMP1",
+  "targets.S100A8",
+  "targets.TREM1",
+  "targets.XKR9"
+ ],
+ "flagged": {
+  "agent_findings.applied[12]": [
+   {
+    "claim": "the only top-15 hit classed as intrinsic and epithelial",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No other top-15 hits are cited to establish uniqueness."
+   },
+   {
+    "claim": "the fewest cohorts with increased expression among the shortlist",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Record shows 4 cohorts up but no shortlist comparison is cited."
+   }
+  ],
+  "agent_findings.applied[3]": [
+   {
+    "claim": "In the adalimumab single-cell atlas (GSE282122, small cohort) OSM shows no significant cell-state difference between remitters and non-remitters",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "The cited record is bulk treatment response; no adalimumab single-cell result is cited."
+   }
+  ],
+  "agent_findings.applied[6]": [
+   {
+    "claim": "with phase two to three antagonists of CXCR1 and CXCR2",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug or clinical-stage record is among the cited evidence."
+   }
+  ],
+  "agent_findings.applied[8]": [
+   {
+    "claim": "the highest vital-organ RNA of the set",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "The record gives nTPM 42.6 for CHRDL2 only; no other genes are cited to establish it is the highest."
+   }
+  ],
+  "agent_findings.applied[9]": [
+   {
+    "claim": "the highest retained share among the stromal hits",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No other stromal hit is cited to compare retained shares."
+   }
+  ],
+  "agent_findings.cells[2]": [
+   {
+    "claim": "CosMx detection was at background",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CosMx record is cited."
+   }
+  ],
+  "agent_findings.expression[0]": [
+   {
+    "claim": "CXCR2 is a neutrophil receptor",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives cell type of CXCR2."
+   },
+   {
+    "claim": "CXCR2 antagonists are in clinical development",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited for this statement."
+   }
+  ],
+  "agent_findings.expression[1]": [
+   {
+    "claim": "part of the bulk signal comes from infiltrating immune cells",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited records are bulk expression only; no cell source given."
+   }
+  ],
+  "agent_findings.expression[2]": [
+   {
+    "claim": "immune-cell contribution is likely",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record addresses cell source of IDO1."
+   }
+  ],
+  "agent_findings.expression[4]": [
+   {
+    "claim": "HMGCS2 is an epithelial ketogenesis/metabolism gene",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited records give no cell type or function."
+   }
+  ],
+  "agent_findings.expression[5]": [
+   {
+    "claim": "This is a neutrophil and myeloid product",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives cell source."
+   }
+  ],
+  "agent_findings.expression[7]": [
+   {
+    "claim": "broad MMP inhibitors have a poor translational record",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record about MMP inhibitors."
+   }
+  ],
+  "agent_findings.expression[8]": [
+   {
+    "claim": "AQP8 shows the strongest pooled decrease in the dataset",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only AQP8 is cited; no other gene to compare for strongest decrease."
+   }
+  ],
+  "agent_findings.expression[9]": [
+   {
+    "claim": "DUOX2 is epithelial",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited record gives no cell type."
+   }
+  ],
+  "agent_findings.external[0]": [
+   {
+    "claim": "several Phase 2 antagonists (navarixin, ladarixin, SX-682, danirixin, elubrixin)",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited drug record covers only reparixin."
+   }
+  ],
+  "agent_findings.external[10]": [
+   {
+    "claim": "the UC risk allele is associated with expression change opposite to the biopsy loss",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "MR record gives genetic direction only; no biopsy expression record is cited."
+   }
+  ],
+  "agent_findings.external[11]": [
+   {
+    "claim": "approved or clinical inhibitors",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record cited; known_drug is 0.0 for UC."
+   },
+   {
+    "claim": "JAK1, JAK3 and TYK2 appear among the known UC targets",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record mentions JAK1, JAK3 or TYK2."
+   }
+  ],
+  "agent_findings.external[12]": [
+   {
+    "claim": "CHI3L1 is among the largest expression increases",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only CHI3L1 is cited; no comparison with other genes."
+   },
+   {
+    "claim": "extensive literature",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No literature record is cited."
+   }
+  ],
+  "agent_findings.external[1]": [
+   {
+    "claim": "Reactome places it in neutrophil degranulation and chemokine receptor signalling",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No Reactome record is cited."
+   },
+   {
+    "claim": "STRING links it with CXCL1 and CXCL5 at very high confidence",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only the CXCR2-CXCL8 interaction is cited."
+   }
+  ],
+  "agent_findings.external[2]": [
+   {
+    "claim": "shared antagonists reparixin, ladarixin, navarixin, SX-682",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   }
+  ],
+  "agent_findings.external[3]": [
+   {
+    "claim": "CD274 is the strongest genetically supported expression-led gene",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only CD274 is cited; no comparison with other genes."
+   },
+   {
+    "claim": "Expression is raised in inflamed mucosa",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No expression record cited for CD274."
+   }
+  ],
+  "agent_findings.external[4]": [
+   {
+    "claim": "the MR sensitivity checks show significant heterogeneity",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MR record is cited for this statement."
+   },
+   {
+    "claim": "no Egger intercept signal and correct Steiger direction",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MR sensitivity data in cited records."
+   }
+  ],
+  "agent_findings.external[5]": [
+   {
+    "claim": "IL12B is an established UC target (top Open Targets association)",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Association score 0.7424 is given but no ranking or established-target status."
+   },
+   {
+    "claim": "the leading plasma MR hit",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only IL12B MR is cited; no comparison with other hits."
+   }
+  ],
+  "agent_findings.external[7]": [
+   {
+    "claim": "has Phase 2 antibody drugs",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   },
+   {
+    "claim": "Open Targets genetic association is zero",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No Open Targets association record is cited."
+   }
+  ],
+  "agent_findings.external[8]": [
+   {
+    "claim": "an approved or late-stage inhibitor class in other indications",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   },
+   {
+    "claim": "colon eQTL MR is not significant",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No gut eQTL MR record is cited."
+   },
+   {
+    "claim": "Open Targets genetics is zero",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No Open Targets record is cited."
+   }
+  ],
+  "agent_findings.literature[0]": [
+   {
+    "claim": "the clinical-stage CXCR1 and CXCR2 antagonists in Open Targets (reparixin, ladarixin)",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only navarixin appears in the cited drug record."
+   }
+  ],
+  "agent_findings.literature[11]": [
+   {
+    "claim": "genetic support in Open Targets",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No Open Targets record is cited."
+   }
+  ],
+  "agent_findings.literature[2]": [
+   {
+    "claim": "IDO1 inhibitors are clinical-stage in other indications only",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record about IDO1 inhibitor clinical stage."
+   }
+  ],
+  "agent_findings.literature[3]": [
+   {
+    "claim": "CHI3L1 has one of the strongest expression changes among the top-ranked genes",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No expression record is cited."
+   }
+  ],
+  "agent_findings.literature[6]": [
+   {
+    "claim": "It is also in a credible UC biomarker panel",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited papers do not describe a biomarker panel containing MMP10."
+   }
+  ],
+  "agent_findings.literature[7]": [
+   {
+    "claim": "in several bioinformatic studies",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only one paper is cited for CXCL1."
+   },
+   {
+    "claim": "Strong discrimination arises only in a combined five-gene model",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No five-gene combined model is mentioned in the cited evidence."
+   }
+  ],
+  "agent_findings.literature[8]": [
+   {
+    "claim": "is upregulated in UC by nanopore RNA-seq",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Neither cited paper uses nanopore RNA-seq."
+   }
+  ],
+  "agent_findings.pathways[0]": [
+   {
+    "claim": "the already-approved anti-TNF target",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record on approved therapies."
+   }
+  ],
+  "agent_findings.pathways[10]": [
+   {
+    "claim": "with literature support",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No literature record is cited."
+   },
+   {
+    "claim": "clinical-stage inhibitors (epacadostat, linrodostat) developed for oncology",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   }
+  ],
+  "agent_findings.pathways[11]": [
+   {
+    "claim": "with literature support",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No literature record is cited."
+   },
+   {
+    "claim": "AQP9, CXCL1, DUOX2, MMP10 and SERPINB5 show the same profile in the convergence ranking",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No records for those genes are cited."
+   }
+  ],
+  "agent_findings.pathways[12]": [
+   {
+    "claim": "genetic evidence converges for these signals",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No genetic records are cited."
+   },
+   {
+    "claim": "The IL-23, TNF, JAK-STAT and integrin axes are already drugged",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug records are cited."
+   }
+  ],
+  "agent_findings.pathways[1]": [
+   {
+    "claim": "MAPK is increased in all eight cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MAPK pathway record is cited."
+   },
+   {
+    "claim": "JAK-STAT is already drug-targeted (JAK inhibitors)",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record on JAK inhibitors."
+   },
+   {
+    "claim": "EGFR, PI3K and Hypoxia are not UC therapies",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record on UC therapies."
+   }
+  ],
+  "agent_findings.pathways[2]": [
+   {
+    "claim": "Androgen is decreased in several cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No androgen pathway record is cited."
+   },
+   {
+    "claim": "WNT is up in most but not all cohorts, failing in one",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No WNT pathway record is cited."
+   }
+  ],
+  "agent_findings.pathways[3]": [
+   {
+    "claim": "This is inferred from target genes, not TF mRNA",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Record names the method (decoupler ulm) but does not state target-gene inference."
+   },
+   {
+    "claim": "RELA, AP1, CEBPB, CEBPD, ATF3 and ATF4 show the same pattern",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No records for those TFs are cited."
+   }
+  ],
+  "agent_findings.pathways[4]": [
+   {
+    "claim": "genetic association",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No genetic association record is cited."
+   },
+   {
+    "claim": "reparixin in late-stage trials; ladarixin and SX-682 in mid-stage trials",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited drug record covers only navarixin."
+   }
+  ],
+  "agent_findings.pathways[6]": [
+   {
+    "claim": "ACKR1 is an atypical chemokine receptor",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record characterises ACKR1."
+   },
+   {
+    "claim": "Anti-CXCL8 antibodies (ABX-IL8, adakitug) reached mid-stage trials only",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   }
+  ],
+  "agent_findings.pathways[8]": [
+   {
+    "claim": "IL1R2 is a decoy receptor",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record characterises IL1R2."
+   },
+   {
+    "claim": "IL-1 blockers exist (canakinumab approved for other indications) but not in UC",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   }
+  ],
+  "agent_findings.pathways[9]": [
+   {
+    "claim": "strong inflamed-vs-uninflamed signal",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited record is a pooled UC vs control meta-analysis, not inflamed vs uninflamed."
+   },
+   {
+    "claim": "a mid-stage inhibitor peptide (nangibotide)",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   }
+  ],
+  "narrative.sections.cells[0]": [
+   {
+    "claim": "Smillie 2019 captured no neutrophils",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Record does not state whether neutrophils were captured."
+   }
+  ],
+  "narrative.sections.cells[2]": [
+   {
+    "claim": "CosMx detected MMP1 only at background and Xenium did not cover it",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CosMx or Xenium record is cited."
+   }
+  ],
+  "narrative.sections.discovery[0]": [
+   {
+    "claim": "it has the highest vital-organ RNA of the shortlist",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only CHRDL2 nTPM 42.6 is cited; no shortlist comparison."
+   }
+  ],
+  "narrative.sections.discovery[1]": [
+   {
+    "claim": "XKR9 is the only leading discovery hit classed as intrinsic and epithelial",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No other discovery hits are cited."
+   },
+   {
+    "claim": "it is consistent in the fewest cohorts of the shortlist",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Shows 4 cohorts up but no shortlist comparison is cited."
+   }
+  ],
+  "narrative.sections.discovery[2]": [
+   {
+    "claim": "the best retained share among stromal hits",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No other stromal hits are cited."
+   }
+  ],
+  "narrative.sections.expression[0]": [
+   {
+    "claim": "CXCL8 and CXCR2 form a neutrophil-recruitment axis together with CXCR1, CXCL1 and CXCL5",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CXCR1, CXCL1 or CXCL5 record nor an axis relation is cited."
+   },
+   {
+    "claim": "MMP3 heads a family of matrix metalloproteinases (MMP1, MMP3, MMP7, MMP10)",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MMP1, MMP7 or MMP10 expression records are cited."
+   },
+   {
+    "claim": "DUOX2 is an epithelial antimicrobial and oxidative-stress response",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cell-type or function record is cited."
+   },
+   {
+    "claim": "CHI3L1 and the calprotectin subunits S100A8 and S100A9 complete the list of the largest, most consistent gains",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CHI3L1, S100A8 or S100A9 records are cited."
+   }
+  ],
+  "narrative.sections.expression[1]": [
+   {
+    "claim": "AQP8 shows the largest pooled decrease in the dataset",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No dataset-wide ranking is cited."
+   },
+   {
+    "claim": "together with CLDN8, SLC26A2, PCK1 and UGT2A3",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No records for these genes are cited."
+   },
+   {
+    "claim": "HMGCS2 is the rate-limiting enzyme of ketogenesis that colonocytes use to handle butyrate",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No function is stated in the cited records."
+   }
+  ],
+  "narrative.sections.expression[2]": [
+   {
+    "claim": "the JAK class is approved in UC",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited Open Targets record shows known_drug 0.0 and no approval status."
+   }
+  ],
+  "narrative.sections.external[0]": [
+   {
+    "claim": "approved antibodies against the shared IL12B subunit exist",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record for IL12B is cited."
+   },
+   {
+    "claim": "JAK2 has approved class inhibitors",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No JAK2 drug record is cited; known_drug is 0.0."
+   },
+   {
+    "claim": "navarixin, ladarixin and others are in mid-stage trials",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No navarixin, ladarixin or other drug record is cited."
+   }
+  ],
+  "narrative.sections.external[1]": [
+   {
+    "claim": "no Egger pleiotropy and the correct Steiger direction",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No Egger or Steiger fields in the cited record."
+   },
+   {
+    "claim": "its biopsy increase",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CD274 biopsy expression record is cited."
+   },
+   {
+    "claim": "IDO1 is also null in colon eQTL MR",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No IDO1 gut eQTL record is cited."
+   }
+  ],
+  "narrative.sections.integration[0]": [
+   {
+    "claim": "a NFkB-driven inflamed mucosa",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No NFkB record is cited."
+   },
+   {
+    "claim": "loss of epithelial metabolism",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No epithelial metabolism loss record is cited."
+   },
+   {
+    "claim": "CXCL8 and S100A8 largely report neutrophil and myeloid influx",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CXCL8 or S100A8 single-cell record is cited."
+   },
+   {
+    "claim": "IL12B and the JAK family carry the strongest genetic support",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No comparison with other candidates is cited."
+   },
+   {
+    "claim": "IL12B and the JAK family are already UC drug targets",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record is cited."
+   },
+   {
+    "claim": "single-cell data show MMP1 is a fibroblast change",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MMP1 single-cell record is cited."
+   }
+  ],
+  "narrative.sections.integration[1]": [
+   {
+    "claim": "the SLC26A3 biopsy loss disagrees with the gut eQTL direction",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No SLC26A3 biopsy expression record is cited."
+   },
+   {
+    "claim": "CXCR2 single-cell attribution fails replication because one atlas lacks neutrophils",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CXCR2 single-cell record is cited."
+   }
+  ],
+  "narrative.sections.literature[0]": [
+   {
+    "claim": "IDO1 rests on a single experimental study",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "All cited IDO1 records come from one paper but none states it is the only study."
+   }
+  ],
+  "narrative.sections.literature[1]": [
+   {
+    "claim": "CXCL1 is proposed in several bioinformatic studies",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only one CXCL1 study is cited."
+   },
+   {
+    "claim": "CXCL1 reaches strong discrimination only within a multi-gene model",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No multi-gene model result for CXCL1 is cited."
+   }
+  ],
+  "narrative.sections.pathways[0]": [
+   {
+    "claim": "MAPK is increased in all eight cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MAPK record is cited."
+   },
+   {
+    "claim": "Androgen falls in several cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No Androgen record is cited."
+   },
+   {
+    "claim": "WNT fails in one cohort",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No WNT record is cited."
+   },
+   {
+    "claim": "RELA, AP1, CEBPB, CEBPD, ATF3 and ATF4 follow the same pattern",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No records for these TFs are cited."
+   }
+  ],
+  "narrative.sections.pathways[1]": [
+   {
+    "claim": "Neutrophil CXCR4 state as sender and receiver",
+    "verdict": "contradicted",
+    "quote": "\"sender\": \"Neutrophil CXCR4\", \"receiver\": \"Neutrophil\"",
+    "evidence_id": "EV:communication:b9127b21b2b8",
+    "reason": "Receiver is the Neutrophil state, not Neutrophil CXCR4."
+   },
+   {
+    "claim": "Myeloid IL1B mainly pairs with the decoy receptor IL1R2 on neutrophil states",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only one IL1B pair is cited; no comparison across receptors."
+   }
+  ],
+  "narrative.sections.pathways[2]": [
+   {
+    "claim": "The TNF, IL-23, JAK-STAT and integrin axes are already drugged in UC",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No drug record for these axes is cited."
+   },
+   {
+    "claim": "TREM1 has a mid-stage inhibitor peptide, nangibotide",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No TREM1 drug record is cited."
+   },
+   {
+    "claim": "IDO1 has oncology inhibitors",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No IDO1 drug record is cited."
+   },
+   {
+    "claim": "CHI3L1 has literature support",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No literature record is cited."
+   }
+  ],
+  "narrative.sections.replication[0]": [
+   {
+    "claim": "all four microarray and three RNA-seq replication cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited records do not state platform or discovery versus replication role."
+   },
+   {
+    "claim": "Heterogeneity of effect size between cohorts is high",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No heterogeneity statistic is in the cited cohort records."
+   }
+  ],
+  "narrative.sections.spatial[0]": [
+   {
+    "claim": "CosMx detected MMP1 only at background and Xenium did not include it",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No CosMx or Xenium record is cited."
+   },
+   {
+    "claim": "The cell neighbourhood of MMP1-high spots was not reported in this run",
+    "verdict": "contradicted",
+    "quote": "\"enriched_neighbors\": [{\"cell_group\": \"Inflammatory_fibroblast\", \"log2_enrichment\": 1.134, \"padj\": 0.00408}",
+    "evidence_id": "EV:spatial_visium_cell:221893f3b477",
+    "reason": "The Visium record reports enriched neighbours of MMP1-high spots."
+   }
+  ],
+  "narrative.sections.treatment[1]": [
+   {
+    "claim": "in the adalimumab single-cell atlas no OSM-expressing cell state differs between remitters and non-remitters",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No adalimumab single-cell record is cited."
+   }
+  ],
+  "narrative.summary[0]": [
+   {
+    "claim": "reparixin is in clinical development",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "The cited drug record names navarixin, not reparixin."
+   }
+  ],
+  "narrative.summary[1]": [
+   {
+    "claim": "AQP8 shows the largest pooled loss",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No ranking against all other genes is cited."
+   },
+   {
+    "claim": "CHI3L1 and S100A8 are among the largest gains",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No ranking across genes is cited."
+   }
+  ],
+  "narrative.summary[2]": [
+   {
+    "claim": "MMP1 in inflammatory fibroblasts, DUOX2 in enterocytes and CHI3L1 in stroma",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited records are composition adjustments with no cell-type source."
+   },
+   {
+    "claim": "each replicated in at least two other single-cell atlases",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No single-cell replication record is cited."
+   }
+  ],
+  "targets.CHI3L1": [
+   {
+    "claim": "one of the largest consistent RNA gains",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No ranking across genes is cited."
+   },
+   {
+    "claim": "CHI3L1 is stromal",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No single-cell record is cited."
+   }
+  ],
+  "targets.CHRDL2": [
+   {
+    "claim": "a secreted protein",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No localisation or secretion information is cited."
+   },
+   {
+    "claim": "vital-organ RNA is the highest of the shortlist",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only CHRDL2 nTPM 42.6 is cited; no shortlist comparison."
+   }
+  ],
+  "targets.CXCL8": [
+   {
+    "claim": "Open Targets genetics is zero",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No Open Targets record is cited for CXCL8."
+   }
+  ],
+  "targets.IDO1": [
+   {
+    "claim": "a mixed myeloid and epithelial source",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No IDO1 single-cell record is cited."
+   },
+   {
+    "claim": "oncology inhibitors available",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No IDO1 drug record is cited."
+   },
+   {
+    "claim": "the target literature is a single mouse study",
+    "verdict": "contradicted",
+    "quote": "validated the result using western blotting of colonic tissues from new recruited UC patients",
+    "evidence_id": "EV:literature:d1d97e1a9042",
+    "reason": "The cited paper also used UC patient tissue and cell lines, not mice alone."
+   }
+  ],
+  "targets.IL12B": [
+   {
+    "claim": "IL12B has the strongest causal genetics of any candidate",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No comparison with other candidates is cited."
+   },
+   {
+    "claim": "it is already targeted by approved UC antibodies",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No IL12B drug record is cited; known_drug is 0.0."
+   }
+  ],
+  "targets.JAK2": [
+   {
+    "claim": "approved JAK-class inhibitors in UC",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Fedratinib record shows approval but no UC indication; known_drug is 0.0."
+   }
+  ],
+  "targets.MMP1": [
+   {
+    "claim": "broad MMP inhibitors have a poor record",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MMP inhibitor record is cited."
+   }
+  ],
+  "targets.S100A8": [
+   {
+    "claim": "it is a neutrophil and myeloid product",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No single-cell record is cited."
+   },
+   {
+    "claim": "it is the tissue counterpart of the established faecal calprotectin test",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No calprotectin test information is cited."
+   }
+  ],
+  "targets.TREM1": [
+   {
+    "claim": "a mid-stage inhibitor peptide (nangibotide) from other indications",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No TREM1 drug record is cited."
+   }
+  ],
+  "targets.XKR9": [
+   {
+    "claim": "the only intrinsic epithelial hit of the discovery screen",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No other discovery hits are cited."
+   }
+  ]
+ },
+ "sabotage": {
+  "flipped": 53,
+  "caught_by_reader": 51,
+  "caught_by_deterministic_checks": 46,
+  "deterministic_applied": 53,
+  "caught_locations": [
+   "agent_findings.applied[0]",
+   "agent_findings.applied[10]",
+   "agent_findings.applied[12]",
+   "agent_findings.applied[1]",
+   "agent_findings.applied[2]",
+   "agent_findings.applied[4]",
+   "agent_findings.applied[5]",
+   "agent_findings.cells[9]",
+   "agent_findings.expression[0]",
+   "agent_findings.expression[1]",
+   "agent_findings.expression[3]",
+   "agent_findings.expression[5]",
+   "agent_findings.expression[7]",
+   "agent_findings.expression[8]",
+   "agent_findings.expression[9]",
+   "agent_findings.external[0]",
+   "agent_findings.external[2]",
+   "agent_findings.external[3]",
+   "agent_findings.external[5]",
+   "agent_findings.external[6]",
+   "agent_findings.external[7]",
+   "agent_findings.external[8]",
+   "agent_findings.external[9]",
+   "agent_findings.literature[10]",
+   "agent_findings.literature[11]",
+   "agent_findings.literature[2]",
+   "agent_findings.literature[3]",
+   "agent_findings.literature[4]",
+   "agent_findings.literature[6]",
+   "agent_findings.literature[7]",
+   "agent_findings.literature[8]",
+   "agent_findings.literature[9]",
+   "agent_findings.pathways[0]",
+   "agent_findings.pathways[10]",
+   "agent_findings.pathways[1]",
+   "agent_findings.pathways[2]",
+   "agent_findings.pathways[3]",
+   "agent_findings.pathways[9]",
+   "narrative.sections.external[0]",
+   "narrative.sections.external[1]",
+   "narrative.sections.inflammation[0]",
+   "narrative.sections.integration[1]",
+   "narrative.sections.literature[1]",
+   "narrative.sections.pathways[0]",
+   "narrative.sections.treatment[0]",
+   "narrative.sections.treatment[1]",
+   "narrative.summary[0]",
+   "narrative.summary[3]",
+   "targets.CD274",
+   "targets.DUOX2",
+   "targets.IL12B"
+  ]
+ },
+ "scope": "A language-model reader; verdicts are a review aid next to the deterministic checks, measured on the direction-flipped copies of the sabotage test."
+}

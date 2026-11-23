@@ -328,39 +328,85 @@ def _layer_of(clause: str) -> str | None:
     return "rna" if w in ("rna", "mrna", "transcript", "transcripts") else "protein" if w.startswith("prot") else "phospho"
 
 
-def _response_clause(clause: str, arms: dict[str, int]) -> str | None:
+DIRECTION_WORD = re.compile(UP.pattern + "|" + DOWN.pattern + "|" + OUT_UP.pattern + "|" + OUT_DOWN.pattern, re.I)
+
+
+def _negated(clause: str) -> bool:
+    """A negation before the first direction word ("is not higher"); one after it ("higher, without an inhibitor")
+    does not negate the direction."""
+    n, d = NEGATION.search(clause), DIRECTION_WORD.search(clause)
+    return bool(n) and (d is None or n.start() < d.start())
+
+
+# Each clause check returns (verdict, message): verdict "contra" (the clause contradicts the evidence), "ok" (it agrees)
+# or None (nothing to compare).
+def _response_clause(clause: str, arms: dict[str, int]) -> tuple[str | None, str]:
     m = re.search(r"\b(higher|lower|up|down|increased|decreased|elevated|reduced)\b.*?" + RESPONDER.pattern, clause, re.I)
-    if not m or NEGATION.search(clause):
-        return None
+    if not m or _negated(clause) or not arms:
+        return None, ""
     said = 1 if UP.fullmatch(m.group(1)) else -1
     if not re.match(r"non", m.group(2), re.I):
         said = -said                      # "higher in responders" = lower in non-responders
     named = [a for a in arms if re.search(rf"\b{re.escape(a.split(' (')[0])}\b", clause, re.I)]
     seen = {arms[a] for a in (named or arms)}
-    if len(seen) == 1 and said != next(iter(seen)):
+    if len(seen) != 1:
+        return None, ""
+    if said != next(iter(seen)):
         side = "non-responders" if said > 0 else "responders"
-        return f"text says higher in {side}, cited treatment-response evidence says the opposite"
-    return None
+        return "contra", f"text says higher in {side}, cited treatment-response evidence says the opposite"
+    return "ok", ""
 
 
-def _risk_clause(clause: str, mr: dict[str, set[int]]) -> str | None:
-    if NEGATION.search(clause):
-        return None
+def _risk_clause(clause: str, mr: dict[str, set[int]]) -> tuple[str | None, str]:
+    if _negated(clause) or not mr:
+        return None, ""
     o_up, o_down = OUT_UP.search(clause), OUT_DOWN.search(clause)
     if bool(o_up) == bool(o_down):
-        return None
+        return None, ""
     rest = (OUT_UP if o_up else OUT_DOWN).sub(" ", clause)
     expo = _said(rest) if not RELATIVE_TO_NORMAL.search(rest) else None
     if expo is None:
-        return None
+        return None, ""
     implied = expo * (1 if o_up else -1)  # sign of the MR effect the sentence states
     layer = "plasma" if re.search(r"\b(plasma|circulating|serum|pQTL)\b", clause, re.I) else \
         "gut" if re.search(r"\b(gut|colon\w*|intestin\w*|mucos\w*|cell|eQTL|tissue)\b", clause, re.I) else "*"
     seen = mr.get(layer, mr.get("*", set()))
-    if len(seen) == 1 and implied != next(iter(seen)):
-        return (f"text implies that higher protein or expression {'raises' if implied > 0 else 'lowers'} UC risk, "
-                f"cited Mendelian randomisation says it {'lowers' if implied > 0 else 'raises'} it")
-    return None
+    if len(seen) != 1:
+        return None, ""
+    if implied != next(iter(seen)):
+        return "contra", (f"text implies that higher protein or expression {'raises' if implied > 0 else 'lowers'} "
+                          f"UC risk, cited Mendelian randomisation says it {'lowers' if implied > 0 else 'raises'} it")
+    return "ok", ""
+
+
+def _de_clause(clause: str, sentence: str, de: dict, lit: set[int]) -> tuple[str | None, str]:
+    # A survival statement such as "higher expression predicts better survival"
+    # is not a claim that expression increased in tumour versus normal tissue.
+    # Keep this a narrow DE wording check, not a bag of direction words.
+    if DIRECTION_EXEMPT.search(clause) or _negated(clause) or RISK.search(clause):
+        return None, ""
+    # in a survival sentence only clauses that name the tumour, a layer or a log2FC are about
+    # tumour-versus-normal expression ("higher expression is associated with worse survival" is not)
+    if SENTENCE_EXEMPT.search(sentence) and not (TUMOUR.search(clause) or LAYER_WORD.search(clause)
+                                                  or PRINTED_LFC.search(clause)):
+        return None, ""
+    said = _said(clause)
+    if said is None:
+        return None, ""
+    word = "up" if said > 0 else "down"
+    m = PRINTED_LFC.search(clause)
+    if m and float(m.group(1).replace("−", "-")) != 0 and (float(m.group(1).replace("−", "-")) > 0) != (said > 0):
+        return "contra", f"text says {word} next to a printed log2FC of the opposite sign ({m.group(1)})"
+    layer = _layer_of(clause)
+    seen_set = de.get(layer) if layer and layer in de else de.get("*", set())
+    if len(seen_set) == 1:
+        seen = next(iter(seen_set))
+        return ("contra", f"text says {word}, cited omics evidence says {'up' if seen > 0 else 'down'}") \
+            if said != seen else ("ok", "")
+    if not seen_set and len(lit) == 1:
+        return ("contra", f"text says {word}, the cited literature sentence says {'down' if said > 0 else 'up'}") \
+            if said != next(iter(lit)) else ("ok", "")
+    return None, ""
 
 
 def _direction(text: str, gene: str | None, evidence: list[dict]) -> str | None:
@@ -373,8 +419,10 @@ def _direction(text: str, gene: str | None, evidence: list[dict]) -> str | None:
     randomisation, any other clause against the disease-versus-control changes and the literature.
 
     With a statement gene every sentence is read as being about it. Without one (summary and section paragraphs) a
-    clause is checked when it, or else its sentence, names exactly one subject with cited signed evidence, so
-    multi-gene comparisons are never attributed to the wrong gene.
+    clause is read as being about the subjects it names; a clause that names none is about the one gene the previous
+    clause of its sentence named, or else the one gene its sentence names. A clause about several subjects is flagged
+    only when it contradicts the evidence of every subject it names that has any ("for CD274 and CXCL5 higher protein
+    is protective"), so a multi-gene comparison is never attributed to the wrong gene.
     """
     de, resp, mr, lit = _de_signs(evidence), _response_signs(evidence), _mr_signs(evidence), _lit_signs(evidence)
     # pathway and transcription-factor names must be named in the clause itself ("pathways rise together" is not p53)
@@ -386,55 +434,35 @@ def _direction(text: str, gene: str | None, evidence: list[dict]) -> str | None:
     def named_in(s: str) -> list[str]:
         return [g for g in subjects if re.search(rf"(?<![\w-]){re.escape(g)}(?![\w-])", s, re.I)]
 
+    def check(clause: str, sentence: str, target: str) -> tuple[str | None, str]:
+        if RESPONDER.search(clause):
+            return _response_clause(clause, resp.get(target, {}))
+        if RISK.search(clause) and target in mr:
+            return _risk_clause(clause, mr[target])
+        return _de_clause(clause, sentence, de.get(target, {}), lit.get(target, set()))
+
     for sentence in re.split(r"(?<=[.!?])\s+", text):
-        in_sentence = named_in(sentence)
+        in_sentence = [g for g in named_in(sentence) if g not in pathways]
+        single = in_sentence[0] if len(in_sentence) == 1 else None
+        last = None
         # canonical annotations use ";" between fields: keep each annotation inside its clause
         flat = re.sub(r"\[[^\]]*\]", lambda m: re.sub(r"[;,:]", " ", m.group(0)), sentence)
         for clause in CLAUSE.split(flat):
             if gene:
-                target = gene.upper()
+                targets = [gene.upper()]
             else:
                 here = named_in(re.sub(r"\[[^\]]*\]", " ", clause))
-                single = in_sentence[0] if len(in_sentence) == 1 and in_sentence[0] not in pathways else None
-                target = here[0] if len(here) == 1 else single if not here else None
-                if target is None:
-                    continue
-            where = "" if gene else f" ({target})"
-            if RESPONDER.search(clause):
-                msg = _response_clause(clause, resp.get(target, {}))
-                if msg:
-                    return msg + where
-                continue
-            if RISK.search(clause) and target in mr:
-                msg = _risk_clause(clause, mr[target])
-                if msg:
-                    return msg + where
-                continue
-            # A survival statement such as "higher expression predicts better survival"
-            # is not a claim that expression increased in tumour versus normal tissue.
-            # Keep this a narrow DE wording check, not a bag of direction words.
-            if DIRECTION_EXEMPT.search(clause) or NEGATION.search(clause) or RISK.search(clause):
-                continue
-            # in a survival / ranking sentence only clauses that name the tumour, a layer or a log2FC are about
-            # tumour-versus-normal expression ("higher expression is associated with worse survival" is not)
-            if SENTENCE_EXEMPT.search(sentence) and not (TUMOUR.search(clause) or LAYER_WORD.search(clause)
-                                                          or PRINTED_LFC.search(clause)):
-                continue
-            said = _said(clause)
-            if said is None:
-                continue
-            word = "up" if said > 0 else "down"
-            m = PRINTED_LFC.search(clause)
-            if m and float(m.group(1).replace("−", "-")) != 0 and (float(m.group(1).replace("−", "-")) > 0) != (said > 0):
-                return f"text says {word}{where} next to a printed log2FC of the opposite sign ({m.group(1)})"
-            layer = _layer_of(clause)
-            s = de.get(target, {})
-            seen_set = s.get(layer) if layer and layer in s else s.get("*", set())
-            if len(seen_set) == 1 and said != next(iter(seen_set)):
-                seen = next(iter(seen_set))
-                return f"text says {word}{where}, cited omics evidence says {'up' if seen > 0 else 'down'}"
-            if not seen_set and len(lit.get(target, set())) == 1 and said != next(iter(lit[target])):
-                return f"text says {word}{where}, the cited literature sentence says {'down' if said > 0 else 'up'}"
+                targets = here or ([last] if last else [single] if single else [])
+                if len(here) == 1:
+                    last = here[0] if here[0] not in pathways else None
+                elif len(here) > 1:
+                    last = None
+            results = [(t, *check(clause, sentence, t)) for t in targets]
+            contra = [(t, msg) for t, v, msg in results if v == "contra"]
+            if contra and not any(v == "ok" for _, v, _ in results):
+                t, msg = contra[0]
+                where = "" if gene else f" ({', '.join(x for x, _ in contra)})"
+                return msg + where
     return None
 
 
