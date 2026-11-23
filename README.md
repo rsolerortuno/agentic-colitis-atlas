@@ -296,7 +296,7 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Check | Result |
 |---|---|
 | Agent text against its evidence | 115 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
-| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (84/84), other-gene attributions (80/80) and swapped evidence (80/80); 67 % of flipped directions where the sentence cites expression evidence (14/21), 26 % of all flipped directions (literature, cell and treatment sentences are not direction-checked) |
+| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (84/84), other-gene attributions (80/80) and swapped evidence (80/80); 83 % of all flipped directions (44/53) and 86 % where the sentence cites bulk expression evidence (18/21); directions are compared with bulk, pathway and treatment-response changes, Mendelian randomisation and the cited literature sentence (until 2026-11-23 only with bulk expression: 26 %) |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.82, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.80; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100. Predicted tractability alone is a yes/no value and cannot order a top 100. Retrospective: the data are not frozen at 2016 |
 | Convergence score (includes literature and drug history) | AUROC 0.87, partly circular; data-only version 0.78 |

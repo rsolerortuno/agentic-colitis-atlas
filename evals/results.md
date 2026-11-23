@@ -120,6 +120,16 @@ paper or a cell type is not detected. Two fixes came from this test: the directi
 meta-analysis records (before, 1 of 55 flips was even eligible), and ordering words ("moved down") and "up to" are no
 longer read as expression directions.
 
+Update of 2026-11-23 (run 2026-11-14, 115 statements): numbers 84/84, gene 80/80, evidence 80/80, but direction only
+14/53 (26 %), 14/21 with bulk expression evidence. Of the 39 flips missed, about 28 cited evidence with a sign that the
+check did not read (pathway and transcription-factor activity, treatment response, Mendelian randomisation) or were
+hidden by an ordering word elsewhere in the sentence ("tops the ranking: log2FC is down"); about 11 were literature
+sentences. The check now reads all of these (the literature through the direction of the verbatim sentence cited, when
+it speaks of the gene's expression and not of an experiment on it): direction 44/53 (83 %), 18/21 with bulk evidence,
+and none of the 115 real statements is newly flagged. Still missed: flips of ordering words ("moved down",
+"lower-ranked"), sentences that become self-contradictory ("increased (lower)"), negated clauses, clauses naming
+several genes, and pathways whose cohorts disagree.
+
 ## (h) What the agentic layer adds (closed-book baseline, review of 2026-11-10)
 
 Claude Opus 5.5 without tools or data, asked the same question three times (`uv run python -m ucatlas.baselines`,

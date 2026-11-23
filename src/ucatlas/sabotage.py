@@ -10,8 +10,9 @@ copied and corrupted in four ways, one at a time:
 
 A corruption counts as caught when the verifier rejects the statement or removes any of its evidence ids, the same rule
 `verify_final` applies. Rates are reported per kind and only over statements where the corruption could be applied.
-The direction check is narrow by design (significant omics_de evidence only), so its rate is reported twice: over all
-flipped statements and over those that cite significant omics_de evidence for the gene concerned.
+The direction check reads signed evidence only (bulk, pathway and transcription-factor changes, treatment response,
+Mendelian randomisation, the cited literature sentence; semantic.py), so its rate is reported twice: over all flipped
+statements and over those that cite significant bulk expression evidence for the gene concerned.
 """
 from __future__ import annotations
 

@@ -339,3 +339,13 @@ Designs fixed before running. Nothing below changes the convergence score or the
   of each of the 241 UC risk signals that have one), 10 / 13 / 36 signals colocalise, 47 in any layer, none in all
   three; 6 share a credible-set variant without colocalising. One gene, SULT1A1, is MR significant and colocalised in
   all three layers. Measured once, reported as found.
+- **Direction check widened (2026-11-23)**: asked whether the 26 % of flipped directions caught by the verifier
+  sabotage test was too low and why. The direction check compared direction words only with bulk expression changes;
+  the 39 flips it missed were sentences about pathway and transcription-factor activity, treatment response, Mendelian
+  randomisation and papers, plus one bulk sentence hidden by "ranking" elsewhere in it. semantic.py now reads the sign
+  of each of these: pathway and TF activity when all cohorts that moved agree, non-responders minus responders in
+  significant arms (the arm named in the clause when there is one), the MR beta against "lower protein raises / lowers
+  risk" or "is protective", the covariate- and composition-adjusted changes, and the direction of the verbatim
+  literature sentence cited when it speaks of the gene's expression (not negated, no knockdown or treatment).
+  Ordering and score words now exempt only their own clause. Sabotage on run 2026-11-14: direction 44/53 (83 %, was
+  14/53), 18/21 with bulk evidence (was 14/21); the 115 real statements still all pass. 8 tests added.
