@@ -13,12 +13,12 @@ permissions:
 concurrency:
   group: pages
   cancel-in-progress: true
+# Build and deploy are separate jobs (GitHub's own Pages template). In one job, deploy-pages listed the run's
+# artifacts less than a second after the upload and found none (three failures on 2026-11-24 while the artifact
+# existed); a second job starts only after the upload is complete and listed.
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - name: Build the site folder
@@ -28,5 +28,12 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
