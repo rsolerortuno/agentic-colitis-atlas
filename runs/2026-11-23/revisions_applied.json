@@ -1,0 +1,109 @@
+{
+ "agent_file": "agent_applied.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 2,
+   "statement": "OSM is higher at baseline in ustekinumab non-responders (BH padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000264]). The UNIFI placebo arm is not significant (BH padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.116]), but the drug-versus-placebo interaction is not significant either (padj [gene=OSM; type=treatment_response; source=ANALYSIS:treatment; interaction.ustekinumab.padj=0.974]), so drug specificity is not shown. The golimumab arm did not survive correction and the anti-TNF single-cell atlas found no cell-state difference.",
+   "claims": [
+    {
+     "claim": "the anti-TNF single-cell atlas found no cell-state difference",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No anti-TNF single-cell atlas cited."
+    }
+   ]
+  },
+  {
+   "finding": 4,
+   "statement": "IL11 shows the strongest ustekinumab association among the genes tested (BH padj [gene=IL11; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=3.68e-8]), but UNIFI placebo non-responders also differ (BH padj [gene=IL11; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0133]), so it again points to severity.",
+   "claims": [
+    {
+     "claim": "IL11 shows the strongest ustekinumab association among the genes tested",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only the IL11 record is cited; no comparison with other genes."
+    }
+   ]
+  },
+  {
+   "finding": 8,
+   "statement": "XKR9 is the only top candidate in the screen classed as intrinsic, with an epithelial lineage replicated in Gubatan 2026 and GSE282122 (not Garrido-Trigo 2023, which calls it plasma). Evidence is thin, with elevation in only [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; cohorts_up=4] cohorts and low expression in each epithelial cluster. Missing: response data and functional evidence.",
+   "claims": [
+    {
+     "claim": "XKR9 is the only top candidate in the screen classed as intrinsic",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only XKR9 record cited; no comparison with other candidates."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 leads the convergence ranking, with expression, replication across eight cohorts, genetics, literature and tractability (several CXCR1/2 antagonists in ph",
+   "why": {
+    "unmatched_numbers": [
+     "2",
+     "3"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL8",
+   "text_start": "In the adalimumab single-cell atlas (GSE282122, 6 remission versus 14 non-remission patients), CXCL8 showed no baseline difference between remitters and non-rem",
+   "why": {
+    "unmatched_numbers": [
+     "6",
+     "14"
+    ]
+   }
+  },
+  {
+   "gene": "IL23A",
+   "text_start": "Negative result: baseline IL23A is not associated with ustekinumab response (BH padj [gene=IL23A; type=treatment_response; source=ANALYSIS:treatment; arms.ustek",
+   "why": {
+    "unmatched_numbers": [
+     "0.995"
+    ],
+    "numeric_binding_errors": [
+     "numeric_claims[1]: claim must reference cited evidence for the same gene"
+    ],
+    "not_linked_to_gene": [
+     "EV:treatment_response:b746ae5f0669"
+    ]
+   }
+  },
+  {
+   "gene": "TNF",
+   "text_start": "The PROGENy TNFa pathway is higher in non-responders to ustekinumab (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000484]",
+   "why": {
+    "not_linked_to_gene": [
+     "EV:response_pathway:fc27db5790e8"
+    ]
+   }
+  },
+  {
+   "gene": "TGFB1",
+   "text_start": "The TGFb pathway is higher in ustekinumab non-responders (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.000493]) and in UNI",
+   "why": {
+    "not_linked_to_gene": [
+     "EV:response_pathway:4331af1da225"
+    ]
+   }
+  },
+  {
+   "gene": "STAT3",
+   "text_start": "JAK-STAT pathway activity is higher in non-responders for ustekinumab, infliximab and PROTECT corticosteroids, but not for golimumab (BH padj [type=response_pat",
+   "why": {
+    "not_linked_to_gene": [
+     "EV:response_pathway:c77a5b95ab65"
+    ]
+   }
+  }
+ ]
+}

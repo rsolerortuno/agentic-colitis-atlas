@@ -1,53 +1,53 @@
 {
- "run": "2026-11-14",
- "statements_passing": 115,
+ "run": "2026-11-23",
+ "statements_passing": 124,
  "seed": 7,
  "corruptions": {
   "number": {
-   "applied": 84,
-   "caught": 84,
+   "applied": 77,
+   "caught": 77,
    "missed_examples": [],
    "rate": 1.0
   },
   "direction": {
-   "applied": 53,
-   "caught": 46,
+   "applied": 73,
+   "caught": 62,
    "missed_examples": [
     {
-     "location": "agent_findings.literature[7]",
-     "text": "CXCL1 is proposed as a UC diagnostic biomarker in several bioinformatic studies, but its individual performance is modest in one study (higher AUC than CYP2R1, NEU4 and LPCAT1 in the same analysis). Strong discrimination arises only in a co"
+     "location": "agent_findings.expression[9]",
+     "text": "JAK2 has strong genetic and drug support but only a modest expression change [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833], though significantly down in all eight cohorts. Its rank comes from genetics and t"
     },
     {
      "location": "agent_findings.literature[8]",
-     "text": "S100A9 is reported to perform excellently in diagnosing active UC by ROC, is underexpressed in mouse colitis, and is upregulated in UC by nanopore RNA-seq. In a tofacitinib study, S100A9 was downregulated in resident macrophages with respon"
+     "text": "S100A9 expression showed excellent performance for diagnosing active UC and was downregulated in UC. IRF5 represses S100A9 and limits G-MDSC accumulation. In treatment responders S100A9 was downregulated in resident macrophages, which sugge"
     },
     {
-     "location": "agent_findings.external[9]",
-     "text": "SLC26A3 expression is increased (lower) in inflamed mucosa across cohorts, with a moderate Open Targets genetic association and no approved or clinical drug in the tool output; the biopsy loss probably reflects depletion of mature absorptiv"
+     "location": "agent_findings.pathways[5]",
+     "text": "Inflammatory fibroblasts are a stromal sender of CXCL1 to CXCR2 on neutrophils, and the link to the generic Neutrophil state rose strongly in inflamed mucosa. Absolute scores are far higher than the neutrophil CXCL8 circuit. No CXCL1 or CXC"
     },
     {
-     "location": "agent_findings.pathways[2]",
-     "text": "Not all pathways are concordant. Androgen is increased in several cohorts and p53 is not increased in any cohort, so the inflamed signature is not a uniform activation of every pathway. WNT is up in most but not all cohorts, failing in one."
+     "location": "agent_findings.applied[1]",
+     "text": "Lower baseline CXCR2 is associated with ustekinumab non-response, but it also separates UNIFI placebo non-responders, so it marks severity rather than a ustekinumab-specific mechanism. Ustekinumab BH padj was [gene=CXCR2; type=treatment_res"
     },
     {
-     "location": "agent_findings.applied[12]",
-     "text": "XKR9 is the only top-15 hit classed as intrinsic and epithelial (retained [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; retained=0.798]), with epithelial lineage replicated in Gubatan 2026 and GSE282122 and low vital-organ "
+     "location": "narrative.sections.expression[2]",
+     "text": "JAK2 is down in all eight cohorts but only modestly [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833]; it has the second highest Open Targets association with UC, so its place among the candidates comes from ge"
     }
    ],
-   "applied_with_de_evidence": 21,
-   "caught_with_de_evidence": 19,
-   "rate": 0.868,
-   "rate_with_de_evidence": 0.905
+   "applied_with_de_evidence": 34,
+   "caught_with_de_evidence": 33,
+   "rate": 0.849,
+   "rate_with_de_evidence": 0.971
   },
   "gene": {
-   "applied": 80,
-   "caught": 80,
+   "applied": 94,
+   "caught": 94,
    "missed_examples": [],
    "rate": 1.0
   },
   "evidence": {
-   "applied": 80,
-   "caught": 80,
+   "applied": 94,
+   "caught": 94,
    "missed_examples": [],
    "rate": 1.0
   }

@@ -122,7 +122,7 @@ and described in [data/README.md](data/README.md).
 | Tissue sections | Xenium 5K (GSE312420, GSE339323); CosMx 6K and 1K (GSE312415); Visium whole transcriptome with H&E images (GSE189184) | 6 Xenium sections (619,017 cells); 2 CosMx slides of inflamed UC (88,409 cells); 9 Visium sections (16,699 spots, deconvolved into 12 cell groups) |
 | Human genetics | UC GWAS (de Lange et al. 2017, GWAS Catalog GCST004133); fine-mapped QTL from Open Targets 26.09: plasma pQTL (UKB-PPP), colon eQTL (GTEx v10 transverse and sigmoid colon, CEDAR colon and rectum), gut cell-type eQTL (IBDverse single cell) | 1,693 proteins; 5,852 genes in colon tissue; 6,895 genes in about 60 gut cell types |
 | Variant effects | AlphaGenome Atlas (pre-computed RNA-seq effects, colon tissue and blood immune cells) and AlphaGenome 2 (live predictions in 12 colon cell types), Google DeepMind; UC risk signals from Open Targets 26.09 credible sets (five UC and three IBD GWAS) and the UC meta-analysis of Lyu et al. 2025 (medRxiv, not peer reviewed; authors' repository). Outputs for non-commercial research only | 263 risk signals, 2,375 credible-set variants; 5,280 cell-type predictions in 15 cell types |
-| Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 86 proteins (candidates and 10 UC small-molecule targets as controls) |
+| Protein structure | AlphaFold DB models; PDBe-KB ligand sites | 87 proteins (candidates and 10 UC small-molecule targets as controls) |
 | Pathways and signals | PROGENy, CollecTRI (decoupler), OmniPath ligand-receptor pairs | 14 pathways, transcription factors, cell-to-cell pairs |
 | Literature | PubTator3 | 299 publications; 203 relations checked word for word |
 | Drugs and druggability | Open Targets 26.09, STRING, UniProt, Reactome, Human Protein Atlas | Clinical stage, tractability for every gene, vital-organ expression |
@@ -186,7 +186,7 @@ and described in [data/README.md](data/README.md).
 
 ## 5. Main results
 
-Numbers come from the saved, reviewed analysis (`runs/2026-11-14`, the agent run redone after the corrections of 2026-11-14). The report gives the detail and the caveats.
+Numbers come from the saved, reviewed analysis (`runs/2026-11-23`, the agent run redone on 2026-11-23 with a record cited for every claim and a reading check of each claim). The report gives the detail and the caveats.
 
 **Known biology is recovered.**
 Inflamed mucosa gains antimicrobial, neutrophil and tissue-remodelling genes (S100A8, LCN2, DUOX2, CXCL8, MMP3) and
@@ -295,9 +295,9 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 
 | Check | Result |
 |---|---|
-| Agent text against its evidence | 115 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
-| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (84/84), other-gene attributions (80/80) and swapped evidence (80/80); 87 % of all flipped directions (46/53) and 90 % where the sentence cites bulk expression evidence (19/21); directions are compared with bulk, pathway and treatment-response changes, Mendelian randomisation and the cited literature sentence (until 2026-11-23 only with bulk expression: 26 %) |
-| Reading check: each claim against the evidence its statement cites (reader subagent, `claim_check.py`) | 606 claims in the 115 statements: 3 contradicted by their own evidence (the IDO1 paper called a single mouse study although it also measured UC patients; the MMP1-high spot neighbourhood said to be unreported although the Visium record gives it; a cell-state name), 130 not in the cited evidence (mostly comparisons across genes, drug status and results of other analyses that the sentence does not cite). On the 53 direction-flipped copies it caught 51, missing only flips of ranking words. A language-model review aid, not part of the deterministic verification |
+| Agent text against its evidence | 124 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
+| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (77/77), other-gene attributions (94/94) and swapped evidence (94/94); 85 % of all flipped directions (62/73) and 97 % where the sentence cites bulk expression evidence (33/34); directions are compared with bulk, pathway and treatment-response changes, Mendelian randomisation and the cited literature sentence (until 2026-11-23 only with bulk expression: 26 %) |
+| Reading check: each claim against the evidence its statement cites (reader subagent, `claim_check.py`) | 473 claims in the 124 statements: none contradicted by its own evidence and 27 (6 %) not in the cited evidence, listed in the report (in the previous run 3 contradicted and 130 of 606, 21 %, not in the evidence). The specialists and the orchestrator now cite a record for every claim (drug records, `rank_context` for comparisons across genes, UniProt function, the abstract sentence) and fix what the reader flags once before verification. On the 73 direction-flipped copies the reader caught 72 (the deterministic checks 62), missing one flip of a ranking word. A language-model review aid, not part of the deterministic verification |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.82, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.80; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100. Predicted tractability alone is a yes/no value and cannot order a top 100. Retrospective: the data are not frozen at 2016 |
 | Convergence score (includes literature and drug history) | AUROC 0.87, partly circular; data-only version 0.78 |
@@ -315,7 +315,7 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Mouse colitis models (MGI) | 24 % of UC clinical targets and 14 % of the convergence top 100 have a colitis phenotype, against 1.2 % of all genes |
 | CosMx single cells | 23 of 109 candidate genes on the 6K panel above background (epithelial, myeloid, plasma genes); the neutrophil and stromal candidates are not resolved |
 | Weight stability of the other scores | Biologic, immune and pocket scores: median rank correlation 0.97-0.99 under random weights; the novelty ordering's exact top 10 is unstable (it only orders the table) |
-| Pocket score against UC small-molecule targets | The 9 controls (JAK1, JAK3, TYK2, S1PR1, S1PR5, PDE4B, PTGS2, PPARG, DHODH) rank 7 to 45 of 84 proteins; detected cavities cover a median 54 % of experimentally ligand-bound residues (35 proteins) |
+| Pocket score against UC small-molecule targets | The 9 controls (JAK1, JAK3, TYK2, S1PR1, S1PR5, PDE4B, PTGS2, PPARG, DHODH) rank 7 to 46 of 85 proteins; detected cavities cover a median 53 % of experimentally ligand-bound residues (36 proteins) |
 | Biomarker profile against UC clinical targets | AUROC 0.79 (biomarkers are not meant to be drug targets; reported for completeness) |
 | Known-answer questions answered with the project's tools | 10 of 10 |
 | Agents against a model answering from memory | The memory-only model lists the drugs already used in UC (60–70 % clinical targets, nothing citable); the pipeline lists data-supported candidates with checked evidence |
@@ -324,8 +324,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Drugs by indication | Of the 1,515 genes with a clinical drug, 111 have one in UC and 40 in Crohn's disease or IBD; 873 only for other diseases. 59 genes of the discovery screen are repurposing leads (drugs only for other diseases), 41 with an inhibitor in the clinic. Approvals known only from an ATC code are not counted as approved (epacadostat, IDO1) |
 | Single-cell lineage in four atlases | For 1,029 genes the Smillie 2019 lineage is also dominant in 815 of 1,020 (Garrido-Trigo 2023), 645 of 903 (Gubatan 2026) and 867 of 1,022 (GSE282122); 822 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
 | Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 13–54 %) |
-| Report validator | 849 claims, 1,561 evidence records, 1,739 citation links, all resolvable, no external resources |
-| Knowledge graph | 589,486 claims, 0 without a resolvable evidence record |
+| Report validator | 860 claims, 1,590 evidence records, 1,805 citation links, all resolvable, no external resources |
+| Knowledge graph | 592,143 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (7,096 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)

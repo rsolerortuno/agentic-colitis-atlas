@@ -65,7 +65,8 @@ class Verifier:
             sem = semantic.check(text, resolve_gene(gene) or gene if gene else None, ev,
                                  numeric_claims=stmt.get("numeric_claims"))
             log.update(sem)
-            if sem["unmatched_numbers"] or sem["direction_contradiction"] or sem["numeric_binding_errors"]:
+            if sem["unmatched_numbers"] or sem["direction_contradiction"] or sem["numeric_binding_errors"] \
+                    or sem.get("uncited_drugs"):
                 log["kept"] = False
                 log["semantic_failure"] = True
                 return None, log

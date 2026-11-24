@@ -172,7 +172,44 @@ def check(text: str, gene: str | None, evidence: list[dict], extra_values: set[f
         if context_mismatch or len(candidates) != 1 or (n["percent"] and field not in FRACTION_FIELDS) or not _matches(n, candidates):
             unmatched.append(n["text"])
     return {"unmatched_numbers": unmatched, "direction_contradiction": _direction(text, gene, evidence),
-            "numeric_binding_errors": binding_errors}
+            "numeric_binding_errors": binding_errors, "uncited_drugs": uncited_drugs(text, evidence)}
+
+
+# ------------------------------------------------------------------ drug names (2026-11-23)
+# A reading check of run 2026-11-14 found about 30 drug names and stages written from memory or from another tool's
+# output without citing the record that holds them. A drug named in a statement must appear in a cited record (Open
+# Targets drugs, clinical indications, a treatment arm, a literature sentence).
+_DRUGS: re.Pattern | None = None
+
+
+def _drug_pattern() -> re.Pattern | None:
+    global _DRUGS
+    if _DRUGS is None:
+        import json as _json
+        names: set[str] = set()
+        try:
+            from .graph import GraphStore
+            conn = GraphStore().conn
+            for (p,) in conn.execute("select props from evidence where type in ('open_targets_drug', 'clinical_indications')"):
+                d = _json.loads(p)
+                vals = [d.get("drug")] + [x for k, v in d.items() if k.endswith("_drugs") and isinstance(v, list) for x in v]
+                names |= {str(v).strip().lower() for v in vals if v}
+        except Exception:   # no graph (CI without data): nothing to check against
+            names = set()
+        names = {n for n in names if re.fullmatch(r"[a-z][a-z0-9-]{4,}", n)}
+        _DRUGS = re.compile(r"(?<![\w-])(" + "|".join(sorted(map(re.escape, names), key=len, reverse=True)) + r")(?![\w-])",
+                            re.I) if names else re.compile(r"(?!x)x")
+    return _DRUGS
+
+
+def uncited_drugs(text: str, evidence: list[dict]) -> list[str]:
+    """Drug names in the text (outside annotations) that no cited record contains."""
+    import json as _json
+    found = {m.group(1).lower() for m in _drug_pattern().finditer(re.sub(r"\[[^\]]*\]", " ", text))}
+    if not found:
+        return []
+    blob = _json.dumps(evidence, default=str).lower()
+    return sorted(n for n in found if n not in blob)
 
 
 SIG = 0.05

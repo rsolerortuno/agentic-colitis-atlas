@@ -1,0 +1,92 @@
+{
+ "agent_file": "agent_literature.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 4,
+   "statement": "CXCL1 is repeatedly nominated as a diagnostic or activity marker across independent bioinformatic studies, but its standalone accuracy was modest in one of them. It appeared within a five-gene combined diagnostic model with very high accuracy, whereas CXCL1 alone was only a fair activity marker. Strong in meta-analysis, but a weak single marker.",
+   "claims": [
+    {
+     "claim": "CXCL1 is strong in meta-analysis",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No CXCL1 expression meta-analysis record cited."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "SLC26A3 was significantly lower in UC patients in ONT-RNA-seq. That is the only verbatim-validated literature relation in the corpus despite a strong genetic association in Open Targets.",
+   "claims": [
+    {
+     "claim": "SLC26A3 has a strong genetic association in Open Targets",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No Open Targets record cited."
+    }
+   ]
+  },
+  {
+   "finding": 7,
+   "statement": "CD274 (PD-L1) appears in a hub-gene analysis as associated with UC and positively correlated with macrophage infiltration. There are no verbatim-validated relations for it in the corpus, although Open Targets literature and genetic scores are high.",
+   "claims": [
+    {
+     "claim": "CD274 appears in a hub-gene analysis as associated with UC and positively correlated with macrophage infiltration",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only an Open Targets record is cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 is the top-ranked convergence gene, but the corpus holds no verbatim-validated relation for it. The literature support is indirect: a Mendelian randomizat",
+   "why": {
+    "uncited_drugs": [
+     "ladarixin",
+     "navarixin",
+     "reparixin"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL8",
+   "text_start": "The literature says the CXCL8-CXCR1/2 axis participates in UC pathogenesis through PI3K/Akt, MAPK and NF-kappaB signalling. In a blood RNA-seq validation set CX",
+   "why": {
+    "unmatched_numbers": [
+     "2"
+    ]
+   }
+  },
+  {
+   "gene": "IDO1",
+   "text_start": "IDO1 has the most mechanistic and interventional support among the targets. IDO1 expression was elevated in UC patients and correlated with M1 macrophage polari",
+   "why": {
+    "unmatched_numbers": [
+     "1"
+    ]
+   }
+  },
+  {
+   "gene": "S100A9",
+   "text_start": "S100A9 expression showed excellent performance for diagnosing active UC and was upregulated in UC. IRF5 represses S100A9 and limits G-MDSC accumulation. After t",
+   "why": {
+    "uncited_drugs": [
+     "tofacitinib"
+    ]
+   }
+  },
+  {
+   "gene": "LCN2",
+   "text_start": "LCN2 was upregulated in UC and IBD. A study of UC-associated carcinogenesis found expression highest in short-duration UC and lower in long-duration UC and UC-a",
+   "why": {
+    "direction_contradiction": "text says down, the cited literature sentence says up"
+   }
+  }
+ ]
+}

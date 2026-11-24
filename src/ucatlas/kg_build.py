@@ -150,8 +150,9 @@ def build(store: GraphStore | None = None) -> dict:
             pid = publication(int(r.pmid))
             cid = f"CHUNK:{r.chunk_id}"
             store.add_node(cid, "Chunk", r.text[:120], text=r.text, pmid=int(r.pmid))
+            # the sentence itself in the record, so a claim citing it can be checked (2026-11-23)
             ev = store.add_evidence(evidence_id("chunk", r.chunk_id), "provenance", "PubTator3 abstract", TODAY,
-                                    pmid=int(r.pmid))
+                                    pmid=int(r.pmid), sentence=r.text)
             store.add_claim(cid, "part_of", pid, ev)
             for mention, gid in mentions_by_pmid.get(int(r.pmid), {}).items():
                 if re.search(rf"(?<![A-Za-z0-9]){re.escape(mention)}(?![A-Za-z0-9])", r.text):
@@ -196,7 +197,8 @@ def build(store: GraphStore | None = None) -> dict:
                     pid = f"REACTOME:{pw['reactome']}"
                     store.add_node(pid, "Pathway", pw["name"], reactome=pw["reactome"], top_level=pw["top_level"])
                     ev = store.add_evidence(evidence_id("reactome", pw["reactome"], sym), "pathway_membership",
-                                            "Reactome via Open Targets", TODAY, gene=sym, reactome=pw["reactome"])
+                                            "Reactome via Open Targets", TODAY, gene=sym, reactome=pw["reactome"],
+                                            pathway=pw["name"], top_level=pw["top_level"])
                     store.add_claim(gid, "in_pathway", pid, ev)
             for p in d.get("string") or []:
                 pg = gene(p["partner"])
@@ -211,8 +213,11 @@ def build(store: GraphStore | None = None) -> dict:
                 prot = f"UNIPROT:{u['accession']}"
                 store.add_node(prot, "Protein", u["name"] or u["accession"], accession=u["accession"],
                                function=u["function"], subcellular_location=u["subcellular_location"])
+                # name, function and location in the record itself, so a statement about what the protein is or does
+                # can cite it (2026-11-23; before, only the Protein node held them)
                 ev = store.add_evidence(evidence_id("uniprot", u["accession"]), "uniprot_entry", "UniProtKB/Swiss-Prot",
-                                        TODAY, accession=u["accession"],
+                                        TODAY, gene=sym, accession=u["accession"], protein_name=u["name"],
+                                        function=u["function"], subcellular_location=u["subcellular_location"],
                                         url=f"https://www.uniprot.org/uniprotkb/{u['accession']}")
                 store.add_claim(gid, "encodes", prot, ev)
 

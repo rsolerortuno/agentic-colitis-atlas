@@ -1,0 +1,167 @@
+{
+ "agent_file": "agent_expression.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "AQP8 shows the largest pooled loss, log2FC -5.7633 [gene=AQP8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-5.7633], significantly down in all eight cohorts. Together with CLDN8, SLC26A2, PCK1 and UGT2A3 it forms a reproducible loss of epithelial transport and metabolism genes in inflamed mucosa, useful as biomarkers rather than targets.",
+   "claims": [
+    {
+     "claim": "CLDN8, SLC26A2, PCK1 and UGT2A3 form a reproducible loss of epithelial transport and metabolism genes in inflamed mucosa",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only AQP8 record cited; other genes not covered."
+    }
+   ]
+  },
+  {
+   "finding": 1,
+   "statement": "MMP3 is strongly induced (pooled log2FC 4.822 [gene=MMP3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.822]) in all eight cohorts, as are MMP1, MMP7 and MMP10, and all are higher in inflamed than non-inflamed mucosa of the same patient. This is a stromal and tissue-remodelling programme; broad MMP inhibitors exist but have no UC-specific support here.",
+   "claims": [
+    {
+     "claim": "MMP1, MMP7 and MMP10 are also induced in all eight cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No records for these genes cited."
+    },
+    {
+     "claim": "all are higher in inflamed than non-inflamed mucosa of the same patient",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No paired inflamed vs non-inflamed data cited."
+    }
+   ]
+  },
+  {
+   "finding": 2,
+   "statement": "DUOX2 rises in all eight cohorts (pooled log2FC 4.3033 [gene=DUOX2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.3033]) and is higher in inflamed mucosa within patients, with DUOXA2 likewise among the strongest increases. This points to an epithelial oxidative and antimicrobial response, a local inflammation biomarker.",
+   "claims": [
+    {
+     "claim": "DUOX2 is higher in inflamed mucosa within patients",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No within-patient comparison cited."
+    },
+    {
+     "claim": "DUOXA2 is likewise among the strongest increases",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No DUOXA2 record cited."
+    }
+   ]
+  },
+  {
+   "finding": 3,
+   "statement": "S100A8, with S100A9, is up in all eight cohorts and is a neutrophil and myeloid calprotectin signal; the bulk increase mostly reflects infiltrating immune cells, so it supports calprotectin-type local inflammation biomarkers but not an intrinsic tissue target.",
+   "claims": [
+    {
+     "claim": "S100A9 is up in all eight cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No S100A9 record cited."
+    },
+    {
+     "claim": "S100A8 is a neutrophil and myeloid signal; bulk increase mostly reflects infiltrating immune cells",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No single-cell or composition record cited."
+    }
+   ]
+  },
+  {
+   "finding": 4,
+   "statement": "TREM1 is up in all eight cohorts and higher in inflamed than non-inflamed mucosa, consistent with myeloid amplification of inflammation; its bulk rise likely reflects infiltrating myeloid cells and a phase 2 inhibitor peptide exists.",
+   "claims": [
+    {
+     "claim": "TREM1 is higher in inflamed than non-inflamed mucosa",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No paired comparison cited."
+    },
+    {
+     "claim": "a phase 2 inhibitor peptide exists",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No drug record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 is the top convergence gene: up in UC in all eight cohorts, and in the same patients inflamed mucosa exceeds non-inflamed mucosa (paired log2FC 1.6972 [ge",
+   "why": {
+    "unmatched_numbers": [
+     "1.6972",
+     "0.6399"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL8",
+   "text_start": "CXCL8 (IL-8), the CXCR1/CXCR2 ligand, is strongly and reproducibly raised in all eight cohorts with a pooled log2FC of 3.687 [gene=CXCL8; type=expression_meta; ",
+   "why": {
+    "unmatched_numbers": [
+     "3.687"
+    ]
+   }
+  },
+  {
+   "gene": "CD274",
+   "text_start": "CD274 (PD-L1) is up in all eight cohorts and is local to inflamed mucosa: paired inflamed versus non-inflamed log2FC 1.0008 [gene=CD274; type=omics_de; source=D",
+   "why": {
+    "unmatched_numbers": [
+     "1.0008",
+     "0.1971"
+    ]
+   }
+  },
+  {
+   "gene": "IDO1",
+   "text_start": "IDO1 is up in all eight cohorts and the change replicates as protein in an independent proteomics study (log2 ratio 0.917 [gene=IDO1; type=proteomics_de; source",
+   "why": {
+    "unmatched_numbers": [
+     "0.917"
+    ]
+   }
+  },
+  {
+   "gene": "CHI3L1",
+   "text_start": "CHI3L1 has one of the largest pooled increases (log2FC 4.913 [gene=CHI3L1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=4.913]), significant in ",
+   "why": {
+    "unmatched_numbers": [
+     "0.607"
+    ]
+   }
+  },
+  {
+   "gene": "HMGCS2",
+   "text_start": "HMGCS2, an epithelial ketogenesis gene, is lost in all eight cohorts and the loss is specific to inflamed mucosa: non-inflamed versus control is flat (log2FC -0",
+   "why": {
+    "unmatched_numbers": [
+     "-0.0649",
+     "-3.094"
+    ]
+   }
+  },
+  {
+   "gene": "JAK2",
+   "text_start": "JAK2 has strong genetic and drug support but only a modest expression change (pooled log2FC 0.833 [gene=JAK2; type=expression_meta; source=DATASET:META; layer=r",
+   "why": {
+    "unmatched_numbers": [
+     "0.833"
+    ]
+   }
+  }
+ ]
+}

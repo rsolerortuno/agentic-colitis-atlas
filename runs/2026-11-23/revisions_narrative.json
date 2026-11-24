@@ -1,0 +1,122 @@
+{
+ "narrative.summary[0]": {
+  "statement": "The strongest convergent signal in UC mucosa is a neutrophil-recruitment axis. CXCR2, CXCR1 and CXCL8 take the first three places of the convergence ranking and are up in all eight cohorts, but single-cell data place almost all CXCR2 transcripts in neutrophils [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965] and most CXCL8 transcripts too [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873], so their bulk rise mainly reports neutrophil arrival rather than a change of the tissue itself.",
+  "claims": [
+   {
+    "claim": "CXCR1 is up in all eight cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No expression meta-analysis record for CXCR1 is cited."
+   }
+  ]
+ },
+ "narrative.summary[2]": {
+  "statement": "Inside the tissue, DUOX2 in enterocytes and MMP1 in inflammatory fibroblasts keep a clear increase after the composition adjustment ([gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161] and [gene=MMP1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.2636]) and their cell source replicates across the single-cell atlases, while the epithelial genes AQP8 and HMGCS2 show the largest pooled losses of the meta-analysis [gene=AQP8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=-5.7633].",
+  "claims": [
+   {
+    "claim": "HMGCS2 shows the largest pooled loss of the meta-analysis",
+    "verdict": "contradicted",
+    "quote": "\"rank\": 3, \"of\": 5380",
+    "evidence_id": "EV:rank_context:4b105e97bc01",
+    "reason": "HMGCS2 ranks third, behind AQP8 and CLDN8."
+   }
+  ]
+ },
+ "narrative.sections.cells[2]": {
+  "statement": "IDO1, CHI3L1 and CD274 have mixed sources. IDO1 is myeloid in Smillie 2019 but epithelial in Gubatan 2026; CHI3L1 is stromal in Smillie 2019 but myeloid in Gubatan 2026, where neutrophils also contribute [gene=CHI3L1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.466]; CD274 has no dominant lineage and a large neutrophil share [gene=CD274; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.687]. All three keep a significant change after adjustment ([gene=IDO1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8505], [gene=CHI3L1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3967], [gene=CD274; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4978]); the composition model can over-correct when resident cells are activated, so these are partly tissue changes.",
+  "claims": [
+   {
+    "claim": "CD274 has no dominant lineage",
+    "verdict": "contradicted",
+    "quote": "\"dominant_lineage\": \"myeloid\"",
+    "evidence_id": "EV:sc_summary:822a01cbf7e8",
+    "reason": "Record names myeloid as dominant lineage for CD274."
+   }
+  ]
+ },
+ "narrative.sections.pathways[2]": {
+  "statement": "Of the circuit genes, CXCR2 has recorded antagonists (reparixin, navarixin, ladarixin, SX-682), IL1B has canakinumab, approved for other diseases, and TREM1 has nangibotide in phase 2; no drug is recorded for CXCL1 or CXCL5.",
+  "claims": [
+   {
+    "claim": "canakinumab is approved for other diseases",
+    "verdict": "not_in_evidence",
+    "quote": "\"max_clinical_stage\": \"APPROVAL\"",
+    "evidence_id": "EV:open_targets_drug:9a19832a780e",
+    "reason": "Approval stage shown, but the record names no indication."
+   }
+  ]
+ },
+ "targets.CXCR2": {
+  "statement": "First in the convergence ranking and up in all eight cohorts, but neutrophils make almost all of its transcripts [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965] and only a small change survives composition adjustment [gene=CXCR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4409]: a neutrophil-recruitment target, with antagonists recorded outside UC, and a severity marker that also separates placebo non-responders.",
+  "claims": [
+   {
+    "claim": "Antagonists are recorded outside UC",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Reparixin record gives only phase 3; no indication or non-UC context stated."
+   }
+  ]
+ },
+ "targets.DUOX2": {
+  "statement": "Enterocyte-derived [gene=DUOX2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.947], retained after composition adjustment [gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161], placed in epithelium by Xenium and Visium and among the most elevated proteins in inflamed biopsies: a tissue biomarker of epithelial antimicrobial stress, with no drug recorded.",
+  "claims": [
+   {
+    "claim": "Placed in epithelium by Visium",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Only Xenium spatial summary is cited; no Visium record."
+   }
+  ]
+ },
+ "targets.CD274": {
+  "statement": "High in the convergence ranking and up in inflamed mucosa, but genetically higher plasma PD-L1 lowers UC risk [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595], so inhibition runs against genetics; its rise is best read as a compensatory response.",
+  "claims": [
+   {
+    "claim": "High in the convergence ranking",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No ranking record is cited for CD274."
+   }
+  ]
+ },
+ "targets.CXCL8": {
+  "statement": "Up in all eight cohorts [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.687], but made mostly by neutrophils and myeloid cells, it loses significance after composition adjustment (adjusted padj [gene=CXCL8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0525]), is null in plasma Mendelian randomisation and marks severity in drug and placebo arms alike.",
+  "claims": [
+   {
+    "claim": "It is null in plasma Mendelian randomisation",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No MR record is cited in this statement's evidence."
+   }
+  ]
+ },
+ "targets.IDO1": {
+  "statement": "Up in all eight cohorts and replicated as protein [gene=IDO1; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=0.917], with a mixed myeloid and epithelial source and an adjusted change [gene=IDO1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8505]; the cited mechanism and inhibitor data come from one study in UC patients and colitis mice, so it is an interferon-response biomarker and at most a repurposing hypothesis.",
+  "claims": [
+   {
+    "claim": "Up in all eight cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No IDO1 per-cohort expression record is cited."
+   }
+  ]
+ },
+ "targets.CHRDL2": {
+  "statement": "Exploratory: the largest pooled increase of the first-in-class candidates, up in [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; cohorts_up=7] cohorts, made by inflammatory fibroblasts in all four atlases and antibody-tractable; partly composition, with no response or functional data.",
+  "claims": [
+   {
+    "claim": "Made by inflammatory fibroblasts in all four atlases",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": "EV:sc_summary:c77baf64a62b",
+    "reason": "Stromal lineage dominant in all four atlases, but inflammatory fibroblasts named only for SCP259."
+   }
+  ]
+ }
+}

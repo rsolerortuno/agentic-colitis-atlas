@@ -87,3 +87,14 @@ def test_clause_about_several_genes_and_carried_subject():
     # genes that disagree: nothing is attributed
     mixed = [MR, {**MR, "gene": "CXCL5", "beta": 0.45}]
     assert not _direction("CD274 and CXCL5: genetically lower protein is protective.", None, mixed)
+
+
+def test_drug_names_need_a_cited_record(monkeypatch):
+    import re
+    from ucatlas import semantic
+    monkeypatch.setattr(semantic, "_DRUGS", re.compile(r"(?<![\w-])(reparixin|navarixin)(?![\w-])", re.I))
+    drug = {"type": "open_targets_drug", "gene": "CXCR2", "drug": "NAVARIXIN", "max_clinical_stage": "PHASE_2"}
+    assert semantic.uncited_drugs("Navarixin reached phase 2.", [drug]) == []
+    assert semantic.uncited_drugs("Reparixin and navarixin reached late-stage trials.", [drug]) == ["reparixin"]
+    # names inside annotations are not text
+    assert semantic.uncited_drugs("A drug [drug=reparixin] exists.", []) == []

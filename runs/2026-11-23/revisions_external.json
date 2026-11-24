@@ -1,0 +1,134 @@
+{
+ "agent_file": "agent_external.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 1,
+   "statement": "Plasma PD-L1 (CD274) is protective in MR: higher protein lowers UC risk, an odds ratio per SD of [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595], with colocalisation with an IBD GWAS signal and replication in FinnGen. Direction is opposite to the up-regulation in inflamed mucosa, so checkpoint inhibitors approved in oncology (for example atezolizumab) would act against the genetic direction.",
+   "claims": [
+    {
+     "claim": "CD274 is up-regulated in inflamed mucosa",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No expression record cited."
+    },
+    {
+     "claim": "checkpoint inhibitors approved in oncology, for example atezolizumab",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Record shows phase 4 only; oncology approval not stated."
+    }
+   ]
+  },
+  {
+   "finding": 2,
+   "statement": "CXCL8 is among the most strongly and consistently up-regulated genes in biopsies and has anti-IL-8 antibodies in Phase 2, but it has zero genetic association score, and plasma MR is null (p [gene=CXCL8; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; p=0.289]) with no replication in FinnGen. Its signal reflects neutrophil-driven inflammation rather than causal genetics.",
+   "claims": [
+    {
+     "claim": "CXCL8 has anti-IL-8 antibodies in Phase 2",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No drug record cited."
+    },
+    {
+     "claim": "CXCL8 has zero genetic association score",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No Open Targets record cited."
+    }
+   ]
+  },
+  {
+   "finding": 5,
+   "statement": "JAK2 has a high Open Targets association (second among known UC targets) and approved or clinical inhibitors, but only a small biopsy change. No pQTL or eQTL instrument, so MR is not tested. JAK1 and JAK3 are the clinically used UC JAK targets in the top list.",
+   "claims": [
+    {
+     "claim": "JAK1 and JAK3 are the clinically used UC JAK targets in the top list",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No JAK1 or JAK3 records cited."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "CHI3L1 is one of the strongest, fully replicated up-regulated genes (all cohorts same direction) but has zero genetic association and no drug, so it is a biomarker candidate rather than a genetically supported target.",
+   "claims": [
+    {
+     "claim": "CHI3L1 has zero genetic association",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No association record cited."
+    }
+   ]
+  },
+  {
+   "finding": 7,
+   "statement": "AQP9 is strongly up-regulated and replicated, with high inflammation specificity, but has no genetic association and no drug, so it is an expression-led biomarker candidate.",
+   "claims": [
+    {
+     "claim": "AQP9 has high inflammation specificity",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No specificity record cited."
+    },
+    {
+     "claim": "AQP9 has no genetic association",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No association record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 ranks first in the convergence ranking, with meta-analysis up-regulation in biopsies [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; lo",
+   "why": {
+    "uncited_drugs": [
+     "danirixin",
+     "elubrixin",
+     "ladarixin",
+     "navarixin",
+     "sx-682"
+    ]
+   }
+  },
+  {
+   "gene": "CD274",
+   "text_start": "CD274 MR sensitivity: some heterogeneity across the three instruments (Cochran p below 0.05), no directional pleiotropy by the Egger intercept, Steiger directio",
+   "why": {
+    "unmatched_numbers": [
+     "0.05"
+    ]
+   }
+  },
+  {
+   "gene": "IL12B",
+   "text_start": "IL12B is the top Open Targets UC target and the strongest plasma MR hit: higher protein raises UC risk, odds ratio per SD [gene=IL12B; type=mendelian_randomizat",
+   "why": {
+    "unmatched_numbers": [
+     "23"
+    ]
+   }
+  },
+  {
+   "gene": "MMP7",
+   "text_start": "MMP7 is up-regulated and replicated and has MMP inhibitors or doxycycline recorded in other indications (marimastat Phase 3), but has no genetic association wit",
+   "why": {
+    "uncited_drugs": [
+     "marimastat"
+    ]
+   }
+  }
+ ]
+}

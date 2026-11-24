@@ -129,6 +129,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         from . import mr_sensitivity
         _step("Mendelian randomisation sensitivity", lambda: (mr_sensitivity.run(), mr_sensitivity.load())[0])
     _step("convergence", lambda: _rebuild_convergence(run))   # also loads the citable ranking records
+    from . import rank_context   # citable ranks for comparisons across genes (2026-11-23)
+    _step("citable ranks", rank_context.load)
     from . import report_layers, structure
     _step("structure (AlphaFold pockets)", lambda: (structure.run(structure.targets(run)), structure.load_graph())[1])
     _step("report layers", lambda: list(report_layers.run()))

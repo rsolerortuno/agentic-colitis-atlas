@@ -1,0 +1,30 @@
+{
+ "agent_file": "agent_cells.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 4,
+   "statement": "DUOX2 is epithelial (enterocytes), with the dominant lineage share in Smillie 2019 at [gene=DUOX2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.947]. The attribution replicates in Garrido-Trigo 2023, Gubatan 2026 and GSE282122, and Xenium and Visium both place it in epithelium. Neutrophils contribute little. The adjusted change stays significant, with adjusted log2FC [gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161]. This is a strong tissue-intrinsic epithelial change, not neutrophil influx.",
+   "claims": [
+    {
+     "claim": "Visium places DUOX2 in epithelium",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No Visium record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 transcripts in inflamed mucosa are almost entirely neutrophil. Smillie 2019 (no neutrophils captured) labels it T/NK, and this does not replicate: Garrido",
+   "why": {
+    "unmatched_numbers": [
+     "2"
+    ]
+   }
+  }
+ ]
+}

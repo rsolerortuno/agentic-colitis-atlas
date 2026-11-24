@@ -361,3 +361,14 @@ Designs fixed before running. Nothing below changes the convergence score or the
   7 literature claims from uncited abstracts or papers). On the 53 flipped copies, mixed in under opaque ids, the
   reader caught 51; it missed the two ranking-word flips. Shown in the Agents tab and the README as a review aid; the
   three statements need a new agent run to be corrected. 3 tests.
+- **Every claim cited; agent run redone (2026-11-23)**: asked whether the 130 claims not in their cited evidence could
+  be fixed, and then to do everything and rerun the agents. Added citable ranks (rank_context.py, run-all step),
+  UniProt function and Reactome pathway names and abstract sentence text inside their records, a drug-name rule in the
+  verifier (a named drug must be in a cited record), per-claim citation rules for the six specialists and the
+  orchestrator, and the reading check as a revision loop in /informe (specialists' verified findings and the
+  narrative, once each, before verification; prepare-agents, revisions, prepare-narrative, revisions-narrative). The
+  narrative's own citations enter the run's evidence basis when it is first read. Run 2026-11-23: 124 statements, no
+  failures detected by the automatic checks; 473 claims read, 0 contradicted, 27 not in the cited evidence (21 % in
+  the previous run); sabotage direction 62/73 deterministic and 72/73 by the reader. The rank records corrected two
+  earlier XKR9 claims. SLC26A3 entered the structure and mouse-literature layers (87 proteins; typed figures updated).
+  Tests for the drug rule and the ranks (140 in all).

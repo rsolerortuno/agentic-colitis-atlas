@@ -557,3 +557,26 @@ CCL20, named in (y), are not assigned under this rule.
 
 **Decision.** The list is published as a fourth tab with this result stated first; it changes no score. The per-gene
 alphagenome_variant_effect records of (y) are no longer loaded.
+
+## (g3) Every claim cited, and the reading check inside the agent run (2026-11-23)
+
+The reading check of run 2026-11-14 found 130 of 606 claims not in the evidence their statement cites. Three changes
+followed: (1) citable records for what was missing: `rank_context` (2,655 records: a gene's rank within named sets,
+for comparisons across genes), UniProt function and location and Reactome pathway names inside their records, and
+the sentence text inside each abstract-sentence record; (2) a deterministic rule: a drug named in a statement must
+appear in a cited record (it flagged 15 statements of run 2026-11-14); (3) the specialists' and the orchestrator's
+instructions ask for a record per claim, and /informe runs the reader on the specialists' verified findings and on
+the narrative, sending what it flags back once before verification.
+
+Run 2026-11-23 (all six specialists and the narrative redone): the first verification dropped 30 of 80 findings
+(unbound numbers, uncited drug names, numbers bound to another gene's record) and the reader flagged 28 of 182 claims
+of the kept findings; after one revision 79 of 80 findings pass (a CD274 literature finding whose citations are not
+linked to the gene was removed). The reader flagged 10 claims of the narrative, two of them wrong (HMGCS2 called the
+largest loss although it ranks third; CD274 called lineage-less although the record names myeloid), corrected before
+assembly. Final: 124 statements, no failures detected by the automatic checks; 473 claims read, none contradicted,
+27 (6 %) not in the cited evidence (23 in specialist findings, 4 in the narrative), listed in the report. The new
+`rank_context` records also showed that two earlier claims were wrong: XKR9 is not the only intrinsic epithelial
+first-in-class candidate (four are) nor the one with the fewest cohorts (second fewest). Sabotage on the new run:
+numbers 77/77, gene 94/94, evidence 94/94, direction 62/73 deterministic (33/34 with bulk evidence) and 72/73 by the
+reader. The candidate SLC26A3 is new in this run, so its AlphaFold model and mouse literature were added (87
+proteins; pocket controls rank 7th to 46th of 85; ligand-site recall median 53 % of 36 proteins).

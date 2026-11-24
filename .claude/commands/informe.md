@@ -24,6 +24,17 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
 3. Run `uv run python scripts/verify.py agents`. It removes evidence ids that do not exist or are not linked to the
    gene and drops unsupported findings, writing `*.verified.json`.
 
+3b. Reading check of the agents (revision loop). Run `uv run python -m ucatlas.claim_check prepare-agents <RUN date>`.
+   It writes batches of the verified findings with their cited records to `data/claim_check/<RUN date>/agents/batches/`
+   and prints them. Launch `lector-afirmaciones` agents in parallel (one per two or three batches; prompt: "Process
+   <input> -> <output>" with the outputs in `data/claim_check/<RUN date>/agents/read/`, same file names). Then run
+   `uv run python -m ucatlas.claim_check revisions <RUN date>`: it writes `RUN/revisions_<agent>.json` with each
+   finding's claims that are contradicted or not in the cited evidence. For each agent with revisions, resume that
+   specialist (SendMessage to it, or a new Agent call of the same type if it cannot be resumed) with: "The reading
+   check found claims of your findings that the cited records do not support: RUN/revisions_<agent>.json. For each,
+   cite the record that supports it (see 'Every claim needs its own record' in your instructions), correct it, or
+   remove it. Rewrite RUN/agent_<name>.json." Then re-run step 3. Do this loop once.
+
 4. Read `RUN/convergence.json` (top 25) and the `RUN/agent_*.verified.json` files. Integrate them: where do expression,
    literature, genetics and druggability converge, where do they disagree, which candidates are targets vs.
    biomarkers vs. mechanism. Then write `RUN/narrative.json`:
@@ -76,6 +87,10 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - Write `narrative.json` in parts, not in one large write: first create it with `summary` and an empty `sections`
      object, `targets` list and `limitations` list; then add each section, the targets and the limitations with separate
      edits.
+   - Every claim of a paragraph needs a cited record that says it, as for the specialists (drug names and stages,
+     comparisons with other genes through `rank_context`, protein function, results of other analyses, papers): see
+     "Every claim needs its own record" in `.claude/agents/agente-externo.md`. A drug named without a cited record that
+     contains the name fails verification. What no record supports is left out or written as interpretation.
    - Every summary/section paragraph and every target MUST cite evidence ids copied from the verified agent files or
      from `convergence.json`. A paragraph that discusses one specific gene should carry `"gene": "<symbol>"` and cite
      only that gene's evidence. Limitations need no ids.
@@ -86,9 +101,20 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    or, if you decide it does not belong in the report, say why in one `limitations` entry naming the gene. Negative
    results are findings: report them. Re-run the script until no key finding is left uncited without a reason.
 
+4c. Reading check of the narrative. Run `uv run python -m ucatlas.claim_check prepare-narrative <RUN date>`, launch
+   `lector-afirmaciones` agents on its batches as in 3b (outputs in `data/claim_check/<RUN date>/narrative/read/`),
+   then `uv run python -m ucatlas.claim_check revisions-narrative <RUN date>`, which writes
+   `RUN/revisions_narrative.json`. Fix each listed claim in `narrative.json` (cite the supporting record, correct, or
+   remove). Once.
+
 5. Run `uv run python scripts/assemble.py <RUN date>` then `uv run python scripts/verify.py final <RUN date>`.
    If it reports any unsupported claim, review and correct the original agent or narrative inputs (metric, citation,
    context or interpretation), repeat step 5, and re-run agent verification when its inputs change. Inspect all
    dropped statements; do not discard substantive results merely to obtain `unsupported claims: 0`.
 
-6. Run `uv run python scripts/render.py <RUN date>` and reply with the report path and a 5-line summary.
+6. Final reading check, for the report: `uv run python -m ucatlas.claim_check prepare <RUN date>`, launch
+   `lector-afirmaciones` agents on `data/claim_check/<RUN date>/batches/` (outputs in `.../read/`), then
+   `uv run python -m ucatlas.sabotage <RUN date>` and `uv run python -m ucatlas.claim_check summarize <RUN date>`. Claims
+   still contradicted or not in the cited evidence are shown in the report, not hidden.
+
+7. Run `uv run python scripts/render.py <RUN date>` and reply with the report path and a 5-line summary.

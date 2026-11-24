@@ -23,6 +23,11 @@ a gene the statement cites nothing about). This module adds a reading check:
 
 The reader is a language model, so its verdicts are measured (the sabotage copies) and shown as a review aid next to the
 deterministic checks; it does not remove evidence or fail the run.
+
+Revision loop (2026-11-23, steps 3b and 4c of .claude/commands/informe.md): the same reader runs on the specialists'
+verified findings (prepare_agents -> data/claim_check/<run>/agents/) and on the narrative before assembly
+(prepare_narrative -> .../narrative/); revisions() and revisions_narrative() write RUN/revisions_*.json with the claims
+to fix, which go back to the specialist or the orchestrator once, before verification and the final check above.
 """
 from __future__ import annotations
 
@@ -78,10 +83,6 @@ def _passing(run: str):
 
 def prepare(run: str) -> dict:
     """Write the reader's input batches: real statements and their direction-flipped copies, in separate batches."""
-    d = BASE / run / "batches"
-    d.mkdir(parents=True, exist_ok=True)
-    for f in d.glob("*.jsonl"):
-        f.unlink()
     real, flipped = [], []
     for loc, s, ev in _passing(run):
         key = sabotage._text_key(s)
@@ -90,9 +91,19 @@ def prepare(run: str) -> dict:
         m = sabotage.corrupt_direction(s)
         if m:
             flipped.append({"id": f"flip|{loc}", "statement": m[key], **item})
-    # opaque ids: which copy is real and which is flipped stays in key.json, outside the batches the reader sees
+    n = _write_batches([real, flipped], BASE / run)
+    return {"real": len(real), "flipped": len(flipped), "batches": n}
+
+
+def _write_batches(groups: list[list[dict]], base: Path) -> int:
+    """Batches with opaque ids; which statement is which (real or flipped, and where) stays in key.json, outside the
+    batches the reader sees."""
+    d = base / "batches"
+    d.mkdir(parents=True, exist_ok=True)
+    for f in d.glob("*.jsonl"):
+        f.unlink()
     key, n = {}, 0
-    for rows in (real, flipped):
+    for rows in groups:
         for i in range(0, len(rows), BATCH_SIZE):
             n += 1
             chunk = []
@@ -102,25 +113,131 @@ def prepare(run: str) -> dict:
                 chunk.append({**r, "id": oid})
             (d / f"batch_{n:02d}.jsonl").write_text(
                 "\n".join(json.dumps(r, ensure_ascii=False) for r in chunk) + "\n", encoding="utf-8")
-    (BASE / run / "key.json").write_text(json.dumps(key, indent=0), encoding="utf-8")
-    return {"real": len(real), "flipped": len(flipped), "batches": n}
+    (base / "key.json").write_text(json.dumps(key, indent=0), encoding="utf-8")
+    return n
+
+
+# ------------------------------------------------------------------ revision loop inside /informe (2026-11-23)
+def _rows_for(statements: list[tuple[str, dict]], store) -> list[dict]:
+    out = []
+    for loc, s in statements:
+        ids = [i for i in s.get("evidence_ids", []) if isinstance(i, str)]
+        if not ids:
+            continue
+        out.append({"id": loc, "statement": s[sabotage._text_key(s)], "gene": s.get("gene"),
+                    "evidence": [_evidence_block(e) for e in store.get_evidence(ids)]})
+    return out
+
+
+def prepare_agents(run: str) -> dict:
+    """Batches of the specialists' verified findings, for the reading check before the narrative is written."""
+    from .graph import GraphStore
+    from .verify import AGENT_FILES
+    stmts = []
+    for name in AGENT_FILES:
+        p = ROOT / "runs" / run / name.replace(".json", ".verified.json")
+        if p.exists():
+            for i, f in enumerate(json.loads(p.read_text(encoding="utf-8")).get("findings", [])):
+                stmts.append((f"{name}|{i}", f))
+    rows = _rows_for(stmts, GraphStore())
+    n = _write_batches([rows], BASE / run / "agents")
+    return {"findings": len(rows), "batches": n, "dir": str(BASE / run / "agents" / "batches")}
+
+
+def _narrative_statements(nar: dict) -> list[tuple[str, dict]]:
+    out = [(f"narrative.summary[{i}]", p) for i, p in enumerate(nar.get("summary", []))]
+    for sec, ps in (nar.get("sections") or {}).items():
+        out += [(f"narrative.sections.{sec}[{i}]", p) for i, p in enumerate(ps)]
+    out += [(f"targets.{t.get('gene')}", t) for t in nar.get("targets", [])]
+    return out
+
+
+def prepare_narrative(run: str) -> dict:
+    from .graph import GraphStore
+    from .provenance import extend_basis
+    nar = json.loads((ROOT / "runs" / run / "narrative.json").read_text(encoding="utf-8"))
+    store = GraphStore()
+    stmts = _narrative_statements(nar)
+    # the orchestrator may cite records the specialists did not (a rank_context record for a comparison, a drug record):
+    # they enter the run's evidence basis now, with their current fingerprint, as the specialists' citations did at
+    # verify-agents time
+    extend_basis(ROOT / "runs" / run, store, [i for _, s in stmts for i in s.get("evidence_ids", []) if isinstance(i, str)])
+    rows = _rows_for(stmts, store)
+    n = _write_batches([rows], BASE / run / "narrative")
+    return {"paragraphs": len(rows), "batches": n, "dir": str(BASE / run / "narrative" / "batches")}
+
+
+def _flagged(rows: list[dict], texts: dict[str, str]) -> dict[str, dict]:
+    return {r["id"]: {"statement": texts.get(r["id"], ""),
+                      "claims": [c for c in r["claims"] if c["verdict"] != "supported"]}
+            for r in rows if any(c["verdict"] != "supported" for c in r["claims"])}
+
+
+def _texts(base: Path) -> dict[str, str]:
+    key = json.loads((base / "key.json").read_text(encoding="utf-8"))
+    out = {}
+    for f in sorted((base / "batches").glob("*.jsonl")):
+        for line in f.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                r = json.loads(line)
+                out[key[r["id"]]] = r["statement"]
+    return out
+
+
+def revisions(run: str) -> dict:
+    """RUN/revisions_<agent>.json: per finding, the claims the reader found contradicted or not in the cited records."""
+    base = BASE / run / "agents"
+    flagged = _flagged(validate(run, "agents"), _texts(base))
+    by_agent: dict[str, list] = {}
+    for loc, v in flagged.items():
+        name, i = loc.split("|")
+        by_agent.setdefault(name, []).append({"finding": int(i), **v})
+    # findings the deterministic verifier dropped, with the reason, go back in the same file
+    dropped: dict[str, list] = {}
+    vp = ROOT / "runs" / run / "verification_agents.json"
+    if vp.exists():
+        keys = ("unmatched_numbers", "direction_contradiction", "numeric_binding_errors", "uncited_drugs",
+                "stale_evidence", "nonexistent", "not_linked_to_gene")
+        for name, r in json.loads(vp.read_text(encoding="utf-8"))["agents"].items():
+            for d in r.get("dropped_detail", []):
+                dropped.setdefault(name, []).append({"gene": d.get("gene"), "text_start": d.get("text"),
+                                                     "why": {k: d[k] for k in keys if d.get(k)}})
+    out = {}
+    for name in sorted(set(by_agent) | set(dropped)):
+        items = by_agent.get(name, [])
+        p = ROOT / "runs" / run / f"revisions_{name.replace('agent_', '').replace('.json', '')}.json"
+        p.write_text(json.dumps({"agent_file": name, "findings_verified_by_index": "index into the verified file",
+                                 "claims_to_fix": items, "dropped_by_verifier": dropped.get(name, [])},
+                                indent=1, ensure_ascii=False), encoding="utf-8")
+        out[name] = {"findings_to_revise": len(items), "claims": sum(len(x["claims"]) for x in items),
+                     "dropped": len(dropped.get(name, [])), "file": p.name}
+    return out
+
+
+def revisions_narrative(run: str) -> dict:
+    base = BASE / run / "narrative"
+    flagged = _flagged(validate(run, "narrative"), _texts(base))
+    p = ROOT / "runs" / run / "revisions_narrative.json"
+    p.write_text(json.dumps(flagged, indent=1, ensure_ascii=False), encoding="utf-8")
+    return {"paragraphs_to_revise": len(flagged), "claims": sum(len(v["claims"]) for v in flagged.values())}
 
 
 def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip().lower()
 
 
-def validate(run: str) -> list[dict]:
+def validate(run: str, sub: str = "") -> list[dict]:
     """Reader lines checked against the batches: one line per statement, quotes verbatim in the evidence given."""
-    key = json.loads((BASE / run / "key.json").read_text(encoding="utf-8"))
+    base = BASE / run / sub if sub else BASE / run
+    key = json.loads((base / "key.json").read_text(encoding="utf-8"))
     src = {}
-    for f in sorted((BASE / run / "batches").glob("*.jsonl")):
+    for f in sorted((base / "batches").glob("*.jsonl")):
         for line in f.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
                 src[r["id"]] = r
     rows, seen = [], set()
-    for f in sorted((BASE / run / "read").glob("*.jsonl")):
+    for f in sorted((base / "read").glob("*.jsonl")):
         for line in f.read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue
@@ -201,4 +318,6 @@ def summarize(run: str, write: bool = True) -> dict:
 if __name__ == "__main__":
     import sys
     cmd, run = sys.argv[1], sys.argv[2]
-    print(json.dumps(prepare(run) if cmd == "prepare" else summarize(run), indent=1, ensure_ascii=False)[:4000])
+    fn = {"prepare": prepare, "summarize": summarize, "prepare-agents": prepare_agents, "revisions": revisions,
+          "prepare-narrative": prepare_narrative, "revisions-narrative": revisions_narrative}[cmd]
+    print(json.dumps(fn(run), indent=1, ensure_ascii=False)[:4000])
