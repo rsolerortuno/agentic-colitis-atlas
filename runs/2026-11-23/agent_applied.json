@@ -7,7 +7,10 @@
    "statement": "CXCR2 leads the convergence ranking, with expression, replication across cohorts, genetics, literature and tractability (several CXCR1 and CXCR2 antagonists in clinical development) all contributing.",
    "evidence_ids": [
     "EV:expression_meta:1fce9fb2531f",
-    "EV:open_targets_assoc:7d06375723b1"
+    "EV:open_targets_assoc:7d06375723b1",
+    "EV:clinical_indications:1fce9fb2531f",
+    "EV:open_targets_drug:b6ab97730b13",
+    "EV:analysis_ranking:ade64cfa8d01"
    ],
    "numeric_claims": [],
    "key": false
@@ -201,9 +204,10 @@
   {
    "gene": "IL23A",
    "role": "target",
-   "statement": "Negative result: baseline IL23A is not associated with ustekinumab response (BH padj [gene=IL23A; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.977]), so target expression does not stratify response to the drug that blocks it.",
+   "statement": "Negative result: baseline IL23A is not associated with ustekinumab response (BH padj [gene=IL23A; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.977]), so expression of an IL-23 subunit does not stratify response to ustekinumab, which blocks IL-23 through its IL12B (p40) subunit.",
    "evidence_ids": [
-    "EV:treatment_response:97ffcb2862ee"
+    "EV:treatment_response:97ffcb2862ee",
+    "EV:drug_literature:1357211e03fd"
    ],
    "numeric_claims": [
     {

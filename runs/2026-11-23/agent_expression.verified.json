@@ -223,7 +223,9 @@
    "statement": "JAK2 has strong genetic and drug support but only a modest expression change [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833], though significantly up in all eight cohorts. Its rank comes from genetics and tractability rather than expression magnitude.",
    "evidence_ids": [
     "EV:expression_meta:c36b80d82ff8",
-    "EV:omics_de:7bec868e0070"
+    "EV:omics_de:7bec868e0070",
+    "EV:open_targets_assoc:3c2fb97467a0",
+    "EV:clinical_indications:c36b80d82ff8"
    ],
    "numeric_claims": [
     {

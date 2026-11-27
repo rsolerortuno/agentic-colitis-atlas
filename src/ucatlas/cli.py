@@ -86,6 +86,7 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
         top = expression_top(500)
         _step("single-cell replication", lambda: sc_replication.run(top))
         _step("single-cell graph", kg_cells.load)
+        _step("single-cell atlas profile", lambda: singlecell.load_atlas_profile()["neutrophil_cell_types"])
         if (PROCESSED / "sc3_celltype_share.parquet").exists():
             _step("composition", lambda: (composition.run(expression_top(None))["verdict"].value_counts().to_dict(),
                                           composition.load())[0])
@@ -142,6 +143,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("target safety", lambda: (safety.run(), safety.load())[0])
     from . import drug_indications   # where each gene's clinical drugs are: UC, IBD or other diseases (2026-11-12)
     _step("drug indications", lambda: (drug_indications.run(), drug_indications.load())[1])
+    from . import drug_literature   # peer-reviewed drug trial facts (2026-11-26)
+    _step("drug trial literature", drug_literature.load)
     from . import shortlist_literature as sl_lit, validation_shortlist
     if any(sl_lit.CLASSIFIED.glob("*.jsonl")):   # classifier output (agent step, kept in the repository)
         _step("shortlist literature", lambda: ((sl_lit.DIR / "records.parquet").exists() or sl_lit.retrieve(),

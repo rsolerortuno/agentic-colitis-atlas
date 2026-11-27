@@ -580,3 +580,53 @@ first-in-class candidate (four are) nor the one with the fewest cohorts (second 
 numbers 77/77, gene 94/94, evidence 94/94, direction 62/73 deterministic (33/34 with bulk evidence) and 72/73 by the
 reader. The candidate SLC26A3 is new in this run, so its AlphaFold model and mouse literature were added (87
 proteins; pocket controls rank 7th to 46th of 85; ligand-site recall median 53 % of 36 proteins).
+
+## (g4) The top of the candidate list read as a UC clinician would (2026-11-26)
+
+Asked whether IL12B, CXCR2 and JAK2 at the top of the list would look wrong to UC experts. Each text was verified,
+but the presentation would: (1) the drug tag showed the most advanced drug for any disease, so JAK2 carried
+fedratinib (a myelofibrosis drug) and IL12B guselkumab (an anti-p19 antibody that Open Targets lists under both
+subunits of IL-23); (2) the list opened with a neutrophil receptor and a JAK2 card read as proposals; (3) three
+sentences were wrong for a specialist: "IL23A, the target ustekinumab blocks" (ustekinumab binds IL12B), "the UC
+drugs listed for IL12B" without saying they act on IL-23 as a complex, and CXCR2 antagonists "none for UC", whereas
+the clinical-indications record lists SB-656933 and SCH-527123 (navarixin) in phase 2 in UC.
+Changes: the drug tag shows the UC drugs first, else Crohn's disease or IBD, else the drug with its disease, and names
+the other genes a UC drug is listed for (IL23A for IL12B; JAK1, JAK3 and TYK2 for JAK2); the candidates are shown in
+four blocks set by rules on the data (UC-approved drug; most RNA from neutrophils; a tissue change; biomarkers); the
+narrative calls IL12B the positive control of the IL-12/IL-23 axis and JAK2 the positive control of the JAK class,
+with the reason (the human genetic support of the family is on JAK2, upadacitinib is listed for all four kinases,
+and JAK2 carries erythropoietin and thrombopoietin receptor signals), uses IL12B, the drug's own target, for the
+ustekinumab null (padj 0.84), and gives the CXCR2 phase 2 trials in UC (narrative and the external specialist's
+finding). Changed statements were verified and read again (reader lines reused for unchanged statements): 125
+statements, no failures detected by the automatic checks; 499 claims, none contradicted, 16 not in the cited
+evidence. The specialists' own findings about the three genes were also cited or reworded where the reader found a
+claim without its record (ranks, drug records; "Smillie 2019 captured no neutrophils" became the record's own
+figure, at most two percent of the cells of its leading clusters express CXCR2): no claim about IL12B, JAK2 or
+CXCR2 is left contradicted or uncited.
+
+## (g5) Independent expert-style reviews of the top candidates (2026-11-26)
+
+Three reviewer subagents, each prompted as a senior IBD gastroenterologist and each new to the report, read the first
+three candidate cards (IL12B, JAK2, CXCR2) and every report sentence about them. The first two found real objections,
+all fixed before the next reading:
+- first review: anti-p19 antibodies shown as IL12B drugs, upadacitinib's JAK1 selectivity unsaid (and tofacitinib and
+  filgotinib missing), the positive-control logic partly circular (the Open Targets overall score includes drug
+  evidence: the cards now use its genetic component), CXCR2 trials and the neutrophil drop of the class unsaid, the
+  thin CXCR2 literature read as a field gap, and Smillie 2019 not explained (it has no neutrophil cell type);
+- second review: risankizumab and guselkumab missing, "reached phase 2" read as progress (now "went no further than
+  phase 2"), navarixin under three names, why only two positive controls, the TYK2-selective deucravacitinib failure in
+  UC, and a published Mendelian randomisation in which higher CXCR1/CXCR2 expression went with lower UC risk;
+- third review: "acceptable to UC experts", with five minor points, applied (IL-23 sufficiency rather than IL-12
+  irrelevance, tofacitinib also listed against JAK2, JAK2 agreement only at class level, the CXCR2 genetic estimate
+  against antagonism, and "strongest among this atlas's genes");
+- a fourth reviewer on the final text found no error of biology or drug mapping and asked for rewordings, applied:
+  the JAK argument from the atlas's own genetics (JAK1-selective drugs work although JAK1 has no genetic association
+  here), the positive controls shown as where genetics recovers known targets rather than as a test, the antagonists
+  also listed against CXCR1, one bioinformatic MR study not read as a verdict, and ustekinumab blocking IL-23 through
+  IL12B in the applied specialist's finding. Final reading: 519 claims, none contradicted, 14 not in the cited
+  evidence, none in a statement about or naming IL12B, JAK2 or CXCR2.
+The drug facts come from a new curated layer (drug_literature.py, data/drug_literature.json): verbatim sentences from
+ten peer-reviewed trial papers, every one checked against PubMed, and the NLM MeSH record that ties navarixin to the
+codes SCH-527123 and MK-7123. Smillie 2019's cell types are a new atlas record (51 types, no neutrophil type). A false
+positive of the direction check found on the way ("the antagonist lowered blood neutrophil counts" read as CXCR2 going
+down) was fixed: a clause where a drug acts before the direction word is not read as the gene's expression.

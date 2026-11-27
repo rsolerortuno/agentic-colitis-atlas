@@ -372,3 +372,22 @@ Designs fixed before running. Nothing below changes the convergence score or the
   the previous run); sabotage direction 62/73 deterministic and 72/73 by the reader. The rank records corrected two
   earlier XKR9 claims. SLC26A3 entered the structure and mouse-literature layers (87 proteins; typed figures updated).
   Tests for the drug rule and the ranks (140 in all).
+- **Top candidates read as a UC clinician would (2026-11-26)**: asked whether IL12B, CXCR2 and JAK2 as the top three
+  would look wrong to experts, then to fix it until they would not. Drug tags now say where the drug is (UC first,
+  then Crohn's/IBD, else the drug with its disease) and name the other genes a UC drug is listed for, so fedratinib no
+  longer appears on JAK2 and anti-p19 antibodies on IL12B are shown as IL-23 drugs (render.drug_tags); the candidates
+  are grouped in four rule-based blocks (render.target_groups: positive controls, neutrophil recruitment, tissue
+  changes, biomarkers). Narrative of run 2026-11-23 corrected where a specialist would object (ustekinumab binds
+  IL12B, not IL23A; IL-23 drugs act on the complex; JAK2 as a JAK-class control with its reason; CXCR2 antagonists
+  were in phase 2 in UC, also corrected in the external specialist's finding). Re-verified (125 statements, 0
+  failures) and changed statements read again (499 claims, 0 contradicted, 16 not in the cited evidence, none about
+  the three genes). 2 tests (142 in all).
+- **Independent expert reviews of IL12B, JAK2 and CXCR2 (2026-11-26)**: the goal was to keep correcting until a UC
+  expert would not object. Three reviewer subagents (senior IBD gastroenterologist, each new to the report) read the
+  three cards and every sentence about them; the first two asked for changes, the third judged the text acceptable and
+  its five minor points were applied. Added drug_literature.py (verbatim, PubMed-checked sentences from ten
+  peer-reviewed trial papers and the MeSH names of navarixin; run-all step), a Smillie 2019 atlas record
+  (singlecell.load_atlas_profile; run-all step), drug tags from that layer, a drug-effect exception in the direction
+  check, and block texts that say where the new candidates are and why only two positive controls appear. The
+  specialists' findings about the three genes were edited where the reviews found them wrong (orchestrator step 5).
+  Verified (125 statements, no failures) and read again after each round.

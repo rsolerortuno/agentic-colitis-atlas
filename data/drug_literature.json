@@ -1,0 +1,227 @@
+{
+ "about": "Peer-reviewed trial papers that say what a drug binds and how it did in UC (added 2026-11-26 after an expert-style review of the top candidates). Each quote is copied verbatim from the PubMed abstract; drug_literature.py checks this against PubMed when online. Genes: the genes whose statements may cite the record.",
+ "records": [
+  {
+   "key": "ustekinumab_unifi",
+   "pmid": 31553833,
+   "doi": "10.1056/NEJMoa1900750",
+   "journal": "N Engl J Med",
+   "year": 2019,
+   "title": "Ustekinumab as Induction and Maintenance Therapy for Ulcerative Colitis.",
+   "trial": "UNIFI (phase 3)",
+   "drug": "ustekinumab",
+   "binds": "p40 (IL12B), shared by IL-12 and IL-23",
+   "genes": [
+    "IL12B",
+    "IL23A"
+   ],
+   "quotes": [
+    "The efficacy of ustekinumab, an antagonist of the p40 subunit of interleukin-12 and interleukin-23, as induction and maintenance therapy in patients with ulcerative colitis is unknown.",
+    "Ustekinumab was more effective than placebo for inducing and maintaining remission in patients with moderate-to-severe ulcerative colitis."
+   ]
+  },
+  {
+   "key": "mirikizumab_lucent",
+   "pmid": 37379135,
+   "doi": "10.1056/NEJMoa2207940",
+   "journal": "N Engl J Med",
+   "year": 2023,
+   "title": "Mirikizumab as Induction and Maintenance Therapy for Ulcerative Colitis.",
+   "trial": "LUCENT-1 and LUCENT-2 (phase 3)",
+   "drug": "mirikizumab",
+   "binds": "p19 (IL23A), specific to IL-23",
+   "genes": [
+    "IL23A",
+    "IL12B"
+   ],
+   "quotes": [
+    "Mirikizumab, a p19-directed antibody against interleukin-23, showed efficacy in the treatment of ulcerative colitis in a phase 2 trial.",
+    "Mirikizumab was more effective than placebo in inducing and maintaining clinical remission in patients with moderately to severely active ulcerative colitis."
+   ]
+  },
+  {
+   "key": "tofacitinib_octave",
+   "pmid": 28467869,
+   "doi": "10.1056/NEJMoa1606910",
+   "journal": "N Engl J Med",
+   "year": 2017,
+   "title": "Tofacitinib as Induction and Maintenance Therapy for Ulcerative Colitis.",
+   "trial": "OCTAVE Induction 1 and 2, OCTAVE Sustain (phase 3)",
+   "drug": "tofacitinib",
+   "binds": "Janus kinases",
+   "genes": [
+    "JAK1",
+    "JAK2",
+    "JAK3",
+    "TYK2"
+   ],
+   "quotes": [
+    "Tofacitinib, an oral, small-molecule Janus kinase inhibitor, was shown to have potential efficacy as induction therapy for ulcerative colitis in a phase 2 trial.",
+    "In patients with moderately to severely active ulcerative colitis, tofacitinib was more effective as induction and maintenance therapy than placebo."
+   ]
+  },
+  {
+   "key": "upadacitinib_uachieve",
+   "pmid": 35644166,
+   "doi": "10.1016/S0140-6736(22)00581-5",
+   "journal": "Lancet",
+   "year": 2022,
+   "title": "Upadacitinib as induction and maintenance therapy for moderately to severely active ulcerative colitis: results from three phase 3, multicentre, double-blind, randomised trials.",
+   "trial": "U-ACHIEVE and U-ACCOMPLISH (phase 3)",
+   "drug": "upadacitinib",
+   "binds": "JAK1 (selective)",
+   "genes": [
+    "JAK1",
+    "JAK2",
+    "JAK3",
+    "TYK2"
+   ],
+   "quotes": [
+    "We assessed the efficacy and safety of upadacitinib, an oral selective Janus kinase 1 inhibitor, as induction and maintenance therapy in patients with moderately to severely active ulcerative colitis.",
+    "Upadacitinib demonstrated a positive efficacy and safety profile and could be an effective treatment option for patients with moderately to severely active ulcerative colitis."
+   ]
+  },
+  {
+   "key": "filgotinib_selection",
+   "pmid": 34090625,
+   "doi": "10.1016/S0140-6736(21)00666-8",
+   "journal": "Lancet",
+   "year": 2021,
+   "title": "Filgotinib as induction and maintenance therapy for ulcerative colitis (SELECTION): a phase 2b/3 double-blind, randomised, placebo-controlled trial.",
+   "trial": "SELECTION (phase 2b/3)",
+   "drug": "filgotinib",
+   "binds": "JAK1 (preferential)",
+   "genes": [
+    "JAK1",
+    "JAK2",
+    "JAK3",
+    "TYK2"
+   ],
+   "quotes": [
+    "We assessed the efficacy and safety of filgotinib, a once-daily, oral Janus kinase 1 preferential inhibitor, for treatment of ulcerative colitis.",
+    "Filgotinib 200 mg was well tolerated, and efficacious in inducing and maintaining clinical remission compared with placebo in patients with moderately to severely active ulcerative colitis."
+   ]
+  },
+  {
+   "key": "mk7123_copd",
+   "pmid": 25695403,
+   "doi": "10.1164/rccm.201405-0992OC",
+   "journal": "Am J Respir Crit Care Med",
+   "year": 2015,
+   "title": "CXCR2 Antagonist MK-7123. A Phase 2 Proof-of-Concept Trial for Chronic Obstructive Pulmonary Disease.",
+   "trial": "phase 2, COPD",
+   "drug": "MK-7123",
+   "binds": "CXCR2",
+   "genes": [
+    "CXCR2",
+    "CXCR1"
+   ],
+   "quotes": [
+    "MK-7123 caused a dose-dependent decrease in absolute neutrophil count (ANC) and reduced inflammatory biomarkers matrix metallopeptidase-9 and myeloperoxidase in plasma and sputum; ANC lower than 1.5 × 10(9)/L led to discontinuations with higher doses of MK-7123 (18% in the MK-7123 50-mg group vs. 1% in placebo).",
+    "Rates of infections at 6 months were similar in all groups."
+   ]
+  },
+  {
+   "key": "sb656933_ozone",
+   "pmid": 21426372,
+   "doi": "10.1111/j.1365-2125.2011.03968.x",
+   "journal": "Br J Clin Pharmacol",
+   "year": 2011,
+   "title": "SB-656933, a novel CXCR2 selective antagonist, inhibits ex vivo neutrophil activation and ozone-induced airway inflammation in humans.",
+   "trial": "healthy volunteers",
+   "drug": "SB-656933",
+   "binds": "CXCR2 (selective)",
+   "genes": [
+    "CXCR2"
+   ],
+   "quotes": [
+    "SB-656933 is a CXCR2 antagonist that demonstrates dose-dependent effects on neutrophil activation and recruitment within a well-tolerated dose range."
+   ]
+  },
+  {
+   "key": "risankizumab_inspire",
+   "pmid": 39037800,
+   "doi": "10.1001/jama.2024.12414",
+   "journal": "JAMA",
+   "year": 2024,
+   "title": "Risankizumab for Ulcerative Colitis: Two Randomized Clinical Trials.",
+   "trial": "INSPIRE and COMMAND (phase 3)",
+   "drug": "risankizumab",
+   "binds": "p19 (IL23A), specific to IL-23",
+   "genes": [
+    "IL23A",
+    "IL12B"
+   ],
+   "quotes": [
+    "The clinical effects of risankizumab (a monoclonal antibody that selectively targets the p19 subunit of IL-23) for the treatment of ulcerative colitis are unknown.",
+    "Compared with placebo, risankizumab improved clinical remission rates in an induction trial and in a maintenance trial for patients with moderately to severely active ulcerative colitis."
+   ]
+  },
+  {
+   "key": "guselkumab_quasar",
+   "pmid": 39706209,
+   "doi": "10.1016/S0140-6736(24)01927-5",
+   "journal": "Lancet",
+   "year": 2025,
+   "title": "Guselkumab in patients with moderately to severely active ulcerative colitis (QUASAR): phase 3 double-blind, randomised, placebo-controlled induction and maintenance studies.",
+   "trial": "QUASAR (phase 3)",
+   "drug": "guselkumab",
+   "binds": "p19 (IL23A), specific to IL-23",
+   "genes": [
+    "IL23A",
+    "IL12B"
+   ],
+   "quotes": [
+    "Guselkumab is a dual-acting, human IgG1, interleukin-23p19 subunit inhibitor that potently neutralises interleukin-23 and can bind to CD64.",
+    "Guselkumab was effective and safe as induction and maintenance therapy in patients with moderately to severely active ulcerative colitis."
+   ]
+  },
+  {
+   "key": "deucravacitinib_lattice",
+   "pmid": 40355364,
+   "doi": "10.1093/ecco-jcc/jjaf080",
+   "journal": "J Crohns Colitis",
+   "year": 2025,
+   "title": "Deucravacitinib in patients with inflammatory bowel disease: 12-week efficacy and safety results from 3 randomized phase 2 studies in Crohn's disease and ulcerative colitis.",
+   "trial": "LATTICE-UC and IM011-127 (phase 2)",
+   "drug": "deucravacitinib",
+   "binds": "TYK2 (selective, allosteric)",
+   "genes": [
+    "TYK2",
+    "JAK2",
+    "JAK1",
+    "IL12B"
+   ],
+   "quotes": [
+    "Tyrosine kinase 2 is a downstream intracellular mediator of interleukin-23 signaling, which has a key role in the pathogenesis of inflammatory bowel disease.",
+    "Deucravacitinib at multiple doses did not demonstrate significant clinical benefit vs placebo in moderately to severely active Crohn's disease or ulcerative colitis."
+   ]
+  }
+ ],
+ "tags": {
+  "IL12B": "UC: ustekinumab binds it (p40); anti-p19 mirikizumab, risankizumab, guselkumab bind IL23A",
+  "IL23A": "UC: anti-p19 mirikizumab, risankizumab, guselkumab bind it; ustekinumab binds IL12B (p40)",
+  "JAK2": "UC: tofacitinib (JAK inhibitor, also listed against JAK2); upadacitinib, filgotinib (JAK1-selective or -preferential)",
+  "JAK1": "UC: upadacitinib (JAK1-selective), filgotinib (JAK1-preferential), tofacitinib (JAK inhibitor)",
+  "TYK2": "UC: TYK2-selective deucravacitinib failed in phase 2",
+  "CXCR2": "UC: tested in phase 2, not advanced (SB-656933, navarixin); lowers blood neutrophils"
+ },
+ "synonyms": [
+  {
+   "key": "navarixin_names",
+   "drug": "navarixin",
+   "names": [
+    "navarixin",
+    "SCH-527123",
+    "MK-7123"
+   ],
+   "source": "NLM MeSH supplementary concept C000730055 (navarixin); PubMed maps the terms 'SCH 527123' and 'MK-7123' to its chemical name",
+   "mesh_ui": "C000730055",
+   "genes": [
+    "CXCR2",
+    "CXCR1"
+   ],
+   "sentence": "navarixin (MeSH supplementary concept C000730055) is the compound also coded SCH-527123 and MK-7123: PubMed maps both codes to its chemical name, 2-hydroxy-N,N-dimethyl-3-((2-(((1R)-1-(5-methylfuran-2-yl)propyl)amino)-3,4-dioxocyclobuten-1-yl)amino)benzamide."
+  }
+ ]
+}

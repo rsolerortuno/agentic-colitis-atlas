@@ -130,3 +130,25 @@ if __name__ == "__main__":
     m = pd.read_parquet(PROCESSED / "meta.parquet")
     m = m[(m["meta_padj"] < 0.05) & ((m["n_sig_up"] >= 2) | (m["n_sig_down"] >= 2))]
     print(json.dumps(run(sorted(set(m["gene"]))), indent=1))
+
+
+NEUTROPHIL_WORDS = ("neutro", "granulocyt", "pmn")
+
+
+def load_atlas_profile(store=None) -> dict:
+    """One citable record describing the Smillie 2019 atlas itself (added 2026-11-26): its cell types and whether any
+    of them is a neutrophil. It explains why genes made by neutrophils (CXCR2) fall on other cells in this atlas."""
+    from datetime import date
+    from .graph import GraphStore, evidence_id
+    store = store or GraphStore()
+    c = pd.read_parquet(PROCESSED / "sc_cells.parquet")
+    types = sorted(c["Cluster"].astype(str).unique())
+    neu = [t for t in types if any(w in t.lower() for w in NEUTROPHIL_WORDS)]
+    rec = {"atlas": "Smillie 2019 (SCP259)", "n_cell_types": len(types), "neutrophil_cell_types": len(neu),
+           "cell_types": types, "cells": int(c["n_cells"].sum())}
+    with store.batch():
+        store.add_node("DATASET:SCP259", "Dataset", "Smillie 2019 single-cell atlas of UC colon (SCP259)")
+        ev = store.add_evidence(evidence_id("sc_atlas", "SCP259"), "sc_atlas", "DATASET:SCP259", date.today().isoformat(),
+                                **rec)
+        store.add_claim("DATASET:SCP259", "describes", "DATASET:SCP259", ev)
+    return {"evidence_id": ev, **{k: v for k, v in rec.items() if k != "cell_types"}}

@@ -4,7 +4,7 @@
   {
    "gene": "CXCR2",
    "role": "target",
-   "statement": "CXCR2 ranks first in the convergence ranking, with meta-analysis up-regulation in biopsies [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.84] and a high Open Targets genetic association score. Several CXCR2 antagonists are recorded in clinical development (reparixin Phase 3; navarixin, ladarixin, SX-682, danirixin, elubrixin Phase 2), none recorded for UC.",
+   "statement": "CXCR2 ranks first in the convergence ranking, with meta-analysis up-regulation in biopsies [gene=CXCR2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.84] and a high Open Targets genetic association score. Several CXCR2 antagonists reached clinical trials (reparixin phase 3, outside UC); in UC, SB-656933 and navarixin (SCH-527123) went no further than phase 2, the highest UC stage in the clinical-indications record.",
    "evidence_ids": [
     "EV:expression_meta:1fce9fb2531f",
     "EV:open_targets_assoc:7d06375723b1",
@@ -15,7 +15,9 @@
     "EV:open_targets_drug:dc1186676fb0",
     "EV:open_targets_drug:165d64ee1474",
     "EV:open_targets_drug:2376f8ce178a",
-    "EV:open_targets_drug:33654b5ea54a"
+    "EV:open_targets_drug:33654b5ea54a",
+    "EV:clinical_indications:1fce9fb2531f",
+    "EV:drug_literature:a2bfb9f668cb"
    ],
    "numeric_claims": [
     {
@@ -32,10 +34,12 @@
   {
    "gene": "CXCR2",
    "role": "target",
-   "statement": "CXCR2 has no cis-pQTL or gut eQTL instrument, so MR is not tested (absence of evidence, not evidence against). Mouse literature tests CXCR2 in colitis in many papers, including a selective antagonist that ameliorated acute colitis, but MGI has no curated single-gene colitis phenotype. Safety: not strongly constrained, no known safety events and no pleiotropic traits sharing the signal.",
+   "statement": "CXCR2 has no cis-pQTL or gut eQTL instrument, so MR is not tested (absence of evidence, not evidence against). Mouse literature tests CXCR2 in colitis in many papers, including a selective antagonist that ameliorated acute colitis, but MGI has no curated single-gene colitis phenotype. Safety: not strongly constrained, no curated safety events and no pleiotropic traits sharing the signal, but navarixin, as MK-7123, caused a dose-dependent decrease in absolute neutrophil count in a COPD trial.",
    "evidence_ids": [
     "EV:mouse_colitis_literature:1fce9fb2531f",
-    "EV:target_safety:1fce9fb2531f"
+    "EV:target_safety:1fce9fb2531f",
+    "EV:drug_literature:98efb743d8b2",
+    "EV:drug_literature:a2bfb9f668cb"
    ],
    "numeric_claims": [],
    "key": false
@@ -78,7 +82,9 @@
    "statement": "IL12B is the top Open Targets UC target and a strong plasma MR hit: higher protein raises UC risk, odds ratio per SD [gene=IL12B; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=1.539]. It colocalises with an IBD GWAS signal and replicates in FinnGen, so inhibition is the protective direction. No gut eQTL instrument.",
    "evidence_ids": [
     "EV:mendelian_randomization:9dfc6633064a",
-    "EV:open_targets_assoc:93c96b29b09a"
+    "EV:open_targets_assoc:93c96b29b09a",
+    "EV:rank_context:7cf7144afbf8",
+    "EV:rank_context:ab7d6bf0738e"
    ],
    "numeric_claims": [
     {
@@ -163,7 +169,9 @@
    "evidence_ids": [
     "EV:open_targets_assoc:3c2fb97467a0",
     "EV:expression_meta:c36b80d82ff8",
-    "EV:open_targets_tract:c36b80d82ff8"
+    "EV:open_targets_tract:c36b80d82ff8",
+    "EV:rank_context:0d30d892b00b",
+    "EV:clinical_indications:c36b80d82ff8"
    ],
    "numeric_claims": [],
    "key": false

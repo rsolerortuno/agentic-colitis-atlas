@@ -4,11 +4,12 @@
   {
    "gene": "CXCR2",
    "role": "target",
-   "statement": "CXCR2 is the top-ranked convergence gene, but the corpus holds no verbatim-validated relation for it. The literature support is indirect: a Mendelian randomization, colocalization and transcriptomic study proposes CXCR1 and CXCR2 as neutrophil extracellular trap-related treatment targets in UC, and a separate eQTL/pQTL/transcriptome study ties the CXCL5/CXCR2 axis to neutrophil chemotaxis in UC.",
+   "statement": "CXCR2 is the top-ranked convergence gene, but the curated corpus holds no verbatim-validated relation for it, a limit of the corpus: Europe PMC returns many mouse colitis papers on CXCR2. The literature support is indirect: a Mendelian randomization, colocalization and transcriptomic study proposes CXCR1 and CXCR2 as neutrophil extracellular trap-related treatment targets in UC, and a separate eQTL/pQTL/transcriptome study ties the CXCL5/CXCR2 axis to neutrophil chemotaxis in UC.",
    "evidence_ids": [
     "EV:chunk:ccd7cc761771",
     "EV:chunk:a93c0a9b8786",
-    "EV:open_targets_assoc:7d06375723b1"
+    "EV:open_targets_assoc:7d06375723b1",
+    "EV:mouse_colitis_literature:1fce9fb2531f"
    ],
    "numeric_claims": [],
    "key": true

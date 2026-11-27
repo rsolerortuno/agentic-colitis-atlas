@@ -1,55 +1,26 @@
 {
  "run": "2026-11-23",
  "reader": ".claude/agents/lector-afirmaciones.md (Claude Code subscription)",
- "statements": 124,
- "claims": 473,
+ "statements": 125,
+ "claims": 519,
  "claims_contradicted": 0,
- "claims_not_in_evidence": 27,
+ "claims_not_in_evidence": 14,
  "statements_with_a_contradicted_claim": [],
  "statements_with_an_unsupported_claim": [
-  "agent_findings.applied[0]",
-  "agent_findings.cells[0]",
   "agent_findings.expression[4]",
   "agent_findings.expression[5]",
   "agent_findings.expression[6]",
-  "agent_findings.expression[9]",
   "agent_findings.external[3]",
-  "agent_findings.external[4]",
-  "agent_findings.external[8]",
   "agent_findings.external[9]",
   "agent_findings.literature[3]",
   "agent_findings.literature[8]",
   "agent_findings.literature[9]",
-  "agent_findings.pathways[0]",
   "agent_findings.pathways[10]",
   "agent_findings.pathways[1]",
-  "agent_findings.pathways[3]",
-  "agent_findings.pathways[5]",
   "agent_findings.pathways[7]",
-  "narrative.sections.expression[1]",
-  "narrative.sections.external[2]",
-  "narrative.sections.integration[0]",
-  "narrative.sections.integration[1]"
+  "narrative.sections.expression[1]"
  ],
  "flagged": {
-  "agent_findings.applied[0]": [
-   {
-    "claim": "several CXCR1 and CXCR2 antagonists are in clinical development",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No drug record is cited; known_drug score is 0.0."
-   }
-  ],
-  "agent_findings.cells[0]": [
-   {
-    "claim": "Smillie 2019 captured no neutrophils",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Not stated in cited records."
-   }
-  ],
   "agent_findings.expression[4]": [
    {
     "claim": "CHI3L1 has one of the largest pooled increases",
@@ -77,15 +48,6 @@
     "reason": "Value is cited but no comparison with other genes' losses."
    }
   ],
-  "agent_findings.expression[9]": [
-   {
-    "claim": "JAK2 has strong genetic and drug support",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No genetic or drug record cited for JAK2."
-   }
-  ],
   "agent_findings.external[3]": [
    {
     "claim": "Mouse colitis literature is sparse and MGI has no phenotype",
@@ -93,24 +55,6 @@
     "quote": "",
     "evidence_id": null,
     "reason": "No mouse or MGI record cited."
-   }
-  ],
-  "agent_findings.external[4]": [
-   {
-    "claim": "IL12B is the top Open Targets UC target",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only IL12B's own score 0.7424 is cited; no ranking."
-   }
-  ],
-  "agent_findings.external[8]": [
-   {
-    "claim": "JAK2 is second among known UC targets in the disease target list",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No ranking among targets in cited records."
    }
   ],
   "agent_findings.external[9]": [
@@ -149,22 +93,6 @@
     "reason": "Cited papers concern UC and UC-associated cancer, not IBD generally."
    }
   ],
-  "agent_findings.pathways[0]": [
-   {
-    "claim": "CXCL8 is the most consistent chemokine in the ranking",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No comparison with other chemokines cited."
-   },
-   {
-    "claim": "CXCL8 is the ligand of the leading specific circuit, neutrophil CXCL8 to CXCR2 and ACKR1",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only the CXCL8 meta record is cited; no circuit or CXCR2 record."
-   }
-  ],
   "agent_findings.pathways[10]": [
    {
     "claim": "TF activity is inferred from target genes, not from the TF mRNA",
@@ -188,31 +116,6 @@
     "quote": "",
     "evidence_id": null,
     "reason": "No comparison with other ligand-receptor scores in cited records."
-   }
-  ],
-  "agent_findings.pathways[3]": [
-   {
-    "claim": "CXCR2 has Open Targets genetic support",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only Open Targets drug records are cited; no association or genetic score record."
-   },
-   {
-    "claim": "the drugs are mostly outside UC",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Drug records give no indication information."
-   }
-  ],
-  "agent_findings.pathways[5]": [
-   {
-    "claim": "Absolute scores are far lower than the neutrophil CXCL8 circuit",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "The CXCL8 circuit record is not cited for this statement."
    }
   ],
   "agent_findings.pathways[7]": [
@@ -239,40 +142,13 @@
     "evidence_id": null,
     "reason": "No cited record gives the cell type or function of SLC26A2."
    }
-  ],
-  "narrative.sections.external[2]": [
-   {
-    "claim": "none of the CXCR2 antagonists is for UC",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Drug records carry no indication information."
-   }
-  ],
-  "narrative.sections.integration[0]": [
-   {
-    "claim": "loss of epithelial metabolism",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only AQP8 as most down gene; no record states epithelial metabolism loss."
-   }
-  ],
-  "narrative.sections.integration[1]": [
-   {
-    "claim": "CXCL8 and CHI3L1 are among the strongest expression changes",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No expression record for CXCL8 or CHI3L1 cited."
-   }
   ]
  },
  "sabotage": {
-  "flipped": 73,
+  "flipped": 74,
   "caught_by_reader": 72,
-  "caught_by_deterministic_checks": 62,
-  "deterministic_applied": 73,
+  "caught_by_deterministic_checks": 61,
+  "deterministic_applied": 74,
   "caught_locations": [
    "agent_findings.applied[10]",
    "agent_findings.applied[11]",

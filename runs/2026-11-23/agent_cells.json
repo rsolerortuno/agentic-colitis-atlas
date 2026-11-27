@@ -1,53 +1,315 @@
-{"agent": "agente-celular",
+{
+ "agent": "agente-celular",
  "findings": [
-  {"gene": "CXCR2", "role": "biomarker", "key": true,
-   "statement": "CXCR2 transcripts in inflamed mucosa are almost entirely neutrophil. Smillie 2019 (no neutrophils captured) labels it T/NK, and this does not replicate: Garrido-Trigo 2023 and Gubatan 2026 give myeloid, and only GSE282122 agrees with T/NK. The neutrophil share in Gubatan 2026 is [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965]. After composition adjustment the change is partly_composition, and the adjusted log2FC is [gene=CXCR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4409]. The top convergence rank is therefore mainly a marker of neutrophil influx. A neutrophil-directed CXCR1 and CXCR2 antagonist is still plausible, but it acts on arriving cells, not on a change inside the tissue.",
-   "evidence_ids": ["EV:sc_summary:1fce9fb2531f", "EV:composition_effect:1fce9fb2531f"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:1fce9fb2531f", "field": ["neutrophil_share_inflamed"], "display": "0.965", "unit": "native"}, {"evidence_id": "EV:composition_effect:1fce9fb2531f", "field": ["adjusted_log2fc"], "display": "0.4409", "unit": "native"}]},
-  {"gene": "CXCR1", "role": "biomarker",
+  {
+   "gene": "CXCR2",
+   "role": "biomarker",
+   "key": true,
+   "statement": "CXCR2 transcripts in inflamed mucosa are almost entirely neutrophil. Smillie 2019 labels it T/NK from cells that barely express it (at most two percent of the cells of its leading clusters), and this does not replicate: Garrido-Trigo 2023 and Gubatan 2026 give myeloid, and only GSE282122 agrees with T/NK. The neutrophil share in Gubatan 2026 is [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965]. After composition adjustment the change is partly_composition, and the adjusted log2FC is [gene=CXCR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4409]. The top convergence rank is therefore mainly a marker of neutrophil influx. A neutrophil-directed CXCR1 and CXCR2 antagonist is still plausible, but it acts on arriving cells, not on a change inside the tissue.",
+   "evidence_ids": [
+    "EV:sc_summary:1fce9fb2531f",
+    "EV:composition_effect:1fce9fb2531f"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:1fce9fb2531f",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.965",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:1fce9fb2531f",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.4409",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CXCR1",
+   "role": "biomarker",
    "statement": "CXCR1 behaves like CXCR2: nearly all its transcripts in inflamed UC mucosa come from neutrophils (Gubatan 2026). The composition model leaves the change partly_composition, with a small fraction of the unadjusted effect retained, [gene=CXCR1; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.195]. The adjusted change stays significant, but most of the bulk signal reflects neutrophil arrival. Adjustment can over-correct when resident cells are activated.",
-   "evidence_ids": ["EV:sc_summary:450a602fd6f8", "EV:composition_effect:450a602fd6f8"],
-   "numeric_claims": [{"evidence_id": "EV:composition_effect:450a602fd6f8", "field": ["retained_fraction"], "display": "0.195", "unit": "native"}]},
-  {"gene": "CXCL8", "role": "composition", "key": true,
+   "evidence_ids": [
+    "EV:sc_summary:450a602fd6f8",
+    "EV:composition_effect:450a602fd6f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:450a602fd6f8",
+     "field": [
+      "retained_fraction"
+     ],
+     "display": "0.195",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CXCL8",
+   "role": "composition",
+   "key": true,
    "statement": "CXCL8 attribution to myeloid cells replicates in all three other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122), with macrophages leading in Smillie 2019. Neutrophils also make most of its transcripts in Gubatan 2026, with neutrophil share [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873]. The composition verdict is composition and the adjusted change loses significance, with adjusted padj [gene=CXCL8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.0525]. The bulk rise mostly tracks myeloid and neutrophil influx, so CXCL8 is a marker of cell arrival. It is not proof of a tissue-intrinsic change, because the adjustment can over-correct.",
-   "evidence_ids": ["EV:sc_summary:1e78b2f07f0c", "EV:composition_effect:1e78b2f07f0c"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:1e78b2f07f0c", "field": ["neutrophil_share_inflamed"], "display": "0.873", "unit": "native"}, {"evidence_id": "EV:composition_effect:1e78b2f07f0c", "field": ["adjusted_padj"], "display": "0.0525", "unit": "native"}]},
-  {"gene": "IDO1", "role": "target_and_biomarker",
+   "evidence_ids": [
+    "EV:sc_summary:1e78b2f07f0c",
+    "EV:composition_effect:1e78b2f07f0c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:1e78b2f07f0c",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.873",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:1e78b2f07f0c",
+     "field": [
+      "adjusted_padj"
+     ],
+     "display": "0.0525",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "IDO1",
+   "role": "target_and_biomarker",
    "statement": "IDO1 is myeloid in Smillie 2019 (macrophages and DC1), and the attribution replicates in Garrido-Trigo 2023 and GSE282122. Gubatan 2026 instead gives epithelial, mainly enterocytes, so the producing lineage is not unique. Neutrophils contribute little. The bulk increase is partly_composition but stays significant after adjustment, with adjusted log2FC [gene=IDO1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8505]. This points to a change inside the tissue in myeloid cells and enterocytes, which would suit a cell-type target.",
-   "evidence_ids": ["EV:sc_summary:2b76723dce27", "EV:composition_effect:2b76723dce27"],
-   "numeric_claims": [{"evidence_id": "EV:composition_effect:2b76723dce27", "field": ["adjusted_log2fc"], "display": "0.8505", "unit": "native"}]},
-  {"gene": "MMP1", "role": "target_and_biomarker", "key": true,
+   "evidence_ids": [
+    "EV:sc_summary:2b76723dce27",
+    "EV:composition_effect:2b76723dce27"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:2b76723dce27",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.8505",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "MMP1",
+   "role": "target_and_biomarker",
+   "key": true,
    "statement": "MMP1 is made by stromal cells, mainly inflammatory fibroblasts, with the dominant lineage share in Smillie 2019 at [gene=MMP1; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.871]. The attribution replicates in Garrido-Trigo 2023, Gubatan 2026 and GSE282122. Visium deconvolution gives inflammatory fibroblasts the largest in situ contribution, [gene=MMP1; type=spatial_visium_cell; source=DATASET:GSE189184; in_situ_contribution=0.568]. The bulk change keeps significance after composition adjustment, with adjusted log2FC [gene=MMP1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.2636]. This is evidence of a tissue change inside fibroblasts. CosMx detection is at background, so single-cell spatial data do not confirm it.",
-   "evidence_ids": ["EV:sc_summary:221893f3b477", "EV:composition_effect:221893f3b477", "EV:spatial_visium_cell:221893f3b477", "EV:spatial_cosmx:221893f3b477"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:221893f3b477", "field": ["dominant_lineage_share"], "display": "0.871", "unit": "native"}, {"evidence_id": "EV:spatial_visium_cell:221893f3b477", "field": ["in_situ_contribution"], "display": "0.568", "unit": "native"}, {"evidence_id": "EV:composition_effect:221893f3b477", "field": ["adjusted_log2fc"], "display": "1.2636", "unit": "native"}]},
-  {"gene": "DUOX2", "role": "target_and_biomarker", "key": true,
+   "evidence_ids": [
+    "EV:sc_summary:221893f3b477",
+    "EV:composition_effect:221893f3b477",
+    "EV:spatial_visium_cell:221893f3b477",
+    "EV:spatial_cosmx:221893f3b477"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:221893f3b477",
+     "field": [
+      "dominant_lineage_share"
+     ],
+     "display": "0.871",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:spatial_visium_cell:221893f3b477",
+     "field": [
+      "in_situ_contribution"
+     ],
+     "display": "0.568",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:221893f3b477",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "1.2636",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "DUOX2",
+   "role": "target_and_biomarker",
+   "key": true,
    "statement": "DUOX2 is epithelial (enterocytes), with the dominant lineage share in Smillie 2019 at [gene=DUOX2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.947]. The attribution replicates in Garrido-Trigo 2023, Gubatan 2026 and GSE282122, and Xenium and Visium both place it in epithelium. Neutrophils contribute little. The adjusted change stays significant, with adjusted log2FC [gene=DUOX2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3161]. This is a strong tissue-intrinsic epithelial change, not neutrophil influx.",
-   "evidence_ids": ["EV:sc_summary:69eb34ed119c", "EV:composition_effect:69eb34ed119c", "EV:spatial_summary:69eb34ed119c", "EV:spatial_visium:69eb34ed119c"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:69eb34ed119c", "field": ["dominant_lineage_share"], "display": "0.947", "unit": "native"}, {"evidence_id": "EV:composition_effect:69eb34ed119c", "field": ["adjusted_log2fc"], "display": "1.3161", "unit": "native"}]},
-  {"gene": "CHI3L1", "role": "target_and_biomarker",
+   "evidence_ids": [
+    "EV:sc_summary:69eb34ed119c",
+    "EV:composition_effect:69eb34ed119c",
+    "EV:spatial_summary:69eb34ed119c",
+    "EV:spatial_visium:69eb34ed119c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:69eb34ed119c",
+     "field": [
+      "dominant_lineage_share"
+     ],
+     "display": "0.947",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:69eb34ed119c",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "1.3161",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "target_and_biomarker",
    "statement": "CHI3L1 is stromal (inflammatory fibroblasts) in Smillie 2019, replicated in Garrido-Trigo 2023 and GSE282122, while Gubatan 2026 gives myeloid. Neutrophils also contribute in Gubatan 2026, with neutrophil share [gene=CHI3L1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.466]. The change is partly_composition and stays significant after adjustment, with adjusted log2FC [gene=CHI3L1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3967]. It is both a fibroblast activation marker and a partial neutrophil-influx marker.",
-   "evidence_ids": ["EV:sc_summary:b3f7b3e784f8", "EV:composition_effect:b3f7b3e784f8"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:b3f7b3e784f8", "field": ["neutrophil_share_inflamed"], "display": "0.466", "unit": "native"}, {"evidence_id": "EV:composition_effect:b3f7b3e784f8", "field": ["adjusted_log2fc"], "display": "1.3967", "unit": "native"}]},
-  {"gene": "TREM1", "role": "target_and_biomarker",
+   "evidence_ids": [
+    "EV:sc_summary:b3f7b3e784f8",
+    "EV:composition_effect:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:b3f7b3e784f8",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.466",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:b3f7b3e784f8",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "1.3967",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "TREM1",
+   "role": "target_and_biomarker",
    "statement": "TREM1 is myeloid (macrophages and inflammatory monocytes), replicated in all three other atlases, and neutrophils make most of its transcripts in Gubatan 2026, with neutrophil share [gene=TREM1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.894]. The change is partly_composition and stays significant after adjustment, with adjusted log2FC [gene=TREM1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.6621]. TREM1 is both a myeloid and neutrophil influx marker and a possible change in activation within those cells.",
-   "evidence_ids": ["EV:sc_summary:cf67e67b4e3b", "EV:composition_effect:cf67e67b4e3b"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:cf67e67b4e3b", "field": ["neutrophil_share_inflamed"], "display": "0.894", "unit": "native"}, {"evidence_id": "EV:composition_effect:cf67e67b4e3b", "field": ["adjusted_log2fc"], "display": "0.6621", "unit": "native"}]},
-  {"gene": "CD274", "role": "mechanism",
+   "evidence_ids": [
+    "EV:sc_summary:cf67e67b4e3b",
+    "EV:composition_effect:cf67e67b4e3b"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:cf67e67b4e3b",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.894",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:cf67e67b4e3b",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.6621",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CD274",
+   "role": "mechanism",
    "statement": "CD274 (PD-L1) has a diffuse source across plasma cells, macrophages, enterocytes and neutrophils, so no single lineage dominates. Replication is formally met (Garrido-Trigo 2023 and Gubatan 2026 agree with myeloid, GSE282122 gives T/NK). Neutrophils make a large share in Gubatan 2026, with neutrophil share [gene=CD274; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.687]. The change is partly_composition and stays significant after adjustment, with adjusted log2FC [gene=CD274; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4978]. It fits an inflammation-induced checkpoint response, not a single-cell-type target.",
-   "evidence_ids": ["EV:sc_summary:822a01cbf7e8", "EV:composition_effect:822a01cbf7e8"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:822a01cbf7e8", "field": ["neutrophil_share_inflamed"], "display": "0.687", "unit": "native"}, {"evidence_id": "EV:composition_effect:822a01cbf7e8", "field": ["adjusted_log2fc"], "display": "0.4978", "unit": "native"}]},
-  {"gene": "AQP9", "role": "biomarker",
+   "evidence_ids": [
+    "EV:sc_summary:822a01cbf7e8",
+    "EV:composition_effect:822a01cbf7e8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:822a01cbf7e8",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.687",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:822a01cbf7e8",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.4978",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "AQP9",
+   "role": "biomarker",
    "statement": "AQP9 is a neutrophil-dominated transcript in inflamed mucosa (Gubatan 2026), so its high convergence score largely reflects neutrophil influx. The change is partly_composition but remains significant after adjustment, with adjusted log2FC [gene=AQP9; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8551]. It is best used as an influx marker, with some residual tissue change.",
-   "evidence_ids": ["EV:sc_summary:324a25b2f283", "EV:composition_effect:324a25b2f283"],
-   "numeric_claims": [{"evidence_id": "EV:composition_effect:324a25b2f283", "field": ["adjusted_log2fc"], "display": "0.8551", "unit": "native"}]},
-  {"gene": "S100A8", "role": "biomarker",
+   "evidence_ids": [
+    "EV:sc_summary:324a25b2f283",
+    "EV:composition_effect:324a25b2f283"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:324a25b2f283",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.8551",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "S100A8",
+   "role": "biomarker",
    "statement": "S100A8 comes mostly from neutrophils in Gubatan 2026, so it is a marker of neutrophil influx. The bulk change is partly_composition and stays significant after adjustment, with adjusted log2FC [gene=S100A8; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.9231]. Part of this may be real activation of resident cells, but the neutrophil share is large.",
-   "evidence_ids": ["EV:sc_summary:6ff831ae12f7", "EV:composition_effect:6ff831ae12f7"],
-   "numeric_claims": [{"evidence_id": "EV:composition_effect:6ff831ae12f7", "field": ["adjusted_log2fc"], "display": "0.9231", "unit": "native"}]},
-  {"gene": "SLC26A2", "role": "mechanism", "key": true,
+   "evidence_ids": [
+    "EV:sc_summary:6ff831ae12f7",
+    "EV:composition_effect:6ff831ae12f7"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:6ff831ae12f7",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.9231",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "SLC26A2",
+   "role": "mechanism",
+   "key": true,
    "statement": "SLC26A2 is down in UC bulk, and the loss is intrinsic to the tissue and not driven by neutrophils, with neutrophil share [gene=SLC26A2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.014]. The decrease stays significant after composition adjustment, with verdict intrinsic and adjusted log2FC [gene=SLC26A2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=-1.4638]. This is strong evidence of an epithelial program lost within the inflamed tissue. It points to a mechanism and a restoration biomarker, not a candidate for inhibition.",
-   "evidence_ids": ["EV:sc_summary:4db21991931b", "EV:composition_effect:4db21991931b"],
-   "numeric_claims": [{"evidence_id": "EV:sc_summary:4db21991931b", "field": ["neutrophil_share_inflamed"], "display": "0.014", "unit": "native"}, {"evidence_id": "EV:composition_effect:4db21991931b", "field": ["adjusted_log2fc"], "display": "-1.4638", "unit": "native"}]}
+   "evidence_ids": [
+    "EV:sc_summary:4db21991931b",
+    "EV:composition_effect:4db21991931b"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:4db21991931b",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.014",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:4db21991931b",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "-1.4638",
+     "unit": "native"
+    }
+   ]
+  }
  ],
  "caveats": [
   "Smillie 2019 captured no neutrophils, so its lineage call is wrong for neutrophil genes (CXCR2); Gubatan 2026 is the only atlas with neutrophil states.",
@@ -55,4 +317,5 @@
   "Shares compare cell types, not tissue abundance. Dissociation protocols enrich some fractions.",
   "MMP1 is at background on CosMx and not on the Xenium panel, so spatial support rests on Visium spot deconvolution.",
   "Only the leading candidates were profiled; other genes in the top 40 (for example the MMPs, REG family, CLDN2, HMGCS2) were not checked for cell attribution here."
- ]}
+ ]
+}

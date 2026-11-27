@@ -98,3 +98,10 @@ def test_drug_names_need_a_cited_record(monkeypatch):
     assert semantic.uncited_drugs("Reparixin and navarixin reached late-stage trials.", [drug]) == ["reparixin"]
     # names inside annotations are not text
     assert semantic.uncited_drugs("A drug [drug=reparixin] exists.", []) == []
+
+
+def test_a_drug_effect_is_not_the_gene_s_expression():
+    """"The antagonist lowered blood neutrophil counts" says what a drug does, not that CXCR2 falls in UC."""
+    text = "It is up in all eight cohorts, and the antagonist MK-7123 lowered blood neutrophil counts in a COPD trial."
+    assert not _direction(text, "CXCR2", [META | {"gene": "CXCR2"}])
+    assert _direction("CXCR2 is lowered in inflamed mucosa.", "CXCR2", [META | {"gene": "CXCR2"}])

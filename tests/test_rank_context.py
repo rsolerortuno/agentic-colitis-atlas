@@ -19,3 +19,34 @@ def test_ranks_follow_the_values():
         assert len({r["gene"] for r in rows}) == len(rows)          # one record per gene
         best = min(rows, key=lambda r: r["p"])
         assert best["rank"] == 1
+
+
+@pytest.mark.skipif(not (PROCESSED / "drug_indications.parquet").exists(), reason="processed data not built")
+def test_drug_tags_say_where_the_drug_is():
+    """A drug for another disease is never shown bare (fedratinib on JAK2 was read as a UC proposal), and a UC drug
+    listed for several genes names them (IL-23 blockers under IL12B and IL23A)."""
+    import pandas as pd
+    from ucatlas.render import drug_tags
+    tags = drug_tags()
+    d = pd.read_parquet(PROCESSED / "drug_indications.parquet").set_index("gene")
+    for g, tag in tags.items():
+        cat = d.at[g, "category"]
+        if cat == "UC":
+            assert tag.startswith("UC ")
+        elif cat == "other diseases":
+            assert "(" in tag and tag.endswith(")")
+    if "IL12B" in tags:
+        assert "IL23A" in tags["IL12B"]
+    if "JAK2" in tags:
+        assert "Fedratinib" not in tags["JAK2"] and "JAK1" in tags["JAK2"]
+
+
+def test_target_blocks_follow_the_rules():
+    import pandas as pd
+    from ucatlas.render import target_groups
+    drugind = {"IL12B": {"category": "UC", "short": "UC (approved)"}, "CXCR2": {"category": "UC", "short": "UC (phase 2)"}}
+    disc = pd.DataFrame({"neutrophil_share": [0.96, 0.07]}, index=["CXCR2", "MMP1"])
+    f = {"targets": [{"gene": "CXCR2", "category": "target_and_biomarker"}, {"gene": "IL12B", "category": "target"},
+                     {"gene": "MMP1", "category": "target_and_biomarker"}, {"gene": "DUOX2", "category": "biomarker"}]}
+    got = {g["key"]: [t["gene"] for t in g["targets"]] for g in target_groups(f, drugind, disc)}
+    assert got == {"controls": ["IL12B"], "neutrophil": ["CXCR2"], "tissue": ["MMP1"], "biomarkers": ["DUOX2"]}

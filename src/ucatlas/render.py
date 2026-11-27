@@ -557,6 +557,81 @@ def datasets() -> list[dict]:
     return rows
 
 
+def drug_tags() -> dict[str, str]:
+    """gene -> short drug tag from drug_indications.parquet (UC first, then Crohn's/IBD, then other diseases)."""
+    p = PROCESSED / "drug_indications.parquet"
+    if not p.exists():
+        return {}
+    from .drug_indications import LABEL
+    d = pd.read_parquet(p)
+    listed: dict[str, set] = {}
+    for r in d.itertuples():
+        for x in r.uc_drugs:
+            listed.setdefault(str(x).lower(), set()).add(r.gene)
+
+    def names(xs, n=3):
+        # development codes are written in capitals (SB-656933, not Sb-656933)
+        xs = [x.upper() if any(c.isdigit() for c in str(x)) else x for x in xs]
+        return ", ".join(xs[:n]) + (f" +{len(xs) - n}" if len(xs) > n else "")
+
+    out = {}
+    for r in d.itertuples():
+        if r.category == "UC":
+            others = sorted(set().union(*(listed[str(x).lower()] for x in r.uc_drugs)) - {r.gene})
+            tag = f"UC {LABEL[r.uc_stage]}: {names(r.uc_drugs)}"
+            if others:
+                tag += f" (also listed for {names(others)})"
+        elif r.category == "Crohn's / IBD":
+            tag = f"Crohn's/IBD {LABEL[r.ibd_stage]}: {names(r.ibd_drugs)}"
+        elif r.category.startswith("tried"):
+            tag = "tried in UC/IBD (outside Open Targets)"
+        elif r.category == "other diseases":
+            dis = list(r.other_diseases)
+            tag = f"{names(r.other_drugs, 1)} ({LABEL[r.other_stage]}, {dis[0] if dis else 'other diseases'})"
+        else:
+            continue
+        out[r.gene] = tag
+    return out
+
+
+TARGET_GROUPS = [
+    ("controls", "Positive controls: already drugged in UC",
+     "Candidates with a drug approved in UC. They show where human genetics recovers known targets (the IL-12/IL-23 "
+     "axis, the JAK class); it does not recover others, such as TNF, the alpha4-beta7 integrin, the S1P receptors or "
+     "JAK1, which were not among the orchestrator's candidates; how all clinical targets rank is in the evaluation. The convergence ranking, which weights expression, places "
+     "these lower: their bulk changes are modest beside the influx of neutrophil genes, and the size of an expression "
+     "change does not mark a validated target."),
+    ("neutrophil", "Expected top signal: neutrophil infiltration (histological activity)",
+     "Most of their RNA in inflamed mucosa comes from neutrophils, so the bulk rise reports neutrophil infiltration, the "
+     "hallmark of histological activity, and its top place is expected rather than a discovery. As targets they could "
+     "only block neutrophil recruitment; as biomarkers they are severity readouts that overlap with faecal calprotectin "
+     "and histology."),
+    ("tissue", "New candidates: a change of the tissue itself",
+     "The change keeps after adjusting the biopsies for their cell mix and the cell that makes the gene is known. This is "
+     "what the atlas adds: hypotheses to test."),
+    ("biomarkers", "Biomarkers and genes that should not be blocked",
+     "Consistent changes better used to measure the disease, or genes whose genetics argue against an inhibitor."),
+]
+
+
+def target_groups(f: dict, drugind: dict, disc: pd.DataFrame) -> list[dict]:
+    """The orchestrator's targets in four blocks (2026-11-26), by rules on the data, keeping its order inside each
+    block: a list that opened with the neutrophil receptor CXCR2 as "target 1" and a JAK2 card read as a JAK2 drug
+    proposal would look naive to a clinician, although each text was right."""
+    def block(t):
+        di = drugind.get(t["gene"], {})
+        if di.get("category") == "UC" and str(di.get("short", "")).endswith("(approved)"):
+            return "controls"
+        neu = disc["neutrophil_share"].get(t["gene"]) if t["gene"] in disc.index else None
+        if t.get("category") != "biomarker" and neu is not None and pd.notna(neu) and neu > 0.5:
+            return "neutrophil"
+        return "tissue" if t.get("category") in ("target", "target_and_biomarker") else "biomarkers"
+    groups = {k: {"key": k, "title": title, "note": note, "targets": []} for k, title, note in TARGET_GROUPS}
+    for t in f.get("targets", []):
+        groups[block(t)]["targets"].append(t)
+    return [g for g in groups.values() if g["targets"]]
+
+
 def badges(f: dict, cell: dict) -> dict:
     stage = ["PHASE_1", "PHASE_2", "PHASE_3", "PHASE_4", "APPROVAL"]
     mr = pd.read_parquet(PROCESSED / "mr_pqtl.parquet").set_index("gene")
@@ -568,6 +643,18 @@ def badges(f: dict, cell: dict) -> dict:
         d["rank"] = r["rank"]
         known = [x for x in r["drugs"] if x["max_stage"] in stage]
         d["drug"] = max(known, key=lambda x: stage.index(x["max_stage"]))["name"].title() if known else None
+    # The drug tag says where the drug is (2026-11-26): before, it showed the most advanced drug for any disease
+    # (fedratinib, a myelofibrosis drug, on JAK2) and Open Targets lists a complex's drugs under each subunit
+    # (anti-IL-23 p19 antibodies under IL12B). Now: the UC drugs first, else Crohn's/IBD, else the drug with its
+    # disease; and when the same UC drugs are listed for other genes, they are named, so a pathway or complex drug is
+    # not read as a drug made for this gene.
+    for g, tag in drug_tags().items():
+        out.setdefault(g, {})["drug"] = tag
+    # where a peer-reviewed trial says which subunit or kinase the drug binds, that wins (drug_literature.py)
+    from .drug_literature import DATA as DRUG_LIT
+    if DRUG_LIT.exists():
+        for g, tag in json.loads(DRUG_LIT.read_text(encoding="utf-8")).get("tags", {}).items():
+            out.setdefault(g, {})["drug"] = tag
     for g, d in out.items():
         if g in mr.index and mr.at[g, "q"] < 0.05:
             d["mr"] = f"MR OR {mr.at[g, 'or_per_sd']:.2f}"
@@ -873,7 +960,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], drugind=drugind, top_reading=top_reading, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), cell=cell, third=third, SL=SL, GT=GT,
+        badges=badges(f, cell), target_groups=target_groups(f, drugind, _disc), cell=cell, third=third, SL=SL, GT=GT,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,

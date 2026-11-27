@@ -5,9 +5,12 @@
    "gene": "CXCL8",
    "role": "mechanism",
    "key": true,
-   "statement": "CXCL8 is the most consistent chemokine in the ranking: it is up in all eight cohorts (meta log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.687]) and ranks third in convergence. It is the ligand of the leading specific circuit, neutrophil CXCL8 to CXCR2 and ACKR1 (see the CXCR2 and ACKR1 findings). This is co-expression, not proof of signalling.",
+   "statement": "CXCL8 is up in all eight cohorts (meta log2FC [gene=CXCL8; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.687]) and ranks third in convergence. It is the ligand of the neutrophil circuit, neutrophil CXCL8 to CXCR2 and ACKR1 (see the CXCR2 and ACKR1 findings). This is co-expression, not proof of signalling.",
    "evidence_ids": [
-    "EV:expression_meta:1e78b2f07f0c"
+    "EV:expression_meta:1e78b2f07f0c",
+    "EV:communication:b9127b21b2b8",
+    "EV:analysis_ranking:cf98d93b6656",
+    "EV:communication:c62b6bd3666d"
    ],
    "numeric_claims": [
     {
@@ -44,7 +47,7 @@
    "gene": "CXCR2",
    "role": "target",
    "key": true,
-   "statement": "CXCR2 is rank 1 and CXCR1 rank 2 in the convergence ranking, with up-regulation in all eight cohorts for CXCR2 and Open Targets genetic support. The receptor is already drug-targeted by navarixin, ladarixin and SX-682 (phase 2) and reparixin (phase 3), mostly outside UC. Its transcripts sit in neutrophils in the single-cell data, and CXCR2 is not replicated as a stromal or T/NK gene across atlases, so it is a neutrophil-recruitment target and not a tissue-intrinsic one.",
+   "statement": "CXCR2 is rank 1 in the convergence ranking, with up-regulation in all eight cohorts for CXCR2 and Open Targets genetic support. Its antagonists reached clinical trials: reparixin (phase 3) and ladarixin and SX-682 (phase 2) outside UC, and in UC navarixin and SB-656933, which went no further than phase 2. Its transcripts sit in neutrophils in the single-cell data, and CXCR2 is not replicated as a stromal or T/NK gene across atlases, so it is a neutrophil-recruitment target and not a tissue-intrinsic one.",
    "evidence_ids": [
     "EV:expression_meta:1fce9fb2531f",
     "EV:sc_summary:1fce9fb2531f",
@@ -52,7 +55,11 @@
     "EV:open_targets_drug:bb29afc01822",
     "EV:open_targets_drug:dc1186676fb0",
     "EV:open_targets_drug:165d64ee1474",
-    "EV:open_targets_drug:b6ab97730b13"
+    "EV:open_targets_drug:b6ab97730b13",
+    "EV:open_targets_assoc:7d06375723b1",
+    "EV:analysis_ranking:ade64cfa8d01",
+    "EV:clinical_indications:1fce9fb2531f",
+    "EV:drug_literature:a2bfb9f668cb"
    ],
    "numeric_claims": []
   },
@@ -70,7 +77,8 @@
    "role": "mechanism",
    "statement": "Inflammatory fibroblasts are a stromal sender of CXCL1 to CXCR2 on neutrophils, and the link to the generic Neutrophil state rose strongly in inflamed mucosa. Absolute scores are far lower than the neutrophil CXCL8 circuit. No CXCL1 or CXCL5 drug is listed.",
    "evidence_ids": [
-    "EV:communication:6e4642a43aa7"
+    "EV:communication:6e4642a43aa7",
+    "EV:communication:b9127b21b2b8"
    ],
    "numeric_claims": []
   },

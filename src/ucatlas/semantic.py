@@ -365,7 +365,17 @@ def _layer_of(clause: str) -> str | None:
     return "rna" if w in ("rna", "mrna", "transcript", "transcripts") else "protein" if w.startswith("prot") else "phospho"
 
 
+# a clause about what a drug does ("the antagonist lowered blood neutrophil counts") is not a statement about the
+# gene's expression in disease (2026-11-26)
+DRUG_EFFECT = re.compile(r"\b(antagonists?|inhibitors?|blockers?|antibod(y|ies))\b", re.I)
 DIRECTION_WORD = re.compile(UP.pattern + "|" + DOWN.pattern + "|" + OUT_UP.pattern + "|" + OUT_DOWN.pattern, re.I)
+
+
+def _drug_effect(clause: str) -> bool:
+    """The drug is the subject that acts ("the antagonist lowered ...") when it comes before the direction word;
+    "most reduced ... without an inhibitor" stays a statement about the gene."""
+    m, d = DRUG_EFFECT.search(clause), DIRECTION_WORD.search(clause)
+    return bool(m and d and m.start() < d.start())
 
 
 def _negated(clause: str) -> bool:
@@ -420,7 +430,7 @@ def _de_clause(clause: str, sentence: str, de: dict, lit: set[int]) -> tuple[str
     # A survival statement such as "higher expression predicts better survival"
     # is not a claim that expression increased in tumour versus normal tissue.
     # Keep this a narrow DE wording check, not a bag of direction words.
-    if DIRECTION_EXEMPT.search(clause) or _negated(clause) or RISK.search(clause):
+    if DIRECTION_EXEMPT.search(clause) or _negated(clause) or RISK.search(clause) or _drug_effect(clause):
         return None, ""
     # in a survival sentence only clauses that name the tumour, a layer or a log2FC are about
     # tumour-versus-normal expression ("higher expression is associated with worse survival" is not)
