@@ -391,3 +391,11 @@ Designs fixed before running. Nothing below changes the convergence score or the
   check, and block texts that say where the new candidates are and why only two positive controls appear. The
   specialists' findings about the three genes were edited where the reviews found them wrong (orchestrator step 5).
   Verified (125 statements, no failures) and read again after each round.
+- **Front-page rule, drugs from papers, PubMed and a cited expert review (2026-11-27)**: asked to make the expert
+  review of the top candidates part of every run. A fixed rule now decides which genes may be on the front page
+  (frontpage.py, checked by verify.py); a named drug needs a peer-reviewed paper record or a treatment arm (11 papers
+  added for the drugs that had only Open Targets records); the orchestrator and the reviewer may search PubMed but cite
+  only sentences registered verbatim from peer-reviewed, non-retracted papers (pubmed_quotes.py); a reviewer subagent
+  reads the front page as a UC clinician and must cite every factual objection (expert_review.py). Seeded test: 12 of
+  12 errors caught, no objection on 28 unaltered items. Run 2026-11-27: 115 statements, no failures; 3 expert
+  objections applied (CD274, MMP1, S100A8); 509 claims read, none contradicted, 16 not in evidence.

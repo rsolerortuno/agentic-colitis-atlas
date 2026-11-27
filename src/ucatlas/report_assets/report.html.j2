@@ -54,7 +54,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <p class="small">Written by the orchestrating agent from the six agent reports. Every sentence cites evidence records and passed the automatic checks.</p>
 {{ paras(f.narrative.summary) }}
 <h2>Prioritised candidates</h2>
-<p class="small">The orchestrator picked these from the numeric ranking and the verified agent reports. It may depart from the ranking and then says why. They are shown in four blocks set by rules on the data (a UC-approved drug; most RNA from neutrophils; a tissue change; biomarkers), in the orchestrator's order inside each block. The first two blocks check the method against what is known; the new candidates are in the third. The tags show the role (target, biomarker or both), the convergence rank, the cell that makes the gene in inflamed mucosa, the causal genetic estimate where one exists and where its drugs are: UC first, then Crohn's disease or IBD, else the drug with its disease. A UC drug that is also listed for other genes acts on a complex or a family, and those genes are named; where the cited peer-reviewed literature says which subunit or kinase a drug binds (anti-p40 against anti-p19, JAK1-selective inhibitors), the tag says so.</p>
+<p class="small">{{ frontpage_rule }} Each card says which criterion it meets. They are shown in four blocks set by rules on the data (a UC-approved drug; most RNA from neutrophils; a tissue change; biomarkers), in the orchestrator's order inside each block. The first two blocks check the method against what is known; the new candidates are in the third. The tags show the role (target, biomarker or both), the convergence rank, the cell that makes the gene in inflamed mucosa, the causal genetic estimate where one exists and where its drugs are: UC first, then Crohn's disease or IBD, else the drug with its disease. A UC drug that is also listed for other genes acts on a complex or a family, and those genes are named; where the cited peer-reviewed literature says which subunit or kinase a drug binds (anti-p40 against anti-p19, JAK1-selective inhibitors), the tag says so.</p>
 {% set ns = namespace(i=0) %}
 {% for g in target_groups %}
 <h3 class="group">{{ g.title }}</h3>
@@ -62,7 +62,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <div class="grid">
 {% for t in g.targets %}{% set b = badges.get(t.gene, {}) %}{% set ns.i = ns.i + 1 %}
 <div class="card cand claim" data-evidence="{{ t.evidence_ids | evattr }}">
-  <h3>{{ ns.i }}. {{ t.gene }}</h3>
+  <h3>{{ ns.i }}. {{ t.gene }}{% if t.subtitle %} <span class="small">· {{ t.subtitle }}</span>{% endif %}</h3>
   <div class="meta">
     <span class="tag {{ {'target':'t','biomarker':'b','target_and_biomarker':'tb'}.get(t.category,'') }}">{{ t.category | replace("_"," ") }}</span>
     {% if b.rank %}<span class="tag">rank {{ b.rank }}</span>{% endif %}
@@ -72,6 +72,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
     {% if b.drug %}<span class="tag fic">{{ b.drug }}</span>{% endif %}
   </div>
   <p>{{ t | statement_html | safe }} {{ t.evidence_ids | cite | safe }}</p>
+  {% if t.selected_because %}<p class="small">On this page: {{ t.selected_because | join("; ") }}.</p>{% endif %}
 </div>
 {% endfor %}
 </div>

@@ -1,0 +1,22 @@
+{
+"C01": "seed:anti-p19 target",
+"C02": "seed:overclaimed novelty",
+"C03": "targets.CXCL8",
+"C04": "targets.SLC26A3",
+"C05": "targets.CD274",
+"C06": "narrative.summary[0]",
+"C07": "narrative.summary[3]",
+"C08": "targets.CHI3L1",
+"C09": "seed:selectivity",
+"C10": "targets.IDO1",
+"C11": "targets.DUOX2",
+"C12": "targets.S100A8",
+"C13": "targets.MMP1",
+"C14": "targets.CXCR2",
+"C15": "narrative.summary[2]",
+"C16": "targets.XKR9",
+"C17": "seed:subunit",
+"C18": "seed:mechanism",
+"C19": "seed:stage",
+"C20": "targets.IL12B"
+}

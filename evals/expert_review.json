@@ -1,0 +1,98 @@
+{
+ "run": "2026-11-23",
+ "seeded": 12,
+ "caught": 12,
+ "caught_with_valid_objection": 12,
+ "by_kind": {
+  "framing": {
+   "seeded": 4,
+   "caught": 4
+  },
+  "factual": {
+   "seeded": 8,
+   "caught": 8
+  }
+ },
+ "per_seed": {
+  "anti-p19 target": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "overclaimed novelty": {
+   "kind": "framing",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "selectivity": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "subunit": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "mechanism": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "stage": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "genetic direction": {
+   "kind": "framing",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "class as drug proposal": {
+   "kind": "framing",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "trial outcome": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "drug effect direction": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "failed class as open": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "influx as tissue target": {
+   "kind": "framing",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  }
+ },
+ "unaltered": {
+  "items": 28,
+  "objections": 0,
+  "factual": 0,
+  "factual_cited_validly": 0,
+  "framing": 0,
+  "detail": []
+ }
+}

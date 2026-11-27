@@ -152,11 +152,20 @@ def verify_final(path: Path) -> dict:
     for d in earlier:
         if not d.get("kept", False):
             unsupported.append({"location": f"dropped earlier ({d.get('where')})", **d})
+    # The front page must follow the fixed selection rule (frontpage.py, 2026-11-27).
+    from . import frontpage
+    fp = frontpage.check(findings) if findings.get("targets") else None
+    if fp:
+        for g in fp["unjustified"]:
+            unsupported.append({"location": f"targets.{g}", "frontpage_rule": "meets no selection criterion"})
+        for g in fp["missing_controls"]:
+            unsupported.append({"location": "targets", "frontpage_rule": f"mandatory positive control {g} missing"})
     report = {"file": _relative(path), "statements": total, "unsupported": len(unsupported),
               "interpretation": "No failures detected by the automatic checks" if not unsupported else "Automatic checks detected failures",
               "scope": "Evidence linkage, metric bindings, numeric precision and limited direction checks; not complete scientific validation",
               "semantic_failures": sum(1 for u in unsupported if u.get("semantic_failure")),
               "stale": sum(1 for u in unsupported if u.get("stale_evidence")),
+              "frontpage": None if fp is None else {k: fp[k] for k in ("unjustified", "missing_controls")},
               "basis": None if basis is None else {"started_utc": basis["started_utc"], "evidence": len(basis["evidence"])},
               "detail": unsupported}
     (path.parent / "verification_final.json").write_text(json.dumps(report, indent=1), encoding="utf-8")

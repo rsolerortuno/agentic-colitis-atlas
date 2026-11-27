@@ -1,0 +1,132 @@
+{
+ "agent_file": "agent_literature.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "CHI3L1 was significantly upregulated in UC patients and strongly correlated with NLRP3 inflammasome expression. One study reports that CHI3L1 promotes macrophage pyroptosis via the BCAT1/NF-kappaB axis. Velpatasvir binding to recombinant CHI3L1 was confirmed in vitro by microscale thermophoresis. This is early preclinical work with no approved CHI3L1 drug.",
+   "claims": [
+    {
+     "claim": "no approved CHI3L1 drug",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cited record states drug approval status."
+    }
+   ]
+  },
+  {
+   "finding": 2,
+   "statement": "HMGCS2 expression decreased in UC (with AQP8) in two separate studies, and one states these genes have high diagnostic value for UC. Together with SLC26A3, which is lower in UC patients versus controls in ONT-RNA-seq, this supports an epithelial metabolic/transport loss signature. No therapeutic targeting is reported.",
+   "claims": [
+    {
+     "claim": "SLC26A3, which is lower in UC patients versus controls in ONT-RNA-seq",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No SLC26A3 or ONT-RNA-seq record cited."
+    },
+    {
+     "claim": "No therapeutic targeting is reported",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Papers call genes potential targets, but no targeting is reported either way."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 tops the convergence ranking, yet the verbatim-checked relation layer holds no relation for it. The corpus has only title and abstract sentences: one titl",
+   "why": {
+    "uncited_drugs": [
+     "danirixin",
+     "ladarixin",
+     "navarixin",
+     "reparixin"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL8",
+   "text_start": "One paper states that the CXCL8-CXCR1/2 axis participates in UC pathogenesis through PI3k/Akt, MAPKs and NF-kappaB signaling. A blood RNA-seq validation (GSE169",
+   "why": {
+    "unmatched_numbers": [
+     "2",
+     "0.786",
+     "0.856"
+    ],
+    "uncited_drugs": [
+     "abx-il8",
+     "adakitug"
+    ]
+   }
+  },
+  {
+   "gene": "IDO1",
+   "text_start": "A single study (PMID:40370742) reports IDO1 expression elevated in UC patients and correlated with M1 macrophage polarization. It also reports that IDO1 induced",
+   "why": {
+    "unmatched_numbers": [
+     "1"
+    ],
+    "uncited_drugs": [
+     "epacadostat",
+     "linrodostat"
+    ]
+   }
+  },
+  {
+   "gene": "MMP1",
+   "text_start": "MMP1 transcripts are modified by mirikizumab and correlate with UC disease activity indices (modified Mayo, Geboes, Robarts Histopathology Index), alongside MMP",
+   "why": {
+    "uncited_drugs": [
+     "marimastat"
+    ]
+   }
+  },
+  {
+   "gene": "S100A9",
+   "text_start": "One study reports that the receiver operating characteristic curve demonstrates excellent performance of S100A9 expression in diagnosing active UC. ONT-RNA-seq ",
+   "why": {
+    "uncited_drugs": [
+     "tofacitinib"
+    ]
+   }
+  },
+  {
+   "gene": "IL1B",
+   "text_start": "IL1B is listed among credible diagnostic biomarkers for UC. In a tofacitinib study, non-responders showed expansion and activation of macrophages and fibroblast",
+   "why": {
+    "uncited_drugs": [
+     "canakinumab"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL1",
+   "text_start": "CXCL1 appears as a biomarker candidate in several machine-learning and bioinformatic studies. One reported AUC 0.710 as an activity marker, which is modest next",
+   "why": {
+    "unmatched_numbers": [
+     "0.710",
+     "0.989"
+    ]
+   }
+  },
+  {
+   "gene": "CD274",
+   "text_start": "CD274 (PD-L1) is called a hub gene associated with UC and positively associated with macrophage infiltration (with MMP1, NCF2, PLAU). Another study shows CBX3 a",
+   "why": {
+    "uncited_drugs": [
+     "atezolizumab"
+    ],
+    "not_linked_to_gene": [
+     "EV:chunk:04b66c91df41",
+     "EV:chunk:c073bfb24879",
+     "EV:literature:e23d2f8cb981"
+    ]
+   }
+  }
+ ]
+}

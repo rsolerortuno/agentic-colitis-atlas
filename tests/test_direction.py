@@ -94,8 +94,13 @@ def test_drug_names_need_a_cited_record(monkeypatch):
     from ucatlas import semantic
     monkeypatch.setattr(semantic, "_DRUGS", re.compile(r"(?<![\w-])(reparixin|navarixin)(?![\w-])", re.I))
     drug = {"type": "open_targets_drug", "gene": "CXCR2", "drug": "NAVARIXIN", "max_clinical_stage": "PHASE_2"}
-    assert semantic.uncited_drugs("Navarixin reached phase 2.", [drug]) == []
-    assert semantic.uncited_drugs("Reparixin and navarixin reached late-stage trials.", [drug]) == ["reparixin"]
+    paper = {"type": "drug_literature", "gene": "CXCR2", "drug": "navarixin", "pmid": 1}
+    assert semantic.uncited_drugs("Navarixin reached phase 2.", [drug, paper]) == []
+    assert semantic.uncited_drugs("Reparixin and navarixin reached late-stage trials.", [drug, paper]) == ["reparixin"]
+    # since 2026-11-27 a database listing alone is not enough: the drug needs a paper or a treatment arm
+    assert semantic.uncited_drugs("Navarixin reached phase 2.", [drug]) == ["navarixin"]
+    arm = {"type": "treatment_response", "gene": "IL12B", "drug": "navarixin"}
+    assert semantic.uncited_drugs("Navarixin reached phase 2.", [arm]) == []
     # names inside annotations are not text
     assert semantic.uncited_drugs("A drug [drug=reparixin] exists.", []) == []
 

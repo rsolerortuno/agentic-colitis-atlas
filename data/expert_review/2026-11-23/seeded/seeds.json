@@ -1,0 +1,114 @@
+{
+ "A": {
+  "key": {
+   "C01": "seed:anti-p19 target",
+   "C02": "seed:overclaimed novelty",
+   "C03": "targets.CXCL8",
+   "C04": "targets.SLC26A3",
+   "C05": "targets.CD274",
+   "C06": "narrative.summary[0]",
+   "C07": "narrative.summary[3]",
+   "C08": "targets.CHI3L1",
+   "C09": "seed:selectivity",
+   "C10": "targets.IDO1",
+   "C11": "targets.DUOX2",
+   "C12": "targets.S100A8",
+   "C13": "targets.MMP1",
+   "C14": "targets.CXCR2",
+   "C15": "narrative.summary[2]",
+   "C16": "targets.XKR9",
+   "C17": "seed:subunit",
+   "C18": "seed:mechanism",
+   "C19": "seed:stage",
+   "C20": "targets.IL12B"
+  },
+  "seeds": {
+   "selectivity": {
+    "kind": "factual",
+    "inserted": "selective JAK2 inhibitor upadacitinib",
+    "text": "Positive control for the JAK class, not a proposal for a JAK2-selective drug. Among the JAK kinases the human genetic support sits on JAK2 (genetic_association = 0.8458), yet the JAK inhibitors that worked in UC trials are tofacitinib, which like the others inhibits JAK1-dependent pathways most potently, and the selective JAK2 inhibitor upadacitinib and JAK1-preferential filgotinib; the TYK2-selective deucravacitinib did not show significant benefit in UC phase 2, whereas the TYK2/JAK1 inhibitor brepocitinib did. JAK2 also carries erythropoietin and thrombopoietin receptor signals, so selective JAK2 blockade would act on blood cell production. Its expression rises only modestly (log2fc = 0.833)."
+   },
+   "subunit": {
+    "kind": "factual",
+    "inserted": "IL12B is the p19 subunit",
+    "text": "Human genetics separates causes from consequences. IL12B carries a strong Open Targets genetic association with UC (genetic_association = 0.8864) and is the strongest plasma Mendelian randomisation result among this atlas's genes: genetically higher protein raises UC risk (odds_ratio_per_sd = 1.539), so inhibition is the protective direction. IL12B is the p19 subunit of interleukin-12 and interleukin-23: ustekinumab binds it and was more effective than placebo in UC, and the anti-p19 antibodies mirikizumab, risankizumab and guselkumab, which bind IL23A and block interleukin-23 only, were effective too, which shows that blocking interleukin-23 alone is enough; whether blocking interleukin-12 adds benefit is not settled by these trials. For CD274 (PD-L1) genetics points the other way: higher plasma protein lowers UC risk (odds_ratio_per_sd = 0.595)."
+   },
+   "mechanism": {
+    "kind": "factual",
+    "inserted": "which shows that blocking interleukin-12 is required",
+    "text": "Human genetics separates causes from consequences. IL12B carries a strong Open Targets genetic association with UC (genetic_association = 0.8864) and is the strongest plasma Mendelian randomisation result among this atlas's genes: genetically higher protein raises UC risk (odds_ratio_per_sd = 1.539), so inhibition is the protective direction. IL12B is the p40 subunit of interleukin-12 and interleukin-23: ustekinumab binds it and was more effective than placebo in UC, and the anti-p19 antibodies mirikizumab, risankizumab and guselkumab, which bind IL23A and block interleukin-23 only, were effective too, which shows that blocking interleukin-12 is required; whether blocking interleukin-12 adds benefit is not settled by these trials. For CD274 (PD-L1) genetics points the other way: higher plasma protein lowers UC risk (odds_ratio_per_sd = 0.595)."
+   },
+   "anti-p19 target": {
+    "kind": "factual",
+    "inserted": "anti-p19 antibodies mirikizumab, risankizumab and guselkumab, which bind IL12B",
+    "text": "Human genetics separates causes from consequences. IL12B carries a strong Open Targets genetic association with UC (genetic_association = 0.8864) and is the strongest plasma Mendelian randomisation result among this atlas's genes: genetically higher protein raises UC risk (odds_ratio_per_sd = 1.539), so inhibition is the protective direction. IL12B is the p40 subunit of interleukin-12 and interleukin-23: ustekinumab binds it and was more effective than placebo in UC, and the anti-p19 antibodies mirikizumab, risankizumab and guselkumab, which bind IL12B and block interleukin-23 only, were effective too, which shows that blocking interleukin-23 alone is enough; whether blocking interleukin-12 adds benefit is not settled by these trials. For CD274 (PD-L1) genetics points the other way: higher plasma protein lowers UC risk (odds_ratio_per_sd = 0.595)."
+   },
+   "stage": {
+    "kind": "factual",
+    "inserted": "nangibotide is approved for UC",
+    "text": "Made mostly by neutrophils and myeloid cells (neutrophil_share_inflamed = 0.894), higher in inflamed than non-inflamed mucosa and associated with ustekinumab non-response and placebo non-response alike; nangibotide is approved for UC."
+   },
+   "overclaimed novelty": {
+    "kind": "framing",
+    "inserted": "Validated target: the largest",
+    "text": "Validated target: the largest pooled increase of the first-in-class candidates, up in (cohorts_up = 7) cohorts, made by stromal cells (mostly inflammatory fibroblasts in Smillie 2019), a lineage all four atlases agree on, and antibody-tractable; partly composition, with no response or functional data."
+   }
+  }
+ },
+ "B": {
+  "key": {
+   "C01": "targets.CXCL8",
+   "C02": "seed:genetic direction",
+   "C03": "narrative.summary[3]",
+   "C04": "seed:class as drug proposal",
+   "C05": "targets.TREM1",
+   "C06": "narrative.summary[2]",
+   "C07": "seed:trial outcome",
+   "C08": "targets.CHRDL2",
+   "C09": "targets.MMP1",
+   "C10": "seed:drug effect direction",
+   "C11": "targets.CHI3L1",
+   "C12": "seed:failed class as open",
+   "C13": "targets.DUOX2",
+   "C14": "seed:influx as tissue target",
+   "C15": "targets.IDO1",
+   "C16": "narrative.summary[1]",
+   "C17": "narrative.summary[0]",
+   "C18": "targets.SLC26A3",
+   "C19": "targets.IL12B",
+   "C20": "targets.XKR9"
+  },
+  "seeds": {
+   "failed class as open": {
+    "kind": "factual",
+    "inserted": "were approved in UC",
+    "text": "First in the convergence ranking and up in all eight cohorts, but neutrophils make almost all of its transcripts (neutrophil_share_inflamed = 0.965) and only a small change survives composition adjustment (adjusted_log2fc = 0.4409). As a target it was tested and not advanced: two antagonists, SB-656933 and navarixin, were approved in UC, and the antagonist navarixin (as MK-7123) lowered blood neutrophil counts dose-dependently in a COPD trial; a published genetic estimate, from one bioinformatic study, has higher expression going with lower UC risk, the direction opposite to an antagonist. As a biomarker it is higher at baseline in non-responders to ustekinumab and to placebo alike, which marks disease severity rather than response to the drug."
+   },
+   "drug effect direction": {
+    "kind": "factual",
+    "inserted": "raised blood neutrophil counts",
+    "text": "First in the convergence ranking and up in all eight cohorts, but neutrophils make almost all of its transcripts (neutrophil_share_inflamed = 0.965) and only a small change survives composition adjustment (adjusted_log2fc = 0.4409). As a target it was tested and not advanced: two antagonists, SB-656933 and navarixin, went no further than phase 2 in UC, and the antagonist navarixin (as MK-7123) raised blood neutrophil counts dose-dependently in a COPD trial; a published genetic estimate, from one bioinformatic study, has higher expression going with lower UC risk, the direction opposite to an antagonist. As a biomarker it is higher at baseline in non-responders to ustekinumab and to placebo alike, which marks disease severity rather than response to the drug."
+   },
+   "class as drug proposal": {
+    "kind": "framing",
+    "inserted": "A strong new candidate for a JAK2-selective drug in UC.",
+    "text": "A strong new candidate for a JAK2-selective drug in UC. Among the JAK kinases the human genetic support sits on JAK2 (genetic_association = 0.8458), yet the JAK inhibitors that worked in UC trials are tofacitinib, which like the others inhibits JAK1-dependent pathways most potently, and the selective JAK1 inhibitor upadacitinib and JAK1-preferential filgotinib; the TYK2-selective deucravacitinib did not show significant benefit in UC phase 2, whereas the TYK2/JAK1 inhibitor brepocitinib did. JAK2 also carries erythropoietin and thrombopoietin receptor signals, so selective JAK2 blockade would act on blood cell production. Its expression rises only modestly (log2fc = 0.833)."
+   },
+   "trial outcome": {
+    "kind": "factual",
+    "inserted": "showed significant benefit in UC phase 3",
+    "text": "Positive control for the JAK class, not a proposal for a JAK2-selective drug. Among the JAK kinases the human genetic support sits on JAK2 (genetic_association = 0.8458), yet the JAK inhibitors that worked in UC trials are tofacitinib, which like the others inhibits JAK1-dependent pathways most potently, and the selective JAK1 inhibitor upadacitinib and JAK1-preferential filgotinib; the TYK2-selective deucravacitinib showed significant benefit in UC phase 3, whereas the TYK2/JAK1 inhibitor brepocitinib did. JAK2 also carries erythropoietin and thrombopoietin receptor signals, so selective JAK2 blockade would act on blood cell production. Its expression rises only modestly (log2fc = 0.833)."
+   },
+   "influx as tissue target": {
+    "kind": "framing",
+    "inserted": "a T-cell-intrinsic drug target",
+    "text": "Up in all eight cohorts and made mostly by neutrophils, with part of the change retained after adjustment: a T-cell-intrinsic drug target."
+   },
+   "genetic direction": {
+    "kind": "framing",
+    "inserted": "so genetics supports inhibition",
+    "text": "High in the convergence ranking and up in inflamed mucosa, but genetically higher plasma PD-L1 lowers UC risk (odds_ratio_per_sd = 0.595), so genetics supports inhibition; its rise is best read as a compensatory response."
+   }
+  }
+ }
+}

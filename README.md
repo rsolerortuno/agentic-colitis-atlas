@@ -186,7 +186,7 @@ and described in [data/README.md](data/README.md).
 
 ## 5. Main results
 
-Numbers come from the saved, reviewed analysis (`runs/2026-11-23`, the agent run redone on 2026-11-23 with a record cited for every claim and a reading check of each claim). The report gives the detail and the caveats.
+Numbers come from the saved, reviewed analysis (`runs/2026-11-27`, the agent run redone on 2026-11-27 with a record cited for every claim, drugs only from peer-reviewed papers, the front-page selection rule and a cited expert review). The report gives the detail and the caveats.
 
 **Known biology is recovered.**
 Inflamed mucosa gains antimicrobial, neutrophil and tissue-remodelling genes (S100A8, LCN2, DUOX2, CXCL8, MMP3) and
@@ -295,9 +295,12 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 
 | Check | Result |
 |---|---|
-| Agent text against its evidence | 125 statements checked, no failures detected by the automatic checks; 29 of 29 key findings of the specialists reach the report |
-| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (80/80), other-gene attributions (94/94) and swapped evidence (94/94); 82 % of all flipped directions (61/74) and 97 % where the sentence cites bulk expression evidence (33/34); directions are compared with bulk, pathway and treatment-response changes, Mendelian randomisation and the cited literature sentence (until 2026-11-23 only with bulk expression: 26 %) |
-| Reading check: each claim against the evidence its statement cites (reader subagent, `claim_check.py`) | 523 claims in the 125 statements: none contradicted by its own evidence and 14 (3 %) not in the cited evidence, listed in the report (in the previous run 3 contradicted and 130 of 606, 21 %, not in the evidence). The specialists and the orchestrator now cite a record for every claim (drug records, `rank_context` for comparisons across genes, UniProt function, the abstract sentence) and fix what the reader flags once before verification. On the 74 direction-flipped copies the reader caught 72 (the deterministic checks 61), missing flips of ranking words. A language-model review aid, not part of the deterministic verification |
+| Agent text against its evidence | 115 statements checked, no failures detected by the automatic checks; 28 of 28 key findings of the specialists reach the report |
+| Front-page selection rule (`frontpage.py`) | Every prioritised gene meets a fixed criterion, shown on its card (a UC-approved drug on the gene or its class with genetic association of at least 0.8, always shown: IL12B and JAK2; the first 30 of the convergence ranking; the leading first-in-class candidate; a significant Mendelian randomisation estimate); the run fails otherwise |
+| Drug names | A named drug must be in a cited peer-reviewed paper record (23 trial and pharmacology papers, 40 verbatim quotes checked against PubMed) or a treatment arm; Open Targets alone no longer suffices |
+| Expert review of the front page (`expert_review.py`, reviewer subagent) | Factual objections need a PMID and a verbatim abstract sentence of a peer-reviewed, non-retracted paper, checked against PubMed; framing objections may only reword or remove. On 12 errors seeded blind into copies of the cards (subunit, selectivity, trial outcome, approval status, drug effect, framing) the reviewers caught 12, 6 of 8 factual ones with a valid citation, and objected to none of 28 unaltered items. On run 2026-11-27 it raised 3 objections, all kept and applied (checkpoint-inhibitor enterocolitis for CD274, the failed anti-MMP9 trial for MMP1, calprotectin for S100A8). A language-model review aid; its errors were written by the author of its instructions |
+| Deliberately corrupted copies of those statements | Caught: 100 % of changed numbers (81/81), other-gene attributions (85/85) and swapped evidence (85/85); 74 % of all flipped directions (54/73) and 94 % where the sentence cites bulk expression evidence (29/31); the reader subagent caught 70 of the 73; directions are compared with bulk, pathway and treatment-response changes, Mendelian randomisation and the cited literature sentence (until 2026-11-23 only with bulk expression: 26 %) |
+| Reading check: each claim against the evidence its statement cites (reader subagent, `claim_check.py`) | 509 claims in the 115 statements: none contradicted by its own evidence and 16 (3 %) not in the cited evidence, none on the front page, listed in the report (in the previous run 3 contradicted and 130 of 606, 21 %, not in the evidence). The specialists and the orchestrator now cite a record for every claim (drug records, `rank_context` for comparisons across genes, UniProt function, the abstract sentence) and fix what the reader flags once before verification. On the 74 direction-flipped copies the reader caught 72 (the deterministic checks 61), missing flips of ranking words. A language-model review aid, not part of the deterministic verification |
 | Target profile against 59 UC clinical targets | AUROC 0.85; predicted tractability alone gives 0.82, so the gain is in early enrichment: 12 % of the clinical targets in the profile's top 100 against 2 %. Without the "high-quality ligand" bucket (medicinal-chemistry history) 0.83 |
 | Targets first tried in UC from 2016 on (20 genes) | Target profile AUROC 0.80; 3 of the 20 (MAP3K8, OSMR, IL1B) in its top 100. Predicted tractability alone is a yes/no value and cannot order a top 100. Retrospective: the data are not frozen at 2016 |
 | Convergence score (includes literature and drug history) | AUROC 0.87, partly circular; data-only version 0.78 |
@@ -324,8 +327,8 @@ differ by week-4 remission, again mostly severity; faecal calprotectin follows t
 | Drugs by indication | Of the 1,515 genes with a clinical drug, 111 have one in UC and 40 in Crohn's disease or IBD; 873 only for other diseases. 59 genes of the discovery screen are repurposing leads (drugs only for other diseases), 41 with an inhibitor in the clinic. Approvals known only from an ATC code are not counted as approved (epacadostat, IDO1) |
 | Single-cell lineage in four atlases | For 1,029 genes the Smillie 2019 lineage is also dominant in 815 of 1,020 (Garrido-Trigo 2023), 645 of 903 (Gubatan 2026) and 867 of 1,022 (GSE282122); 822 replicate in at least two of the three. GSE282122 typing: every canonical marker of eight lineages is highest in its own lineage; no neutrophil cluster |
 | Crypt-niche flag for stromal genes | Threshold 62 % of fibroblast RNA in WNT2B+/RSPO3+ fibroblasts, halfway between COL1A2 (52 %) and WNT2B, GREM1, RSPO3 (62–83 %); no shortlist gene is flagged (group A stromal genes 13–54 %) |
-| Report validator | 861 claims, 1,614 evidence records, 1,864 citation links, all resolvable, no external resources |
-| Knowledge graph | 592,180 claims, 0 without a resolvable evidence record |
+| Report validator | 851 claims, 1,635 evidence records, 1,827 citation links, all resolvable, no external resources |
+| Knowledge graph | 592,208 claims, 0 without a resolvable evidence record |
 | Clean rebuild | `uv run ucatlas run-all` from frozen inputs (7,096 files, SHA-256) re-creates every table and the report |
 
 A control is a known case scored the same way as the candidates. Known UC targets (IL12B, IL23R, ITGB7, JAK, S1PR1)
@@ -452,6 +455,9 @@ tests/               automated tests
 | `evaluate.py`, `qa.py`, `baselines.py`, `sabotage.py`, `agent_benchmark.py` | Tests against clinical targets, known-answer questions, a memory-only model, corrupted statements, one agent vs the team |
 | `drug_literature.py` | What a drug binds and how it did in its trials: verbatim sentences from twelve peer-reviewed papers (trials of ustekinumab, mirikizumab, risankizumab, guselkumab, tofacitinib, upadacitinib, filgotinib, deucravacitinib, brepocitinib and two CXCR2 antagonists, and a JAK-selectivity study), checked against PubMed, plus the NLM MeSH names of navarixin; the drug tags of the candidates use them |
 | `claim_check.py` | Reading check: a reader subagent (`.claude/agents/lector-afirmaciones.md`) checks each claim against the evidence its statement cites, on the real statements and the sabotage copies |
+| `frontpage.py` | Fixed rule for the genes on the front page (mandatory positive controls, convergence top 30, leading first-in-class candidates, significant Mendelian randomisation); checked by `verify.py final` |
+| `pubmed_quotes.py` | PubMed search and the registration of verbatim sentences from peer-reviewed, non-retracted papers as citable evidence during a run (`data/pubmed_quotes.json`) |
+| `expert_review.py` | Expert review of the front page by a reviewer subagent (`.claude/agents/revisor-experto.md`): cited factual objections, framing objections, validation against PubMed, and the seeded-error measurement |
 | `render.py`, `report_figures.py`, `report_extra.py`, `report_help.py`, `report_text.py`, `report_assets/` | The HTML report: figures, plain-language help, tissue and protein viewers |
 
 ## 10. Glossary

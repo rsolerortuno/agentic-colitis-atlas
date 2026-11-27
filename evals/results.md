@@ -635,3 +635,52 @@ ten peer-reviewed trial papers, every one checked against PubMed, and the NLM Me
 codes SCH-527123 and MK-7123. Smillie 2019's cell types are a new atlas record (51 types, no neutrophil type). A false
 positive of the direction check found on the way ("the antagonist lowered blood neutrophil counts" read as CXCR2 going
 down) was fixed: a clause where a drug acts before the direction word is not read as the gene's expression.
+
+## (g6) Front-page rule, drugs only from papers, PubMed for the orchestrator, a cited expert review (2026-11-27)
+
+Four changes, so that the review done by hand in (g4) and (g5) is part of every run:
+- Front-page rule (`frontpage.py`). A gene may be prioritised when it meets a fixed criterion, and the card says which:
+  a drug approved in UC on the gene or its class with an Open Targets genetic association of at least 0.8 (a positive
+  control, always shown: IL12B and JAK2 in this data, which is why JAK2, rank 36, is on the page), one of the first 30
+  of the convergence ranking, the leading first-in-class candidate by pooled increase or by retained share, or a
+  significant Mendelian randomisation estimate. `verify.py final` fails a front page with a gene that meets none or
+  without a mandatory control. All 14 genes of run 2026-11-23 met a criterion. The control block is now titled "a
+  gene or drug class with a drug approved in UC" and the JAK2 card is subtitled "JAK inhibitor class".
+- Drugs only from papers or datasets (`semantic.uncited_drugs`). A drug named in a statement must now appear in a
+  cited peer-reviewed paper record or a treatment arm, not only in Open Targets or the clinical-indications table,
+  which say a drug is listed for a target but not what it binds or how it did. Run 2026-11-23 fails this rule in 12
+  statements (reparixin, ladarixin, SX-682, ABX-IL8, adakitug, atezolizumab, canakinumab, nangibotide, marimastat,
+  doxycycline, SB-656933). The drug layer gained 11 peer-reviewed papers for these drugs (phase 3 of reparixin and
+  atezolizumab, CANTOS for canakinumab, phase 2a and 2b of nangibotide, marimastat in pancreatic cancer, ladarixin in
+  type 1 diabetes, ABX-IL8 and HuMax-IL8 trials, SX-682 preclinical, subantimicrobial doxycycline as an MMP inhibitor)
+  and the MeSH record that makes adakitug HuMax-IL8 (BMS-986253): 23 papers, 40 quotes, all verbatim in PubMed.
+- PubMed during a run (`pubmed_quotes.py`, kg-mcp `pubmed_search` and `pubmed_abstract`). The orchestrator may search
+  PubMed for a fact no record holds and cite it only after registering a sentence: the paper must be a peer-reviewed
+  journal article (not a preprint, comment, letter, editorial or erratum), not retracted, and the sentence verbatim in
+  its abstract. Registered sentences are stored in `data/pubmed_quotes.json` and become pubmed_quote evidence.
+- Expert review (`expert_review.py`, `.claude/agents/revisor-experto.md`, step 4c of /informe). A reviewer prompted
+  as an IBD gastroenterologist and translational scientist reads the front page (summary and cards, as rendered) and
+  writes objections: factual ones must give a PMID and a verbatim abstract sentence of a peer-reviewed paper, checked
+  as above, and are discarded otherwise; framing ones may only reword, reorder or remove. The orchestrator applies
+  them once and the corrected text goes through the reading check and verification.
+Measured with seeded errors on run 2026-11-23: 12 errors of the kinds the manual reviews found (8 factual: the p40
+and p19 subunits swapped, anti-p19 antibodies said to bind IL12B, upadacitinib called JAK2-selective, the failed
+deucravacitinib trial said to succeed, CXCR2 antagonists said approved in UC, MK-7123 said to raise neutrophil counts,
+nangibotide said approved for UC, "blocking interleukin-12 is required"; 4 framing: the JAK2 control presented as a
+new JAK2-drug candidate, genetics said to support PD-L1 inhibition, an exploratory candidate called validated, a
+neutrophil marker called a T-cell target) were written into copies of the cards, split over two blind batches so that
+each reviewer saw a card either altered or unaltered, never both. The reviewers caught 12 of 12, 6 of the 8 factual
+errors with a PubMed citation that passed the check and 2 as contradictions of the card's own text, and raised no
+objection on the 28 unaltered items. The errors were written by the author of the reviewer's instructions, so this
+measures the kinds of error already known, not unknown ones.
+Run 2026-11-27, the whole /informe redone with these rules: the six specialists' first drafts lost 24 of 66
+findings at verification, mostly to the drug rule (names cited only to Open Targets) and to pathway names put in the
+gene field; after one revision round with the reading check's list, and a second for bare digits, all 67 findings
+pass. Front page: the same 14 genes, each meeting the rule. The expert reviewer read the 18 front-page items and raised
+3 factual objections, all with a verbatim quote from a peer-reviewed paper, all kept and applied: CD274 now says that
+enterocolitis is among the leading adverse events of checkpoint inhibitors, so its drugs are a safety warning; MMP1
+that the anti-MMP9 antibody andecaliximab did not induce remission or response in UC; S100A8 that with S100A9 it forms
+calprotectin, an established stool test. Verification: 115 statements, no failures. Reading check: 509 claims, none
+contradicted, 16 not in the cited evidence (none on the front page); on 73 direction-flipped copies the reader caught
+70 and the deterministic checks 54 (29 of 31 where bulk expression is cited). Two of the missed flips sit on a
+meta-analysis record marked not significant although its padj is tiny (JAK2), and on pathway findings without a gene.

@@ -1,0 +1,26 @@
+{
+ "narrative.sections.literature[0]": {
+  "statement": "The curated corpus holds no verbatim-checked CXCR2 relation, a limit of the corpus rather than of the field: Europe PMC returns [gene=CXCR2; type=mouse_colitis_literature; source=DATASET:EUROPEPMC_MOUSE; mouse_colitis_papers=19] mouse colitis papers on CXCR2. Among the corpus abstracts, a Mendelian randomisation, colocalisation and transcriptomic study proposes CXCR1 and CXCR2 as neutrophil extracellular trap-related treatment targets in UC, although in its Mendelian randomisation higher CXCR1 and CXCR2 expression went with lower UC risk (this atlas has no cis-pQTL or gut eQTL instrument to check it), and another ties the CXCL5 to CXCR2 axis to neutrophil chemotaxis. The cited IDO1 support is one experimental study: IDO1 was elevated in UC patients and colitis mice, drove pro-inflammatory macrophage polarisation through the GRP78-XBP1 pathway, and an IDO1 inhibitor ameliorated DSS colitis.",
+  "claims": [
+   {
+    "claim": "IDO1 was elevated in colitis mice",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": "",
+    "reason": "Abstract reports M1 correlation in colitis mice, not explicitly elevated IDO1 in mice."
+   }
+  ]
+ },
+ "targets.JAK2": {
+  "statement": "Positive control for the JAK class, not a proposal for a JAK2-selective drug. Among the JAK kinases the human genetic support sits on JAK2 [gene=JAK2; type=open_targets_association; source=Open Targets Platform; genetic_association=0.8458], yet the JAK inhibitors that worked in UC trials are tofacitinib, which like the others inhibits JAK1-dependent pathways most potently, and the selective JAK1 inhibitor upadacitinib and JAK1-preferential filgotinib; the TYK2-selective deucravacitinib did not show significant benefit in UC phase 2, whereas the TYK2/JAK1 inhibitor brepocitinib did. JAK2 also carries erythropoietin and thrombopoietin receptor signals, so selective JAK2 blockade would act on blood cell production. Its expression rises only modestly [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833].",
+  "claims": [
+   {
+    "claim": "Among the JAK kinases the human genetic support sits on JAK2",
+    "verdict": "not_in_evidence",
+    "quote": "\"genetic_association\": 0.8458",
+    "evidence_id": "EV:open_targets_assoc:3c2fb97467a0",
+    "reason": "Only JAK2 score is given; no comparison with other JAK kinases."
+   }
+  ]
+ }
+}

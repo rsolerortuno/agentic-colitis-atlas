@@ -1,0 +1,73 @@
+{
+ "about": "Verbatim PubMed quotes the orchestrator and the expert reviewer may add during a run (added 2026-11-27).",
+ "entries": [
+  {
+   "pmid": 32401685,
+   "doi": "10.1200/JOP.19.00672",
+   "journal": "JCO Oncol Pract",
+   "year": "2020",
+   "title": "Safety of Immune Checkpoint Inhibitors in Patients With Pre-Existing Inflammatory Bowel Disease and Microscopic Colitis.",
+   "publication_types": [
+    "Journal Article"
+   ],
+   "genes": [
+    "CD274"
+   ],
+   "drug": "avelumab",
+   "quotes": [
+    "Enterocolitis is among the leading adverse events associated with immune checkpoint inhibitors (ICIs)."
+   ],
+   "added_by": "reviewer",
+   "run": "2026-11-27",
+   "added": "2026-11-27",
+   "key": "c22a485be6"
+  },
+  {
+   "pmid": 41295942,
+   "doi": "10.1053/j.gastro.2025.08.040",
+   "journal": "Gastroenterology",
+   "year": "2026",
+   "title": "Fecal Detection of Calprotectin Subunits Links Inflammatory Bowel Disease Activity With Chronicity of Intestinal Inflammation.",
+   "publication_types": [
+    "Journal Article"
+   ],
+   "genes": [
+    "S100A8",
+    "S100A9"
+   ],
+   "drug": null,
+   "quotes": [
+    "Quantification of the human S100A8/S100A9 tetrameric protein complex in stool, referred to as fecal calprotectin, is an extensively validated biomarker supporting the diagnosis and management of gastrointestinal diseases."
+   ],
+   "added_by": "reviewer",
+   "run": "2026-11-27",
+   "added": "2026-11-27",
+   "key": "0f1ef57b43"
+  },
+  {
+   "pmid": 29767728,
+   "doi": "10.1093/ecco-jcc/jjy049",
+   "journal": "J Crohns Colitis",
+   "year": "2018",
+   "title": "Andecaliximab [Anti-matrix Metalloproteinase-9] Induction Therapy for Ulcerative Colitis: A Randomised, Double-Blind, Placebo-Controlled, Phase 2/3 Study in Patients With Moderate to Severe Disease.",
+   "publication_types": [
+    "Clinical Trial, Phase II",
+    "Clinical Trial, Phase III",
+    "Journal Article",
+    "Randomized Controlled Trial"
+   ],
+   "genes": [
+    "MMP1",
+    "MMP9"
+   ],
+   "drug": "andecaliximab",
+   "quotes": [
+    "Eight weeks of induction treatment with 150 mg andecaliximab in patients with UC did not induce clinical remission or response."
+   ],
+   "added_by": "orchestrator",
+   "run": "2026-11-27",
+   "added": "2026-11-27",
+   "key": "08e928b845"
+  }
+ ]
+}

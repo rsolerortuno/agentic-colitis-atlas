@@ -1,5 +1,5 @@
 {
- "about": "Peer-reviewed trial papers that say what a drug binds and how it did in UC (added 2026-11-26 after an expert-style review of the top candidates). Each quote is copied verbatim from the PubMed abstract; drug_literature.py checks this against PubMed when online. Genes: the genes whose statements may cite the record.",
+ "about": "Peer-reviewed trial papers that say what a drug binds and how it did in UC or, for drugs tried only in other diseases, in those trials (added 2026-11-26 after an expert-style review of the top candidates). Each quote is copied verbatim from the PubMed abstract; drug_literature.py checks this against PubMed when online. Genes: the genes whose statements may cite the record.",
  "records": [
   {
    "key": "ustekinumab_unifi",
@@ -237,8 +237,216 @@
     "The efficacy and safety of ritlecitinib (oral JAK3/TEC family kinase inhibitor) and brepocitinib (oral TYK2/JAK1 inhibitor) as induction therapy were assessed in patients with active, moderate-to-severe ulcerative colitis.",
     "Ritlecitinib and brepocitinib induction therapies were more effective than placebo for the treatment of moderate-to-severe active ulcerative colitis, with an acceptable short-term safety profile."
    ]
+  },
+  {
+   "key": "reparixin_islet",
+   "pmid": 32019854,
+   "doi": "10.2337/dc19-1480",
+   "journal": "Diabetes Care",
+   "year": 2020,
+   "title": "Targeting CXCR1/2 Does Not Improve Insulin Secretion After Pancreatic Islet Transplantation: A Phase 3, Double-Blind, Randomized, Placebo-Controlled Trial in Type 1 Diabetes.",
+   "trial": "phase 3, islet transplantation in type 1 diabetes",
+   "drug": "reparixin",
+   "binds": "CXCR1 and CXCR2",
+   "genes": [
+    "CXCR1",
+    "CXCR2"
+   ],
+   "quotes": [
+    "Reparixin is an inhibitor of CXCR1/2 chemokine receptor shown to be an effective anti-inflammatory adjuvant in a pilot clinical trial in allotransplant recipients.",
+    "In this first double-blind randomized trial, islet transplantation data obtained with reparixin do not support a role of CXCR1/2 inhibition in preventing islet inflammation-mediated damage."
+   ]
+  },
+  {
+   "key": "ladarixin_t1d",
+   "pmid": 35589610,
+   "doi": "10.1111/dom.14770",
+   "journal": "Diabetes Obes Metab",
+   "year": 2022,
+   "title": "Ladarixin, an inhibitor of the interleukin-8 receptors CXCR1 and CXCR2, in new-onset type 1 diabetes: A multicentre, randomized, double-blind, placebo-controlled trial.",
+   "trial": "randomized placebo-controlled trial, new-onset type 1 diabetes",
+   "drug": "ladarixin",
+   "binds": "CXCR1 and CXCR2",
+   "genes": [
+    "CXCR1",
+    "CXCR2"
+   ],
+   "quotes": [
+    "To evaluate the ability of ladarixin (LDX, 400 mg twice-daily for three cycles of 14 days on/14 days off), an inhibitor of the CXCR1/2 chemokine receptors, to maintain C-peptide production in adult patients with newly diagnosed type 1 diabetes."
+   ]
+  },
+  {
+   "key": "sx682_mdsc",
+   "pmid": 30944253,
+   "doi": "10.1172/jci.insight.126853",
+   "journal": "JCI Insight",
+   "year": 2019,
+   "title": "Inhibiting myeloid-derived suppressor cell trafficking enhances T cell immunotherapy.",
+   "trial": "preclinical (mouse carcinoma models)",
+   "drug": "SX-682",
+   "binds": "CXCR1 and CXCR2",
+   "genes": [
+    "CXCR1",
+    "CXCR2"
+   ],
+   "quotes": [
+    "Here, we assessed whether SX-682, an orally bioavailable small-molecule inhibitor of CXCR1 and CXCR2, could block tumor MDSC recruitment and enhance T cell activation and antitumor immunity following multiple forms of immunotherapy.",
+    "SX-682 significantly inhibited trafficking of PMN-MDSCs without altering CXCR2 ligand expression."
+   ]
+  },
+  {
+   "key": "abxil8_pk",
+   "pmid": 20860546,
+   "doi": "10.2174/187152810793358796",
+   "journal": "Inflamm Allergy Drug Targets",
+   "year": 2010,
+   "title": "Population pharmacokinetic evaluation of a fully human IgG monoclonal antibody in patients with inflammatory diseases.",
+   "trial": "randomized placebo-controlled trials, psoriasis and rheumatoid arthritis",
+   "drug": "ABX-IL8",
+   "binds": "IL-8 (CXCL8)",
+   "genes": [
+    "CXCL8"
+   ],
+   "quotes": [
+    "ABX-IL8 is a fully human IgG₂ monoclonal antibody generated using transgenic mouse technology (Xenomouse®) that binds to human Interleukin-8 with high affinity and specificity.",
+    "Patients with psoriasis and rheumatoid arthritis received single or multiple short intravenous infusions of ABX-IL8 or placebo."
+   ]
+  },
+  {
+   "key": "humaxil8_phase1",
+   "pmid": 31488216,
+   "doi": "10.1186/s40425-019-0706-x",
+   "journal": "J Immunother Cancer",
+   "year": 2019,
+   "title": "Phase I trial of HuMax-IL8 (BMS-986253), an anti-IL-8 monoclonal antibody, in patients with metastatic or unresectable solid tumors.",
+   "trial": "phase 1, solid tumours",
+   "drug": "HuMax-IL8 (BMS-986253, adakitug)",
+   "binds": "IL-8 (CXCL8)",
+   "genes": [
+    "CXCL8"
+   ],
+   "quotes": [
+    "HuMax-IL8 (now known as BMS-986253) is a novel, fully human monoclonal antibody that inhibits interleukin-8 (IL-8), a chemokine that promotes tumor progression, immune escape, epithelial-mesenchymal transition, and recruitment of myeloid-derived suppressor cells.",
+    "Serum IL-8 was significantly reduced on day 3 of HuMax-IL8 treatment compared to baseline (p = 0.0004), with reductions in IL-8 seen at all dose levels."
+   ]
+  },
+  {
+   "key": "atezolizumab_imvigor211",
+   "pmid": 29268948,
+   "doi": "10.1016/S0140-6736(17)33297-X",
+   "journal": "Lancet",
+   "year": 2018,
+   "title": "Atezolizumab versus chemotherapy in patients with platinum-treated locally advanced or metastatic urothelial carcinoma (IMvigor211): a multicentre, open-label, phase 3 randomised controlled trial.",
+   "trial": "IMvigor211 (phase 3, urothelial carcinoma)",
+   "drug": "atezolizumab",
+   "binds": "PD-L1 (CD274)",
+   "genes": [
+    "CD274"
+   ],
+   "quotes": [
+    "We aimed to assess the safety and efficacy of atezolizumab (anti-programmed death-ligand 1 [PD-L1]) versus chemotherapy in this patient population."
+   ]
+  },
+  {
+   "key": "canakinumab_cantos",
+   "pmid": 28845751,
+   "doi": "10.1056/NEJMoa1707914",
+   "journal": "N Engl J Med",
+   "year": 2017,
+   "title": "Antiinflammatory Therapy with Canakinumab for Atherosclerotic Disease.",
+   "trial": "CANTOS (randomized, previous myocardial infarction)",
+   "drug": "canakinumab",
+   "binds": "interleukin-1 beta (IL1B)",
+   "genes": [
+    "IL1B"
+   ],
+   "quotes": [
+    "We conducted a randomized, double-blind trial of canakinumab, a therapeutic monoclonal antibody targeting interleukin-1β, involving 10,061 patients with previous myocardial infarction and a high-sensitivity C-reactive protein level of 2 mg or more per liter.",
+    "Canakinumab was associated with a higher incidence of fatal infection than was placebo."
+   ]
+  },
+  {
+   "key": "nangibotide_astonish",
+   "pmid": 37269870,
+   "doi": "10.1016/S2213-2600(23)00158-3",
+   "journal": "Lancet Respir Med",
+   "year": 2023,
+   "title": "Prospective evaluation of the efficacy, safety, and optimal biomarker enrichment strategy for nangibotide, a TREM-1 inhibitor, in patients with septic shock (ASTONISH): a double-blind, randomised, controlled, phase 2b trial.",
+   "trial": "ASTONISH (phase 2b, septic shock)",
+   "drug": "nangibotide",
+   "binds": "TREM-1 (TREM1)",
+   "genes": [
+    "TREM1"
+   ],
+   "quotes": [
+    "This double-blind, randomised, placebo-controlled, phase 2b trial assessed the efficacy and safety of two different doses of nangibotide compared with placebo, and aimed to identify the optimum treatment population, in patients across 42 hospitals with medical, surgical, or mixed intensive care units (ICUs) in seven countries."
+   ]
+  },
+  {
+   "key": "nangibotide_phase2a",
+   "pmid": 32468087,
+   "doi": "10.1007/s00134-020-06109-z",
+   "journal": "Intensive Care Med",
+   "year": 2020,
+   "title": "Nangibotide in patients with septic shock: a Phase 2a randomized controlled clinical trial.",
+   "trial": "phase 2a, septic shock",
+   "drug": "nangibotide",
+   "binds": "TREM-1 (TREM1)",
+   "genes": [
+    "TREM1"
+   ],
+   "quotes": [
+    "Nangibotide is a specific TREM-1 inhibitor that tempered deleterious host-pathogens interactions, restored vascular function, and improved survival, in animal septic shock models."
+   ]
+  },
+  {
+   "key": "marimastat_pancreas",
+   "pmid": 12107836,
+   "doi": "10.1038/sj.bjc.6600446",
+   "journal": "Br J Cancer",
+   "year": 2002,
+   "title": "A double-blind placebo-controlled, randomised study comparing gemcitabine and marimastat with gemcitabine and placebo as first line therapy in patients with advanced pancreatic cancer.",
+   "trial": "randomised placebo-controlled, advanced pancreatic cancer",
+   "drug": "marimastat",
+   "binds": "matrix metalloproteinases",
+   "genes": [
+    "MMP1",
+    "MMP2",
+    "MMP3",
+    "MMP7",
+    "MMP9",
+    "MMP12"
+   ],
+   "quotes": [
+    "This randomised study in pancreatic cancer compares marimastat (orally administered matrix metalloproteinase inhibitor) in combination with gemcitabine to gemcitabine alone.",
+    "There was no significant difference in survival between gemcitabine and marimastat and gemcitabine and placebo (P=0.95 log-rank test)."
+   ]
+  },
+  {
+   "key": "doxycycline_sdd",
+   "pmid": 15088884,
+   "doi": "10.1902/jop.2004.75.3.453",
+   "journal": "J Periodontol",
+   "year": 2004,
+   "title": "Subantimicrobial dose doxycycline efficacy as a matrix metalloproteinase inhibitor in chronic periodontitis patients is enhanced when combined with a non-steroidal anti-inflammatory drug.",
+   "trial": "randomized trial, chronic periodontitis",
+   "drug": "doxycycline",
+   "binds": "matrix metalloproteinases (at subantimicrobial dose)",
+   "genes": [
+    "MMP1",
+    "MMP7",
+    "MMP8",
+    "MMP13"
+   ],
+   "quotes": [
+    "Administration of subantimicrobial dose doxycycline (SDD) to chronic periodontitis (CP) patients has repeatedly been found to reduce mammalian collagenase and other matrix metalloproteinase (MMP) activity in gingival tissues and crevicular fluid, in association with clinical efficacy, without the emergence of antibiotic-resistant bacteria either orally or extra-orally."
+   ]
   }
  ],
+ "card_subtitles": {
+  "IL12B": "IL-12/IL-23 p40 subunit",
+  "JAK2": "JAK inhibitor class"
+ },
  "tags": {
   "IL12B": "UC: ustekinumab binds it (p40); anti-p19 mirikizumab, risankizumab, guselkumab bind IL23A",
   "IL23A": "UC: anti-p19 mirikizumab, risankizumab, guselkumab bind it; ustekinumab binds IL12B (p40)",
@@ -263,6 +471,21 @@
     "CXCR1"
    ],
    "sentence": "navarixin (MeSH supplementary concept C000730055) is the compound also coded SCH-527123 and MK-7123: PubMed maps both codes to its chemical name, 2-hydroxy-N,N-dimethyl-3-((2-(((1R)-1-(5-methylfuran-2-yl)propyl)amino)-3,4-dioxocyclobuten-1-yl)amino)benzamide."
+  },
+  {
+   "key": "adakitug_names",
+   "drug": "adakitug",
+   "names": [
+    "HuMax-IL8",
+    "adakitug",
+    "BMS-986253"
+   ],
+   "source": "NLM MeSH supplementary concept C000709704 (HuMax-IL8, entry term BMS-986253); PubMed maps the terms 'adakitug' and 'BMS-986253' to it",
+   "mesh_ui": "C000709704",
+   "genes": [
+    "CXCL8"
+   ],
+   "sentence": "adakitug is HuMax-IL8 (MeSH supplementary concept C000709704, also coded BMS-986253), a fully human monoclonal antibody that inhibits interleukin-8 (IL-8): PubMed maps both adakitug and BMS-986253 to this concept."
   }
  ]
 }

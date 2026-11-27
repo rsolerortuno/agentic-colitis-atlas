@@ -1,0 +1,129 @@
+{
+ "agent_file": "agent_pathways.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "Pathway activity is not uniformly up. VEGF is increased in only [type=pathway_activity; source=ANALYSIS:pathways; cohorts_up=4] of eight cohorts, and Androgen is decreased in [type=pathway_activity; source=ANALYSIS:pathways; cohorts_down=4] cohorts and increased in one, so these are inconsistent. p53 is not increased in any cohort. Only EGFR, Hypoxia, JAK-STAT, MAPK, NFkB, PI3K, TGFb and TNFa are up in all eight cohorts.",
+   "claims": [
+    {
+     "claim": "p53 is not increased in any cohort",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No p53 record cited."
+    },
+    {
+     "claim": "Only EGFR, Hypoxia, JAK-STAT, MAPK, NFkB, PI3K, TGFb and TNFa are up in all eight cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only JAK-STAT (8 up) among them is cited; the exclusive list is unsupported."
+    }
+   ]
+  },
+  {
+   "finding": 1,
+   "statement": "The CXCR2 signal is a neutrophil signal: in the Gubatan atlas neutrophils make [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965] of CXCR2 transcripts in inflamed mucosa, whereas the Smillie atlas, which has no neutrophils, assigns the top lineage to T/NK cells (replicated: false). The tissue increase therefore mostly reflects neutrophil infiltration, not a change in resident cells.",
+   "claims": [
+    {
+     "claim": "the Smillie atlas has no neutrophils",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Record does not state that Smillie lacks neutrophils."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "JAK-STAT",
+   "text_start": "PROGENy JAK-STAT activity is increased in inflamed UC mucosa in [type=pathway_activity; source=ANALYSIS:pathways; cohorts_up=8] of eight cohorts and in none dec",
+   "why": {
+    "not_linked_to_gene": [
+     "EV:pathway_activity:354d06d55f30",
+     "EV:pathway_activity:83609ee9d45c",
+     "EV:pathway_activity:857e4a238866"
+    ]
+   }
+  },
+  {
+   "gene": "STAT3",
+   "text_start": "CollecTRI STAT3 activity is increased in [type=tf_activity; source=ANALYSIS:pathways; cohorts_up=8] of eight cohorts with none decreased; RELA activity is also ",
+   "why": {
+    "unmatched_numbers": [
+     "8"
+    ],
+    "direction_contradiction": "text says down, cited omics evidence says up",
+    "numeric_binding_errors": [
+     "numeric_claims[0]: claim must reference cited evidence for the same gene"
+    ],
+    "not_linked_to_gene": [
+     "EV:tf_activity:caeb8892aad8"
+    ]
+   }
+  },
+  {
+   "gene": "AP1",
+   "text_start": "AP1 is the top-listed TF by cohort count and effect size: it is increased in all eight cohorts (top_tfs up), alongside ATF and BATF family TFs, a generic stress",
+   "why": {
+    "not_linked_to_gene": [
+     "EV:tf_activity:a75555334464"
+    ]
+   }
+  },
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 is rank 1 in the convergence ranking (six evidence streams, up in all eight cohorts) and ranks [gene=CXCR2; type=rank_context; source=ANALYSIS:rank_contex",
+   "why": {
+    "uncited_drugs": [
+     "navarixin",
+     "reparixin"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL8",
+   "text_start": "Circuit: Neutrophil CXCR4 sends CXCL8 to neutrophils through CXCR2, with a log2 change of [type=cell_communication; source=ANALYSIS:communication; log2_change=2",
+   "why": {
+    "unmatched_numbers": [
+     "2.755",
+     "1.991"
+    ],
+    "numeric_binding_errors": [
+     "numeric_claims[0]: claim must reference cited evidence for the same gene",
+     "numeric_claims[1]: claim must reference cited evidence for the same gene"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL8",
+   "text_start": "CXCL8 is already drug-targeted at a modest level: ABX-IL8 and adakitug are phase 2 anti-CXCL8 agents in the Open Targets record. The CXCL8-CXCR1/2 axis has not ",
+   "why": {
+    "unmatched_numbers": [
+     "2"
+    ],
+    "uncited_drugs": [
+     "abx-il8",
+     "adakitug"
+    ]
+   }
+  },
+  {
+   "gene": "IL1B",
+   "text_start": "IL1B is a replicated up-regulated gene targeted by canakinumab (approval stage in other indications per Open Targets). In inflamed UC the top communication pair",
+   "why": {
+    "unmatched_numbers": [
+     "1.168"
+    ],
+    "numeric_binding_errors": [
+     "numeric_claims[0]: claim must reference cited evidence for the same gene"
+    ],
+    "uncited_drugs": [
+     "canakinumab"
+    ]
+   }
+  }
+ ]
+}

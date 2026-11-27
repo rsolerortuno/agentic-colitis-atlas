@@ -1,0 +1,675 @@
+{
+ "rule": "A gene is on this page when it meets at least one fixed criterion: a drug approved in UC on the gene or its class with Open Targets genetic association of at least 0.8 among the ranked genes (a positive control, always shown); one of the first 30 of the convergence ranking; the leading first-in-class candidate by pooled increase or by retained share; or a significant Mendelian randomisation estimate. The orchestrator chooses and orders among them.",
+ "mandatory_controls": [
+  "IL12B",
+  "JAK2"
+ ],
+ "eligible": {
+  "IL12B": [
+   "positive control: drug approved in UC on this gene or its class, genetic association 0.89",
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "JAK2": [
+   "positive control: drug approved in UC on this gene or its class, genetic association 0.85"
+  ],
+  "CXCR2": [
+   "convergence rank 1 (first 30)"
+  ],
+  "CXCR1": [
+   "convergence rank 2 (first 30)"
+  ],
+  "CXCL8": [
+   "convergence rank 3 (first 30)"
+  ],
+  "CD274": [
+   "convergence rank 4 (first 30)",
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "IDO1": [
+   "convergence rank 5 (first 30)"
+  ],
+  "MMP1": [
+   "convergence rank 6 (first 30)"
+  ],
+  "AQP9": [
+   "convergence rank 7 (first 30)"
+  ],
+  "CHI3L1": [
+   "convergence rank 8 (first 30)"
+  ],
+  "CXCL1": [
+   "convergence rank 9 (first 30)"
+  ],
+  "DUOX2": [
+   "convergence rank 10 (first 30)"
+  ],
+  "MMP10": [
+   "convergence rank 11 (first 30)"
+  ],
+  "SERPINB5": [
+   "convergence rank 12 (first 30)"
+  ],
+  "SLC26A2": [
+   "convergence rank 13 (first 30)"
+  ],
+  "HMGCS2": [
+   "convergence rank 14 (first 30)"
+  ],
+  "MMP3": [
+   "convergence rank 15 (first 30)"
+  ],
+  "MMP7": [
+   "convergence rank 16 (first 30)"
+  ],
+  "S100A8": [
+   "convergence rank 17 (first 30)"
+  ],
+  "IL1B": [
+   "convergence rank 18 (first 30)"
+  ],
+  "ADH1C": [
+   "convergence rank 19 (first 30)"
+  ],
+  "CCL2": [
+   "convergence rank 20 (first 30)"
+  ],
+  "S100A9": [
+   "convergence rank 21 (first 30)"
+  ],
+  "INHBA": [
+   "convergence rank 22 (first 30)"
+  ],
+  "CXCL5": [
+   "convergence rank 23 (first 30)",
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "CLDN8": [
+   "convergence rank 24 (first 30)"
+  ],
+  "PI3": [
+   "convergence rank 25 (first 30)"
+  ],
+  "UGT2A3": [
+   "convergence rank 26 (first 30)"
+  ],
+  "CLDN2": [
+   "convergence rank 27 (first 30)"
+  ],
+  "TREM1": [
+   "convergence rank 28 (first 30)"
+  ],
+  "FCGR2A": [
+   "convergence rank 29 (first 30)"
+  ],
+  "CXCL11": [
+   "convergence rank 30 (first 30)"
+  ],
+  "CHRDL2": [
+   "first-in-class candidate with the largest pooled increase"
+  ],
+  "XKR9": [
+   "first-in-class candidate with the highest retained share after composition adjustment"
+  ],
+  "IL10": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "FCGR2B": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "LAMB1": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "APOBR": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "TNFRSF6B": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "SULT1A1": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "MST1": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "IL33R": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "ITGAV": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "IL1R2": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "PAM": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "LSP1": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "SCAMP3": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "MXRA8": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "IL10RA": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "PRKAR2A": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "PKLR": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "CD6": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "GBP2": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "IL18R1": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "TNFRSF8": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "CEP43": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "TNFRSF9": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "SEMA3F": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "CTSS": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "BTC": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "CRIPTO": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "DCTPP1": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "UROD": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "NFKB1": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "OSMR": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "SLAMF7": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "PER3": [
+   "Mendelian randomisation q < 0.05 (plasma protein)"
+  ],
+  "LINC01475": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GSDMA": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GNA12": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GSDMB": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MMEL1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "LNCRMP": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "IRF8": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TMEM89": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NXPE1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NXPE4": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "INAVA": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "UBA7": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "IRF5": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CDHR4": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SLC9A3-AS2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CEP72": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RTEL1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "C3orf62": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RAB29": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GMEB2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RTEL1-TNFRSF6B": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MST1R": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RGS14": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RBM6": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SGF29": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ENTR1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "QRICH1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MED24": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ZNF300": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RGS19": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "USP34-DT": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "LINC01882": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CAMK2A": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PRKCB": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CCDC116": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "OTUD3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TUFM": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SPNS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "UBE2L3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "EXOC3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NPIPB13": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PSEN2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "IL12RB2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NFATC2IP": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "C2orf74-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TMBIM1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CLN3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "OIP5-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PELATON": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SMARCE1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ATP2A1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SFMBT1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "KLHL10": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CCDC50": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ANKRD65": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ANKRD65-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "AMT": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MRPL20-DT": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "COMMD7": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "DAGLB": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SESN1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "UQCR10": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "HORMAD1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SLC22A5": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PGAP3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SBK1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ARPC2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PIGR": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RMI2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ADCY3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GPAT2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RNF123": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RMI2-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TM9SF4": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GMPPB": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "USP36": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "INTS11": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SLC68A1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "LINC01237": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RNF186": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SLC26A3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ZPBP2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ORMDL3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TNFSF15": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "INSL6": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MROH3P": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "IL17REL": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SLC35D1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "REXO2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "STMN3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PLCL1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "LINC01845": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "WDR6": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PARK7": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SLC2A4RG": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TNNI2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ZFP90": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SEC16A": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PTGIR": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SMIM3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SYNGR1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GNG8": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CCL20": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ITGAL": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NPIPB6": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MAML2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "EFNA1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "BOLA2-SMG1P6": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NFATC2IP-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CALM3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MANBA": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CARINH": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GBA1LP": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ITGA4": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "KAT2A": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PLPP3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CCDC146": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CDK18": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TNFRSF18": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MUC1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RTF1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ITGB8": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ADAM15": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PVT1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "HSD11B1-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NFIL3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "HOXA3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CCR5AS": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "GNAS": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "EFNA3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "MRPL20": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RAPGEF5": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "NARS2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RPS6KA2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CTSK": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SLC60A2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "OIP5": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CISD2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SSU72-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "BRD7": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "TSPO": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CALHM6": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "HOXA-AS3": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "LINC01127": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ZNF831": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "SATB2-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "ITPKC": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "BACH2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "DTX2P1-UPK3BP1-PMS2P11": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PDGFB": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PDLIM4": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "RNASET2": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "CYTH1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ],
+  "PHC2-AS1": [
+   "Mendelian randomisation q < 0.05 (gut expression)"
+  ]
+ }
+}

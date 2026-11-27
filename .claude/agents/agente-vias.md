@@ -55,8 +55,11 @@ Every claim needs its own record (added 2026-11-23). A reading check (claim_chec
 claims and checks each one against the records the finding cites; a claim that no cited record supports is reported in
 the report as not in the evidence. So cite, in the same finding, a record for every assertion of fact:
 - a drug name, its stage or its indication: the gene's `open_targets_drug` or `clinical_indications` record
-  (`evidence_for(gene, "open_targets_drug")`, `evidence_for(gene, "clinical_indications")`). A drug named without a
-  cited record that contains the name fails verification.
+  (`evidence_for(gene, "open_targets_drug")`, `evidence_for(gene, "clinical_indications")`) for the stage, AND a
+  record that names the drug from a peer-reviewed paper or a dataset: the gene's `drug_literature` record (a trial
+  paper with verbatim abstract sentences, `evidence_for(gene, "drug_literature")`), a treatment arm of the response
+  cohorts, or a literature sentence. A drug named without such a record fails verification (a database listing alone
+  is not enough since 2026-11-27); if no record names it, leave the drug out.
 - a comparison with other genes ("the largest", "the leading", "the only", "the fewest", "top", "first"): the gene's
   `rank_context` record (`evidence_for(gene, "rank_context")`), which gives its rank within a named set (meta-analysis
   increases or decreases, first-in-class candidates, significant plasma or gut MR genes, Open Targets association), and

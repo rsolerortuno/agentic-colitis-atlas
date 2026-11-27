@@ -1,0 +1,22 @@
+{
+"C01": "targets.CXCL8",
+"C02": "seed:genetic direction",
+"C03": "narrative.summary[3]",
+"C04": "seed:class as drug proposal",
+"C05": "targets.TREM1",
+"C06": "narrative.summary[2]",
+"C07": "seed:trial outcome",
+"C08": "targets.CHRDL2",
+"C09": "targets.MMP1",
+"C10": "seed:drug effect direction",
+"C11": "targets.CHI3L1",
+"C12": "seed:failed class as open",
+"C13": "targets.DUOX2",
+"C14": "seed:influx as tissue target",
+"C15": "targets.IDO1",
+"C16": "narrative.summary[1]",
+"C17": "narrative.summary[0]",
+"C18": "targets.SLC26A3",
+"C19": "targets.IL12B",
+"C20": "targets.XKR9"
+}

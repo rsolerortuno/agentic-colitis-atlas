@@ -1,0 +1,198 @@
+{
+ "agent": "agente-vias",
+ "findings": [
+  {
+   "gene": null,
+   "role": "pathway",
+   "statement": "PROGENy JAK-STAT and TNFa pathway activities are both increased in inflamed UC mucosa in all eight cohorts, and NFkB activity is also increased across the cohorts. These are the best-replicated immune pathways but are broad; they are consistent with the established TNF and JAK-STAT drug targets (interpretation, not a cited record).",
+   "evidence_ids": [
+    "EV:pathway_activity:857e4a238866",
+    "EV:pathway_activity:354d06d55f30",
+    "EV:pathway_activity:83609ee9d45c"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": null,
+   "role": "pathway",
+   "statement": "CollecTRI STAT3 activity is increased in inflamed UC mucosa in [type=tf_activity; source=ANALYSIS:pathways; cohorts_up=8] cohorts. RELA activity is increased in the same direction, matching the NFkB pathway signal.",
+   "evidence_ids": [
+    "EV:tf_activity:3872bb7e4170",
+    "EV:tf_activity:caeb8892aad8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:tf_activity:3872bb7e4170",
+     "field": [
+      "cohorts_up"
+     ],
+     "display": "8",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": null,
+   "role": "pathway",
+   "statement": "AP1 is among the top transcription factors by cohort count and effect size, increased in every cohort, alongside ATF and BATF family TFs. This is a generic stress and inflammation signature that is not specific to one circuit.",
+   "evidence_ids": [
+    "EV:tf_activity:a75555334464"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": null,
+   "role": "pathway",
+   "statement": "Pathway activity is not uniformly up. VEGF is increased in only [type=pathway_activity; source=ANALYSIS:pathways; cohorts_up=4] cohorts, and Androgen is decreased in [type=pathway_activity; source=ANALYSIS:pathways; cohorts_down=4] cohorts, so these two are inconsistent across cohorts.",
+   "evidence_ids": [
+    "EV:pathway_activity:5aed088f1c1e",
+    "EV:pathway_activity:26c4b49f5c57"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:pathway_activity:5aed088f1c1e",
+     "field": [
+      "cohorts_up"
+     ],
+     "display": "4",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:pathway_activity:26c4b49f5c57",
+     "field": [
+      "cohorts_down"
+     ],
+     "display": "4",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "CXCR2 is first in the convergence ranking (six evidence streams, same direction in all eight cohorts). It ranks [gene=CXCR2; type=rank_context; source=ANALYSIS:rank_context; rank=68] among up-regulated meta-analysis genes by pooled log2FC and [gene=CXCR2; type=rank_context; source=ANALYSIS:rank_context; rank=25] by Open Targets association with UC. Inhibitors of CXCR1 and CXCR2 have been tested in other diseases (reparixin in a late-stage islet transplantation trial, ladarixin in new-onset type I diabetes) but the cited records contain no UC trial.",
+   "evidence_ids": [
+    "EV:expression_meta:1fce9fb2531f",
+    "EV:rank_context:69a4791233c3",
+    "EV:rank_context:806373b7758c",
+    "EV:drug_literature:9a2d73f56b2d",
+    "EV:drug_literature:a549e3790913"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:rank_context:69a4791233c3",
+     "field": [
+      "rank"
+     ],
+     "display": "68",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:rank_context:806373b7758c",
+     "field": [
+      "rank"
+     ],
+     "display": "25",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCR2",
+   "role": "mechanism",
+   "statement": "The CXCR2 signal is a neutrophil signal: in the Gubatan atlas neutrophils make [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965] of CXCR2 transcripts in inflamed mucosa. The Smillie-based lineage call is T/NK and does not replicate (replicated: false), which is expected if the cells carrying CXCR2 are neutrophils that are absent from that atlas. The tissue increase therefore likely reflects neutrophil infiltration, not a change in resident cells (interpretation).",
+   "evidence_ids": [
+    "EV:sc_summary:1fce9fb2531f"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:1fce9fb2531f",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.965",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "mechanism",
+   "statement": "CXCL8 (IL-8) is a secreted chemoattractant that signals through CXCR1 and CXCR2. In Gubatan neutrophils make [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873] of CXCL8 transcripts, but in Smillie macrophages hold [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; top_clusters_inflamed.0.share=0.686]. The cellular source depends on whether neutrophils were captured; the lineage call is myeloid in every atlas.",
+   "evidence_ids": [
+    "EV:sc_summary:1e78b2f07f0c",
+    "EV:uniprot:c6b86e24d798",
+    "EV:expression_meta:1e78b2f07f0c"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:1e78b2f07f0c",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.873",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:sc_summary:1e78b2f07f0c",
+     "field": [
+      "top_clusters_inflamed",
+      0,
+      "share"
+     ],
+     "display": "0.686",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "mechanism",
+   "statement": "Circuit: neutrophil states send CXCL8 to other neutrophil states through CXCR2 and to ACKR1 endothelial cells; both pairs are stronger in inflamed than uninflamed mucosa (log2 change positive), for example Neutrophil CXCR4 to Neutrophil PADI4 and Neutrophil to ACKR1 endothelial. This is a neutrophil-to-neutrophil loop plus an endothelial arm. The scores are co-expression only and do not prove signalling.",
+   "evidence_ids": [
+    "EV:communication:5e24424d19bf",
+    "EV:communication:0ffcbaeb8af1"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "target",
+   "statement": "CXCL8 is drug-targeted only by early anti-IL-8 antibodies: ABX-IL8 was given in psoriasis and rheumatoid arthritis trials, and HuMax-IL8 (adakitug, BMS-986253) was tested in a phase 1 solid-tumour trial. No cited paper record tests an anti-CXCL8 agent in UC.",
+   "evidence_ids": [
+    "EV:drug_literature:dc763a7e3bdd",
+    "EV:drug_literature:260761a5c983",
+    "EV:drug_literature:f95932947cf8"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "IL1B",
+   "role": "mechanism",
+   "statement": "IL1B is a replicated up-regulated gene; the canakinumab trial record is in atherosclerotic disease, not UC. In inflamed UC the top communication pair is IL1B from monocyte-derived macrophages to IL1R2 on Neutrophil PADI4, stronger than in uninflamed mucosa. IL1R2 is usually described as a decoy receptor (interpretation, no record cited), so this co-expression may not mean activation.",
+   "evidence_ids": [
+    "EV:communication:6e1b2d237823",
+    "EV:drug_literature:ea1b833cdd7a",
+    "EV:expression_meta:8fc39aea69af"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "PROGENy and CollecTRI activities are inferred from target-gene expression in bulk biopsies; inflamed mucosa activates many pathways at once, so broad pathway results (NFkB, TNFa, JAK-STAT, AP1) are robust but not specific.",
+  "Ligand-receptor scores are co-expression in one single-cell dataset (Gubatan 2026) and do not prove signalling.",
+  "No neutrophil-to-inflammatory-fibroblast cytokine circuit appeared among the top CXCL8, CXCR2 and IL1B pairs; the leading circuits are neutrophil-to-neutrophil and neutrophil-to-endothelial.",
+  "Neutrophil-derived signals reflect infiltration (composition) rather than an intrinsic tissue change.",
+  "Drug status of IL-23, TNF, integrins and JAK was not queried in this run. TREM1 had no ligand-receptor pair above threshold."
+ ]
+}

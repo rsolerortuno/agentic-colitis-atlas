@@ -1,0 +1,271 @@
+{
+ "question": "What are the candidate therapeutic targets, immune pathways and biomarkers in ulcerative colitis with the strongest convergent evidence?",
+ "what_you_read": "The front page of an ulcerative colitis evidence atlas: the summary of the findings and the prioritised candidates, in the blocks the page shows them in.",
+ "selection_rule": "A gene is on this page when it meets at least one fixed criterion: a drug approved in UC on the gene or its class with Open Targets genetic association of at least 0.8 among the ranked genes (a positive control, always shown); one of the first 30 of the convergence ranking; the leading first-in-class candidate by pooled increase or by retained share; or a significant Mendelian randomisation estimate. The orchestrator chooses and orders among them.",
+ "blocks": [
+  {
+   "title": "Positive controls: a gene or drug class with a drug approved in UC",
+   "note": "Genes on which, or on whose class, a drug approved in UC acts, with strong genetic association; the selection rule always shows them. The card is about the axis or the class, not a new drug for that one gene. They show where human genetics recovers known targets (the IL-12/IL-23 axis, the JAK class); it does not recover others, such as TNF, the alpha4-beta7 integrin, the S1P receptors or JAK1, which were not among the orchestrator's candidates; how all clinical targets rank is in the evaluation. The convergence ranking, which weights expression, places these lower: their bulk changes are modest beside the influx of neutrophil genes, and the size of an expression change does not mark a validated target."
+  },
+  {
+   "title": "Expected top signal: neutrophil infiltration (histological activity)",
+   "note": "Most of their RNA in inflamed mucosa comes from neutrophils, so the bulk rise reports neutrophil infiltration, the hallmark of histological activity, and its top place is expected rather than a discovery. As targets they could only block neutrophil recruitment; as biomarkers they are severity readouts that overlap with faecal calprotectin and histology."
+  },
+  {
+   "title": "New candidates: a change of the tissue itself",
+   "note": "The change keeps after adjusting the biopsies for their cell mix and the cell that makes the gene is known. This is what the atlas adds: hypotheses to test."
+  },
+  {
+   "title": "Biomarkers and genes that should not be blocked",
+   "note": "Consistent changes better used to measure the disease, or genes whose genetics argue against an inhibitor."
+  }
+ ],
+ "items": [
+  {
+   "id": "C01",
+   "kind": "candidate card",
+   "block": "Biomarkers and genes that should not be blocked",
+   "gene": "CXCL8",
+   "title": "CXCL8",
+   "role": "biomarker",
+   "convergence_rank": 3,
+   "drug_tag": "BMS-986253 +1 (phase 2, hepatocellular carcinoma)",
+   "selected_because": [
+    "convergence rank 3 (first 30)"
+   ],
+   "text": "Up in all eight cohorts (log2fc = 3.687), but made mostly by neutrophils and myeloid cells, it loses significance after composition adjustment (adjusted padj (adjusted_padj = 0.0525)), is null in plasma Mendelian randomisation and marks severity in drug and placebo arms alike."
+  },
+  {
+   "id": "C02",
+   "kind": "candidate card",
+   "block": "Biomarkers and genes that should not be blocked",
+   "gene": "CD274",
+   "title": "CD274",
+   "role": "biomarker",
+   "convergence_rank": 4,
+   "drug_tag": "Avelumab +2 (approved, urothelial carcinoma)",
+   "selected_because": [
+    "convergence rank 4 (first 30)",
+    "Mendelian randomisation q < 0.05 (plasma protein)"
+   ],
+   "text": "High in the convergence ranking and up in inflamed mucosa, but genetically higher plasma PD-L1 lowers UC risk (odds_ratio_per_sd = 0.595), so genetics supports inhibition; its rise is best read as a compensatory response."
+  },
+  {
+   "id": "C03",
+   "kind": "summary paragraph",
+   "text": "Baseline CXCR2, CXCL8, TREM1 and IL11 are higher in ustekinumab non-responders, but each also separates UNIFI placebo non-responders, so they mark disease severity rather than a drug-specific mechanism. Baseline expression of the drug's own target does not predict response either: IL12B, the subunit ustekinumab binds ((arms.ustekinumab.padj = 0.84)), and its IL-23 partner IL23A ((arms.ustekinumab.padj = 0.977))."
+  },
+  {
+   "id": "C04",
+   "kind": "candidate card",
+   "block": "Positive controls: a gene or drug class with a drug approved in UC",
+   "gene": "JAK2",
+   "title": "JAK2 · JAK inhibitor class",
+   "role": "target",
+   "convergence_rank": 36,
+   "drug_tag": "UC: tofacitinib (JAK inhibitor, most potent on JAK1 pathways); upadacitinib, filgotinib (JAK1-selective or -preferential)",
+   "selected_because": [
+    "positive control: drug approved in UC on this gene or its class, genetic association 0.85"
+   ],
+   "text": "A strong new candidate for a JAK2-selective drug in UC. Among the JAK kinases the human genetic support sits on JAK2 (genetic_association = 0.8458), yet the JAK inhibitors that worked in UC trials are tofacitinib, which like the others inhibits JAK1-dependent pathways most potently, and the selective JAK1 inhibitor upadacitinib and JAK1-preferential filgotinib; the TYK2-selective deucravacitinib did not show significant benefit in UC phase 2, whereas the TYK2/JAK1 inhibitor brepocitinib did. JAK2 also carries erythropoietin and thrombopoietin receptor signals, so selective JAK2 blockade would act on blood cell production. Its expression rises only modestly (log2fc = 0.833)."
+  },
+  {
+   "id": "C05",
+   "kind": "candidate card",
+   "block": "Expected top signal: neutrophil infiltration (histological activity)",
+   "gene": "TREM1",
+   "title": "TREM1",
+   "role": "target_and_biomarker",
+   "convergence_rank": 28,
+   "drug_tag": "Nangibotide (phase 2, covid-19)",
+   "selected_because": [
+    "convergence rank 28 (first 30)"
+   ],
+   "text": "Made mostly by neutrophils and myeloid cells (neutrophil_share_inflamed = 0.894), higher in inflamed than non-inflamed mucosa and associated with ustekinumab non-response and placebo non-response alike; nangibotide is recorded in phase 2."
+  },
+  {
+   "id": "C06",
+   "kind": "summary paragraph",
+   "text": "Inside the tissue, DUOX2 in enterocytes and MMP1 in inflammatory fibroblasts keep a clear increase after the composition adjustment ((adjusted_log2fc = 1.3161) and (adjusted_log2fc = 1.2636)) and their cell source replicates across the single-cell atlases, while the epithelial gene AQP8 shows the largest pooled loss of the meta-analysis (log2fc = -5.7633) and HMGCS2 is among the largest losses."
+  },
+  {
+   "id": "C07",
+   "kind": "candidate card",
+   "block": "Positive controls: a gene or drug class with a drug approved in UC",
+   "gene": "JAK2",
+   "title": "JAK2 · JAK inhibitor class",
+   "role": "target",
+   "convergence_rank": 36,
+   "drug_tag": "UC: tofacitinib (JAK inhibitor, most potent on JAK1 pathways); upadacitinib, filgotinib (JAK1-selective or -preferential)",
+   "selected_because": [
+    "positive control: drug approved in UC on this gene or its class, genetic association 0.85"
+   ],
+   "text": "Positive control for the JAK class, not a proposal for a JAK2-selective drug. Among the JAK kinases the human genetic support sits on JAK2 (genetic_association = 0.8458), yet the JAK inhibitors that worked in UC trials are tofacitinib, which like the others inhibits JAK1-dependent pathways most potently, and the selective JAK1 inhibitor upadacitinib and JAK1-preferential filgotinib; the TYK2-selective deucravacitinib showed significant benefit in UC phase 3, whereas the TYK2/JAK1 inhibitor brepocitinib did. JAK2 also carries erythropoietin and thrombopoietin receptor signals, so selective JAK2 blockade would act on blood cell production. Its expression rises only modestly (log2fc = 0.833)."
+  },
+  {
+   "id": "C08",
+   "kind": "candidate card",
+   "block": "New candidates: a change of the tissue itself",
+   "gene": "CHRDL2",
+   "title": "CHRDL2",
+   "role": "target",
+   "convergence_rank": null,
+   "drug_tag": null,
+   "selected_because": [
+    "first-in-class candidate with the largest pooled increase"
+   ],
+   "text": "Exploratory: the largest pooled increase of the first-in-class candidates, up in (cohorts_up = 7) cohorts, made by stromal cells (mostly inflammatory fibroblasts in Smillie 2019), a lineage all four atlases agree on, and antibody-tractable; partly composition, with no response or functional data."
+  },
+  {
+   "id": "C09",
+   "kind": "candidate card",
+   "block": "New candidates: a change of the tissue itself",
+   "gene": "MMP1",
+   "title": "MMP1",
+   "role": "target_and_biomarker",
+   "convergence_rank": 6,
+   "drug_tag": "UC phase 2: Doxycycline (also listed for MMP13, MMP7, MMP8)",
+   "selected_because": [
+    "convergence rank 6 (first 30)"
+   ],
+   "text": "Placed above higher-ranked neutrophil genes because it is a change of the tissue itself: inflammatory fibroblasts make it (dominant_lineage_share = 0.871), Visium places it in the same cells (in_situ_contribution = 0.568), it keeps an adjusted change (adjusted_log2fc = 1.2636), and it is among the transcripts modified by mirikizumab that track disease activity."
+  },
+  {
+   "id": "C10",
+   "kind": "candidate card",
+   "block": "Expected top signal: neutrophil infiltration (histological activity)",
+   "gene": "CXCR2",
+   "title": "CXCR2",
+   "role": "target_and_biomarker",
+   "convergence_rank": 1,
+   "drug_tag": "UC: tested in phase 2, not advanced (SB-656933, navarixin); lowers blood neutrophils",
+   "selected_because": [
+    "convergence rank 1 (first 30)"
+   ],
+   "text": "First in the convergence ranking and up in all eight cohorts, but neutrophils make almost all of its transcripts (neutrophil_share_inflamed = 0.965) and only a small change survives composition adjustment (adjusted_log2fc = 0.4409). As a target it was tested and not advanced: two antagonists, SB-656933 and navarixin, went no further than phase 2 in UC, and the antagonist navarixin (as MK-7123) raised blood neutrophil counts dose-dependently in a COPD trial; a published genetic estimate, from one bioinformatic study, has higher expression going with lower UC risk, the direction opposite to an antagonist. As a biomarker it is higher at baseline in non-responders to ustekinumab and to placebo alike, which marks disease severity rather than response to the drug."
+  },
+  {
+   "id": "C11",
+   "kind": "candidate card",
+   "block": "Biomarkers and genes that should not be blocked",
+   "gene": "CHI3L1",
+   "title": "CHI3L1",
+   "role": "biomarker",
+   "convergence_rank": 8,
+   "drug_tag": null,
+   "selected_because": [
+    "convergence rank 8 (first 30)"
+   ],
+   "text": "One of the largest pooled RNA increases (log2fc = 4.913), retained after adjustment (adjusted_log2fc = 1.3967), but the protein change is small (log2_ratio = 0.607) and it has no Open Targets genetic association: a strong tissue biomarker, with targeting only exploratory."
+  },
+  {
+   "id": "C12",
+   "kind": "candidate card",
+   "block": "Expected top signal: neutrophil infiltration (histological activity)",
+   "gene": "CXCR2",
+   "title": "CXCR2",
+   "role": "target_and_biomarker",
+   "convergence_rank": 1,
+   "drug_tag": "UC: tested in phase 2, not advanced (SB-656933, navarixin); lowers blood neutrophils",
+   "selected_because": [
+    "convergence rank 1 (first 30)"
+   ],
+   "text": "First in the convergence ranking and up in all eight cohorts, but neutrophils make almost all of its transcripts (neutrophil_share_inflamed = 0.965) and only a small change survives composition adjustment (adjusted_log2fc = 0.4409). As a target it was tested and not advanced: two antagonists, SB-656933 and navarixin, were approved in UC, and the antagonist navarixin (as MK-7123) lowered blood neutrophil counts dose-dependently in a COPD trial; a published genetic estimate, from one bioinformatic study, has higher expression going with lower UC risk, the direction opposite to an antagonist. As a biomarker it is higher at baseline in non-responders to ustekinumab and to placebo alike, which marks disease severity rather than response to the drug."
+  },
+  {
+   "id": "C13",
+   "kind": "candidate card",
+   "block": "Biomarkers and genes that should not be blocked",
+   "gene": "DUOX2",
+   "title": "DUOX2",
+   "role": "biomarker",
+   "convergence_rank": 10,
+   "drug_tag": null,
+   "selected_because": [
+    "convergence rank 10 (first 30)"
+   ],
+   "text": "Enterocyte-derived (dominant_lineage_share = 0.947), retained after composition adjustment (adjusted_log2fc = 1.3161), placed in epithelium by Xenium and Visium and among the most elevated proteins in inflamed biopsies: a tissue biomarker of epithelial antimicrobial stress, with no drug recorded."
+  },
+  {
+   "id": "C14",
+   "kind": "candidate card",
+   "block": "Biomarkers and genes that should not be blocked",
+   "gene": "S100A8",
+   "title": "S100A8",
+   "role": "biomarker",
+   "convergence_rank": 17,
+   "drug_tag": null,
+   "selected_because": [
+    "convergence rank 17 (first 30)"
+   ],
+   "text": "Up in all eight cohorts and made mostly by neutrophils, with part of the change retained after adjustment: a T-cell-intrinsic drug target."
+  },
+  {
+   "id": "C15",
+   "kind": "candidate card",
+   "block": "Biomarkers and genes that should not be blocked",
+   "gene": "IDO1",
+   "title": "IDO1",
+   "role": "biomarker",
+   "convergence_rank": 5,
+   "drug_tag": "Epacadostat (ATC-coded, approval not confirmed, neoplasm)",
+   "selected_because": [
+    "convergence rank 5 (first 30)"
+   ],
+   "text": "Up in all eight cohorts and replicated as protein (log2_ratio = 0.917), with a mixed myeloid and epithelial source and an adjusted change (adjusted_log2fc = 0.8505); the cited mechanism and inhibitor data come from one study in UC patients and colitis mice, so it is an interferon-response biomarker and at most a repurposing hypothesis."
+  },
+  {
+   "id": "C16",
+   "kind": "summary paragraph",
+   "text": "Human genetics separates causes from consequences. IL12B carries a strong Open Targets genetic association with UC (genetic_association = 0.8864) and is the strongest plasma Mendelian randomisation result among this atlas's genes: genetically higher protein raises UC risk (odds_ratio_per_sd = 1.539), so inhibition is the protective direction. IL12B is the p40 subunit of interleukin-12 and interleukin-23: ustekinumab binds it and was more effective than placebo in UC, and the anti-p19 antibodies mirikizumab, risankizumab and guselkumab, which bind IL23A and block interleukin-23 only, were effective too, which shows that blocking interleukin-23 alone is enough; whether blocking interleukin-12 adds benefit is not settled by these trials. For CD274 (PD-L1) genetics points the other way: higher plasma protein lowers UC risk (odds_ratio_per_sd = 0.595)."
+  },
+  {
+   "id": "C17",
+   "kind": "summary paragraph",
+   "text": "The strongest convergent signal in UC mucosa is a neutrophil-recruitment axis. CXCR2, CXCR1 and CXCL8 take the first three places of the convergence ranking, CXCR2 and CXCL8 are up in all eight cohorts, but single-cell data place almost all CXCR2 transcripts in neutrophils (neutrophil_share_inflamed = 0.965) and most CXCL8 transcripts too (neutrophil_share_inflamed = 0.873), so their bulk rise mainly reports neutrophil arrival rather than a change of the tissue itself."
+  },
+  {
+   "id": "C18",
+   "kind": "candidate card",
+   "block": "Biomarkers and genes that should not be blocked",
+   "gene": "SLC26A3",
+   "title": "SLC26A3",
+   "role": "biomarker",
+   "convergence_rank": 40,
+   "drug_tag": null,
+   "selected_because": [
+    "Mendelian randomisation q < 0.05 (gut expression)"
+   ],
+   "text": "Falls in inflamed mucosa, but higher expression in crypt progenitors raises UC risk (odds_ratio_per_sd = 1.607), among the strongest colocalising gut eQTL results: the loss in disease may be a response, and the gene is a marker of epithelial transport rather than a target."
+  },
+  {
+   "id": "C19",
+   "kind": "candidate card",
+   "block": "Positive controls: a gene or drug class with a drug approved in UC",
+   "gene": "IL12B",
+   "title": "IL12B · IL-12/IL-23 p40 subunit",
+   "role": "target",
+   "convergence_rank": 99,
+   "drug_tag": "UC: ustekinumab binds it (p40); anti-p19 mirikizumab, risankizumab, guselkumab bind IL23A",
+   "selected_because": [
+    "positive control: drug approved in UC on this gene or its class, genetic association 0.89",
+    "Mendelian randomisation q < 0.05 (plasma protein)"
+   ],
+   "text": "Positive control for the IL-12/IL-23 axis: a strong Open Targets genetic association with UC (genetic_association = 0.8864) and the strongest plasma Mendelian randomisation result among this atlas's genes, genetically higher protein raising UC risk (odds_ratio_per_sd = 1.539) with colocalisation and FinnGen replication, the direction an inhibitor needs. IL12B is the p40 subunit of interleukin-12 and interleukin-23: ustekinumab binds it and worked in UC (UNIFI), and the anti-p19 antibodies mirikizumab, risankizumab and guselkumab, which bind IL23A, worked as well, consistent with the benefit of blocking IL-23. The plasma measure cannot separate the two cytokines (see the limitations)."
+  },
+  {
+   "id": "C20",
+   "kind": "candidate card",
+   "block": "New candidates: a change of the tissue itself",
+   "gene": "XKR9",
+   "title": "XKR9",
+   "role": "target",
+   "convergence_rank": null,
+   "drug_tag": null,
+   "selected_because": [
+    "first-in-class candidate with the highest retained share after composition adjustment"
+   ],
+   "text": "Exploratory: the highest retained share after composition adjustment among the first-in-class candidates and an epithelial lineage, but up in only (cohorts_up = 4) cohorts and without response or functional evidence."
+  }
+ ]
+}

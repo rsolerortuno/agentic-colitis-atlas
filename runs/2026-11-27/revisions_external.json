@@ -1,0 +1,70 @@
+{
+ "agent_file": "agent_external.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 4,
+   "statement": "IDO1 is strongly up and replicated across cohorts, but Open Targets shows no genetic association with UC; it is an expression-led candidate only, and literature relations exist in the graph.",
+   "claims": [
+    {
+     "claim": "literature relations exist in the graph",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only an Open Targets literature score is cited, not graph relations."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 tops the convergence ranking: it is up in the UC meta-analysis, has genetic support in Open Targets, and ranks 25th of 1991 genes by Open Targets associat",
+   "why": {
+    "uncited_drugs": [
+     "sb-656933",
+     "sch-527123"
+    ]
+   }
+  },
+  {
+   "gene": "CD274",
+   "text_start": "CD274 ranks 7th of 64 genes significant in plasma pQTL MR for UC [gene=CD274; type=rank_context; source=ANALYSIS:rank_context; rank=7]. Sensitivity check: heter",
+   "why": {
+    "unmatched_numbers": [
+     "64"
+    ]
+   }
+  },
+  {
+   "gene": "CD274",
+   "text_start": "CD274 inhibitors (Avelumab, Sugemalimab, Durvalumab) are approved in cancers, with no UC trials in Open Targets clinical precedence.",
+   "why": {
+    "uncited_drugs": [
+     "avelumab",
+     "durvalumab",
+     "sugemalimab"
+    ]
+   }
+  },
+  {
+   "gene": "CXCL8",
+   "text_start": "CXCL8 is strongly up and replicated in the biopsy cohorts but has no Open Targets genetic association with UC (genetics component zero in the ranking). Its inhi",
+   "why": {
+    "uncited_drugs": [
+     "abx-il8",
+     "bms-986253"
+    ]
+   }
+  },
+  {
+   "gene": "JAK2",
+   "text_start": "JAK2 is an existing UC target: Open Targets lists Upadacitinib as approved in UC, and JAK2 is second by Open Targets association. Biopsy expression change is mo",
+   "why": {
+    "uncited_drugs": [
+     "upadacitinib"
+    ]
+   }
+  }
+ ]
+}

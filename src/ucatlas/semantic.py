@@ -177,9 +177,15 @@ def check(text: str, gene: str | None, evidence: list[dict], extra_values: set[f
 
 # ------------------------------------------------------------------ drug names (2026-11-23)
 # A reading check of run 2026-11-14 found about 30 drug names and stages written from memory or from another tool's
-# output without citing the record that holds them. A drug named in a statement must appear in a cited record (Open
-# Targets drugs, clinical indications, a treatment arm, a literature sentence).
+# output without citing the record that holds them. A drug named in a statement must appear in a cited record.
+# Since 2026-11-27 that record must be peer-reviewed literature or a dataset: a drug_literature trial paper (verbatim
+# PubMed quotes, drug_literature.py), a treatment arm of the response cohorts, or a literature sentence. Open Targets
+# and the clinical-indications table still give the stage, but no longer suffice alone: they say a drug is listed for
+# a target, not what it binds or how it did, which is where an expert review of the top candidates found errors.
 _DRUGS: re.Pattern | None = None
+DRUG_SOURCE_TYPES = {"drug_literature", "pubmed_quote", "treatment_response", "response_pathway", "antitnf_singlecell",
+                     "literature_relation", "provenance", "known_literature", "repurposing_literature",
+                     "shortlist_literature"}
 
 
 def _drug_pattern() -> re.Pattern | None:
@@ -194,6 +200,9 @@ def _drug_pattern() -> re.Pattern | None:
                 d = _json.loads(p)
                 vals = [d.get("drug")] + [x for k, v in d.items() if k.endswith("_drugs") and isinstance(v, list) for x in v]
                 names |= {str(v).strip().lower() for v in vals if v}
+            for (p,) in conn.execute("select props from evidence where type = 'drug_literature'"):
+                d = _json.loads(p)
+                names |= {str(v).strip().lower() for v in [d.get("drug")] + list(d.get("names") or []) if v}
         except Exception:   # no graph (CI without data): nothing to check against
             names = set()
         names = {n for n in names if re.fullmatch(r"[a-z][a-z0-9-]{4,}", n)}
@@ -203,12 +212,12 @@ def _drug_pattern() -> re.Pattern | None:
 
 
 def uncited_drugs(text: str, evidence: list[dict]) -> list[str]:
-    """Drug names in the text (outside annotations) that no cited record contains."""
+    """Drug names in the text (outside annotations) that no cited literature or treatment-arm record contains."""
     import json as _json
     found = {m.group(1).lower() for m in _drug_pattern().finditer(re.sub(r"\[[^\]]*\]", " ", text))}
     if not found:
         return []
-    blob = _json.dumps(evidence, default=str).lower()
+    blob = _json.dumps([e for e in evidence if e.get("type") in DRUG_SOURCE_TYPES], default=str).lower()
     return sorted(n for n in found if n not in blob)
 
 

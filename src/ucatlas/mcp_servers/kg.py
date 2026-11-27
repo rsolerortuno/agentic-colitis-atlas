@@ -157,5 +157,23 @@ def pubtator_relations(gene: str) -> dict:
     return clean({**{k: v for k, v in r[0].items() if k not in ("source", "date", "type")}, "evidence_id": eid})
 
 
+@mcp.tool()
+def pubmed_search(query: str, n: int = 10) -> list[dict]:
+    """Search PubMed (NCBI E-utilities) for papers outside the local corpus: PMID, title, journal, year, publication
+    types, whether it is citable (a peer-reviewed journal article, not retracted) and the abstract. What you read here
+    cannot be cited directly: register the sentence you need with `python -m ucatlas.pubmed_quotes add` (orchestrator)
+    or put the PMID and a verbatim abstract sentence in your output (reviewer); both are checked against PubMed."""
+    from ..pubmed_quotes import search
+    return search(query, n=min(n, 20))
+
+
+@mcp.tool()
+def pubmed_abstract(pmid: int) -> dict:
+    """One PubMed record with its full abstract, publication types and whether it is citable."""
+    from ..pubmed_quotes import fetch, problems
+    r = fetch(int(pmid))
+    return {**r, "citable": not problems(r, []), "problems": problems(r, [])}
+
+
 if __name__ == "__main__":
     mcp.run()

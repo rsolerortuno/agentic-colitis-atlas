@@ -1,0 +1,10 @@
+{
+ "key_findings": 28,
+ "key_findings_not_cited": [],
+ "evidence_types_not_cited": [
+  "expression_adjusted",
+  "mr_sensitivity",
+  "target_safety"
+ ],
+ "share_of_finding_evidence_cited": 0.608
+}

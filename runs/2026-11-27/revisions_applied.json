@@ -1,0 +1,52 @@
+{
+ "agent_file": "agent_applied.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 6,
+   "statement": "CHRDL2 is a first-in-class candidate whose transcripts are mainly stromal (inflammatory fibroblasts); the stromal lineage is replicated in Garrido-Trigo 2023, Gubatan 2026 and GSE282122. Gaps: only part of the increase is retained after composition adjustment, and its highest vital-organ RNA is [gene=CHRDL2; type=discovery_profile; source=ANALYSIS:discovery; vital_max_ntpm=42.6] nTPM, the highest vital-organ expression among the candidates I profiled.",
+   "claims": [
+    {
+     "claim": "the highest vital-organ expression among the candidates I profiled",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only CHRDL2 record cited; no comparison with other candidates."
+    }
+   ]
+  },
+  {
+   "finding": 8,
+   "statement": "XKR9 is the one profiled candidate classed as intrinsic (epithelial lineage, replicated in Gubatan 2026 and GSE282122; Garrido-Trigo 2023 disagrees), but it is up in only [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; cohorts_up=4] cohorts and is expressed by a small percentage of epithelial cells, so replication of the increase is thin.",
+   "claims": [
+    {
+     "claim": "XKR9 is the one profiled candidate classed as intrinsic",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "XKR9 is classed intrinsic, but no record compares other profiled candidates."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": [
+  {
+   "gene": "TNFa",
+   "text_start": "TNFa pathway activity is higher in non-responders to ustekinumab (padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000484]) and ",
+   "why": {
+    "not_linked_to_gene": [
+     "EV:response_pathway:fc27db5790e8"
+    ]
+   }
+  },
+  {
+   "gene": "JAK-STAT",
+   "text_start": "JAK-STAT pathway activity is higher in ustekinumab non-responders (padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0124]) but no",
+   "why": {
+    "not_linked_to_gene": [
+     "EV:response_pathway:c77a5b95ab65"
+    ]
+   }
+  }
+ ]
+}

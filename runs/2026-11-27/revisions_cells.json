@@ -1,0 +1,21 @@
+{
+ "agent_file": "agent_cells.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [],
+ "dropped_by_verifier": [
+  {
+   "gene": "CXCR2",
+   "text_start": "CXCR2 transcripts in inflamed mucosa come almost entirely from neutrophils in Gubatan 2026 (neutrophil share [gene=CXCR2; type=sc_summary; source=DATASET:SCP259",
+   "why": {
+    "direction_contradiction": "text says down, cited omics evidence says up"
+   }
+  },
+  {
+   "gene": "AQP9",
+   "text_start": "AQP9 is overwhelmingly neutrophil-derived in Gubatan 2026 per the neutrophil-share analysis, and its change is reduced but still significant after adjustment (v",
+   "why": {
+    "direction_contradiction": "text says down, cited omics evidence says up"
+   }
+  }
+ ]
+}

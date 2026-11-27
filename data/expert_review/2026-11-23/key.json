@@ -1,0 +1,20 @@
+{
+"C01": "narrative.summary[0]",
+"C02": "narrative.summary[1]",
+"C03": "narrative.summary[2]",
+"C04": "narrative.summary[3]",
+"C05": "targets.IL12B",
+"C06": "targets.JAK2",
+"C07": "targets.CXCR2",
+"C08": "targets.TREM1",
+"C09": "targets.MMP1",
+"C10": "targets.CHRDL2",
+"C11": "targets.XKR9",
+"C12": "targets.DUOX2",
+"C13": "targets.CD274",
+"C14": "targets.CXCL8",
+"C15": "targets.CHI3L1",
+"C16": "targets.IDO1",
+"C17": "targets.SLC26A3",
+"C18": "targets.S100A8"
+}

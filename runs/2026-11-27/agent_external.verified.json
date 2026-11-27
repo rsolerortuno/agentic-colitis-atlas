@@ -1,0 +1,204 @@
+{
+ "agent": "agente-externo",
+ "findings": [
+  {
+   "gene": "CXCR2",
+   "role": "target_and_biomarker",
+   "statement": "CXCR2 tops the convergence ranking: it is up in the UC meta-analysis, has genetic support in Open Targets, and ranks 25th of 1991 genes by Open Targets association with UC [gene=CXCR2; type=rank_context; source=ANALYSIS:rank_context; rank=25]. Open Targets clinical precedence lists UC phase 2 trials of Sb-656933 and Sch-527123; the peer-reviewed records cited here are non-UC (SB-656933 in healthy volunteers, navarixin, also coded SCH-527123, in COPD), so it is an expression-led candidate with clinical-stage inhibitors but no approved UC drug.",
+   "evidence_ids": [
+    "EV:expression_meta:1fce9fb2531f",
+    "EV:open_targets_assoc:7d06375723b1",
+    "EV:rank_context:806373b7758c",
+    "EV:clinical_indications:1fce9fb2531f",
+    "EV:drug_literature:176c0adb1858",
+    "EV:drug_literature:a2bfb9f668cb",
+    "EV:drug_literature:98efb743d8b2"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:rank_context:806373b7758c",
+     "field": [
+      "rank"
+     ],
+     "display": "25",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCR2",
+   "role": "target",
+   "statement": "No plasma pQTL, colon eQTL or gut cell-type eQTL instrument exists for CXCR2, so MR could not test it; this is not evidence against the gene. Mouse colitis literature exists for CXCR2 but MGI records no single-gene colitis phenotype, so the mouse direction is not curated.",
+   "evidence_ids": [
+    "EV:mouse_colitis_literature:1fce9fb2531f",
+    "EV:expression_meta:1fce9fb2531f"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CD274",
+   "role": "target",
+   "statement": "Genetically higher plasma PD-L1 lowers UC risk (OR per SD [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.595]), it colocalises with an IBD GWAS signal and replicates in FinnGen [gene=CD274; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; finngen_odds_ratio_per_sd=0.734]. The direction is opposite to the biopsy change (CD274 is up in UC), so PD-L1 inhibition would be predicted harmful; this is my interpretation of the beta sign.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:822a01cbf7e8",
+    "EV:expression_meta:822a01cbf7e8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:822a01cbf7e8",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "0.595",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:mendelian_randomization:822a01cbf7e8",
+     "field": [
+      "finngen_odds_ratio_per_sd"
+     ],
+     "display": "0.734",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CD274",
+   "role": "mechanism",
+   "statement": "CD274 ranks 7th among genes significant in plasma pQTL MR for UC [gene=CD274; type=rank_context; source=ANALYSIS:rank_context; rank=7]. Sensitivity check: heterogeneity across its three instruments is nominal [gene=CD274; type=mr_sensitivity; source=DATASET:MR_UKBPPP_UC; layer=plasma_protein; heterogeneity_p=0.0259], and Steiger direction is correct. Safety record shows no known safety events and no constraint flag.",
+   "evidence_ids": [
+    "EV:rank_context:82a157cdbb9c",
+    "EV:mr_sensitivity:27fd0fb9cfeb",
+    "EV:target_safety:822a01cbf7e8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:rank_context:82a157cdbb9c",
+     "field": [
+      "rank"
+     ],
+     "display": "7",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:mr_sensitivity:27fd0fb9cfeb",
+     "field": [
+      "heterogeneity_p"
+     ],
+     "display": "0.0259",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CD274",
+   "role": "target",
+   "statement": "Atezolizumab, an anti-PD-L1 antibody, was tested in a phase 3 trial in urothelial carcinoma, and Open Targets clinical precedence records no UC trials for CD274.",
+   "evidence_ids": [
+    "EV:drug_literature:00c349430682",
+    "EV:clinical_indications:822a01cbf7e8"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CXCL5",
+   "role": "mechanism",
+   "statement": "CXCL5 is up in UC biopsies, yet genetically higher plasma CXCL5 lowers UC risk (OR per SD [gene=CXCL5; type=mendelian_randomization; source=DATASET:MR_UKBPPP_UC; odds_ratio_per_sd=0.634]), replicates in FinnGen but does not colocalise with an IBD GWAS signal. Blood and mucosal direction disagree, and the signal may come from a neighbouring variant.",
+   "evidence_ids": [
+    "EV:mendelian_randomization:f16933725bec",
+    "EV:expression_meta:f16933725bec"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization:f16933725bec",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "0.634",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "SLC26A3",
+   "role": "target_and_biomarker",
+   "statement": "SLC26A3 is down in UC biopsies, but gut cell-type eQTL MR (OLFM4+ crypt enterocyte progenitors) says higher expression raises UC risk (OR per SD [gene=SLC26A3; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=gut_cell; odds_ratio_per_sd=1.607]), colocalising and replicating in FinnGen; the mucosal fall is therefore likely a consequence of inflammation rather than a causal protective loss (my interpretation). No plasma instrument was available.",
+   "evidence_ids": [
+    "EV:mendelian_randomization_gut:4fe9ea5094fd",
+    "EV:expression_meta:6a7d4f43d1fa",
+    "EV:open_targets_assoc:0a80030df616"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:mendelian_randomization_gut:4fe9ea5094fd",
+     "field": [
+      "odds_ratio_per_sd"
+     ],
+     "display": "1.607",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCL8",
+   "role": "biomarker",
+   "statement": "CXCL8 is strongly up and replicated in the biopsy cohorts but has no Open Targets genetic association with UC (genetics component zero in the ranking). Its inhibitors ABX-IL8 (psoriasis and rheumatoid arthritis trials) and HuMax-IL8 (BMS-986253, phase 1 in solid tumours) were tested in other diseases, and Open Targets lists no UC trial.",
+   "evidence_ids": [
+    "EV:expression_meta:1e78b2f07f0c",
+    "EV:clinical_indications:1e78b2f07f0c",
+    "EV:drug_literature:dc763a7e3bdd",
+    "EV:drug_literature:260761a5c983"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "JAK2",
+   "role": "target",
+   "statement": "JAK2 is an existing UC target: Open Targets lists upadacitinib as approved in UC, and a phase 3 paper describes it as a selective JAK1 inhibitor effective in UC. Biopsy expression change is modest compared with inflammatory genes; no MR instrument was available.",
+   "evidence_ids": [
+    "EV:clinical_indications:c36b80d82ff8",
+    "EV:drug_literature:17e0fe9bec72",
+    "EV:open_targets_assoc:3c2fb97467a0",
+    "EV:expression_meta:c36b80d82ff8"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "IDO1",
+   "role": "target_and_biomarker",
+   "statement": "IDO1 is strongly up and replicated across cohorts, but Open Targets shows no genetic association with UC; it is an expression-led candidate only.",
+   "evidence_ids": [
+    "EV:expression_meta:2b76723dce27",
+    "EV:open_targets_assoc:1ad2fe844ae2"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "biomarker",
+   "statement": "CHI3L1 is among the strongest and best replicated up-regulated genes in UC biopsies, with no genetic association and no drug in the ranking, so it is a biomarker candidate rather than a genetically supported target.",
+   "evidence_ids": [
+    "EV:expression_meta:b3f7b3e784f8",
+    "EV:open_targets_assoc:e7ff84f71f32"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "Most top expression-led genes (CXCL8, IDO1, MMPs, CHI3L1, DUOXs) have zero genetic component, so their causal role is unsupported.",
+  "MR could not be run for CXCR2, JAK2 (no cis-pQTL or gut eQTL); not tested is not evidence against.",
+  "Plasma protein MR differs from mucosal protein; CXCL5 and CD274 point opposite to biopsy direction.",
+  "Only a subset of top-40 genes was queried for MR, mouse and safety within the tool budget."
+ ]
+}

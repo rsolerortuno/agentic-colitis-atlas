@@ -595,8 +595,9 @@ def drug_tags() -> dict[str, str]:
 
 
 TARGET_GROUPS = [
-    ("controls", "Positive controls: already drugged in UC",
-     "Candidates with a drug approved in UC. They show where human genetics recovers known targets (the IL-12/IL-23 "
+    ("controls", "Positive controls: a gene or drug class with a drug approved in UC",
+     "Genes on which, or on whose class, a drug approved in UC acts, with strong genetic association; the selection "
+     "rule always shows them. The card is about the axis or the class, not a new drug for that one gene. They show where human genetics recovers known targets (the IL-12/IL-23 "
      "axis, the JAK class); it does not recover others, such as TNF, the alpha4-beta7 integrin, the S1P receptors or "
      "JAK1, which were not among the orchestrator's candidates; how all clinical targets rank is in the evaluation. The convergence ranking, which weights expression, places "
      "these lower: their bulk changes are modest beside the influx of neutrophil genes, and the size of an expression "
@@ -614,6 +615,9 @@ TARGET_GROUPS = [
 ]
 
 
+from .frontpage import RULE_TEXT as FRONTPAGE_RULE  # noqa: E402
+
+
 def target_groups(f: dict, drugind: dict, disc: pd.DataFrame) -> list[dict]:
     """The orchestrator's targets in four blocks (2026-11-26), by rules on the data, keeping its order inside each
     block: a list that opened with the neutrophil receptor CXCR2 as "target 1" and a JAK2 card read as a JAK2 drug
@@ -626,8 +630,13 @@ def target_groups(f: dict, drugind: dict, disc: pd.DataFrame) -> list[dict]:
         if t.get("category") != "biomarker" and neu is not None and pd.notna(neu) and neu > 0.5:
             return "neutrophil"
         return "tissue" if t.get("category") in ("target", "target_and_biomarker") else "biomarkers"
+    from . import frontpage
+    from .drug_literature import DATA as DRUG_LIT
+    reasons = frontpage.criteria(f) if "convergence" in f else {}
+    sub = json.loads(DRUG_LIT.read_text(encoding="utf-8")).get("card_subtitles", {}) if DRUG_LIT.exists() else {}
     groups = {k: {"key": k, "title": title, "note": note, "targets": []} for k, title, note in TARGET_GROUPS}
     for t in f.get("targets", []):
+        t = {**t, "selected_because": reasons.get(t["gene"], []), "subtitle": sub.get(t["gene"])}
         groups[block(t)]["targets"].append(t)
     return [g for g in groups.values() if g["targets"]]
 
@@ -960,7 +969,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], drugind=drugind, top_reading=top_reading, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), target_groups=target_groups(f, drugind, _disc), cell=cell, third=third, SL=SL, GT=GT,
+        badges=badges(f, cell), target_groups=target_groups(f, drugind, _disc), frontpage_rule=FRONTPAGE_RULE, cell=cell, third=third, SL=SL, GT=GT,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,

@@ -1,53 +1,53 @@
 {
- "run": "2026-11-23",
- "statements_passing": 125,
+ "run": "2026-11-27",
+ "statements_passing": 115,
  "seed": 7,
  "corruptions": {
   "number": {
-   "applied": 80,
-   "caught": 80,
+   "applied": 81,
+   "caught": 81,
    "missed_examples": [],
    "rate": 1.0
   },
   "direction": {
-   "applied": 74,
-   "caught": 61,
+   "applied": 73,
+   "caught": 54,
    "missed_examples": [
     {
-     "location": "agent_findings.expression[9]",
-     "text": "JAK2 has strong genetic and drug support but only a modest expression change [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833], though significantly down in all eight cohorts. Its rank comes from genetics and t"
+     "location": "agent_findings.expression[8]",
+     "text": "JAK2 has a small pooled increase [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833] but it is significant and down in every one of the eight cohorts. It ranks highly because of genetics and tractability, not bec"
+    },
+    {
+     "location": "agent_findings.literature[0]",
+     "text": "CXCR2 tops the convergence ranking, yet the verbatim-checked relation layer holds no relation for it. The corpus has only title and abstract sentences: one titled 'CXCR1 and CXCR2 are potential neutrophil extracellular trap-related treatmen"
     },
     {
      "location": "agent_findings.literature[8]",
-     "text": "S100A9 expression showed excellent performance for diagnosing active UC and was downregulated in UC. IRF5 represses S100A9 and limits G-MDSC accumulation. In treatment responders S100A9 was downregulated in resident macrophages, which sugge"
+     "text": "CXCL1 appears as a biomarker candidate in several machine-learning and bioinformatic studies. It is one of five pivotal genes whose combined diagnostic model reached a much lower AUC than the individual genes, which each exceeded only a mod"
     },
     {
-     "location": "agent_findings.pathways[5]",
-     "text": "Inflammatory fibroblasts are a stromal sender of CXCL1 to CXCR2 on neutrophils, and the link to the generic Neutrophil state rose strongly in inflamed mucosa. Absolute scores are far higher than the neutrophil CXCL8 circuit. No CXCL1 or CXC"
+     "location": "agent_findings.pathways[2]",
+     "text": "AP1 is among the top transcription factors by cohort count and effect size, decreased in every cohort, alongside ATF and BATF family TFs. This is a generic stress and inflammation signature that is not specific to one circuit."
     },
     {
-     "location": "agent_findings.applied[1]",
-     "text": "Lower baseline CXCR2 is associated with ustekinumab non-response, but it also separates UNIFI placebo non-responders, so it marks severity rather than a ustekinumab-specific mechanism. Ustekinumab BH padj was [gene=CXCR2; type=treatment_res"
-    },
-    {
-     "location": "narrative.sections.expression[2]",
-     "text": "JAK2 is down in all eight cohorts but only modestly [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833]; it has the second highest Open Targets association with UC among the genes in this atlas's graph, so its pl"
+     "location": "agent_findings.pathways[3]",
+     "text": "Pathway activity is not uniformly down. VEGF is increased in only [type=pathway_activity; source=ANALYSIS:pathways; cohorts_up=4] cohorts, and Androgen is decreased in [type=pathway_activity; source=ANALYSIS:pathways; cohorts_down=4] cohort"
     }
    ],
-   "applied_with_de_evidence": 34,
-   "caught_with_de_evidence": 33,
-   "rate": 0.824,
-   "rate_with_de_evidence": 0.971
+   "applied_with_de_evidence": 31,
+   "caught_with_de_evidence": 29,
+   "rate": 0.74,
+   "rate_with_de_evidence": 0.935
   },
   "gene": {
-   "applied": 94,
-   "caught": 94,
+   "applied": 85,
+   "caught": 85,
    "missed_examples": [],
    "rate": 1.0
   },
   "evidence": {
-   "applied": 94,
-   "caught": 94,
+   "applied": 85,
+   "caught": 85,
    "missed_examples": [],
    "rate": 1.0
   }

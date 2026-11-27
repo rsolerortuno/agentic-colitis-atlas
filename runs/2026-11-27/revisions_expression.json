@@ -1,0 +1,93 @@
+{
+ "agent_file": "agent_expression.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 4,
+   "statement": "S100A8 is up at RNA level in all eight cohorts and replicates strongly as protein in independent UC mucosa [gene=S100A8; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=2.749], significant by the authors. It is a neutrophil and myeloid product, so it reads out immune infiltration and is a biomarker rather than a tissue-intrinsic target.",
+   "claims": [
+    {
+     "claim": "S100A8 is up at RNA level in all eight cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only an RNA meta log2fc is given, no cohort count."
+    },
+    {
+     "claim": "It is a neutrophil and myeloid product",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cell-source record cited."
+    }
+   ]
+  },
+  {
+   "finding": 5,
+   "statement": "DUOX2 is up in all eight cohorts, and the MSCCR inflamed change holds after adjusting for segment, age and sex [gene=DUOX2; type=expression_adjusted; source=DATASET:GSE193677; cohort=GSE193677; contrast=inflamed UC vs control, biopsy level; adjusted_log2fc=3.263]. It is epithelial-type induction and is not explained by colon segment, age or sex.",
+   "claims": [
+    {
+     "claim": "DUOX2 is up in all eight cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No meta cohort-count record cited."
+    },
+    {
+     "claim": "It is epithelial-type induction",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cell-type data cited."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "HMGCS2, an epithelial ketogenesis and metabolism gene, is down in all eight cohorts and the loss is also seen as protein [gene=HMGCS2; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=-3.094]. This fits the pattern of lost epithelial metabolism genes, which are biomarkers rather than targets.",
+   "claims": [
+    {
+     "claim": "HMGCS2 is down in all eight cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Only RNA meta log2fc given, no cohort count."
+    },
+    {
+     "claim": "HMGCS2 is an epithelial ketogenesis and metabolism gene",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cell or function record cited."
+    }
+   ]
+  },
+  {
+   "finding": 7,
+   "statement": "AQP8 shows the largest pooled decrease in the top-gene list, down in all eight cohorts, and the MSCCR loss holds after adjustment [gene=AQP8; type=expression_adjusted; source=DATASET:GSE193677; cohort=GSE193677; contrast=inflamed UC vs control, biopsy level; adjusted_log2fc=-3.78]. It is an epithelial transport gene, so the loss is a biomarker of epithelial damage, not a target.",
+   "claims": [
+    {
+     "claim": "AQP8 is an epithelial transport gene",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cell or function record cited."
+    }
+   ]
+  },
+  {
+   "finding": 9,
+   "statement": "CD274 (PD-L1) is up in UC with a moderate pooled change [gene=CD274; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.937], same direction in all eight cohorts. Its inflamed-versus-non-inflamed signal is weaker than for the neutrophil chemokine genes, so it suggests an interferon-driven response; this is interpretation, not tested here.",
+   "claims": [
+    {
+     "claim": "Its inflamed-versus-non-inflamed signal is weaker than for the neutrophil chemokine genes",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No inflamed vs non-inflamed record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": []
+}

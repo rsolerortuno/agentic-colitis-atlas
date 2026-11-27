@@ -21,6 +21,9 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `agente-vias`: "Question: <question>. Write your output to RUN/agent_pathways.json."
    - `agente-aplicado`: "Question: <question>. Write your output to RUN/agent_applied.json."
 
+   Then run `uv run python -m ucatlas.frontpage <RUN date>`: it writes `RUN/frontpage_rule.json`, the genes that may
+   be prioritised on the front page and the mandatory positive controls (see step 4).
+
 3. Run `uv run python scripts/verify.py agents`. It removes evidence ids that do not exist or are not linked to the
    gene and drops unsupported findings, writing `*.verified.json`.
 
@@ -80,6 +83,16 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    - `integration` (2 paragraphs): agreements and disagreements between the streams.
    - 3–5 summary paragraphs; 10–14 entries in `targets` ordered by your judgment of strength (you may depart from the
      numeric ranking, but say why in `rationale`). Known UC targets act as positive controls: say so when they appear.
+     Choose `targets` only among the `eligible` genes of `RUN/frontpage_rule.json` and include every one of its
+     `mandatory_controls`; a positive control is about the axis or drug class, not a new drug for that one gene, and
+     its rationale says so. `verify.py final` fails a front page that breaks the rule.
+   - When a fact you need is in no record (what a drug binds, how a trial ended), you may search PubMed
+     (`uv run python -m ucatlas.pubmed_quotes search "<query>"`, `... abstract <pmid>`, or the kg-mcp tools
+     `pubmed_search` and `pubmed_abstract`) and register the sentence you will rely on:
+     `uv run python -m ucatlas.pubmed_quotes add --run <RUN date> --by orchestrator --pmid <pmid> --genes <G1,G2>
+     [--drug <name>] --quote "<sentence copied verbatim from the abstract>"`. It refuses quotes that are not verbatim and
+     papers that are not peer-reviewed journal articles or are retracted, and prints the evidence ids to cite. Never
+     cite a paper you did not register this way or find in a record.
    - Read `docs/numeric-claims.md` if present. Bind every number to its record with the `numeric_annotation` tool
      (kg-mcp): it returns the exact annotation to paste once into the text and the `numeric_claims` entry to add.
      Copying annotations from the verified agent files is fine when the paragraph cites the same evidence id. An
@@ -101,7 +114,15 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    or, if you decide it does not belong in the report, say why in one `limitations` entry naming the gene. Negative
    results are findings: report them. Re-run the script until no key finding is left uncited without a reason.
 
-4c. Reading check of the narrative. Run `uv run python -m ucatlas.claim_check prepare-narrative <RUN date>`, launch
+4c. Expert review of the front page. Run `uv run python -m ucatlas.expert_review prepare <RUN date>`, then launch one
+   `revisor-experto` agent with: "Process <input> -> <output>" (the paths it printed). Then run
+   `uv run python -m ucatlas.expert_review validate <RUN date>`: it keeps factual objections only when their PubMed
+   quote is verbatim and the paper peer-reviewed (and registers the quote as citable evidence), keeps framing
+   objections, and writes `RUN/revisions_expert.json`. Apply each kept objection to `narrative.json` once: a factual one
+   by citing its `evidence_ids` or removing the disputed claim, a framing one only by rewording, reordering or removing
+   what is already written. Discarded objections are not acted on.
+
+4d. Reading check of the narrative. Run `uv run python -m ucatlas.claim_check prepare-narrative <RUN date>`, launch
    `lector-afirmaciones` agents on its batches as in 3b (outputs in `data/claim_check/<RUN date>/narrative/read/`),
    then `uv run python -m ucatlas.claim_check revisions-narrative <RUN date>`, which writes
    `RUN/revisions_narrative.json`. Fix each listed claim in `narrative.json` (cite the supporting record, correct, or
