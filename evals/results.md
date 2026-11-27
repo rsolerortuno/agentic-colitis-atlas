@@ -626,7 +626,9 @@ all fixed before the next reading:
   IL12B in the applied specialist's finding. A fifth reviewer on the published text judged it acceptable with no
   change required; its one low point (tofacitinib's selectivity) and an optional one (a TYK2/JAK1 inhibitor,
   brepocitinib, effective in UC phase 2b, so deucravacitinib's failure is not read as TYK2 failing) were added from
-  two more peer-reviewed papers. Final reading: 520 claims, none contradicted, 14 not in the cited evidence, none in
+  two more peer-reviewed papers. A sixth review asked only that tofacitinib not be described by its JAK2 activity on
+  the JAK2 card; it is now described, as in the cited selectivity study, as inhibiting JAK1-dependent pathways most
+  potently, like the others. Final reading: 523 claims, none contradicted, 14 not in the cited evidence, none in
   a statement about or naming IL12B, JAK2 or CXCR2.
 The drug facts come from a new curated layer (drug_literature.py, data/drug_literature.json): verbatim sentences from
 ten peer-reviewed trial papers, every one checked against PubMed, and the NLM MeSH record that ties navarixin to the

@@ -242,7 +242,7 @@
  "tags": {
   "IL12B": "UC: ustekinumab binds it (p40); anti-p19 mirikizumab, risankizumab, guselkumab bind IL23A",
   "IL23A": "UC: anti-p19 mirikizumab, risankizumab, guselkumab bind it; ustekinumab binds IL12B (p40)",
-  "JAK2": "UC: tofacitinib (JAK inhibitor, more JAK2/JAK3-pathway inhibition than filgotinib); upadacitinib, filgotinib (JAK1-selective or -preferential)",
+  "JAK2": "UC: tofacitinib (JAK inhibitor, most potent on JAK1 pathways); upadacitinib, filgotinib (JAK1-selective or -preferential)",
   "JAK1": "UC: upadacitinib (JAK1-selective), filgotinib (JAK1-preferential), tofacitinib (JAK inhibitor)",
   "TYK2": "UC phase 2: TYK2-selective deucravacitinib failed; TYK2/JAK1 brepocitinib effective",
   "CXCR2": "UC: tested in phase 2, not advanced (SB-656933, navarixin); lowers blood neutrophils"
