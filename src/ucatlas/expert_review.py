@@ -106,8 +106,8 @@ def _write(items: list[dict], base, header: dict) -> dict:
 
 HEADER = {"question": "What are the candidate therapeutic targets, immune pathways and biomarkers in ulcerative colitis "
                       "with the strongest convergent evidence?",
-          "what_you_read": "The front page of an ulcerative colitis evidence atlas: the summary of the findings and the "
-                           "prioritised candidates, in the blocks the page shows them in."}
+          "what_you_read": "An ulcerative colitis evidence atlas: the summary of the findings on its front page and the "
+                           "orchestrator's selection of candidates (Ranking tab), in the blocks the page shows them in."}
 
 
 def prepare(run: str) -> dict:

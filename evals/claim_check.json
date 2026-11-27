@@ -2,7 +2,7 @@
  "run": "2026-11-27",
  "reader": ".claude/agents/lector-afirmaciones.md (Claude Code subscription)",
  "statements": 115,
- "claims": 509,
+ "claims": 508,
  "claims_contradicted": 0,
  "claims_not_in_evidence": 16,
  "statements_with_a_contradicted_claim": [],

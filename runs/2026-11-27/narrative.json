@@ -1,13 +1,10 @@
 {
  "summary": [
   {
-   "text": "The strongest convergent signal in UC mucosa is a neutrophil-recruitment axis. CXCR2, CXCR1 and CXCL8 take the first three places of the convergence ranking, CXCR2 and CXCL8 are up in all eight cohorts, but single-cell data place almost all CXCR2 transcripts in neutrophils [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965] and most CXCL8 transcripts too [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873], so their bulk rise mainly reports neutrophil arrival rather than a change of the tissue itself.",
+   "text": "The strongest convergent signal in UC mucosa is a neutrophil-recruitment axis. CXCR2 and CXCL8 are up in all eight cohorts, but single-cell data place almost all CXCR2 transcripts in neutrophils [gene=CXCR2; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.965] and most CXCL8 transcripts too [gene=CXCL8; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.873], so their bulk rise mainly reports neutrophil arrival rather than a change of the tissue itself.",
    "evidence_ids": [
     "EV:sc_summary:1fce9fb2531f",
     "EV:sc_summary:1e78b2f07f0c",
-    "EV:analysis_ranking:ade64cfa8d01",
-    "EV:analysis_ranking:f75d878c01dd",
-    "EV:analysis_ranking:cf98d93b6656",
     "EV:expression_meta:1fce9fb2531f",
     "EV:expression_meta:1e78b2f07f0c"
    ],

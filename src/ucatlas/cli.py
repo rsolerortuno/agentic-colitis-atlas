@@ -147,6 +147,8 @@ def run_all(clean: bool = True, run_name: str | None = None) -> None:
     _step("drug trial literature", drug_literature.load)
     from . import pubmed_quotes
     _step("PubMed quotes added during runs", pubmed_quotes.load)
+    from . import clinical_list   # targets in clinical validation, approved ones marked (2026-11-27)
+    _step("clinical validation list", lambda: len(clinical_list.build()))
     from . import shortlist_literature as sl_lit, validation_shortlist
     if any(sl_lit.CLASSIFIED.glob("*.jsonl")):   # classifier output (agent step, kept in the repository)
         _step("shortlist literature", lambda: ((sl_lit.DIR / "records.parquet").exists() or sl_lit.retrieve(),

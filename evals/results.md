@@ -684,3 +684,17 @@ calprotectin, an established stool test. Verification: 115 statements, no failur
 contradicted, 16 not in the cited evidence (none on the front page); on 73 direction-flipped copies the reader caught
 70 and the deterministic checks 54 (29 of 31 where bulk expression is cited). Two of the missed flips sit on a
 meta-analysis record marked not significant although its padj is tiny (JAK2), and on pathway findings without a gene.
+
+## (g7) No ranking on the front page; a fifth list for targets already in the clinic (2026-11-27)
+
+Which gene comes first depends on what the reader is after, so the front page no longer shows a ranked selection. It
+keeps the summary and links to five lists, one per question: first-in-class, well known without a drug, repurposing,
+genetics first, and a new one, targets in clinical validation (`clinical_list.py`). The orchestrator's selection, with
+its selection rule and blocks, moved to the Ranking tab; the one summary sentence that cited ranking places was
+removed (re-verified and re-read). The new list holds genes with a drug tried in UC or IBD that the omics back
+(meta-analysis BH < 0.05, same direction in at least 5 of 8 cohorts, more than 100 Europe PMC UC records) and, at the
+user's request, every gene with a drug approved in UC or IBD, marked approved, on the same scores: 77 genes, 22
+approved. Approved targets fall low: median convergence rank 763 and median data-only rank 2,578 (expression,
+replication, inflammation and genetics only) of 26,551 genes; TNF is 222 on the full score and 1,888 on data only,
+ITGB7 3,611 and 7,539. Genes in trials lead the list (CXCR2, CXCR1, MMP1, MMP7, IL1B). Rows whose only UC drug is
+doxycycline (MMP1, MMP7, MMP13) are flagged as not gene-directed.

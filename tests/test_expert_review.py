@@ -55,3 +55,20 @@ def test_every_seed_changes_the_words_it_targets():
         assert kind in X.KINDS
         m = re.compile(pat)
         assert m.pattern and rep, name
+
+
+def test_clinical_list_marks_approved_and_keeps_its_criteria():
+    import pytest
+    from ucatlas.clinical_list import MIN_COHORTS, MIN_PAPERS, OUT, view
+    if not OUT.exists():
+        pytest.skip("clinical list not built")
+    v = view()
+    rows = v["rows"]
+    assert v["approved"] == sum(r["approved"] for r in rows) > 0
+    for r in rows:
+        if not r["approved"]:
+            assert r["cohorts_same_direction"] >= MIN_COHORTS and r["uc_papers"] > MIN_PAPERS
+            assert r["meta_padj"] is not None and r["meta_padj"] < 0.05
+    scores = [r["score"] for r in rows if r["score"] is not None]
+    assert scores == sorted(scores, reverse=True)
+    assert {"TNF", "IL12B", "JAK2"} <= set(v["approved_genes"])

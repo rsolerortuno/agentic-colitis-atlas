@@ -1,0 +1,20 @@
+{% from "macros.j2" import q, plain with context %}
+<section class="panel" id="tab-clinical" data-name="clinical">
+{{ plain('clinical') }}
+<h2>In clinical validation, backed by the omics</h2>
+<p class="lede">Genes on which a drug has been tried in UC or IBD: {{ CL.trial }} still in trials or stopped, and the {{ CL.approved }} with a drug approved in UC or IBD, marked <span class="tag fic">approved</span> so you can see where validated targets fall. A gene still in trials enters when its change is significant in the eight-cohort meta-analysis and goes the same way in at least {{ CL.min_cohorts }} cohorts, and when more than {{ CL.min_papers }} Europe PMC records name it with ulcerative colitis. Approved genes are listed whatever their data.</p>
+<div class="howbox"><h4>How to read this list</h4><ul>
+<li>Rows follow the <strong>convergence score</strong> (Candidates tab), which includes the literature and whether a drug exists, so it favours genes like these. The <strong>data-only rank</strong> next to it leaves those two streams out and uses only expression, replication across cohorts, inflamed against non-inflamed mucosa and human genetics: it shows how much the data alone support each gene. Ranks are among {{ "{:,}".format(CL.universe) }} genes.</li>
+<li>Approved targets sit low on the data-only rank (median {{ CL.approved_median_rank_data_only }}, against {{ CL.approved_median_rank }} on the full score): most approved UC drugs act on immune signalling whose RNA changes little in biopsies. A gene in trials that ranks above them is not therefore a better target; it changes more in the tissue.</li>
+<li>Stage and drugs come from Open Targets (clinical precedence in UC, else Crohn's disease or IBD). Several approved entries come from the drug's listed targets: mesalazine and its prodrugs are listed against PTGS1, PTGS2, ALOX5 and PPARG, and upadacitinib against all four JAK kinases, although it is JAK1-selective.</li>
+<li><span class="tag warn">not gene-directed</span>: the only UC or IBD drug recorded is doxycycline, an antibiotic tested in UC that also inhibits matrix metalloproteinases at low dose; it was not made against this gene.</li></ul></div>
+<div class="tw"><table class="sl"><thead><tr><th>Gene</th><th>Status</th><th>Setting and stage</th><th>Drugs</th><th class="num">Meta log2FC</th><th class="num">Cohorts same direction</th><th class="num">UC papers</th><th class="num">Convergence rank</th><th class="num">Data-only rank</th><th>Evidence</th></tr></thead><tbody>
+{% for r in CL.rows %}<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong></td>
+<td>{% if r.approved %}<span class="tag fic">approved</span>{% else %}in trials or tried{% endif %}{% if r.not_directed %} <span class="tag warn">not gene-directed</span>{% endif %}</td>
+<td>{{ r.setting }}{% if r.stage != 'tried' %}, {{ r.stage | replace('_', ' ') | lower | replace('phase ', 'phase ') }}{% endif %}</td>
+<td>{{ r.drugs | join(", ") }}{% if r.n_drugs > r.drugs | length %} +{{ r.n_drugs - r.drugs | length }}{% endif %}</td>
+<td class="num">{{ r.meta_log2fc | fmt }}</td><td class="num">{{ r.cohorts_same_direction }} of 8</td><td class="num">{{ "{:,}".format(r.uc_papers) }}</td>
+<td class="num">{{ r.rank | fmt }}</td><td class="num">{{ r.rank_data_only | fmt }}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="small">Approved here: {{ CL.approved_genes | join(", ") }}.</p>
+</section>

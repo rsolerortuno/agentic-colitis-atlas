@@ -934,6 +934,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
             "spots": cell["visium"]["spots"], "xenium_cells": xen_cells,
             "mr_genes": len(set(pd.read_parquet(PROCESSED / "mr_pqtl.parquet").gene) | set(pd.read_parquet(PROCESSED / "mr_colon.parquet").gene)),
             "proteins": S["modeled"], "fic": D["status"].get("first-in-class opportunity", 0), "pool": D["pool"]}
+    from .clinical_list import view as clinical_view
+    CL = clinical_view()
     # table evidence must be numbered too
     extra_ids = []
     top25_drug = [{"gene": r["gene"], "evidence_ids": [drugind[r["gene"]]["evidence_id"]]} for r in ranking[:25]
@@ -941,7 +943,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
               third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"], SL["kn"], G.get("alphagenome", {}).get("rows", []), GT.get("rows", []),
-              cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug]
+              cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug, CL.get("rows", [])]
     for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]
@@ -969,7 +971,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], drugind=drugind, top_reading=top_reading, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), target_groups=target_groups(f, drugind, _disc), frontpage_rule=FRONTPAGE_RULE, cell=cell, third=third, SL=SL, GT=GT,
+        badges=badges(f, cell), target_groups=target_groups(f, drugind, _disc), frontpage_rule=FRONTPAGE_RULE, CL=CL, cell=cell, third=third, SL=SL, GT=GT,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,

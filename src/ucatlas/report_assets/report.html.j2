@@ -53,7 +53,23 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <h2>Summary of the findings</h2>
 <p class="small">Written by the orchestrating agent from the six agent reports. Every sentence cites evidence records and passed the automatic checks.</p>
 {{ paras(f.narrative.summary) }}
-<h2>Prioritised candidates</h2>
+<h2>Where to look, by what you are after</h2>
+<p class="small">Which gene comes first depends on the question, so the atlas has no single list of best targets. Five lists answer five questions; each states its criteria and shows its evidence.</p>
+<div class="grid">
+<div class="card"><h3><a href="#tab-shortlist">New targets nobody works on</a></h3><p class="small">First-in-class: genes that change in the tissue itself, with few UC papers and no drug for any disease, each with traffic lights and a proposed first experiment. {{ SL.rows | length }} genes.</p></div>
+<div class="card"><h3><a href="#tab-known">Well known in UC, no drug yet</a></h3><p class="small">Established UC biology (more than 15 UC papers) that no drug reaches. {{ SL.kn | length }} genes.</p></div>
+<div class="card"><h3><a href="#tab-repurposing">A drug exists for another disease</a></h3><p class="small">Genes with an inhibitor in the clinic outside IBD, never tried in UC. {{ SL.rp | length }} genes.</p></div>
+<div class="card"><h3><a href="#tab-genetic">Start from inherited risk</a></h3><p class="small">Genetics first: UC risk variants, the gene and cell they act in and the direction a drug would need.{% if GT and GT.rows %} {{ GT.rows | length }} genes.{% endif %}</p></div>
+<div class="card"><h3><a href="#tab-clinical">Already in the clinic</a></h3><p class="small">A drug tried or approved in UC or IBD, with how strongly the omics back each gene; approved targets marked for comparison. {{ CL.n }} genes, {{ CL.approved }} approved.</p></div>
+</div>
+<p class="small">The genes with the most agreeing evidence overall, the orchestrator's selection with the reason for each, and how the weights change the order are in the <a href="#tab-candidates">Ranking</a> tab.</p>
+</section>
+
+<!-- ================================================================ CANDIDATES -->
+<section class="panel" id="tab-candidates" data-name="candidates">
+{% include "candidate_evidence.html.j2" %}
+{{ plain('candidates') }}
+<h2>The orchestrator's selection</h2>
 <p class="small">{{ frontpage_rule }} Each card says which criterion it meets. They are shown in four blocks set by rules on the data (a UC-approved drug; most RNA from neutrophils; a tissue change; biomarkers), in the orchestrator's order inside each block. The first two blocks check the method against what is known; the new candidates are in the third. The tags show the role (target, biomarker or both), the convergence rank, the cell that makes the gene in inflamed mucosa, the causal genetic estimate where one exists and where its drugs are: UC first, then Crohn's disease or IBD, else the drug with its disease. A UC drug that is also listed for other genes acts on a complex or a family, and those genes are named; where the cited peer-reviewed literature says which subunit or kinase a drug binds (anti-p40 against anti-p19, JAK1-selective inhibitors), the tag says so.</p>
 {% set ns = namespace(i=0) %}
 {% for g in target_groups %}
@@ -77,12 +93,6 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 {% endfor %}
 </div>
 {% endfor %}
-</section>
-
-<!-- ================================================================ CANDIDATES -->
-<section class="panel" id="tab-candidates" data-name="candidates">
-{% include "candidate_evidence.html.j2" %}
-{{ plain('candidates') }}
 <h2>The convergence ranking</h2>
 <p class="lede">Each gene gets one score built from six kinds of evidence: how much it changes in UC biopsies (pooled over eight cohorts), in how many cohorts the change repeats, whether it differs between inflamed and non-inflamed mucosa of the same patient, human genetics, the literature and whether a drug exists or looks possible. Every kind is scaled from 0 to 1 and multiplied by a weight ({% for k, v in sw.items() %}{{ k }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). The weights live in <code>config.yaml</code> and were set before the results were known. {{ "{:,}".format(f.convergence.universe_size) }} genes are scored.</p>
 <div class="grid two">
@@ -401,6 +411,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 {% include "shortlist_tab.html.j2" %}
 {% if SL.rp %}{% include "repurposing_tab.html.j2" %}{% endif %}
 {% if GT %}{% include "genetic_tab.html.j2" %}{% endif %}
+{% if CL %}{% include "clinical_tab.html.j2" %}{% endif %}
 
 {% include "tabs_clinical.html.j2" %}
 
