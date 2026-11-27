@@ -196,14 +196,55 @@
     "Tyrosine kinase 2 is a downstream intracellular mediator of interleukin-23 signaling, which has a key role in the pathogenesis of inflammatory bowel disease.",
     "Deucravacitinib at multiple doses did not demonstrate significant clinical benefit vs placebo in moderately to severely active Crohn's disease or ulcerative colitis."
    ]
+  },
+  {
+   "key": "jak_selectivity_ard",
+   "pmid": 33741556,
+   "doi": "10.1136/annrheumdis-2020-219012",
+   "journal": "Ann Rheum Dis",
+   "year": 2021,
+   "title": "JAK selectivity and the implications for clinical inhibition of pharmacodynamic cytokine signalling by filgotinib, upadacitinib, tofacitinib and baricitinib.",
+   "trial": "pharmacology in human blood and phase 1 volunteers",
+   "drug": "filgotinib, tofacitinib, upadacitinib, baricitinib",
+   "binds": "JAK1 pathways most potently; filgotinib least on JAK2- and JAK3-dependent pathways",
+   "genes": [
+    "JAK1",
+    "JAK2",
+    "JAK3",
+    "TYK2"
+   ],
+   "quotes": [
+    "JAK1-dependent pathways (interferon (IFN)α/pSTAT5, interleukin (IL)-6/pSTAT1) were among the most potently inhibited by all JAKinibs in healthy and RA blood, with filgotinib exhibiting the greatest selectivity for JAK1 pathways.",
+    "Filgotinib inhibited JAK1-mediated signalling similarly to other JAKinibs, but with less inhibition of JAK2-dependent and JAK3-dependent pathways, providing a mechanistic rationale for its apparently differentiated efficacy:safety profile."
+   ]
+  },
+  {
+   "key": "brepocitinib_uc",
+   "pmid": 36623678,
+   "doi": "10.1016/j.cgh.2022.12.029",
+   "journal": "Clin Gastroenterol Hepatol",
+   "year": 2023,
+   "title": "Oral Ritlecitinib and Brepocitinib for Moderate-to-Severe Ulcerative Colitis: Results From a Randomized, Phase 2b Study.",
+   "trial": "phase 2b umbrella study (NCT02958865)",
+   "drug": "brepocitinib",
+   "binds": "TYK2 and JAK1",
+   "genes": [
+    "TYK2",
+    "JAK1",
+    "JAK2"
+   ],
+   "quotes": [
+    "The efficacy and safety of ritlecitinib (oral JAK3/TEC family kinase inhibitor) and brepocitinib (oral TYK2/JAK1 inhibitor) as induction therapy were assessed in patients with active, moderate-to-severe ulcerative colitis.",
+    "Ritlecitinib and brepocitinib induction therapies were more effective than placebo for the treatment of moderate-to-severe active ulcerative colitis, with an acceptable short-term safety profile."
+   ]
   }
  ],
  "tags": {
   "IL12B": "UC: ustekinumab binds it (p40); anti-p19 mirikizumab, risankizumab, guselkumab bind IL23A",
   "IL23A": "UC: anti-p19 mirikizumab, risankizumab, guselkumab bind it; ustekinumab binds IL12B (p40)",
-  "JAK2": "UC: tofacitinib (JAK inhibitor, also listed against JAK2); upadacitinib, filgotinib (JAK1-selective or -preferential)",
+  "JAK2": "UC: tofacitinib (JAK inhibitor, more JAK2/JAK3-pathway inhibition than filgotinib); upadacitinib, filgotinib (JAK1-selective or -preferential)",
   "JAK1": "UC: upadacitinib (JAK1-selective), filgotinib (JAK1-preferential), tofacitinib (JAK inhibitor)",
-  "TYK2": "UC: TYK2-selective deucravacitinib failed in phase 2",
+  "TYK2": "UC phase 2: TYK2-selective deucravacitinib failed; TYK2/JAK1 brepocitinib effective",
   "CXCR2": "UC: tested in phase 2, not advanced (SB-656933, navarixin); lowers blood neutrophils"
  },
  "synonyms": [

@@ -623,8 +623,11 @@ all fixed before the next reading:
   the JAK argument from the atlas's own genetics (JAK1-selective drugs work although JAK1 has no genetic association
   here), the positive controls shown as where genetics recovers known targets rather than as a test, the antagonists
   also listed against CXCR1, one bioinformatic MR study not read as a verdict, and ustekinumab blocking IL-23 through
-  IL12B in the applied specialist's finding. Final reading: 519 claims, none contradicted, 14 not in the cited
-  evidence, none in a statement about or naming IL12B, JAK2 or CXCR2.
+  IL12B in the applied specialist's finding. A fifth reviewer on the published text judged it acceptable with no
+  change required; its one low point (tofacitinib's selectivity) and an optional one (a TYK2/JAK1 inhibitor,
+  brepocitinib, effective in UC phase 2b, so deucravacitinib's failure is not read as TYK2 failing) were added from
+  two more peer-reviewed papers. Final reading: 520 claims, none contradicted, 14 not in the cited evidence, none in
+  a statement about or naming IL12B, JAK2 or CXCR2.
 The drug facts come from a new curated layer (drug_literature.py, data/drug_literature.json): verbatim sentences from
 ten peer-reviewed trial papers, every one checked against PubMed, and the NLM MeSH record that ties navarixin to the
 codes SCH-527123 and MK-7123. Smillie 2019's cell types are a new atlas record (51 types, no neutrophil type). A false
