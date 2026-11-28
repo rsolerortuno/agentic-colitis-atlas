@@ -1,0 +1,158 @@
+{
+ "agent_file": "agent_external.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "TUFM is the only pool gene with significant, replicated gut MR: higher expression in sigmoid colon raises UC risk, odds ratio per SD [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=colon_tissue; odds_ratio_per_sd=1.191], colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023. In IBDverse plasma B cells the odds ratio per SD is [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=gut_cell; odds_ratio_per_sd=1.356], also colocalising and replicating, so inhibition is the therapeutic direction. It has a single instrument (Steiger direction correct; Egger and weighted median not computable), no plasma pQTL, and the Open Targets association is outside the top 150 of the graph.",
+   "claims": [
+    {
+     "claim": "TUFM is the only pool gene with significant, replicated gut MR",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cross-gene comparison cited."
+    },
+    {
+     "claim": "no plasma pQTL",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No pQTL record cited."
+    }
+   ]
+  },
+  {
+   "finding": 1,
+   "statement": "The genetic-target record gives a fine-mapped UC signal (tier confident) whose risk allele raises TUFM expression, predicted mainly in blood neutrophil and colon myeloid cells; biopsies show no change, and the single-cell cell family is epithelial, which does not match the predicted cell. TUFM is a mitochondrial elongation factor, so a drug route is unclear (no clinical drug).",
+   "claims": [
+    {
+     "claim": "the single-cell cell family is epithelial",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No single-cell record cited."
+    }
+   ]
+  },
+  {
+   "finding": 3,
+   "statement": "CFB has an approved inhibitor for IgA glomerulonephritis and paroxysmal nocturnal haemoglobinuria, none tried in UC or IBD. It is not loss-constrained, with no curated safety events, but it has no cis-pQTL or gut eQTL (MR not tested, which is not evidence against it); the pool dossier flags a red safety light for CFB (vital-organ expression, complement deficiency on loss).",
+   "claims": [
+    {
+     "claim": "the pool dossier flags a red safety light for CFB (vital-organ expression, complement deficiency on loss)",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No safety light in cited records."
+    }
+   ]
+  },
+  {
+   "finding": 5,
+   "statement": "LY96 (MD-2) has a phase 3 inhibitor in sepsis and covid-19 and none in UC. Plasma MR (two instruments) is not significant and does not replicate in FinnGen; gut cell MR (non-classical monocytes) is also not significant. MGI records no colitis phenotype, although the pool lists two mouse-colitis papers that call MD-2/TLR4 blockade beneficial.",
+   "claims": [
+    {
+     "claim": "MGI records no colitis phenotype",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No MGI or mouse colitis record cited."
+    },
+    {
+     "claim": "the pool lists two mouse-colitis papers that call MD-2/TLR4 blockade beneficial",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No such papers in cited records."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "CHI3L1 changes strongly in biopsies, but its genetics do not support it: plasma MR is not significant and does not replicate in FinnGen, and colon-tissue MR is also not significant. The literature is split between pathogenic and protective mouse results (knockout worsens colitis), so inhibition has a possible mucosal-protection risk.",
+   "claims": [
+    {
+     "claim": "CHI3L1 changes strongly in biopsies",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No expression record cited."
+    }
+   ]
+  },
+  {
+   "finding": 8,
+   "statement": "SERPINB5 has two independent mouse colitis papers in which knockdown or ablation protects (pathogenic role), the strongest in-vivo support among the pool genes in the known list, and it is intrinsically epithelial. It has no genetic instrument, so human genetics are untested.",
+   "claims": [
+    {
+     "claim": "the strongest in-vivo support among the pool genes in the known list",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cross-gene comparison in cited records."
+    }
+   ]
+  },
+  {
+   "finding": 10,
+   "statement": "RORC, CFAP90 and FIGNL1 come only from sequence-predicted genetic-target records with tiny predicted effects; none has MR support (not significant or not testable) and none has a clinical drug, so they are the weakest-supported genetics-first picks.",
+   "claims": [
+    {
+     "claim": "none has a clinical drug",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No clinical record cited."
+    }
+   ]
+  },
+  {
+   "finding": 11,
+   "statement": "CFAP90 is a confident-tier predicted-expression signal with no MR support, no biopsy change and no clinical drug.",
+   "claims": [
+    {
+     "claim": "no clinical drug",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No clinical record cited."
+    }
+   ]
+  },
+  {
+   "finding": 12,
+   "statement": "FIGNL1 is a confident-tier predicted-expression signal in NK cells with no MR support, no biopsy change and no clinical drug.",
+   "claims": [
+    {
+     "claim": "no clinical drug",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No clinical record cited."
+    }
+   ]
+  },
+  {
+   "finding": 13,
+   "statement": "CPXM1 (first-in-class) rises in stromal cells with an antibody route, but genetics are tested with no causal effect, it was never tested in mouse colitis, and the UC literature is thin; it is expression-led with no external genetic support.",
+   "claims": [
+    {
+     "claim": "genetics are tested with no causal effect",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No genetics record cited."
+    },
+    {
+     "claim": "it was never tested in mouse colitis",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No mouse colitis record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": []
+}

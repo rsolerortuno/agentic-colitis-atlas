@@ -1,0 +1,102 @@
+{"verdicts": [
+ {"id": "C02", "verdict": "concerns", "summary": "A biomarker with a clean epithelial signal, but no functional study in either direction, so the 'validated target' claim is unearned.",
+  "reasons": [
+   {"kind": "judgement", "text": "Reproducible, intrinsic, epithelial rise and a secreted protein make a tractable test, but the card itself shows no functional study; its role could be repair, so inhibition may harm.", "claim": "possible repair programme"}
+  ]},
+ {"id": "C03", "verdict": "concerns", "summary": "An existing MD-2 antagonist makes a cheap test, but the neutrophil-driven signal and a healing penalty from TLR4/MD-2 blockade call for caution.",
+  "reasons": [
+   {"kind": "factual", "text": "Antibody blockade of TLR4/MD-2 lowered inflammation in DSS colitis but impaired mucosal healing during recovery.", "pmid": 19359427, "quote": "Our findings suggest that anti-TLR4 therapy may decrease inflammation in IBD but may also interfere with colonic mucosal healing.", "genes": ["LY96", "TLR4"]},
+   {"kind": "judgement", "text": "Much of the bulk rise is neutrophil arrival and Mendelian randomisation is null, so the signal is weak evidence of a causal role.", "claim": "its rise reports in part cell arrival"}
+  ]},
+ {"id": "C04", "verdict": "against", "summary": "A genetics-only hypothesis with no Mendelian randomisation support and no change in biopsies; I would not spend a first year on it.",
+  "reasons": [
+   {"kind": "judgement", "text": "Prediction is tiny (+0.036 in NK cells), biopsies show no change and there is no clinical drug; the card itself concedes it stays only to fill the list.", "claim": "Mendelian randomisation gives no support, and biopsies show no change"}
+  ]},
+ {"id": "C05", "verdict": "concerns", "summary": "An approved factor B inhibitor is a convenient test, but the red safety light and the loss-of-function genetics point toward protection.",
+  "reasons": [
+   {"kind": "factual", "text": "A CFB loss-of-function variant is associated with perianal Crohn's disease, implicating CFB activity in protection, though in a different phenotype from UC.", "pmid": 37080587, "quote": "pCD-associated rs4151651 in CFB is a loss-of-function mutation that impairs its cleavage, activation of alternative complement pathway, and pathogen phagocytosis thus implicating the alternative complement pathway and CFB in pCD aetiology.", "genes": ["CFB"], "drug": "Iptacopan"},
+   {"kind": "judgement", "text": "Red safety light and complement's role in infection defence make chronic inhibition risky; an ex vivo test of the approved drug is still reasonable.", "claim": "long-term inhibition may reproduce that disease"}
+  ]},
+ {"id": "C07", "verdict": "concerns", "summary": "A solid epithelial, intrinsic rise, but no functional or genetic evidence and no obvious drug route.",
+  "reasons": [
+   {"kind": "judgement", "text": "Reproducible and intrinsic, yet an intracellular enzyme with no extracellular part and a single list mention; it is a discovery bet, not an evidence-backed target.", "claim": "What is missing: any functional or genetic evidence"}
+  ]},
+ {"id": "C08", "verdict": "against", "summary": "The only causal genetic signal, but the cell, the tissue direction and the drug route do not fit a first-year target.",
+  "reasons": [
+   {"kind": "judgement", "text": "Ubiquitous mitochondrial gene, one instrument, predicted cell differs from single-cell cell, and inflamed biopsies show a slight decrease; inhibition is unsupported in tissue.", "claim": "which does not support the inhibition hypothesis in tissue"}
+  ]},
+ {"id": "C10", "verdict": "against", "summary": "A broadly expressed transcription factor with a cell mismatch and null Mendelian randomisation is not a first-year target.",
+  "reasons": [
+   {"kind": "judgement", "text": "Transcription factor, main source neutrophils and macrophages not the predicted dendritic cell, null genetics pointing the other way, and no clinical drug.", "claim": "a transcription factor is hard to drug"}
+  ]},
+ {"id": "C11", "verdict": "concerns", "summary": "A strong marker with antibody tractability, but knockout mice show worse colitis, so blockade could harm the epithelium.",
+  "reasons": [
+   {"kind": "factual", "text": "Chi3l1 knockout mice developed severe colitis but less colitis-associated cancer, so inhibition has opposing effects on injury and tumour.", "pmid": 26431492, "quote": "Here we demonstrate that CHI3L1 (aka Brp39) knockout (KO) mice treated with azoxymethane (AOM)/dextran sulphate sodium (DSS) developed severe colitis but lesser incidence of CAC as compared to that in wild-type (WT) mice.", "genes": ["CHI3L1"]},
+   {"kind": "judgement", "text": "The parallel fibroblast and organoid test is the right design, as it reads benefit and harm together.", "claim": "to see benefit and harm in one test"}
+  ]},
+ {"id": "C12", "verdict": "against", "summary": "Same case as FIGNL1: a sequence-based prediction with no support from Mendelian randomisation or biopsies.",
+  "reasons": [
+   {"kind": "judgement", "text": "Tiny predicted effect, no change in biopsies, no genetic corroboration and no drug; confirming the variant effect on expression comes before any target claim.", "claim": "no Mendelian randomisation support and no change in biopsies"}
+  ]},
+ {"id": "C13", "verdict": "support", "summary": "The best-supported choice: epithelial, intrinsic, reproducible, with knockdown benefit in mouse colitis; the cancer question needs care.",
+  "reasons": [
+   {"kind": "factual", "text": "SerpinB5 knockdown relieved symptoms in a DSS mouse model of UC and reduced M1 macrophage polarisation.", "pmid": 41485180, "quote": "Meanwhile, SerpinB5 knockdown relieved symptoms of the mouse model of UC and repressed M1 macrophage polarization.", "genes": ["SERPINB5"]},
+   {"kind": "judgement", "text": "Safety light is green, but the tumour-suppressor annotation and recent, single-group mouse data justify organoid work before any antibody.", "claim": "its role in colitis-associated cancer is unsettled"}
+  ]},
+ {"id": "C14", "verdict": "concerns", "summary": "A stromal, secreted target with a clean profile, but one expression paper and no mouse or genetic evidence.",
+  "reasons": [
+   {"kind": "judgement", "text": "Rises already in non-inflamed mucosa, and about 41% of the bulk rise is intrinsic; fibroblast silencing is a sensible first test, but the evidence base is thin.", "claim": "its literature is one expression paper"}
+  ]},
+ {"id": "C16", "verdict": "concerns", "summary": "A real neutrophil-recruiting chemokine, but its rise is mostly neutrophil influx, and redundant CXCR2 ligands may blunt a single-ligand block.",
+  "reasons": [
+   {"kind": "judgement", "text": "Most of the bulk rise is composition; blocking one CXCR2 ligand among several may be compensated, and neutrophil clearance is needed for infection defence.", "claim": "blocking it would act on neutrophil recruitment rather than on a change of the tissue"}
+  ]},
+ {"id": "C17", "verdict": "concerns", "summary": "Activin blockade has mouse colitis support and an approved ligand trap, but the gene is strongly constrained and the signal marks severity.",
+  "reasons": [
+   {"kind": "factual", "text": "In DSS colitis, follistatin, an activin inhibitor, reduced inflammatory infiltrate and favoured epithelial repair.", "pmid": 19643954, "quote": "Importantly, in vivo administration of follistatin attenuated inflammatory cell infiltration during colitis.", "genes": ["INHBA"]},
+   {"kind": "judgement", "text": "LOEUF 0.17 and a non-replicating cell lineage argue for caution; sotatercept traps several activin and GDF ligands, not activin A alone.", "claim": "it is strongly loss-constrained"}
+  ]},
+ {"id": "C18", "verdict": "concerns", "summary": "Stromal and replicated across atlases, but only 28% of the rise is intrinsic, the in situ cell differs, and nothing functional exists.",
+  "reasons": [
+   {"kind": "judgement", "text": "BMP antagonist biology could cut either way in the mucosa; a single list paper, no mouse data, and the producing cell is unsettled.", "claim": "the producing cell is not settled"}
+  ]},
+ {"id": "C19", "verdict": "against", "summary": "Mostly a local-inflammation signal with known safety events and mouse data that, against the card, show benefit of P-selectin blockade.",
+  "reasons": [
+   {"kind": "factual", "text": "Anti-P-selectin antibody reduced leukocyte recruitment and colitis scores in DSS mice, so the animal data do support the pathway.", "pmid": 12101263, "quote": "Compared with control antibody-treated wild-type (WT) mice, WT mice treated with anti-P-selectin antibody and P-selectin(-/-) mice had significantly decreased leukocyte rolling and adhesion in colonic venules and reduced clinical and pathological colitis scores.", "genes": ["SELP"], "drug": "Crizanlizumab"},
+   {"kind": "judgement", "text": "Not a tissue change, only partly intrinsic, no genetic support, and a class of adhesion-blocking drugs already tested in IBD; not a first-year pick.", "claim": "so it is a local-inflammation signal"}
+  ]},
+ {"id": "C20", "verdict": "concerns", "summary": "A reproducible epithelial rise in regenerating crypts, but no functional evidence and a possible repair role.",
+  "reasons": [
+   {"kind": "judgement", "text": "Rises in crypt cells as a possible repair programme, so inhibition could slow healing; an orphan P450 with no paper beyond a list mention.", "claim": "What is missing: any functional or genetic evidence"}
+  ]}
+ ],
+ "objections": [
+  {"id": "C19", "kind": "factual",
+   "claim": "in experimental colitis an anti-P-selectin antibody did not significantly improve colitis",
+   "objection": "A DSS colitis study found that anti-P-selectin antibody significantly reduced leukocyte recruitment and clinical and pathological colitis scores, so the claim of no improvement is contradicted.",
+   "suggestion": "State that anti-P-selectin antibody reduced colitis scores in DSS mice, or cite the study showing no improvement; do not present the animal result as negative.",
+   "pmid": 12101263,
+   "quote": "Compared with control antibody-treated wild-type (WT) mice, WT mice treated with anti-P-selectin antibody and P-selectin(-/-) mice had significantly decreased leukocyte rolling and adhesion in colonic venules and reduced clinical and pathological colitis scores.",
+   "genes": ["SELP"], "drug": "Crizanlizumab"},
+  {"id": "C19", "kind": "framing",
+   "claim": "plasma Mendelian randomisation supports inhibition (p (p = 0.484))",
+   "objection": "A p value of 0.484 is not support; the genetics light reads no causal effect.",
+   "suggestion": "Say plasma Mendelian randomisation is not significant."},
+  {"id": "C17", "kind": "framing",
+   "claim": "an inhibitor is approved for ulcerative colitis and was never tried in UC or IBD",
+   "objection": "Self-contradictory: sotatercept is approved for pulmonary arterial hypertension, not UC, as the dossier states.",
+   "suggestion": "Write: an inhibitor is approved for pulmonary arterial hypertension and was never tried in UC or IBD."},
+  {"id": "C18", "kind": "framing",
+   "claim": "so it predicts ustekinumab failure specifically",
+   "objection": "The same sentence says its baseline level separates ustekinumab and placebo non-responders alike, which means it is not specific to ustekinumab.",
+   "suggestion": "Say it marks severity, not ustekinumab failure specifically."},
+  {"id": "C02", "kind": "framing",
+   "claim": "Direction: inhibit; a validated target.",
+   "objection": "The card itself finds no functional study in either direction and a possible repair role; 'validated target' overstates a biomarker-only record.",
+   "suggestion": "Replace 'a validated target' with 'a supported biomarker, not yet a validated target'."},
+  {"id": "C09", "kind": "framing",
+   "claim": "for CFB a loss-of-function variant implies its function drives the disease",
+   "objection": "The loss-of-function variant is associated with increased risk of perianal Crohn's disease, implying the function protects, as the CFB card says.",
+   "suggestion": "Write: for CFB a loss-of-function variant implies its function protects."}
+ ],
+ "reviewed": ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10", "C11", "C12", "C13", "C14", "C15", "C16", "C17", "C18", "C19", "C20"]}

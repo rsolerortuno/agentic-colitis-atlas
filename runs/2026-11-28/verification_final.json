@@ -1,0 +1,24 @@
+{
+ "file": "runs/2026-11-28/findings.json",
+ "statements": 140,
+ "unsupported": 0,
+ "interpretation": "No failures detected by the automatic checks",
+ "scope": "Evidence linkage, metric bindings, numeric precision and limited direction checks; not complete scientific validation",
+ "semantic_failures": 0,
+ "stale": 0,
+ "decision": {
+  "chosen": 16,
+  "per_list": {
+   "first_in_class": 4,
+   "known": 4,
+   "repurposing": 4,
+   "genetic": 4
+  },
+  "problems": []
+ },
+ "basis": {
+  "started_utc": "2026-11-28T10:41:19+00:00",
+  "evidence": 2714
+ },
+ "detail": []
+}

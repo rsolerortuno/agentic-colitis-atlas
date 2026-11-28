@@ -1,0 +1,620 @@
+{
+ "agent": "agente-aplicado",
+ "findings": [
+  {
+   "gene": "CHRDL2",
+   "role": "treatment",
+   "key": true,
+   "statement": "CHRDL2 (first-in-class pool) is higher at baseline in ustekinumab non-responders (difference [gene=CHRDL2; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.diff_nr_minus_r=0.514], BH padj [gene=CHRDL2; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.00817]), but it also separates UNIFI placebo non-responders (padj [gene=CHRDL2; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.00403]) and the drug-vs-placebo interaction is not significant (padj [gene=CHRDL2; type=treatment_response; source=ANALYSIS:treatment; interaction.ustekinumab.padj=0.873]), so it marks severity, not a ustekinumab mechanism; golimumab, infliximab and vedolizumab arms show nothing after correction.",
+   "evidence_ids": [
+    "EV:treatment_response:c77baf64a62b",
+    "EV:discovery_profile:c77baf64a62b"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:c77baf64a62b",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "diff_nr_minus_r"
+     ],
+     "display": "0.514",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:c77baf64a62b",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.00817",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:c77baf64a62b",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.00403",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:c77baf64a62b",
+     "field": [
+      "interaction",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.873",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CHRDL2",
+   "role": "discovery",
+   "key": true,
+   "statement": "CHRDL2 is made mainly by fibroblasts (dominant lineage share [gene=CHRDL2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.939]), and the stromal lineage replicates in all three other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in the adalimumab atlas it does not differ at baseline between remitters and non-remitters, but rises after treatment in myofibroblasts (coef [gene=CHRDL2; type=antitnf_singlecell; source=DATASET:GSE282122; after_vs_before_treatment.1.coef=1.163]).",
+   "evidence_ids": [
+    "EV:sc_summary:c77baf64a62b",
+    "EV:antitnf_singlecell:c77baf64a62b",
+    "EV:discovery_profile:c77baf64a62b"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:c77baf64a62b",
+     "field": [
+      "dominant_lineage_share"
+     ],
+     "display": "0.939",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:antitnf_singlecell:c77baf64a62b",
+     "field": [
+      "after_vs_before_treatment",
+      1,
+      "coef"
+     ],
+     "display": "1.163",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "PCDH17",
+   "role": "treatment",
+   "key": true,
+   "statement": "PCDH17 (first-in-class pool, endothelial) is the cleanest drug-associated signal in the pool: higher in ustekinumab non-responders (BH padj [gene=PCDH17; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.000594]) with the UNIFI placebo arm not significant (padj [gene=PCDH17; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0885]); however it is also associated with non-response on corticosteroids in PROTECT (padj [gene=PCDH17; type=treatment_response; source=ANALYSIS:treatment; arms.corticosteroids (PROTECT).padj=0.0332]) and correlates with faecal calprotectin (rho [gene=PCDH17; type=treatment_response; source=ANALYSIS:treatment; faecal_calprotectin_rho_protect=0.294]), which points to endothelial inflammation burden rather than a ustekinumab-specific mechanism.",
+   "evidence_ids": [
+    "EV:treatment_response:abe6315cb430",
+    "EV:discovery_profile:abe6315cb430"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:abe6315cb430",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.000594",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:abe6315cb430",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.0885",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:abe6315cb430",
+     "field": [
+      "arms",
+      "corticosteroids (PROTECT)",
+      "padj"
+     ],
+     "display": "0.0332",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:abe6315cb430",
+     "field": [
+      "faecal_calprotectin_rho_protect"
+     ],
+     "display": "0.294",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "PCDH17",
+   "role": "discovery",
+   "statement": "PCDH17 transcripts come from post-capillary venules and endothelial cells in the Smillie atlas, and the stromal lineage replicates in all three other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122).",
+   "evidence_ids": [
+    "EV:sc_summary:abe6315cb430",
+    "EV:discovery_profile:abe6315cb430"
+   ],
+   "numeric_claims": []
+  },
+  {
+   "gene": "INHBA",
+   "role": "treatment",
+   "key": true,
+   "statement": "INHBA (repurposing pool) is higher in ustekinumab non-responders (BH padj [gene=INHBA; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=1.69e-6]) but also in UNIFI placebo non-responders (padj [gene=INHBA; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0108]) with no drug-vs-placebo interaction (padj [gene=INHBA; type=treatment_response; source=ANALYSIS:treatment; interaction.ustekinumab.padj=0.978]), so it is a severity marker; nothing survives correction in golimumab or infliximab arms.",
+   "evidence_ids": [
+    "EV:treatment_response:7c68a6ae5c9a",
+    "EV:discovery_profile:7c68a6ae5c9a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:7c68a6ae5c9a",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "1.69e-6",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:7c68a6ae5c9a",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.0108",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:7c68a6ae5c9a",
+     "field": [
+      "interaction",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.978",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "INHBA",
+   "role": "mechanism",
+   "statement": "In the adalimumab single-cell atlas INHBA shows no baseline difference between remitters and non-remitters, and rises after treatment in C1Qhi IL1Bhi macrophages (coef [gene=INHBA; type=antitnf_singlecell; source=DATASET:GSE282122; after_vs_before_treatment.1.coef=1.759]); an approved inhibitor of this pathway exists for another indication and was never tried in UC.",
+   "evidence_ids": [
+    "EV:antitnf_singlecell:7c68a6ae5c9a",
+    "EV:clinical_indications:7c68a6ae5c9a",
+    "EV:discovery_profile:7c68a6ae5c9a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:antitnf_singlecell:7c68a6ae5c9a",
+     "field": [
+      "after_vs_before_treatment",
+      1,
+      "coef"
+     ],
+     "display": "1.759",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "treatment",
+   "statement": "CHI3L1 (known pool) is associated with ustekinumab non-response (BH padj [gene=CHI3L1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.00971]) but equally with UNIFI placebo non-response (padj [gene=CHI3L1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0203]), so it marks severity; mouse colitis studies in the literature record point in both directions.",
+   "evidence_ids": [
+    "EV:treatment_response:b3f7b3e784f8",
+    "EV:known_literature:b3f7b3e784f8",
+    "EV:discovery_profile:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:b3f7b3e784f8",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.00971",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:b3f7b3e784f8",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.0203",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "SERPINB5",
+   "role": "target",
+   "key": true,
+   "statement": "SERPINB5 (known pool) is higher in ustekinumab non-responders (BH padj [gene=SERPINB5; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0253]) while the UNIFI placebo arm does not separate (padj [gene=SERPINB5; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.463]), though the formal interaction is not significant (padj [gene=SERPINB5; type=treatment_response; source=ANALYSIS:treatment; interaction.ustekinumab.padj=0.974]). Two 2026 papers in the literature record report that knockdown protects mice from colitis, which makes it the pool gene with the best pairing of epithelial origin, mouse colitis support and a response signal.",
+   "evidence_ids": [
+    "EV:treatment_response:8e8276a3179a",
+    "EV:known_literature:8e8276a3179a",
+    "EV:discovery_profile:8e8276a3179a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:8e8276a3179a",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.0253",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:8e8276a3179a",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.463",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:8e8276a3179a",
+     "field": [
+      "interaction",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.974",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "SELP",
+   "role": "treatment",
+   "statement": "SELP (repurposing pool) separates ustekinumab non-responders (BH padj [gene=SELP; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.00192]) and UNIFI placebo non-responders just as strongly (padj [gene=SELP; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.00197]), so it is a severity marker, not a drug-specific signal.",
+   "evidence_ids": [
+    "EV:treatment_response:aa9a1b387402",
+    "EV:discovery_profile:aa9a1b387402"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:aa9a1b387402",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.00192",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:aa9a1b387402",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.00197",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CFB",
+   "role": "treatment",
+   "key": true,
+   "statement": "CFB (repurposing pool) shows no association with response to any drug arm after correction (ustekinumab BH padj [gene=CFB; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.165]), so our response data do not support testing it first.",
+   "evidence_ids": [
+    "EV:treatment_response:d0a797252888",
+    "EV:discovery_profile:d0a797252888"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:d0a797252888",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.165",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "LAIR2",
+   "role": "discovery",
+   "statement": "LAIR2 (first-in-class pool, T/NK) has no baseline association with ustekinumab response (BH padj [gene=LAIR2; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.667]) and nothing in other arms; its only specific paper is outside IBD and describes a pro-inflammatory role in a skin-infection mouse model, with no UC data.",
+   "evidence_ids": [
+    "EV:treatment_response:d24c4db29165",
+    "EV:discovery_profile:d24c4db29165",
+    "EV:shortlist_literature:d24c4db29165"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:d24c4db29165",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.667",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "LILRA1",
+   "role": "discovery",
+   "statement": "LILRA1 (first-in-class pool, neutrophil and myeloid) is associated with ustekinumab non-response (BH padj [gene=LILRA1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.00882]) with the UNIFI placebo arm borderline (padj [gene=LILRA1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0514]).",
+   "evidence_ids": [
+    "EV:treatment_response:d3bb818acc2e",
+    "EV:discovery_profile:d3bb818acc2e"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:d3bb818acc2e",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.00882",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:d3bb818acc2e",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.0514",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CPXM1",
+   "role": "discovery",
+   "statement": "CPXM1 (first-in-class pool, fibroblast) is weakly associated with ustekinumab non-response (BH padj [gene=CPXM1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0232]) and not with golimumab (padj [gene=CPXM1; type=treatment_response; source=ANALYSIS:treatment; arms.golimumab.padj=0.997]); the placebo arm is not significant.",
+   "evidence_ids": [
+    "EV:treatment_response:79bd85b07bd0",
+    "EV:discovery_profile:79bd85b07bd0"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:79bd85b07bd0",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.0232",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:79bd85b07bd0",
+     "field": [
+      "arms",
+      "golimumab",
+      "padj"
+     ],
+     "display": "0.997",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "LY96",
+   "role": "treatment",
+   "statement": "LY96 (repurposing pool, neutrophil) is associated with ustekinumab non-response (BH padj [gene=LY96; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000735]) while the UNIFI placebo arm is not significant (padj [gene=LY96; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.144]); the repurposing literature record lists mouse colitis studies in which TLR4/MD-2 blockade was beneficial or of mixed effect.",
+   "evidence_ids": [
+    "EV:treatment_response:2934bc5c46fd",
+    "EV:repurposing_literature:2934bc5c46fd",
+    "EV:discovery_profile:2934bc5c46fd"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:2934bc5c46fd",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.0000735",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:2934bc5c46fd",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.144",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "MMP10",
+   "role": "treatment",
+   "statement": "MMP10 (known pool) is associated with ustekinumab non-response (BH padj [gene=MMP10; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0429]) and with corticosteroid non-response in PROTECT (padj [gene=MMP10; type=treatment_response; source=ANALYSIS:treatment; arms.corticosteroids (PROTECT).padj=0.0168]); mouse colitis papers in the literature record conflict (one protective, one pathogenic), so it is a weak candidate.",
+   "evidence_ids": [
+    "EV:treatment_response:43ccd4c18cba",
+    "EV:known_literature:43ccd4c18cba",
+    "EV:discovery_profile:43ccd4c18cba"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:43ccd4c18cba",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.0429",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:43ccd4c18cba",
+     "field": [
+      "arms",
+      "corticosteroids (PROTECT)",
+      "padj"
+     ],
+     "display": "0.0168",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CEBPB",
+   "role": "treatment",
+   "statement": "CEBPB (genetics-first pool) is associated with ustekinumab non-response (BH padj [gene=CEBPB; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000513]) but also with UNIFI placebo non-response (padj [gene=CEBPB; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0296]), so it behaves as a general severity marker; the pool record gives a risk allele that raises it and a biopsy rise in the same direction.",
+   "evidence_ids": [
+    "EV:treatment_response:542343dc839a",
+    "EV:genetic_target:542343dc839a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:542343dc839a",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.0000513",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:treatment_response:542343dc839a",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.0296",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "REG1B",
+   "role": "treatment",
+   "statement": "REG1B (known pool) does not separate responders in any drug arm (ustekinumab BH padj [gene=REG1B; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.751]), so the biomarker papers listed for it do not translate into a baseline response signal in these cohorts.",
+   "evidence_ids": [
+    "EV:treatment_response:75d5350d923d",
+    "EV:known_literature:75d5350d923d",
+    "EV:discovery_profile:75d5350d923d"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:treatment_response:75d5350d923d",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.751",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": null,
+   "role": "mechanism",
+   "key": true,
+   "statement": "TNFa pathway activity is higher in non-responders of ustekinumab (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000484]) and also in UNIFI placebo non-responders (padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.00608]) but not in PURSUIT placebo (padj [type=response_pathway; source=ANALYSIS:treatment; arms.placebo (PURSUIT).padj=0.932]), so it largely marks severity across drugs.",
+   "evidence_ids": [
+    "EV:response_pathway:fc27db5790e8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:response_pathway:fc27db5790e8",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.0000484",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:response_pathway:fc27db5790e8",
+     "field": [
+      "arms",
+      "placebo (UNIFI)",
+      "padj"
+     ],
+     "display": "0.00608",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:response_pathway:fc27db5790e8",
+     "field": [
+      "arms",
+      "placebo (PURSUIT)",
+      "padj"
+     ],
+     "display": "0.932",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": null,
+   "role": "mechanism",
+   "statement": "JAK-STAT pathway activity is higher in ustekinumab non-responders (BH padj [type=response_pathway; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0124]) but does not survive in golimumab (padj [type=response_pathway; source=ANALYSIS:treatment; arms.golimumab.padj=0.204]).",
+   "evidence_ids": [
+    "EV:response_pathway:c77a5b95ab65"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:response_pathway:c77a5b95ab65",
+     "field": [
+      "arms",
+      "ustekinumab",
+      "padj"
+     ],
+     "display": "0.0124",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:response_pathway:c77a5b95ab65",
+     "field": [
+      "arms",
+      "golimumab",
+      "padj"
+     ],
+     "display": "0.204",
+     "unit": "native"
+    }
+   ]
+  }
+ ],
+ "caveats": [
+  "Most pool genes were checked with treatment_response only; single-cell checks were done for CHRDL2, PCDH17 and INHBA. Not covered by these tools: TUFM, RORC, CFAP90, FIGNL1, SGIP1, LYPD5, FIBIN, XKR9, FJX1, OLFML2B, CEACAM4, CYP4X1, SDR16C5, KLK10, CXCL1, CXCL3, PDPN, GUCY1A1 (not queried within the call budget).",
+  "Baseline response data are dominated by UNIFI (ustekinumab); the golimumab, infliximab, vedolizumab, ACT1 and etrolizumab arms are small and nothing survives correction there, so drug specificity cannot be judged beyond ustekinumab.",
+  "The drug-vs-placebo interaction was non-significant for every gene reported, so none of these signals can be called ustekinumab-specific.",
+  "The adalimumab atlas has only 6 remitters; absence of a baseline difference there is a lead, not evidence of absence.",
+  "Associations with response are baseline and observational; they do not show that a gene is a causal target.",
+  "Safety, genetics and mouse-colitis status of the pool genes are in the pool dossier and were not re-checked here."
+ ]
+}

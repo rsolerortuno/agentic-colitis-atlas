@@ -1,0 +1,114 @@
+{
+ "A": {
+  "key": {
+   "C01": "seed:mouse direction",
+   "C02": "seed:overclaimed validation",
+   "C03": "targets.LY96",
+   "C04": "targets.FIGNL1",
+   "C05": "targets.CFB",
+   "C06": "narrative.summary[0]",
+   "C07": "targets.SDR16C5",
+   "C08": "targets.TUFM",
+   "C09": "seed:variant direction",
+   "C10": "targets.CEBPB",
+   "C11": "targets.CHI3L1",
+   "C12": "targets.CFAP90",
+   "C13": "targets.SERPINB5",
+   "C14": "targets.CPXM1",
+   "C15": "narrative.summary[2]",
+   "C16": "targets.CXCL1",
+   "C17": "seed:approval status",
+   "C18": "seed:severity as drug-specific",
+   "C19": "seed:genetics overclaimed",
+   "C20": "targets.CYP4X1"
+  },
+  "seeds": {
+   "variant direction": {
+    "kind": "factual",
+    "inserted": "implies its function drives the disease",
+    "text": "For the repurposing targets an inhibitor already exists for another disease, but the data argue for caution: INHBA and SELP separate ustekinumab and placebo non-responders alike, so they mark severity, and for CFB a loss-of-function variant implies its function drives the disease. Genetics gives the strongest causal argument for TUFM, whose higher expression in colon raises UC risk (odds ratio per SD (odds_ratio_per_sd = 1.191)), although biopsies show no rise; the other genetics-first genes rest on sequence predictions. These are hypotheses from public data, to be tested in human cells first."
+   },
+   "approval status": {
+    "kind": "factual",
+    "inserted": "an inhibitor is approved for ulcerative colitis",
+    "text": "Direction: inhibit; INHBA (activin A) rises with a pooled log2FC of (log2fc = 2.6188). Cell and tissue: fibroblasts and macrophages make it and the lineage does not replicate across atlases; part of the rise survives adjustment (adjusted log2FC (adjusted_log2fc = 0.6949)). Drug route: an inhibitor is approved for ulcerative colitis and was never tried in UC or IBD. Literature: it was overexpressed in baseline biopsies of patients who failed anti-TNF therapy, but in this atlas it separates ustekinumab and placebo non-responders alike, so it marks severity. Safety: it is strongly loss-constrained (LOEUF (loeuf = 0.166)). In experimental colitis, administration of follistatin attenuated inflammatory cell infiltration, which supports blocking activin signalling. First experiment: the existing inhibitor on inflamed UC fibroblasts and macrophages, then on explants of inflamed mucosa."
+   },
+   "severity as drug-specific": {
+    "kind": "framing",
+    "inserted": "so it predicts ustekinumab failure specifically.",
+    "text": "Direction: inhibit; CHRDL2 rises in UC in seven of eight cohorts. Cell and tissue: fibroblasts make it (stromal share (dominant_lineage_share = 0.939)) and the lineage agrees in all three other atlases, but only part of the rise survives the composition adjustment (retained fraction (retained_fraction = 0.276)), and Visium places its in-situ signal in smooth muscle, so the producing cell is not settled. Drug route: it is secreted and a predicted antibody target; UniProt describes it as a possible inhibitor of BMP activity. Safety: not loss-constrained, no recorded safety events. Its baseline level separates ustekinumab and placebo non-responders alike, so it predicts ustekinumab failure specifically. First experiment: a blocking antibody on inflamed UC fibroblasts. What is missing: genetics (plasma Mendelian randomisation not significant) and any mouse colitis study."
+   },
+   "mouse direction": {
+    "kind": "factual",
+    "inserted": "knockdown or ablation worsened colitis",
+    "text": "SERPINB5 has the most complete case: epithelial cells make almost all of it in all four atlases, its rise is intrinsic (adjusted log2FC (adjusted_log2fc = 2.109)), and two mouse studies report that knockdown or ablation worsened colitis. Its weak points are that both studies date from 2026 and that its role in colitis-associated cancer is unsettled: UniProt describes it as a tumour suppressor, while a study of IBD tissue linked its aberrant expression with neoplastic transformation."
+   },
+   "genetics overclaimed": {
+    "kind": "framing",
+    "inserted": "plasma Mendelian randomisation supports inhibition",
+    "text": "Direction: inhibit; SELP (P-selectin) rises in inflamed mucosa (inflamed MSCCR log2FC (log2fc = 1.8372) against (log2fc = 0.4546) in non-inflamed mucosa), so it is a local-inflammation signal. Cell: endothelium sends it to SELPLG on neutrophils, and UniProt describes it as the receptor that binds activated endothelium or platelets to leukocytes. Drug route: an inhibitor is approved for sickle cell anaemia and was never tried in UC. Against it: plasma Mendelian randomisation supports inhibition (p (p = 0.484)) and its baseline level separates ustekinumab and placebo non-responders alike, and in experimental colitis an anti-P-selectin antibody did not significantly improve colitis. The reviewer is against testing it first; it stays as the last repurposing choice because the only other gene of the pool, GUCY1A1, carries a vascular risk, and the negative animal result argues for a human test before any trial. First experiment: the existing antibody in a flow assay of neutrophils over inflamed UC endothelial cells."
+   },
+   "overclaimed validation": {
+    "kind": "framing",
+    "inserted": "Direction: inhibit; a validated target.",
+    "text": "Direction: inhibit; a validated target. REG1B is epithelial in all four atlases and its rise is intrinsic (adjusted log2FC (adjusted_log2fc = 1.4585)). Literature: it is supported as a biomarker (a hub gene of UC progression, a diagnostic-model gene and a predictor of relapse after anti-TNF withdrawal), with no functional study in either direction, and its baseline level does not separate responders in any drug arm. Drug route: secreted, a predicted antibody target. Safety: not loss-constrained, no recorded safety events, but UniProt links it with regeneration, so blocking it could slow repair. First experiment: a functional test first, silencing or adding the protein in organoids from inflamed UC mucosa, before any antibody."
+   }
+  }
+ },
+ "B": {
+  "key": {
+   "C01": "targets.CFB",
+   "C02": "seed:influx as tissue target",
+   "C03": "targets.SDR16C5",
+   "C04": "seed:knockout phenotype",
+   "C05": "targets.CPXM1",
+   "C06": "narrative.summary[3]",
+   "C07": "seed:genetic direction",
+   "C08": "targets.SERPINB5",
+   "C09": "targets.CHRDL2",
+   "C10": "seed:protein function",
+   "C11": "targets.SELP",
+   "C12": "seed:trial stage",
+   "C13": "targets.INHBA",
+   "C14": "seed:druggability overclaimed",
+   "C15": "targets.FIGNL1",
+   "C16": "narrative.summary[2]",
+   "C17": "narrative.summary[0]",
+   "C18": "targets.CFAP90",
+   "C19": "targets.CYP4X1",
+   "C20": "targets.REG1B"
+  },
+  "seeds": {
+   "trial stage": {
+    "kind": "factual",
+    "inserted": "an inhibitor was approved for UC",
+    "text": "Direction: inhibit, with a caution. LY96 (MD-2) is associated with ustekinumab non-response while the UNIFI placebo arm is not significant (padj (arms.placebo (UNIFI).padj = 0.144)). Cell: neutrophils make much of its RNA, so its rise reports in part cell arrival. Drug route: an inhibitor was approved for UC and was never tried in UC. Literature: in mice, TLR4/MD-2 blockade inhibited colitis-associated neoplasia and an MD-2 binder alleviated TNBS colitis, but another anti-TLR4/MD-2 antibody interfered with mucosal healing during recovery. Genetics: plasma and gut-cell Mendelian randomisation are not significant. First experiment: the existing inhibitor on inflamed UC explants, read early and during recovery."
+   },
+   "protein function": {
+    "kind": "factual",
+    "inserted": "UniProt describes it as an oncogene",
+    "text": "SERPINB5 has the most complete case: epithelial cells make almost all of it in all four atlases, its rise is intrinsic (adjusted log2FC (adjusted_log2fc = 2.109)), and two mouse studies report that knockdown or ablation protected against colitis. Its weak points are that both studies date from 2026 and that its role in colitis-associated cancer is unsettled: UniProt describes it as an oncogene, while a study of IBD tissue linked its aberrant expression with neoplastic transformation."
+   },
+   "knockout phenotype": {
+    "kind": "factual",
+    "inserted": "knockout mice are protected from colitis",
+    "text": "Direction: inhibit, with a caution. CHI3L1 has one of the largest increases (inflamed MSCCR log2FC (log2fc = 3.8187), up in all eight cohorts) and its protein rises too (log2 ratio (log2_ratio = 0.607)), which makes it a marker first. Cell and tissue: fibroblasts make it in Smillie 2019, but neutrophils make a large share in Gubatan 2026, and part of the rise survives adjustment (adjusted log2FC (adjusted_log2fc = 1.3967)). Function: an anti-CHI3L1 antibody reduced DSS colitis, but knockout mice are protected from colitis, so blocking it could harm the epithelium. Drug route: secreted, predicted antibody and small-molecule target. Genetics: plasma and colon Mendelian randomisation are not significant. First experiment: a blocking antibody on inflamed UC fibroblasts and on epithelial organoids in parallel, to see benefit and harm in one test."
+   },
+   "genetic direction": {
+    "kind": "factual",
+    "inserted": "higher expression in sigmoid colon lowers UC risk",
+    "text": "Direction: inhibit; the UC risk allele raises TUFM expression, and Mendelian randomisation agrees: higher expression in sigmoid colon lowers UC risk (odds ratio per SD (odds_ratio_per_sd = 1.191)), colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023, and so does expression in gut plasma B cells ((odds_ratio_per_sd = 1.356)). This is the strongest causal evidence in the pool. Cell and tissue: the predicted effect is largest in blood neutrophils, while single cells place it in plasma and epithelial cells, and in inflamed MSCCR biopsies it is slightly lower, not higher (log2FC (log2fc = -0.188)), with no change in non-inflamed mucosa, which does not support the inhibition hypothesis in tissue. Drug route and safety: TUFM is a ubiquitous mitochondrial gene, so a drug would need to act in one cell type. First experiment: allele-specific silencing in gut plasma cells or neutrophils. Caveat: one instrument. The reviewer is against testing it first for these reasons; it stays because it carries the only causal genetic support in the pool, and the first experiment tests that support in one cell type before any drug is considered."
+   },
+   "druggability overclaimed": {
+    "kind": "framing",
+    "inserted": "a transcription factor is easy to drug",
+    "text": "Direction: inhibit; the risk allele raises CEBPB, predicted in colon dendritic cells, and its mRNA rises in biopsies (meta-analysis log2FC (log2fc = 1.27)), with its regulon active in all cohorts. Cell: it is a broadly expressed transcription factor, made mostly by neutrophils and macrophages (neutrophil share (neutrophil_share_inflamed = 0.698)), and the predicted dendritic cell is not the main source. Against it: gut-cell Mendelian randomisation points the other way without reaching significance, and its baseline level separates ustekinumab and placebo non-responders alike. Drug route: a transcription factor is easy to drug, though nintedanib alleviated DSS colitis in mice by inhibiting CEBPB signalling. First experiment: silencing in monocyte-derived dendritic cells carrying the risk allele."
+   },
+   "influx as tissue target": {
+    "kind": "framing",
+    "inserted": "so blocking it would correct a change of the tissue itself",
+    "text": "Direction: inhibit; CXCL1 rises across cohorts with a pooled log2FC of (log2fc = 3.6892). Cell and tissue: in Gubatan 2026 single cells inflammatory fibroblasts send it to CXCR2 on neutrophils and to ACKR1 on endothelium, and UniProt records its chemotactic activity for neutrophils; most of its bulk rise is explained by cell proportions, so blocking it would correct a change of the tissue itself. Drug route: secreted, a predicted antibody target, with no drug against CXCL1 itself. Safety: not loss-constrained, no recorded safety events. First experiment: a neutralising antibody in a co-culture of inflamed UC fibroblasts with blood neutrophils, reading neutrophil migration. Caveat: the circuit is co-expression, not proof of signalling, and plasma Mendelian randomisation is not significant."
+   }
+  }
+ }
+}

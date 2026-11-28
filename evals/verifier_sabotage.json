@@ -1,53 +1,53 @@
 {
- "run": "2026-11-27",
- "statements_passing": 115,
+ "run": "2026-11-28",
+ "statements_passing": 140,
  "seed": 7,
  "corruptions": {
   "number": {
-   "applied": 81,
-   "caught": 81,
+   "applied": 92,
+   "caught": 92,
    "missed_examples": [],
    "rate": 1.0
   },
   "direction": {
-   "applied": 73,
-   "caught": 54,
+   "applied": 48,
+   "caught": 30,
    "missed_examples": [
     {
      "location": "agent_findings.expression[8]",
-     "text": "JAK2 has a small pooled increase [gene=JAK2; type=expression_meta; source=DATASET:META; layer=rna; log2fc=0.833] but it is significant and down in every one of the eight cohorts. It ranks highly because of genetics and tractability, not bec"
+     "text": "RORC is modestly higher in inflamed MSCCR mucosa (log2FC [gene=RORC; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=-0.4177]), but the paired inflamed-vs-non-inflamed change is nil"
+    },
+    {
+     "location": "agent_findings.expression[9]",
+     "text": "TUFM does not support the genetic hypothesis that inhibition helps: in inflamed MSCCR biopsies it is slightly higher, not higher (log2FC [gene=TUFM; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_"
     },
     {
      "location": "agent_findings.literature[0]",
-     "text": "CXCR2 tops the convergence ranking, yet the verbatim-checked relation layer holds no relation for it. The corpus has only title and abstract sentences: one titled 'CXCR1 and CXCR2 are potential neutrophil extracellular trap-related treatmen"
+     "text": "SerpinB5 is the pool gene with the most direct pro-disease functional literature. One paper reports that SerpinB5 expression was decreased in UC patients, TNF-alpha-treated FUC cells and a mouse model of UC. A second reports that SERPINB5 b"
     },
     {
-     "location": "agent_findings.literature[8]",
-     "text": "CXCL1 appears as a biomarker candidate in several machine-learning and bioinformatic studies. It is one of five pivotal genes whose combined diagnostic model reached a much lower AUC than the individual genes, which each exceeded only a mod"
+     "location": "agent_findings.literature[1]",
+     "text": "CHI3L1 has a large literature but it is contradictory for therapy. One paper reports CHI3L1 promotes macrophage pyroptosis in UC via the BCAT1/NF-kappaB axis, and that exogenous NF-kappaB activation reversed the protective effects of CHI3L1"
     },
     {
-     "location": "agent_findings.pathways[2]",
-     "text": "AP1 is among the top transcription factors by cohort count and effect size, decreased in every cohort, alongside ATF and BATF family TFs. This is a generic stress and inflammation signature that is not specific to one circuit."
-    },
-    {
-     "location": "agent_findings.pathways[3]",
-     "text": "Pathway activity is not uniformly down. VEGF is increased in only [type=pathway_activity; source=ANALYSIS:pathways; cohorts_up=4] cohorts, and Androgen is decreased in [type=pathway_activity; source=ANALYSIS:pathways; cohorts_down=4] cohort"
+     "location": "agent_findings.literature[4]",
+     "text": "INHBA was underexpressed in baseline mucosal biopsies of UC patients who failed anti-TNF therapy and is one of five genes in a panel predicting non-response. In paediatric IBD blood it was a candidate predictor but not among the four valida"
     }
    ],
-   "applied_with_de_evidence": 31,
-   "caught_with_de_evidence": 29,
-   "rate": 0.74,
-   "rate_with_de_evidence": 0.935
+   "applied_with_de_evidence": 12,
+   "caught_with_de_evidence": 11,
+   "rate": 0.625,
+   "rate_with_de_evidence": 0.917
   },
   "gene": {
-   "applied": 85,
-   "caught": 85,
+   "applied": 109,
+   "caught": 109,
    "missed_examples": [],
    "rate": 1.0
   },
   "evidence": {
-   "applied": 85,
-   "caught": 85,
+   "applied": 109,
+   "caught": 109,
    "missed_examples": [],
    "rate": 1.0
   }

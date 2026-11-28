@@ -1,98 +1,267 @@
 {
- "run": "2026-11-23",
+ "run": "2026-11-28",
  "seeded": 12,
- "caught": 12,
- "caught_with_valid_objection": 12,
+ "caught": 10,
+ "caught_with_valid_objection": 10,
  "by_kind": {
   "framing": {
-   "seeded": 4,
+   "seeded": 5,
    "caught": 4
   },
   "factual": {
-   "seeded": 8,
-   "caught": 8
+   "seeded": 7,
+   "caught": 6
   }
  },
  "per_seed": {
-  "anti-p19 target": {
+  "mouse direction": {
    "kind": "factual",
-   "caught": true,
-   "caught_with_valid_objection": true,
-   "objections_on_card": 1
+   "caught": false,
+   "caught_with_valid_objection": false,
+   "objections_on_card": 0
   },
-  "overclaimed novelty": {
+  "overclaimed validation": {
    "kind": "framing",
    "caught": true,
    "caught_with_valid_objection": true,
-   "objections_on_card": 1
+   "objections_on_card": 2
   },
-  "selectivity": {
+  "variant direction": {
    "kind": "factual",
    "caught": true,
    "caught_with_valid_objection": true,
    "objections_on_card": 1
   },
-  "subunit": {
+  "approval status": {
    "kind": "factual",
    "caught": true,
    "caught_with_valid_objection": true,
-   "objections_on_card": 1
+   "objections_on_card": 2
   },
-  "mechanism": {
-   "kind": "factual",
-   "caught": true,
-   "caught_with_valid_objection": true,
-   "objections_on_card": 1
-  },
-  "stage": {
-   "kind": "factual",
-   "caught": true,
-   "caught_with_valid_objection": true,
-   "objections_on_card": 1
-  },
-  "genetic direction": {
+  "severity as drug-specific": {
    "kind": "framing",
    "caught": true,
    "caught_with_valid_objection": true,
-   "objections_on_card": 1
+   "objections_on_card": 2
   },
-  "class as drug proposal": {
+  "genetics overclaimed": {
    "kind": "framing",
    "caught": true,
    "caught_with_valid_objection": true,
-   "objections_on_card": 1
-  },
-  "trial outcome": {
-   "kind": "factual",
-   "caught": true,
-   "caught_with_valid_objection": true,
-   "objections_on_card": 1
-  },
-  "drug effect direction": {
-   "kind": "factual",
-   "caught": true,
-   "caught_with_valid_objection": true,
-   "objections_on_card": 1
-  },
-  "failed class as open": {
-   "kind": "factual",
-   "caught": true,
-   "caught_with_valid_objection": true,
-   "objections_on_card": 1
+   "objections_on_card": 3
   },
   "influx as tissue target": {
    "kind": "framing",
    "caught": true,
    "caught_with_valid_objection": true,
+   "objections_on_card": 2
+  },
+  "knockout phenotype": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 2
+  },
+  "genetic direction": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 2
+  },
+  "protein function": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 1
+  },
+  "trial stage": {
+   "kind": "factual",
+   "caught": true,
+   "caught_with_valid_objection": true,
+   "objections_on_card": 2
+  },
+  "druggability overclaimed": {
+   "kind": "framing",
+   "caught": false,
+   "caught_with_valid_objection": false,
    "objections_on_card": 1
   }
  },
  "unaltered": {
   "items": 28,
-  "objections": 0,
-  "factual": 0,
-  "factual_cited_validly": 0,
-  "framing": 0,
-  "detail": []
+  "objections": 24,
+  "factual": 1,
+  "factual_cited_validly": 1,
+  "framing": 23,
+  "detail": [
+   {
+    "location": "targets.LY96",
+    "kind": "framing",
+    "claim": "its rise reports in part cell arrival",
+    "objection": "Much of the bulk rise is neutrophil arrival and Mendelian randomisation is null, so the signal is weak evidence of a causal role.",
+    "kept": true
+   },
+   {
+    "location": "targets.FIGNL1",
+    "kind": "framing",
+    "claim": "Mendelian randomisation gives no support, and biopsies show no change",
+    "objection": "Prediction is tiny (+0.036 in NK cells), biopsies show no change and there is no clinical drug; the card itself concedes it stays only to fill the list.",
+    "kept": true
+   },
+   {
+    "location": "targets.CFB",
+    "kind": "framing",
+    "claim": "long-term inhibition may reproduce that disease",
+    "objection": "Red safety light and complement's role in infection defence make chronic inhibition risky; an ex vivo test of the approved drug is still reasonable.",
+    "kept": true
+   },
+   {
+    "location": "targets.SDR16C5",
+    "kind": "framing",
+    "claim": "What is missing: any functional or genetic evidence",
+    "objection": "Reproducible and intrinsic, yet an intracellular enzyme with no extracellular part and a single list mention; it is a discovery bet, not an evidence-backed target.",
+    "kept": true
+   },
+   {
+    "location": "targets.TUFM",
+    "kind": "framing",
+    "claim": "which does not support the inhibition hypothesis in tissue",
+    "objection": "Ubiquitous mitochondrial gene, one instrument, predicted cell differs from single-cell cell, and inflamed biopsies show a slight decrease; inhibition is unsupported in tissue.",
+    "kept": true
+   },
+   {
+    "location": "targets.CEBPB",
+    "kind": "framing",
+    "claim": "a transcription factor is hard to drug",
+    "objection": "Transcription factor, main source neutrophils and macrophages not the predicted dendritic cell, null genetics pointing the other way, and no clinical drug.",
+    "kept": true
+   },
+   {
+    "location": "targets.CHI3L1",
+    "kind": "framing",
+    "claim": "to see benefit and harm in one test",
+    "objection": "The parallel fibroblast and organoid test is the right design, as it reads benefit and harm together.",
+    "kept": true
+   },
+   {
+    "location": "targets.CFAP90",
+    "kind": "framing",
+    "claim": "no Mendelian randomisation support and no change in biopsies",
+    "objection": "Tiny predicted effect, no change in biopsies, no genetic corroboration and no drug; confirming the variant effect on expression comes before any target claim.",
+    "kept": true
+   },
+   {
+    "location": "targets.SERPINB5",
+    "kind": "framing",
+    "claim": "its role in colitis-associated cancer is unsettled",
+    "objection": "Safety light is green, but the tumour-suppressor annotation and recent, single-group mouse data justify organoid work before any antibody.",
+    "kept": true
+   },
+   {
+    "location": "targets.CPXM1",
+    "kind": "framing",
+    "claim": "its literature is one expression paper",
+    "objection": "Rises already in non-inflamed mucosa, and about 41% of the bulk rise is intrinsic; fibroblast silencing is a sensible first test, but the evidence base is thin.",
+    "kept": true
+   },
+   {
+    "location": "targets.CXCL1",
+    "kind": "framing",
+    "claim": "blocking it would act on neutrophil recruitment rather than on a change of the tissue",
+    "objection": "Most of the bulk rise is composition; blocking one CXCR2 ligand among several may be compensated, and neutrophil clearance is needed for infection defence.",
+    "kept": true
+   },
+   {
+    "location": "targets.CYP4X1",
+    "kind": "framing",
+    "claim": "What is missing: any functional or genetic evidence",
+    "objection": "Rises in crypt cells as a possible repair programme, so inhibition could slow healing; an orphan P450 with no paper beyond a list mention.",
+    "kept": true
+   },
+   {
+    "location": "targets.CFB",
+    "kind": "framing",
+    "claim": "a CFB loss-of-function variant linked to perianal Crohn's disease implies its function protects",
+    "objection": "A loss-of-function CFB variant that looks protective argues against inhibition, and a red safety light is not outweighed by a large epithelial rise; the test should read epithelial damage, as proposed.",
+    "kept": true
+   },
+   {
+    "location": "targets.SDR16C5",
+    "kind": "framing",
+    "claim": "What is missing: any functional or genetic evidence",
+    "objection": "Intrinsic epithelial rise and clean safety support a first knockdown, but with no paper beyond a list mention the case rests on expression alone.",
+    "kept": true
+   },
+   {
+    "location": "targets.CPXM1",
+    "kind": "framing",
+    "claim": "its literature is one expression paper",
+    "objection": "The change survives adjustment and is already up in non-inflamed mucosa, but the biology of the protease in colitis is unknown, so the first experiment is exploratory.",
+    "kept": true
+   },
+   {
+    "location": "targets.SERPINB5",
+    "kind": "framing",
+    "claim": "so its role in colitis-associated cancer is unsettled",
+    "objection": "Epithelial, intrinsic and functionally supported, but described as a tumour suppressor, so long-term inhibition needs an explicit cancer read-out alongside the organoid test.",
+    "kept": true
+   },
+   {
+    "location": "targets.CHRDL2",
+    "kind": "framing",
+    "claim": "so the producing cell is not settled",
+    "objection": "Only 28% of the bulk rise is kept and the in-situ signal sits in smooth muscle, so the cell for the first experiment is uncertain; restoring BMP activity could also matter for epithelium.",
+    "kept": true
+   },
+   {
+    "location": "targets.SELP",
+    "kind": "framing",
+    "claim": "an anti-P-selectin antibody did not significantly improve colitis",
+    "objection": "The card itself shows a null genetic test, a negative animal antibody result and an amber safety light; an approved drug alone does not justify the first slot.",
+    "kept": true
+   },
+   {
+    "location": "targets.INHBA",
+    "kind": "factual",
+    "claim": "administration of follistatin attenuated inflammatory cell infiltration",
+    "objection": "Follistatin, which neutralises activins, reduced histologic score and myeloperoxidase activity in TNBS and DSS colitis and in IL-10-deficient mice, supporting activin blockade.",
+    "kept": true
+   },
+   {
+    "location": "targets.INHBA",
+    "kind": "framing",
+    "claim": "it is strongly loss-constrained",
+    "objection": "A LOEUF of 0.17 and a lineage that does not replicate in any other atlas weigh against it; sotatercept is a ligand trap acting on several activins, not on INHBA alone.",
+    "kept": true
+   },
+   {
+    "location": "targets.FIGNL1",
+    "kind": "framing",
+    "claim": "Mendelian randomisation gives no support, and biopsies show no change",
+    "objection": "Every layer beyond the sequence prediction is null or absent; it is an inherited-risk hypothesis, not a first-year treatment target.",
+    "kept": true
+   },
+   {
+    "location": "targets.CFAP90",
+    "kind": "framing",
+    "claim": "no Mendelian randomisation support and no change in biopsies",
+    "objection": "Only the sequence prediction supports it, so confirming the variant effect is a prerequisite, not a target test.",
+    "kept": true
+   },
+   {
+    "location": "targets.CYP4X1",
+    "kind": "framing",
+    "claim": "What is missing: any functional or genetic evidence",
+    "objection": "The card flags a possible repair programme; inhibiting it could impair healing, so the wound-healing arm of the experiment is essential and the gene is a screen, not a target.",
+    "kept": true
+   },
+   {
+    "location": "targets.REG1B",
+    "kind": "framing",
+    "claim": "so blocking it could slow repair",
+    "objection": "Crypt-zone rise with a repair programme flag and only biomarker papers; restoring rather than blocking may be the direction, which the organoid test with protein addition addresses.",
+    "kept": true
+   }
+  ]
  }
 }

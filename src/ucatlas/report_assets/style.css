@@ -56,6 +56,7 @@ h3{font-size:.98rem;margin:1.2em 0 .3em}
 .tag.tumor{background:var(--s1);color:#fff}.tag.stroma{background:var(--s2);color:#fff}.tag.immune{background:var(--s3);color:#fff}
 .tag.fic{background:var(--good);color:#fff}
 .tag.warn{background:transparent;border:1px solid var(--warn);color:var(--warn)}
+.tag.ok{background:var(--good);color:#fff}.tag.bad{background:var(--bad);color:#fff}.nowrap{white-space:nowrap}
 .cand h3{margin:.1em 0 .35em;font-size:1.05rem}
 .cand .meta{display:flex;flex-wrap:wrap;gap:4px;margin:.2em 0 .5em}
 .cand p{margin:.3em 0;font-size:.88rem;color:var(--ink2)}
@@ -97,6 +98,7 @@ footer{color:var(--muted);font-size:.8rem;padding:10px 0 50px;border-top:1px sol
 .kpi .q{position:absolute;top:8px;right:8px;margin:0}
 .helpbox{background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:.85rem;color:var(--ink2);line-height:1.55;text-align:left;font-weight:400;letter-spacing:0}
 .helpbox p{margin:.3em 0}.helpbox b{color:var(--ink)}
+.kpis .helpbox{grid-column:1/-1;margin:0}.helpbox .helpname{font-weight:600;color:var(--ink)}
 .howbox{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--s1);border-radius:0 10px 10px 0;padding:12px 18px;margin:14px 0 18px;font-size:.9rem;color:var(--ink2);max-width:110ch}
 .howbox h4{margin:0 0 .4em;font-size:.95rem;color:var(--ink)}.howbox ul,.howbox ol{margin:.3em 0 0;padding-left:1.25em}.howbox li{margin:.35em 0}
 .calc table{font-size:.8rem}.calc td:first-child{white-space:nowrap;font-weight:600}

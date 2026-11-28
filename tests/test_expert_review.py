@@ -1,20 +1,47 @@
-"""Front-page selection rule, PubMed quote checks and the expert review's bookkeeping (2026-11-27). No network."""
+"""Decision rule, PubMed quote checks and the expert review's bookkeeping (2026-11-27, 2026-11-28). No network."""
 import re
 
 from ucatlas import expert_review as X
-from ucatlas import frontpage, pubmed_quotes as P
+from ucatlas import decision, pubmed_quotes as P
 
 
-def test_frontpage_rule_flags_unjustified_genes_and_missing_controls(monkeypatch):
-    crit = {"IL12B": ["positive control: drug approved in UC on this gene or its class, genetic association 0.89"],
-            "JAK2": ["positive control: drug approved in UC on this gene or its class, genetic association 0.85"],
-            "CXCR2": ["convergence rank 1 (first 30)"]}
-    monkeypatch.setattr(frontpage, "criteria", lambda f: crit)
-    f = {"targets": [{"gene": "CXCR2"}, {"gene": "IL12B"}, {"gene": "FOO"}]}
-    c = frontpage.check(f)
-    assert c["unjustified"] == ["FOO"]
-    assert c["missing_controls"] == ["JAK2"]
-    assert c["reasons"]["CXCR2"] == ["convergence rank 1 (first 30)"]
+def _pool():
+    return {"first_in_class": [{"gene": g} for g in ("A1", "A2", "A3", "A4", "A5")],
+            "known": [{"gene": g} for g in ("K1", "K2", "K3", "K4")],
+            "repurposing": [{"gene": g} for g in ("R1", "R2", "R3", "R4")],
+            "genetic": [{"gene": g} for g in ("G1", "G2", "G3", "G4")]}
+
+
+def test_decision_rule_needs_four_per_list_from_the_pool_and_no_clinic_gene(monkeypatch):
+    monkeypatch.setattr(decision, "pool", _pool)
+    monkeypatch.setattr(decision, "_clinical_genes", lambda: {"K4"})
+    ok = [{"gene": g, "list": k, "evidence_ids": ["e"]} for k, rows in _pool().items() for g in [r["gene"] for r in rows][:4]]
+    c = decision.check({"targets": ok})
+    assert c["problems"] == ["K4: has a drug tried or approved in UC or IBD"]
+    bad = ok[:3] + [{"gene": "X9", "list": "first_in_class", "evidence_ids": ["e"]},
+                    {"gene": "A1", "list": "known", "evidence_ids": []}] + ok[4:]
+    p = decision.check({"targets": bad})["problems"]
+    assert "X9: not in the pool of first_in_class" in p
+    assert "A1: not in the pool of known" in p and "A1: chosen twice" in p and "A1: cites no evidence" in p
+    assert any(x.startswith("known: 5 genes chosen") for x in p)
+
+
+def test_verdict_reasons_need_a_citation_unless_they_are_judgement(monkeypatch):
+    from ucatlas import expert_review as X
+    import ucatlas.pubmed_quotes as PQ
+    monkeypatch.setattr(PQ, "fetch_many", lambda pmids: {1: _rec()})
+    key = {"C01": "targets.CFB", "C02": "narrative.summary[0]"}
+    vs = [{"id": "C01", "verdict": "concerns", "summary": "s", "reasons": [
+              {"kind": "judgement", "text": "a red safety light"},
+              {"kind": "factual", "text": "binds p40", "pmid": 1, "quote": "Drug X binds p40."},
+              {"kind": "factual", "text": "uncited"},
+              {"kind": "factual", "text": "wrong quote", "pmid": 1, "quote": "Drug X binds p19."}]},
+          {"id": "C02", "verdict": "support", "reasons": []},
+          {"id": "C01", "verdict": "maybe", "reasons": []}]
+    out, dropped = X.check_verdicts(vs, key)
+    assert list(out) == ["CFB"] and out["CFB"]["verdict"] == "concerns"
+    assert [r["text"] for r in out["CFB"]["reasons"]] == ["a red safety light", "binds p40"]
+    assert len(dropped) == 4
 
 
 def _rec(**kw):

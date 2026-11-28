@@ -54,45 +54,22 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 <p class="small">Written by the orchestrating agent from the six agent reports. Every sentence cites evidence records and passed the automatic checks.</p>
 {{ paras(f.narrative.summary) }}
 <h2>Where to look, by what you are after</h2>
-<p class="small">Which gene comes first depends on the question, so the atlas has no single list of best targets. Five lists answer five questions; each states its criteria and shows its evidence.</p>
+<p class="small">Which gene comes first depends on the question, so the atlas has no single list of best targets. Five lists answer five questions, each with its criteria and evidence; the decision picks from the four lists of targets with no therapy in UC.</p>
 <div class="grid">
 <div class="card"><h3><a href="#tab-shortlist">New targets nobody works on</a></h3><p class="small">First-in-class: genes that change in the tissue itself, with few UC papers and no drug for any disease, each with traffic lights and a proposed first experiment. {{ SL.rows | length }} genes.</p></div>
 <div class="card"><h3><a href="#tab-known">Well known in UC, no drug yet</a></h3><p class="small">Established UC biology (more than 15 UC papers) that no drug reaches. {{ SL.kn | length }} genes.</p></div>
 <div class="card"><h3><a href="#tab-repurposing">A drug exists for another disease</a></h3><p class="small">Genes with an inhibitor in the clinic outside IBD, never tried in UC. {{ SL.rp | length }} genes.</p></div>
 <div class="card"><h3><a href="#tab-genetic">Start from inherited risk</a></h3><p class="small">Genetics first: UC risk variants, the gene and cell they act in and the direction a drug would need.{% if GT and GT.rows %} {{ GT.rows | length }} genes.{% endif %}</p></div>
+{% if DEC and DEC.n %}<div class="card"><h3><a href="#tab-decision">Orchestrator decision: what to test first</a></h3><p class="small">Four genes from each of the first four lists, chosen by the orchestrator with the reason for each and reviewed by an IBD clinician agent with cited papers. {{ DEC.n }} genes.</p></div>{% endif %}
 <div class="card"><h3><a href="#tab-clinical">Already in the clinic</a></h3><p class="small">A drug tried or approved in UC or IBD, with how strongly the omics back each gene; approved targets marked for comparison. {{ CL.n }} genes, {{ CL.approved }} approved.</p></div>
 </div>
-<p class="small">The genes with the most agreeing evidence overall, the orchestrator's selection with the reason for each, and how the weights change the order are in the <a href="#tab-candidates">Ranking</a> tab.</p>
+<p class="small">How the evidence is combined into one score per gene, the genes it ranks first and how the weights change the order are in the <a href="#tab-candidates">Convergence score</a> tab (Trust and methods).</p>
 </section>
 
 <!-- ================================================================ CANDIDATES -->
 <section class="panel" id="tab-candidates" data-name="candidates">
 {% include "candidate_evidence.html.j2" %}
 {{ plain('candidates') }}
-<h2>The orchestrator's selection</h2>
-<p class="small">{{ frontpage_rule }} Each card says which criterion it meets. They are shown in four blocks set by rules on the data (a UC-approved drug; most RNA from neutrophils; a tissue change; biomarkers), in the orchestrator's order inside each block. The first two blocks check the method against what is known; the new candidates are in the third. The tags show the role (target, biomarker or both), the convergence rank, the cell that makes the gene in inflamed mucosa, the causal genetic estimate where one exists and where its drugs are: UC first, then Crohn's disease or IBD, else the drug with its disease. A UC drug that is also listed for other genes acts on a complex or a family, and those genes are named; where the cited peer-reviewed literature says which subunit or kinase a drug binds (anti-p40 against anti-p19, JAK1-selective inhibitors), the tag says so.</p>
-{% set ns = namespace(i=0) %}
-{% for g in target_groups %}
-<h3 class="group">{{ g.title }}</h3>
-<p class="small">{{ g.note }}</p>
-<div class="grid">
-{% for t in g.targets %}{% set b = badges.get(t.gene, {}) %}{% set ns.i = ns.i + 1 %}
-<div class="card cand claim" data-evidence="{{ t.evidence_ids | evattr }}">
-  <h3>{{ ns.i }}. {{ t.gene }}{% if t.subtitle %} <span class="small">· {{ t.subtitle }}</span>{% endif %}</h3>
-  <div class="meta">
-    <span class="tag {{ {'target':'t','biomarker':'b','target_and_biomarker':'tb'}.get(t.category,'') }}">{{ t.category | replace("_"," ") }}</span>
-    {% if b.rank %}<span class="tag">rank {{ b.rank }}</span>{% endif %}
-    {% if b.cell_label %}<span class="tag">{{ b.cell_label }}{% if b.cell_share is not none %} {{ "%.0f" | format(b.cell_share * 100) }}%{% endif %}</span>{% endif %}
-    {% if b.verdict %}<span class="tag{% if b.verdict == 'composition' %} warn{% endif %}">{{ b.verdict | replace("_"," ") }}</span>{% endif %}
-    {% if b.mr %}<span class="tag">{{ b.mr }}</span>{% endif %}
-    {% if b.drug %}<span class="tag fic">{{ b.drug }}</span>{% endif %}
-  </div>
-  <p>{{ t | statement_html | safe }} {{ t.evidence_ids | cite | safe }}</p>
-  {% if t.selected_because %}<p class="small">On this page: {{ t.selected_because | join("; ") }}.</p>{% endif %}
-</div>
-{% endfor %}
-</div>
-{% endfor %}
 <h2>The convergence ranking</h2>
 <p class="lede">Each gene gets one score built from six kinds of evidence: how much it changes in UC biopsies (pooled over eight cohorts), in how many cohorts the change repeats, whether it differs between inflamed and non-inflamed mucosa of the same patient, human genetics, the literature and whether a drug exists or looks possible. Every kind is scaled from 0 to 1 and multiplied by a weight ({% for k, v in sw.items() %}{{ k }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}). The weights live in <code>config.yaml</code> and were set before the results were known. {{ "{:,}".format(f.convergence.universe_size) }} genes are scored.</p>
 <div class="grid two">
@@ -379,6 +356,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 {% if SL.rp %}{% include "repurposing_tab.html.j2" %}{% endif %}
 {% if GT %}{% include "genetic_tab.html.j2" %}{% endif %}
 {% if CL %}{% include "clinical_tab.html.j2" %}{% endif %}
+{% if DEC and DEC.n %}{% include "decision_tab.html.j2" %}{% endif %}
 
 {% include "tabs_clinical.html.j2" %}
 
@@ -635,6 +613,7 @@ These checks do not constitute complete scientific validation.{% endif %}
     var a=e.target.closest('a[href^="#"]'); if(!a) return;
     var id=a.getAttribute('href').slice(1); if(!id||id.indexOf('tab=')===0) return;
     var el=document.getElementById(id); if(!el) return; e.preventDefault();
+    if(el.classList.contains('panel')){show(el.getAttribute('data-name')); window.scrollTo(0,0); return;}
     var p=el.closest('.panel'); if(p) show(p.getAttribute('data-name'),false);
     el.scrollIntoView({behavior:'smooth',block:'center'});
     try{history.replaceState(null,'','#'+id);}catch(x){}
@@ -642,12 +621,16 @@ These checks do not constitute complete scientific validation.{% endif %}
   document.addEventListener('click',function(e){
     var b=e.target.closest('button.q'); if(!b) return;
     var host=b.closest('.plot,.kpi,.card,h2,h3'); if(!host) return;
-    var open=b.getAttribute('aria-expanded')==='true', box=host._help;
+    var open=b.getAttribute('aria-expanded')==='true', box=host._help, kpi=host.classList.contains('kpi');
     if(open){b.setAttribute('aria-expanded','false'); if(box) box.hidden=true; return;}
+    if(kpi){[].slice.call(host.parentElement.querySelectorAll('.kpi .q[aria-expanded="true"]')).forEach(function(x){
+      x.setAttribute('aria-expanded','false'); var h=x.closest('.kpi'); if(h._help) h._help.hidden=true;});}
     if(!box){box=document.createElement('div'); box.className='helpbox';
       function esc(t){var d=document.createElement('div'); d.textContent=t; return d.innerHTML;}
-      box.innerHTML='<p><b>What it shows.</b> '+esc(b.dataset.what)+'</p><p><b>How to read it.</b> '+esc(b.dataset.read)+'</p><p><b>Keep in mind.</b> '+esc(b.dataset.watch)+'</p>';
-      if(host.matches('h2,h3')) host.insertAdjacentElement('afterend',box);
+      var name=kpi?(host.querySelector('b').textContent+' '+host.querySelector('span').textContent):'';
+      box.innerHTML=(name?'<p class="helpname">'+esc(name)+'</p>':'')+'<p><b>What it shows.</b> '+esc(b.dataset.what)+'</p><p><b>How to read it.</b> '+esc(b.dataset.read)+'</p><p><b>Keep in mind.</b> '+esc(b.dataset.watch)+'</p>';
+      if(kpi) host.parentElement.appendChild(box);
+      else if(host.matches('h2,h3')) host.insertAdjacentElement('afterend',box);
       else if(host.classList.contains('plot')) host.insertBefore(box,host.children[1]);
       else host.appendChild(box);
       host._help=box;}
@@ -659,10 +642,12 @@ These checks do not constitute complete scientific validation.{% endif %}
   if(es){es.addEventListener('input',efilt);efilt();}
   var h=(location.hash||'').replace('#tab=','').replace('#','');
   var he=h?document.getElementById(h):null;
+  if(h.indexOf('tab-')===0&&document.getElementById(h)) h=h.slice(4);
   var start=document.getElementById('tab-'+h)?h:(he&&he.closest('.panel')?he.closest('.panel').getAttribute('data-name'):'overview');
-  window.addEventListener('hashchange',function(){var h2=(location.hash||'').replace('#tab=','').replace('#','');
+  window.addEventListener('hashchange',function(){var h2=(location.hash||'').replace('#tab=','').replace('#tab-','').replace('#','');
     if(document.getElementById('tab-'+h2)) show(h2,false);});
-  show(start,false); window.addEventListener('load',function(){resizePlots(document.querySelector('.panel.on'));});
+  show(start,false); if(he&&he.classList.contains('panel')) window.scrollTo(0,0);
+  window.addEventListener('load',function(){resizePlots(document.querySelector('.panel.on')); if(he&&he.classList.contains('panel')) window.scrollTo(0,0);});
 })();
 </script>
 </body>

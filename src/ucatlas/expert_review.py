@@ -1,15 +1,18 @@
-"""Expert review of the front page, with every factual objection cited (added 2026-11-27).
+"""Expert review of the summary and the orchestrator's decision, with every factual statement cited (added 2026-11-27;
+per-candidate verdicts since 2026-11-28).
 
 The verifier and the reading check (verify.py, claim_check.py) prove that each claim is in the evidence it cites. They
 cannot see a claim that is true of its record but wrong or misleading to a UC clinician: an anti-p19 antibody called
 an IL12B drug, a JAK2 card read as a JAK2-drug proposal, a failed drug class presented as open. Four independent
 expert-style reviews of run 2026-11-23 found such problems by hand. This module makes that review a step of /informe:
 
-1. prepare(run): the front page as a reader sees it, from RUN/narrative.json: the summary paragraphs and the
-   prioritised candidates with their block, title and drug tag, numbers written out, in data/expert_review/<run>/
+1. prepare(run): what a reader sees, from RUN/narrative.json: the summary paragraphs (front page) and the
+   orchestrator's decision (four targets per list of targets with no therapy in UC, decision.py), each card with its
+   list, the gene's dossier and the orchestrator's rationale, numbers written out, in data/expert_review/<run>/
    input.json, with opaque ids (key.json maps them back).
 2. The reviewer subagent (.claude/agents/revisor-experto.md) reads it as a UC clinician would, with PubMed search, and
-   writes review.json. Two kinds of objection:
+   writes review.json: a verdict per decision card (support, concerns or against, with reasons; a reason that states a
+   fact needs a PMID and a verbatim abstract sentence) and objections to the text. Two kinds of objection:
    - factual: the text says something the literature contradicts, or leaves out a fact a clinician would expect.
      It must give a PMID and a sentence copied verbatim from that paper's abstract.
    - framing: emphasis, title, order, a missing caveat. It may only ask to reword, reorder or remove what the text
@@ -36,7 +39,7 @@ BASE = ROOT / "data" / "expert_review"
 KINDS = {"factual", "framing"}
 
 
-# ------------------------------------------------------------------ the front page as text
+# ------------------------------------------------------------------ the summary and the selection as text
 def plain(stmt: dict, store) -> str:
     """The statement as the report prints it: numeric annotations replaced by their values, other brackets removed."""
     from .semantic import numeric_claim_text
@@ -56,31 +59,28 @@ def plain(stmt: dict, store) -> str:
     return re.sub(r"\s+", " ", re.sub(r"\s*\[[^\]]*\]", "", text)).strip()
 
 
-def front_page(nar: dict) -> list[dict]:
-    """Summary paragraphs and candidate cards, with block and tags as rendered."""
-    import pandas as pd
+def _brief(dossier: dict) -> dict:
+    """The dossier as the card shows it, without evidence ids."""
+    keep = ("group", "direction", "stability", "cell_family", "meta_log2fc", "uc_papers", "lights",
+            "proposed_experiment", "inhibitor", "risk_allele", "tier", "predicted_effect", "mendelian_randomisation",
+            "biopsy_change", "cell_in_single_cells", "cell_matches_prediction", "drug", "key_papers")
+    return {k: dossier[k] for k in keep if k in dossier}
+
+
+def front_page(nar: dict, genes: list[str] | None = None) -> list[dict]:
+    """Summary paragraphs and the decision cards, as rendered (genes: only these cards, for a second pass)."""
+    from .decision import TITLE, pool
     from .graph import GraphStore
-    from .paths import PROCESSED
-    from .render import TARGET_GROUPS, drug_indication_view, target_groups, drug_tags
-    from .drug_literature import DATA as DRUG_LIT
     store = GraphStore()
-    out = [{"location": f"narrative.summary[{i}]", "kind": "summary paragraph", "text": plain(p, store)}
-           for i, p in enumerate(nar.get("summary", []))]
-    conv = json.loads((_run_dir(nar) / "convergence.json").read_text(encoding="utf-8"))
-    f = {"convergence": conv, "targets": nar.get("targets", [])}
-    disc = pd.read_parquet(PROCESSED / "discovery_scored.parquet").set_index("gene")
-    tags = drug_tags()
-    if DRUG_LIT.exists():
-        tags.update(json.loads(DRUG_LIT.read_text(encoding="utf-8")).get("tags", {}))
-    rank = {r["gene"]: r["rank"] for r in conv["ranking"]}
-    titles = {k: t for k, t, _ in TARGET_GROUPS}
-    for g in target_groups(f, drug_indication_view(), disc):
-        for t in g["targets"]:
-            out.append({"location": f"targets.{t['gene']}", "kind": "candidate card", "block": titles[g["key"]],
-                        "gene": t["gene"], "title": t["gene"] + (f" · {t['subtitle']}" if t.get("subtitle") else ""),
-                        "role": t.get("category"), "convergence_rank": rank.get(t["gene"]),
-                        "drug_tag": tags.get(t["gene"]), "selected_because": t.get("selected_because"),
-                        "text": plain(t, store)})
+    out = [] if genes else [{"location": f"narrative.summary[{i}]", "kind": "summary paragraph", "text": plain(p, store)}
+                            for i, p in enumerate(nar.get("summary", []))]
+    dos = {r["gene"]: r for rows in pool().values() for r in rows}
+    for tg in nar.get("targets", []):
+        if genes and tg["gene"] not in genes:
+            continue
+        out.append({"location": f"targets.{tg['gene']}", "kind": "decision card", "list": TITLE.get(tg.get("list"), tg.get("list")),
+                    "gene": tg["gene"], "role": tg.get("category"), "dossier": _brief(dos.get(tg["gene"], {})),
+                    "text": plain(tg, store)})
     return out
 
 
@@ -104,24 +104,34 @@ def _write(items: list[dict], base, header: dict) -> dict:
     return key
 
 
-HEADER = {"question": "What are the candidate therapeutic targets, immune pathways and biomarkers in ulcerative colitis "
-                      "with the strongest convergent evidence?",
-          "what_you_read": "An ulcerative colitis evidence atlas: the summary of the findings on its front page and the "
-                           "orchestrator's selection of candidates (Ranking tab), in the blocks the page shows them in."}
+HEADER = {"question": "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the "
+                      "strongest evidence to be tested first?",
+          "what_you_read": "An ulcerative colitis evidence atlas: the summary of its findings (front page) and the "
+                           "orchestrator's decision: four targets to test first from each list of targets with no therapy "
+                           "in UC. Each decision card shows the list, the gene's dossier from the atlas data and the "
+                           "orchestrator's rationale."}
 
 
-def prepare(run: str) -> dict:
-    from .frontpage import RULE_TEXT
-    from .render import TARGET_GROUPS
+def _header() -> dict:
+    from .decision import LISTS, RULE_TEXT
+    return {**HEADER, "selection_rule": RULE_TEXT,
+            "blocks": [{"title": title, "note": {
+                "first_in_class": "Genes that rise in UC as a change of the tissue, with few UC papers and no clinical drug for any disease.",
+                "known": "Established UC biology (more than 15 UC papers) that no drug reaches.",
+                "repurposing": "An inhibitor exists in the clinic for another disease; never tried in UC, Crohn's disease or IBD.",
+                "genetic": "Inherited UC risk variants: the gene, cell and direction predicted from DNA sequence (AlphaGenome), checked against the rest of the atlas."}[k]}
+                for k, title, *_ in LISTS]}
+
+
+def prepare(run: str, genes: list[str] | None = None) -> dict:
+    """genes: a second pass on these decision cards only (after the orchestrator replaces a gene), in <run>/pass2/."""
     rd = ROOT / "runs" / run
     _RUN["dir"] = rd
     nar = json.loads((rd / "narrative.json").read_text(encoding="utf-8"))
-    items = front_page(nar)
-    header = {**HEADER, "selection_rule": RULE_TEXT,
-              "blocks": [{"title": t, "note": n} for _, t, n in TARGET_GROUPS]}
-    _write(items, BASE / run, header)
-    return {"items": len(items), "input": str(BASE / run / "input.json"),
-            "output": str(BASE / run / "review.json")}
+    items = front_page(nar, genes)
+    base = BASE / run / "pass2" if genes else BASE / run
+    _write(items, base, _header())
+    return {"items": len(items), "input": str(base / "input.json"), "output": str(base / "review.json")}
 
 
 # ------------------------------------------------------------------ validation of the reviewer's objections
@@ -147,13 +157,68 @@ def check_objections(objs: list[dict]) -> tuple[list[dict], list[dict]]:
     return kept, dropped
 
 
-def validate(run: str) -> dict:
-    """Keep the objections that may be acted on, register their quotes as citable evidence, and write
-    RUN/revisions_expert.json for the orchestrator."""
+VERDICTS = ("support", "concerns", "against")
+REASON_KINDS = {"factual", "judgement"}
+
+
+def check_verdicts(verdicts: list[dict], key: dict) -> tuple[dict, list[dict]]:
+    """gene -> verdict with its kept reasons; and the reasons discarded (with why). A factual reason needs a PMID and
+    a verbatim abstract sentence of a peer-reviewed, non-retracted paper; a judgement reason weighs facts the card
+    already shows and adds none."""
+    from .pubmed_quotes import fetch_many, problems
+    pmids = sorted({int(r["pmid"]) for v in verdicts for r in v.get("reasons", [])
+                    if r.get("kind") == "factual" and str(r.get("pmid", "")).isdigit()})
+    recs = fetch_many(pmids) if pmids else {}
+    out, dropped = {}, []
+    for v in verdicts:
+        loc = key.get(v.get("id"), "")
+        if not loc.startswith("targets.") or v.get("verdict") not in VERDICTS:
+            dropped.append({**v, "reason_dropped": "not a decision card or unknown verdict"})
+            continue
+        gene = loc.split(".", 1)[1]
+        kept = []
+        for r in v.get("reasons", []):
+            kind = r.get("kind")
+            if kind not in REASON_KINDS:
+                dropped.append({"gene": gene, **r, "reason_dropped": f"unknown kind {kind!r}"})
+            elif kind == "judgement":
+                kept.append(r)
+            elif not str(r.get("pmid", "")).isdigit() or not r.get("quote"):
+                dropped.append({"gene": gene, **r, "reason_dropped": "factual reason without a PMID and a verbatim quote"})
+            elif int(r["pmid"]) not in recs:
+                dropped.append({"gene": gene, **r, "reason_dropped": f"PMID {r['pmid']} not found in PubMed"})
+            else:
+                pr = problems(recs[int(r["pmid"])], [r["quote"]])
+                if pr:
+                    dropped.append({"gene": gene, **r, "reason_dropped": "; ".join(pr)})
+                else:
+                    kept.append({**r, "title": recs[int(r["pmid"])].get("title"), "journal": recs[int(r["pmid"])].get("journal"),
+                                 "year": recs[int(r["pmid"])].get("year")})
+        out[gene] = {"verdict": v["verdict"], "summary": v.get("summary", ""), "reasons": kept}
+    return out, dropped
+
+
+def validate(run: str, second_pass: bool = False) -> dict:
+    """Keep the objections that may be acted on and the verdicts' reasons that are cited, register their quotes as
+    citable evidence, and write RUN/revisions_expert.json (objections, for the orchestrator) and
+    RUN/expert_verdicts.json (verdicts, shown on the decision cards)."""
     from .pubmed_quotes import add
-    base = BASE / run
+    base = BASE / run / "pass2" if second_pass else BASE / run
     key = json.loads((base / "key.json").read_text(encoding="utf-8"))
     review = json.loads((base / "review.json").read_text(encoding="utf-8"))
+    vfile = ROOT / "runs" / run / "expert_verdicts.json"
+    verdicts = json.loads(vfile.read_text(encoding="utf-8")) if second_pass and vfile.exists() else {"verdicts": {}, "discarded": []}
+    new, vdrop = check_verdicts(review.get("verdicts", []), key)
+    for gene, v in new.items():
+        for r in v["reasons"]:
+            if r["kind"] == "factual":
+                try:
+                    r["evidence_ids"] = add(run, "reviewer", int(r["pmid"]), r.get("genes") or [gene], [r["quote"]], r.get("drug"))
+                except SystemExit as exc:
+                    r["evidence_ids"], r["note"] = [], str(exc)
+    verdicts["verdicts"].update(new)
+    verdicts["discarded"] += vdrop
+    vfile.write_text(json.dumps(verdicts, indent=1, ensure_ascii=False), encoding="utf-8")
     objs = [{**o, "location": key.get(o.get("id"), o.get("id"))} for o in review.get("objections", [])]
     kept, dropped = check_objections(objs)
     for o in kept:
@@ -170,38 +235,39 @@ def validate(run: str) -> dict:
            "instruction": "For each kept objection, correct the text at `location` in narrative.json once: a factual "
                           "objection is fixed citing its evidence_ids (or by removing the claim it disputes); a framing "
                           "objection only rewords, reorders or removes. Then continue with the reading check."}
-    (ROOT / "runs" / run / "revisions_expert.json").write_text(json.dumps(out, indent=1, ensure_ascii=False),
-                                                                 encoding="utf-8")
+    rf = ROOT / "runs" / run / ("revisions_expert_pass2.json" if second_pass else "revisions_expert.json")
+    rf.write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
     return {"kept": len(kept), "factual_kept": sum(o["kind"] == "factual" for o in kept),
-            "discarded": len(dropped), "file": f"runs/{run}/revisions_expert.json"}
+            "discarded": len(dropped), "file": rf.relative_to(ROOT).as_posix(),
+            "verdicts": {g: v["verdict"] for g, v in new.items()},
+            "verdict_reasons_kept": sum(len(v["reasons"]) for v in new.values()), "verdict_reasons_discarded": len(vdrop)}
 
 
 # ------------------------------------------------------------------ measurement with seeded errors
 # Errors of the kinds the manual reviews of 2026-11-26 found, written into copies of real cards. Each applies to the
-# first front-page item whose text matches; patterns that match nothing in a run are skipped.
+# first item whose text matches; patterns that match nothing in a run are skipped. Rewritten for the decision cards of
+# 2026-11-28 (the earlier seeds targeted the IL12B and JAK2 cards, which left the decision).
 SEEDS = [
-    ("subunit", "factual", r"IL12B is the p40 subunit", "IL12B is the p19 subunit"),
-    ("anti-p19 target", "factual", r"(anti-p19 antibodies mirikizumab, risankizumab and guselkumab, which bind) IL23A",
-     r"\1 IL12B"),
-    ("selectivity", "factual", r"selective JAK1 inhibitor upadacitinib", "selective JAK2 inhibitor upadacitinib"),
-    ("trial outcome", "factual", r"did not show significant benefit in UC phase 2", "showed significant benefit in UC phase 3"),
-    ("class as drug proposal", "framing", r"Positive control for the JAK class, not a proposal for a JAK2-selective drug\.",
-     "A strong new candidate for a JAK2-selective drug in UC."),
-    ("failed class as open", "factual", r"went no further than phase 2 in UC", "were approved in UC"),
-    ("drug effect direction", "factual", r"lowered blood neutrophil counts", "raised blood neutrophil counts"),
-    ("genetic direction", "framing", r"so inhibition runs against genetics", "so genetics supports inhibition"),
-    ("overclaimed novelty", "framing", r"^Exploratory: the largest", "Validated target: the largest"),
-    ("stage", "factual", r"nangibotide is recorded in phase 2", "nangibotide is approved for UC"),
-    ("mechanism", "factual", r"which shows that blocking interleukin-23 alone is enough",
-     "which shows that blocking interleukin-12 is required"),
-    ("influx as tissue target", "framing", r"a tissue marker of neutrophil influx", "a T-cell-intrinsic drug target"),
+    ("approval status", "factual", r"an inhibitor is approved for pulmonary arterial hypertension",
+     "an inhibitor is approved for ulcerative colitis"),
+    ("mouse direction", "factual", r"knockdown or ablation protected against colitis", "knockdown or ablation worsened colitis"),
+    ("variant direction", "factual", r"implies its function protects", "implies its function drives the disease"),
+    ("genetic direction", "factual", r"higher expression in sigmoid colon raises UC risk",
+     "higher expression in sigmoid colon lowers UC risk"),
+    ("knockout phenotype", "factual", r"knockout mice develop more severe colitis", "knockout mice are protected from colitis"),
+    ("trial stage", "factual", r"an inhibitor reached phase 3 in sepsis and covid-19", "an inhibitor was approved for UC"),
+    ("protein function", "factual", r"UniProt describes it as a tumour suppressor", "UniProt describes it as an oncogene"),
+    ("influx as tissue target", "framing", r"so blocking it would act on neutrophil recruitment rather than on a change of the tissue",
+     "so blocking it would correct a change of the tissue itself"),
+    ("overclaimed validation", "framing", r"Direction: inhibit, as a hypothesis to test\.", "Direction: inhibit; a validated target."),
+    ("genetics overclaimed", "framing", r"plasma Mendelian randomisation is null", "plasma Mendelian randomisation supports inhibition"),
+    ("severity as drug-specific", "framing", r"so it marks severity\.", "so it predicts ustekinumab failure specifically."),
+    ("druggability overclaimed", "framing", r"a transcription factor is hard to drug", "a transcription factor is easy to drug"),
 ]
 
 
 def seed(run: str, seed_: int = 11) -> dict:
     """Two blind batches: each seeded card is in one batch, its unaltered original in the other."""
-    from .frontpage import RULE_TEXT
-    from .render import TARGET_GROUPS
     rd = ROOT / "runs" / run
     _RUN["dir"] = rd
     items = front_page(json.loads((rd / "narrative.json").read_text(encoding="utf-8")))
@@ -218,7 +284,7 @@ def seed(run: str, seed_: int = 11) -> dict:
     rng.shuffle(seeded)
     halves = [seeded[0::2], seeded[1::2]]
     base = BASE / run / "seeded"
-    header = {**HEADER, "selection_rule": RULE_TEXT, "blocks": [{"title": t, "note": n} for _, t, n in TARGET_GROUPS]}
+    header = _header()
     keys = {}
     for name, mine, other in (("A", halves[0], halves[1]), ("B", halves[1], halves[0])):
         taken = {s["original_location"] for s in mine}
@@ -258,7 +324,12 @@ def score(run: str) -> dict:
         if not rp.exists():
             continue
         key, seeds = meta[name]["key"], meta[name]["seeds"]
-        objs = json.loads(rp.read_text(encoding="utf-8")).get("objections", [])
+        rv = json.loads(rp.read_text(encoding="utf-8"))
+        objs = rv.get("objections", [])
+        # a verdict reason that points at the card's words counts like an objection (2026-11-28)
+        objs += [{"id": v.get("id"), "kind": "factual" if r.get("kind") == "factual" else "framing",
+                  "claim": r.get("claim"), "objection": r.get("text"), "pmid": r.get("pmid"), "quote": r.get("quote")}
+                 for v in rv.get("verdicts", []) for r in v.get("reasons", []) if r.get("claim")]
         kept, dropped = check_objections(objs)
         valid = {id(o) for o in kept}
         by_id: dict[str, list] = {}
@@ -299,7 +370,12 @@ def main(argv=None) -> None:
     import sys
     argv = argv or sys.argv[1:]
     cmd, run = argv[0], argv[1]
-    print(json.dumps({"prepare": prepare, "validate": validate, "seed": seed, "score": score}[cmd](run), indent=1))
+    if cmd == "prepare" and len(argv) > 2:      # prepare <run> GENE1,GENE2: second pass on replaced genes
+        print(json.dumps(prepare(run, argv[2].split(",")), indent=1))
+    elif cmd == "validate" and "--second-pass" in argv:
+        print(json.dumps(validate(run, second_pass=True), indent=1))
+    else:
+        print(json.dumps({"prepare": prepare, "validate": validate, "seed": seed, "score": score}[cmd](run), indent=1))
 
 
 if __name__ == "__main__":

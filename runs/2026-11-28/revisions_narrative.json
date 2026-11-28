@@ -1,0 +1,184 @@
+{
+ "narrative.summary[1]": {
+  "statement": "SERPINB5 has the most complete case: epithelial cells make almost all of it in all four atlases, its rise is intrinsic (adjusted log2FC [gene=SERPINB5; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=2.109]), and two mouse studies report that knockdown or ablation protected against colitis. Its weak points are that those studies are recent and unreplicated and that its role in colitis-associated cancer is unsettled: UniProt describes it as a tumour suppressor, while a study of IBD tissue linked its aberrant expression with neoplastic transformation.",
+  "claims": [
+   {
+    "claim": "those studies are unreplicated",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record addresses replication of the studies."
+   }
+  ]
+ },
+ "narrative.summary[2]": {
+  "statement": "The first-in-class choices are changes of the lining or the stroma that survive the composition adjustment, such as SDR16C5 (retained fraction [gene=SDR16C5; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.66]), but none has a functional study, and several genes of that pool were set aside because their rise mostly reports cells arriving: LILRA1 and CEACAM4 are neutrophil transcripts and PCDH17 keeps only [gene=PCDH17; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.098] of its rise.",
+  "claims": [
+   {
+    "claim": "none has a functional study",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record reports on functional studies of the first-in-class genes."
+   }
+  ]
+ },
+ "narrative.summary[3]": {
+  "statement": "For the repurposing targets an inhibitor already exists for another disease, but the data argue for caution: INHBA and SELP separate ustekinumab and placebo non-responders alike, so they mark severity, and for CFB a loss-of-function variant implies its function protects. Genetics gives the strongest causal argument for TUFM, whose higher expression in colon raises UC risk (odds ratio per SD [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=colon_tissue; odds_ratio_per_sd=1.191]), although biopsies show no rise; the other genetics-first genes rest on sequence predictions. These are hypotheses from public data, to be tested in human cells first.",
+  "claims": [
+   {
+    "claim": "biopsies show no rise of TUFM",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives TUFM biopsy expression."
+   },
+   {
+    "claim": "the other genetics-first genes rest on sequence predictions",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "Cited records cover only TUFM, INHBA, SELP, CFB; no records for the other genes."
+   }
+  ]
+ },
+ "narrative.sections.pathways[1]": {
+  "statement": "The most specific circuit is neutrophil CXCL8 to CXCR2: in Gubatan 2026 the link from the Neutrophil CXCR4 state to the Neutrophil state rose strongly in inflamed mucosa, a feed-forward recruitment loop, and neutrophil CXCL8 also reaches ACKR1 endothelium. Inflammatory fibroblasts send CXCL1 to CXCR2 on neutrophils at much lower scores, IL1B mainly reaches the decoy receptor IL1R2 on neutrophil states, and the expected neutrophil OSM to fibroblast circuit is weak. Co-expression is not proof of signalling.",
+  "claims": [
+   {
+    "claim": "IL1R2 is a decoy receptor",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record describes IL1R2 as a decoy."
+   }
+  ]
+ },
+ "narrative.sections.discovery[2]": {
+  "statement": "XKR9 keeps the highest share of its change after composition adjustment among the first-in-class candidates and is one of four epithelial candidates classed intrinsic, but it is up in only [gene=XKR9; type=discovery_profile; source=ANALYSIS:discovery; cohorts_up=4] cohorts, the second fewest of the candidates, and lacks response and functional evidence.",
+  "claims": [
+   {
+    "claim": "lacks response and functional evidence",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record reports response or functional data for XKR9 either way."
+   }
+  ]
+ },
+ "narrative.sections.decision[0]": {
+  "statement": "From the first-in-class pool, XKR9 keeps most of its rise after the composition adjustment (retained fraction [gene=XKR9; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.798]) but is up in only four of eight cohorts and two of three other atlases. LILRA1 and CEACAM4 mostly report neutrophil arrival (neutrophil shares [gene=LILRA1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.502] and [gene=CEACAM4; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.87]), and PCDH17 keeps only [gene=PCDH17; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.098] of its rise, a marker of vascular or stromal expansion. LAIR2 is a T/NK transcript whose change is in large part T-cell influx. OLFML2B is attributed to the same lineage in only one of three other atlases, LYPD5 has no UC or IBD paper, and FJX1's only colitis-model paper concerns tumours, not inflammation; SGIP1 and FIBIN are stromal genes whose rise is mostly composition. PCDH17's baseline level is associated with ustekinumab non-response (padj [gene=PCDH17; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.000594]) but also with corticosteroid non-response and faecal calprotectin, which points to inflammation burden; LAIR2 rises in inflamed mucosa ([gene=LAIR2; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=1.3277]) but not in non-inflamed mucosa, and LILRA1 likewise ([gene=LILRA1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=1.3307]), both signals of inflammation rather than of the tissue.",
+  "claims": [
+   {
+    "claim": "XKR9 is up in only four of eight cohorts",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives XKR9 cohort count."
+   }
+  ]
+ },
+ "narrative.sections.decision[1]": {
+  "statement": "From the well-known pool, MMP10 is a replicated biomarker, but MMP10-deficient mice had worse DSS colitis, so blocking it may impair healing. CXCL3 reaches neutrophil CXCR2 like CXCL1 and shares its receptor, so the data do not single it out over CXCL1. KLK10 and PDPN rise mostly through changes in cell proportions, and no specialist examined them.",
+  "claims": [
+   {
+    "claim": "CXCL3 reaches neutrophil CXCR2 like CXCL1",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record covers CXCL1."
+   },
+   {
+    "claim": "no specialist examined KLK10 and PDPN",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record says anything on specialist review."
+   }
+  ]
+ },
+ "narrative.sections.decision[2]": {
+  "statement": "From the repurposing pool, GUCY1A1 was not chosen: no specialist examined it, its inhibitor is recorded for colorectal neoplasms rather than an inflammatory disease, and loss of the gene causes Moyamoya disease, so long-term inhibition carries a vascular risk.",
+  "claims": [
+   {
+    "claim": "no specialist examined GUCY1A1",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record on specialist review."
+   }
+  ]
+ },
+ "targets.CYP4X1": {
+  "statement": "Direction: inhibit; CYP4X1 rises in UC in all eight cohorts. Cell and tissue: epithelial cells make it, the lineage agrees in all three other atlases, and its rise is classed intrinsic after the composition adjustment, so it is a change of the lining. Drug route: Open Targets predicts both an antibody and a small-molecule route. Safety: it is not loss-constrained and has no recorded safety events; it has never been tested in mouse colitis. First experiment: silencing or inhibition in organoids from inflamed UC mucosa. What is missing: the specialists did not examine it, and its only UC paper names it in a list.",
+  "claims": [
+   {
+    "claim": "the specialists did not examine it",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record on specialist review."
+   }
+  ]
+ },
+ "targets.SERPINB5": {
+  "statement": "Direction: inhibit; SERPINB5 rises in all eight cohorts, by [gene=SERPINB5; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=2.0451] log2 units in inflamed against non-inflamed mucosa of the same patients. Cell and tissue: epithelial cells make almost all of it (share [gene=SERPINB5; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.953]), in all four atlases, and the rise is intrinsic (adjusted log2FC [gene=SERPINB5; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=2.109]). Function: two 2026 mouse studies report that knockdown or ablation protected against colitis, which is the strongest functional support in the pool, but neither has been replicated. Drug route: Open Targets predicts an antibody and a small-molecule route. Safety: it is not loss-constrained. UniProt describes it as a tumour suppressor, but a study of IBD tissue linked its aberrant expression with disease activity and neoplastic transformation and proposed targeting it for control of disease activity and cancer prophylaxis, so its role in colitis-associated cancer is unsettled and long-term inhibition still needs care. First experiment: silencing in organoids from inflamed UC mucosa stimulated with TNF.",
+  "claims": [
+   {
+    "claim": "neither has been replicated",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record addresses replication of the two mouse studies."
+   }
+  ]
+ },
+ "targets.TUFM": {
+  "statement": "Direction: inhibit; the UC risk allele raises TUFM expression, and Mendelian randomisation agrees: higher expression in sigmoid colon raises UC risk (odds ratio per SD [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=colon_tissue; odds_ratio_per_sd=1.191]), colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023, and so does expression in gut plasma B cells ([gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=gut_cell; odds_ratio_per_sd=1.356]). This is the strongest causal evidence in the pool. Cell and tissue: the predicted effect is largest in blood neutrophils, while single cells place it in plasma and epithelial cells, and in inflamed MSCCR biopsies it is slightly lower, not higher (log2FC [gene=TUFM; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=-0.188]), with no change in non-inflamed mucosa, which does not support the inhibition hypothesis in tissue. Drug route and safety: TUFM is a ubiquitous mitochondrial gene with no clinical drug, so a drug would need to act in one cell type. First experiment: allele-specific silencing in gut plasma cells or neutrophils. Caveat: one instrument. The reviewer is against testing it first for these reasons; it stays because it carries the only causal genetic support in the pool, and the first experiment tests that support in one cell type before any drug is considered.",
+  "claims": [
+   {
+    "claim": "TUFM has no clinical drug",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives drug status for TUFM."
+   }
+  ]
+ },
+ "targets.CEBPB": {
+  "statement": "Direction: inhibit; the risk allele raises CEBPB, predicted in colon dendritic cells, and its mRNA rises in biopsies (meta-analysis log2FC [gene=CEBPB; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.27]), with its regulon active in all cohorts. Cell: it is a broadly expressed transcription factor, made mostly by neutrophils and macrophages (neutrophil share [gene=CEBPB; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.698]), and the predicted dendritic cell is not the main source. Against it: gut-cell Mendelian randomisation points the other way without reaching significance, and its baseline level separates ustekinumab and placebo non-responders alike. Drug route: no clinical drug; a transcription factor is hard to drug, though nintedanib alleviated DSS colitis in mice by inhibiting CEBPB signalling. First experiment: silencing in monocyte-derived dendritic cells carrying the risk allele.",
+  "claims": [
+   {
+    "claim": "no clinical drug",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives drug status for CEBPB."
+   }
+  ]
+ },
+ "targets.FIGNL1": {
+  "statement": "Direction: inhibit; the risk allele is predicted to raise FIGNL1 in colon NK cells, in a confidently fine-mapped UC signal. Against it: Mendelian randomisation gives no support, and biopsies show no change. Drug route: no clinical drug. It stays in the decision because the genetics list has only five candidates and its prediction is confident; it is a hypothesis about inherited risk, not about inflamed tissue. The reviewer is against it; it stays because the rule takes four genes from each list and the remaining genetics candidate, RORC, has data against its direction. First experiment: allele-specific expression and silencing in primary NK cells.",
+  "claims": [
+   {
+    "claim": "no clinical drug",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives drug status for FIGNL1."
+   }
+  ]
+ },
+ "targets.CFAP90": {
+  "statement": "Direction: inhibit; the risk allele is predicted to raise CFAP90 in colon goblet cells and several blood cell types, in a confidently fine-mapped UC signal. Against it: no Mendelian randomisation support and no change in biopsies. Drug route: no clinical drug. Like FIGNL1, it is a hypothesis about inherited risk; the first step is to confirm the predicted effect of the variant on expression in goblet cells before any functional test. The reviewer is against it for the same reasons as FIGNL1, and it stays for the same reason.",
+  "claims": [
+   {
+    "claim": "no clinical drug",
+    "verdict": "not_in_evidence",
+    "quote": "",
+    "evidence_id": null,
+    "reason": "No cited record gives drug status for CFAP90."
+   }
+  ]
+ }
+}

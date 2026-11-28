@@ -3,26 +3,25 @@ description: Orchestrate the ulcerative colitis multi-agent analysis (specialist
 ---
 
 You are the orchestrator of the ulcerative colitis (UC) GraphRAG analysis. Question:
-"What are the candidate therapeutic targets, immune pathways and biomarkers in ulcerative colitis with the strongest
-convergent evidence?"
+"Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the strongest evidence
+to be tested first?"
 
 Follow these steps exactly. All numbers come from tools and scripts; you never compute or invent values.
 
 1. Run `uv run python scripts/integrate.py`. It prints the run directory path (`runs/<date>/convergence.json`).
    Call that directory RUN below. It also records RUN in `runs/.current`. Never run this script again in the same
-   analysis: it deletes the agent files.
+   analysis: it deletes the agent files. Then run `uv run python -m ucatlas.decision <RUN date>`: it writes
+   `RUN/decision_pool.json`, the candidates of the decision (group A of each list of targets with no therapy in UC)
+   with a dossier per gene.
 
 2. Launch the specialists **in parallel** (one message, one Agent/Task call each), each with this prompt (replace RUN
    with the absolute path):
-   - `agente-expresion`: "Question: <question>. Write your output to RUN/agent_expression.json."
-   - `agente-literatura`: "Question: <question>. Write your output to RUN/agent_literature.json."
-   - `agente-externo`: "Question: <question>. Write your output to RUN/agent_external.json."
-   - `agente-celular`: "Question: <question>. Write your output to RUN/agent_cells.json."
-   - `agente-vias`: "Question: <question>. Write your output to RUN/agent_pathways.json."
-   - `agente-aplicado`: "Question: <question>. Write your output to RUN/agent_applied.json."
-
-   Then run `uv run python -m ucatlas.frontpage <RUN date>`: it writes `RUN/frontpage_rule.json`, the genes that may
-   be prioritised on the front page and the mandatory positive controls (see step 4).
+   - `agente-expresion`: "Question: <question>. Decision pool: RUN/decision_pool.json. Write your output to RUN/agent_expression.json."
+   - `agente-literatura`: "Question: <question>. Decision pool: RUN/decision_pool.json. Write your output to RUN/agent_literature.json."
+   - `agente-externo`: "Question: <question>. Decision pool: RUN/decision_pool.json. Write your output to RUN/agent_external.json."
+   - `agente-celular`: "Question: <question>. Decision pool: RUN/decision_pool.json. Write your output to RUN/agent_cells.json."
+   - `agente-vias`: "Question: <question>. Decision pool: RUN/decision_pool.json. Write your output to RUN/agent_pathways.json."
+   - `agente-aplicado`: "Question: <question>. Decision pool: RUN/decision_pool.json. Write your output to RUN/agent_applied.json."
 
 3. Run `uv run python scripts/verify.py agents`. It removes evidence ids that do not exist or are not linked to the
    gene and drops unsupported findings, writing `*.verified.json`.
@@ -46,9 +45,9 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    {"summary":  [{"text": "...", "evidence_ids": ["..."]}],
     "sections": {"expression": [...], "inflammation": [...], "replication": [...], "literature": [...],
                  "external": [...], "cells": [...], "pathways": [...], "treatment": [...],
-                 "spatial": [...], "discovery": [...], "integration": [...]},
-    "targets":  [{"gene": "OSM", "category": "target|biomarker|target_and_biomarker",
-                  "rationale": "...", "evidence_ids": ["..."]}],
+                 "spatial": [...], "discovery": [...], "integration": [...], "decision": [...]},
+    "targets":  [{"gene": "CFB", "list": "first_in_class|known|repurposing|genetic",
+                  "category": "target|target_and_biomarker", "rationale": "...", "evidence_ids": ["..."]}],
     "limitations": [{"text": "..."}]}
    ```
    - `expression` (2–3 paragraphs): the strongest and most reproducible changes of UC mucosa (meta-analysis across eight
@@ -77,15 +76,22 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
      separating already-targeted axes from untargeted ones. Co-expression is not proof of signalling.
    - `treatment` (2 paragraphs) from `agent_applied.verified.json`: genes and pathways associated with non-response
      to each drug, always with BH padj, separating drug-specific signals from general severity (placebo arms).
-   - `discovery` (2-3 paragraphs): the leading first-in-class candidates, one paragraph per gene (cell source,
-     composition, replication, tractability, safety, what is missing), as hypotheses for experimental validation.
-     Put at least two of them in `targets` with a rationale beginning "Exploratory:".
+   - `discovery` (2-3 paragraphs): how the first-in-class screen finds its candidates and what its leading genes
+     have in common (cell source, composition, tractability, safety, what is missing).
    - `integration` (2 paragraphs): agreements and disagreements between the streams.
-   - 3–5 summary paragraphs; 10–14 entries in `targets` ordered by your judgment of strength (you may depart from the
-     numeric ranking, but say why in `rationale`). Known UC targets act as positive controls: say so when they appear.
-     Choose `targets` only among the `eligible` genes of `RUN/frontpage_rule.json` and include every one of its
-     `mandatory_controls`; a positive control is about the axis or drug class, not a new drug for that one gene, and
-     its rationale says so. `verify.py final` fails a front page that breaks the rule.
+   - `decision` (one paragraph per list, four paragraphs, each with `"list": "<list key>"`): which genes of the
+     list's pool you did not choose and why, one clause per gene, citing that gene's records.
+   - `targets` is the decision: exactly four genes from each list of `RUN/decision_pool.json` (16 entries, with
+     `list` set to the list's key), in your order of priority inside each list. Read each pool gene's dossier and
+     the specialists' findings on it. The `rationale` of each gene answers, in this order and citing records:
+     direction (inhibit, or activate/restore: for a gene to activate or restore, say how a drug could do it, or that
+     no route is known); the cell that makes it and whether its change is a tissue change or cells arriving; the drug
+     route (antibody, small molecule, the existing inhibitor and its stage); safety (what blocking it could harm);
+     and the first experiment. Set `category` to `target_and_biomarker` when a cited record supports a biomarker role
+     (the dossier's `biomarker_pmids`), else `target`. No gene may have a drug tried or approved in UC or IBD.
+     `verify.py final` fails a decision that breaks the rule (decision.py).
+   - 3–5 summary paragraphs, around the decision: what the atlas recommends testing first, from which lists and why,
+     and what the decision cannot say (these are hypotheses from public data).
    - When a fact you need is in no record (what a drug binds, how a trial ended), you may search PubMed
      (`uv run python -m ucatlas.pubmed_quotes search "<query>"`, `... abstract <pmid>`, or the kg-mcp tools
      `pubmed_search` and `pubmed_abstract`) and register the sentence you will rely on:
@@ -114,13 +120,19 @@ Follow these steps exactly. All numbers come from tools and scripts; you never c
    or, if you decide it does not belong in the report, say why in one `limitations` entry naming the gene. Negative
    results are findings: report them. Re-run the script until no key finding is left uncited without a reason.
 
-4c. Expert review of the front page. Run `uv run python -m ucatlas.expert_review prepare <RUN date>`, then launch one
+4c. Expert review of the summary and the decision. Run `uv run python -m ucatlas.expert_review prepare <RUN date>`, then launch one
    `revisor-experto` agent with: "Process <input> -> <output>" (the paths it printed). Then run
-   `uv run python -m ucatlas.expert_review validate <RUN date>`: it keeps factual objections only when their PubMed
-   quote is verbatim and the paper peer-reviewed (and registers the quote as citable evidence), keeps framing
-   objections, and writes `RUN/revisions_expert.json`. Apply each kept objection to `narrative.json` once: a factual one
-   by citing its `evidence_ids` or removing the disputed claim, a framing one only by rewording, reordering or removing
-   what is already written. Discarded objections are not acted on.
+   `uv run python -m ucatlas.expert_review validate <RUN date>`: it keeps factual objections and factual verdict
+   reasons only when their PubMed quote is verbatim and the paper peer-reviewed (and registers the quote as citable
+   evidence), keeps framing objections and judgement reasons, and writes `RUN/revisions_expert.json` and
+   `RUN/expert_verdicts.json` (a verdict per decision card, shown on the card). Apply each kept objection to
+   `narrative.json` once: a factual one by citing its `evidence_ids` or removing the disputed claim, a framing one
+   only by rewording, reordering or removing what is already written. Discarded objections are not acted on.
+   For each gene the reviewer is `against`, decide: keep it, adding to its `rationale` one sentence that answers the
+   reviewer's reason (citing the reviewer's `evidence_ids` when you use its facts), or replace it by another gene of
+   the same list's pool and say why in that list's `decision` paragraph. If you replace genes, run
+   `uv run python -m ucatlas.expert_review prepare <RUN date> GENE1,GENE2` (the new genes), launch the reviewer on the
+   printed paths, and run `uv run python -m ucatlas.expert_review validate <RUN date> --second-pass`. Once.
 
 4d. Reading check of the narrative. Run `uv run python -m ucatlas.claim_check prepare-narrative <RUN date>`, launch
    `lector-afirmaciones` agents on its batches as in 3b (outputs in `data/claim_check/<RUN date>/narrative/read/`),

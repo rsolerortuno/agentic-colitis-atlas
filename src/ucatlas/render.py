@@ -587,53 +587,6 @@ def drug_tags() -> dict[str, str]:
     return out
 
 
-TARGET_GROUPS = [
-    ("controls", "Positive controls: a gene or drug class with a drug approved in UC",
-     "Genes on which, or on whose class, a drug approved in UC acts, with strong genetic association; the selection "
-     "rule always shows them. The card is about the axis or the class, not a new drug for that one gene. They show where human genetics recovers known targets (the IL-12/IL-23 "
-     "axis, the JAK class); it does not recover others, such as TNF, the alpha4-beta7 integrin, the S1P receptors or "
-     "JAK1, which were not among the orchestrator's candidates; how all clinical targets rank is in the evaluation. The convergence ranking, which weights expression, places "
-     "these lower: their bulk changes are modest beside the influx of neutrophil genes, and the size of an expression "
-     "change does not mark a validated target."),
-    ("neutrophil", "Expected top signal: neutrophil infiltration (histological activity)",
-     "Most of their RNA in inflamed mucosa comes from neutrophils, so the bulk rise reports neutrophil infiltration, the "
-     "hallmark of histological activity, and its top place is expected rather than a discovery. As targets they could "
-     "only block neutrophil recruitment; as biomarkers they are severity readouts that overlap with faecal calprotectin "
-     "and histology."),
-    ("tissue", "New candidates: a change of the tissue itself",
-     "The change keeps after adjusting the biopsies for their cell mix and the cell that makes the gene is known. This is "
-     "what the atlas adds: hypotheses to test."),
-    ("biomarkers", "Biomarkers and genes that should not be blocked",
-     "Consistent changes better used to measure the disease, or genes whose genetics argue against an inhibitor."),
-]
-
-
-from .frontpage import RULE_TEXT as FRONTPAGE_RULE  # noqa: E402
-
-
-def target_groups(f: dict, drugind: dict, disc: pd.DataFrame) -> list[dict]:
-    """The orchestrator's targets in four blocks (2026-11-26), by rules on the data, keeping its order inside each
-    block: a list that opened with the neutrophil receptor CXCR2 as "target 1" and a JAK2 card read as a JAK2 drug
-    proposal would look naive to a clinician, although each text was right."""
-    def block(t):
-        di = drugind.get(t["gene"], {})
-        if di.get("category") == "UC" and str(di.get("short", "")).endswith("(approved)"):
-            return "controls"
-        neu = disc["neutrophil_share"].get(t["gene"]) if t["gene"] in disc.index else None
-        if t.get("category") != "biomarker" and neu is not None and pd.notna(neu) and neu > 0.5:
-            return "neutrophil"
-        return "tissue" if t.get("category") in ("target", "target_and_biomarker") else "biomarkers"
-    from . import frontpage
-    from .drug_literature import DATA as DRUG_LIT
-    reasons = frontpage.criteria(f) if "convergence" in f else {}
-    sub = json.loads(DRUG_LIT.read_text(encoding="utf-8")).get("card_subtitles", {}) if DRUG_LIT.exists() else {}
-    groups = {k: {"key": k, "title": title, "note": note, "targets": []} for k, title, note in TARGET_GROUPS}
-    for t in f.get("targets", []):
-        t = {**t, "selected_because": reasons.get(t["gene"], []), "subtitle": sub.get(t["gene"])}
-        groups[block(t)]["targets"].append(t)
-    return [g for g in groups.values() if g["targets"]]
-
-
 def badges(f: dict, cell: dict) -> dict:
     stage = ["PHASE_1", "PHASE_2", "PHASE_3", "PHASE_4", "APPROVAL"]
     mr = pd.read_parquet(PROCESSED / "mr_pqtl.parquet").set_index("gene")
@@ -892,7 +845,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     figs["outcomes"] = F.outcome_auroc(evals)
     extra = X.tables(report_genes)
     from .report_layers import candidate_evidence
-    cards = candidate_evidence(list(dict.fromkeys(targets + top[:5])))
+    cards = candidate_evidence(top[:10])   # the convergence tab's own genes (2026-11-28)
     bio = pd.read_parquet(PROCESSED / "biologics.parquet")
     bio_top = pd.concat([bio[bio.in_universe].head(15), bio[bio.control]]).drop_duplicates("gene")
     imm = pd.read_parquet(PROCESSED / "immune_targets.parquet")
@@ -929,6 +882,32 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
             "proteins": S["modeled"], "fic": D["status"].get("first-in-class opportunity", 0), "pool": D["pool"]}
     from .clinical_list import view as clinical_view
     CL = clinical_view()
+    # the orchestrator's decision with the reviewer's verdicts (2026-11-28)
+    from .decision import PREVIOUS_RUN, view as decision_view
+    vf = findings_path.parent / "expert_verdicts.json"
+    verdicts = json.loads(vf.read_text(encoding="utf-8")).get("verdicts", {}) if vf.exists() else {}
+    DEC = decision_view(f, verdicts)
+    dec_dossiers = [c["dossier"] for B in DEC["blocks"] for c in B["cards"] if c["dossier"]]
+    dec_reasons = [r for B in DEC["blocks"] for c in B["cards"] if c["verdict"] for r in c["verdict"]["reasons"]
+                   if r.get("evidence_ids")]
+    expert = None
+    ex_p = ROOT / "evals" / "expert_review.json"
+    rv_p = findings_path.parent / "revisions_expert.json"
+    if rv_p.exists():
+        rv = json.loads(rv_p.read_text(encoding="utf-8"))
+        vs = [c["verdict"]["verdict"] for B in DEC["blocks"] for c in B["cards"] if c["verdict"]]
+        expert = {"kept": len(rv.get("kept", [])), "discarded": len(rv.get("discarded", [])),
+                  "factual_kept": sum(o.get("kind") == "factual" for o in rv.get("kept", [])),
+                  "verdicts": {k: vs.count(k) for k in ("support", "concerns", "against")},
+                  "reasons_cited": len(dec_reasons),
+                  "seeded": None}
+        if ex_p.exists():
+            ex = json.loads(ex_p.read_text(encoding="utf-8"))
+            if ex.get("run") == findings_path.parent.name:
+                expert["seeded"] = {"n": ex["seeded"], "caught": ex["caught"],
+                                    "valid": ex["caught_with_valid_objection"],
+                                    "unaltered": ex["unaltered"]["items"],
+                                    "objections_unaltered": ex["unaltered"]["objections"]}
     # table evidence must be numbered too
     extra_ids = []
     top25_drug = [{"gene": r["gene"], "evidence_ids": [drugind[r["gene"]]["evidence_id"]]} for r in ranking[:25]
@@ -936,7 +915,8 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
               third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"], SL["kn"], G.get("alphagenome", {}).get("rows", []), GT.get("rows", []),
-              cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug, CL.get("rows", [])]
+              cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug, CL.get("rows", []),
+              dec_dossiers, dec_reasons]
     for block in blocks:
         for r in block:
             extra_ids += r["evidence_ids"]
@@ -964,7 +944,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     viewer_p = PROCESSED / "spatial_viewer.json"
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], drugind=drugind, top_reading=top_reading, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), target_groups=target_groups(f, drugind, _disc), frontpage_rule=FRONTPAGE_RULE, CL=CL, cell=cell, third=third, SL=SL, GT=GT,
+        badges=badges(f, cell), DEC=DEC, previous_run=PREVIOUS_RUN, expert=expert, CL=CL, cell=cell, third=third, SL=SL, GT=GT,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,

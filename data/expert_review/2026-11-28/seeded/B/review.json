@@ -1,0 +1,93 @@
+{
+ "verdicts": [
+  {"id": "C01", "verdict": "concerns", "summary": "An approved factor B inhibitor is an attractive route, but the protective loss-of-function signal and the red safety light make this a cautious first test.",
+   "reasons": [
+    {"kind": "judgement", "text": "A loss-of-function CFB variant that looks protective argues against inhibition, and a red safety light is not outweighed by a large epithelial rise; the test should read epithelial damage, as proposed.", "claim": "a CFB loss-of-function variant linked to perianal Crohn's disease implies its function protects"}
+   ]},
+  {"id": "C02", "verdict": "concerns", "summary": "Neutrophil chemokine with a clean safety profile, but redundant CXCR2 ligands and a bulk rise that mostly reflects neutrophil influx make single-ligand blockade uncertain.",
+   "reasons": [
+    {"kind": "judgement", "text": "Only 13% of the bulk rise is kept after composition adjustment and the protein is not quantified, so the claim that blocking corrects a change of the tissue is not supported by the card.", "claim": "most of its bulk rise is explained by cell proportions"}
+   ]},
+  {"id": "C03", "verdict": "concerns", "summary": "A clean epithelial change with no functional, genetic or mouse evidence and no extracellular part; a reasonable organoid screen, not yet a target.",
+   "reasons": [
+    {"kind": "judgement", "text": "Intrinsic epithelial rise and clean safety support a first knockdown, but with no paper beyond a list mention the case rests on expression alone.", "claim": "What is missing: any functional or genetic evidence"}
+   ]},
+  {"id": "C04", "verdict": "concerns", "summary": "A strong marker, but the knockout mouse develops more severe colitis, so inhibiting it may harm the epithelium.",
+   "reasons": [
+    {"kind": "factual", "text": "Chi3l1 knockout mice developed severe colitis under AOM/DSS, with fewer tumours, so blockade may impair epithelial protection while limiting cancer.", "claim": "so blocking it could harm the epithelium", "pmid": 26431492, "quote": "Here we demonstrate that CHI3L1 (aka Brp39) knockout (KO) mice treated with azoxymethane (AOM)/dextran sulphate sodium (DSS) developed severe colitis but lesser incidence of CAC as compared to that in wild-type (WT) mice.", "genes": ["CHI3L1"]}
+   ]},
+  {"id": "C05", "verdict": "concerns", "summary": "A stromal secreted protease with a retained rise and clean safety, but one expression paper and no function, genetics or mouse data.",
+   "reasons": [
+    {"kind": "judgement", "text": "The change survives adjustment and is already up in non-inflamed mucosa, but the biology of the protease in colitis is unknown, so the first experiment is exploratory.", "claim": "its literature is one expression paper"}
+   ]},
+  {"id": "C07", "verdict": "against", "summary": "A ubiquitous mitochondrial gene with one instrument, no change in biopsies and a predicted cell that differs from the single-cell one; not a first-year target.",
+   "reasons": [
+    {"kind": "judgement", "text": "Biopsies show a slight fall rather than a rise, the predicted and observed cells disagree, and a mitochondrial elongation factor cannot be inhibited selectively; the genetic signal is a hypothesis about one cell type.", "claim": "which does not support the inhibition hypothesis in tissue"}
+   ]},
+  {"id": "C08", "verdict": "concerns", "summary": "The best-supported case in the pool, with two mouse knockdown studies, but cancer biology is unsettled and both studies are recent and unreplicated.",
+   "reasons": [
+    {"kind": "judgement", "text": "Epithelial, intrinsic and functionally supported, but described as a tumour suppressor, so long-term inhibition needs an explicit cancer read-out alongside the organoid test.", "claim": "so its role in colitis-associated cancer is unsettled"}
+   ]},
+  {"id": "C09", "verdict": "concerns", "summary": "A secreted BMP antagonist with a stromal rise only partly retained, an unsettled producing cell and no functional or mouse data.",
+   "reasons": [
+    {"kind": "judgement", "text": "Only 28% of the bulk rise is kept and the in-situ signal sits in smooth muscle, so the cell for the first experiment is uncertain; restoring BMP activity could also matter for epithelium.", "claim": "so the producing cell is not settled"}
+   ]},
+  {"id": "C11", "verdict": "against", "summary": "A local-inflammation signal with null genetics, a known safety event and a negative antibody result in experimental colitis.",
+   "reasons": [
+    {"kind": "judgement", "text": "The card itself shows a null genetic test, a negative animal antibody result and an amber safety light; an approved drug alone does not justify the first slot.", "claim": "an anti-P-selectin antibody did not significantly improve colitis"}
+   ]},
+  {"id": "C12", "verdict": "concerns", "summary": "TLR4/MD-2 blockade helps in mouse colitis models but one antibody impaired mucosal healing, and the gene is largely a neutrophil signal.",
+   "reasons": [
+    {"kind": "judgement", "text": "Mixed mouse results (benefit early, impaired healing in recovery) and a neutrophil-arrival signal argue for reading both phases in the explant test, as the card proposes.", "claim": "another anti-TLR4/MD-2 antibody interfered with mucosal healing during recovery"}
+   ]},
+  {"id": "C13", "verdict": "concerns", "summary": "Activin blockade has support in mouse colitis, but the gene is strongly constrained and the cell and replication across atlases are weak.",
+   "reasons": [
+    {"kind": "factual", "text": "Follistatin, which neutralises activins, reduced histologic score and myeloperoxidase activity in TNBS and DSS colitis and in IL-10-deficient mice, supporting activin blockade.", "claim": "administration of follistatin attenuated inflammatory cell infiltration", "pmid": 15685552, "quote": "Administration of follistatin also reduced the histologic score and tissue myeloperoxidase activity in established TNBS and DSS colitis and reduced the severity of the colitis in IL-10 -/- mice.", "genes": ["INHBA"], "drug": "follistatin"},
+    {"kind": "judgement", "text": "A LOEUF of 0.17 and a lineage that does not replicate in any other atlas weigh against it; sotatercept is a ligand trap acting on several activins, not on INHBA alone.", "claim": "it is strongly loss-constrained"}
+   ]},
+  {"id": "C14", "verdict": "against", "summary": "A broadly expressed myeloid transcription factor whose predicted cell is not its main source and whose genetic test points the other way.",
+   "reasons": [
+    {"kind": "judgement", "text": "The predicted dendritic cell is not the main source, Mendelian randomisation does not agree, and a transcription factor expressed in neutrophils and macrophages would be hard to inhibit selectively.", "claim": "the predicted dendritic cell is not the main source"}
+   ]},
+  {"id": "C15", "verdict": "against", "summary": "A fine-mapped signal with a small predicted effect in NK cells, no Mendelian support and no change in biopsies.",
+   "reasons": [
+    {"kind": "judgement", "text": "Every layer beyond the sequence prediction is null or absent; it is an inherited-risk hypothesis, not a first-year treatment target.", "claim": "Mendelian randomisation gives no support, and biopsies show no change"}
+   ]},
+  {"id": "C18", "verdict": "against", "summary": "A small predicted expression effect with no Mendelian support and no change in biopsies.",
+   "reasons": [
+    {"kind": "judgement", "text": "Only the sequence prediction supports it, so confirming the variant effect is a prerequisite, not a target test.", "claim": "no Mendelian randomisation support and no change in biopsies"}
+   ]},
+  {"id": "C19", "verdict": "concerns", "summary": "An intrinsic epithelial rise in a crypt zone that may be a repair programme, with no functional or genetic evidence.",
+   "reasons": [
+    {"kind": "judgement", "text": "The card flags a possible repair programme; inhibiting it could impair healing, so the wound-healing arm of the experiment is essential and the gene is a screen, not a target.", "claim": "What is missing: any functional or genetic evidence"}
+   ]},
+  {"id": "C20", "verdict": "concerns", "summary": "A biomarker-supported regeneration gene; blocking it could slow repair and there is no functional study in either direction.",
+   "reasons": [
+    {"kind": "judgement", "text": "Crypt-zone rise with a repair programme flag and only biomarker papers; restoring rather than blocking may be the direction, which the organoid test with protein addition addresses.", "claim": "so blocking it could slow repair"}
+   ]}
+ ],
+ "objections": [
+  {"id": "C04", "kind": "factual",
+   "claim": "knockout mice are protected from colitis",
+   "objection": "The knockout study cited on the card reports the opposite: Chi3l1-null mice developed severe colitis, with fewer tumours. The text contradicts itself, since protection would not imply harm to the epithelium.",
+   "suggestion": "Say that knockout mice develop more severe colitis but less colitis-associated cancer, so blocking it could harm the epithelium.",
+   "pmid": 26431492, "quote": "Here we demonstrate that CHI3L1 (aka Brp39) knockout (KO) mice treated with azoxymethane (AOM)/dextran sulphate sodium (DSS) developed severe colitis but lesser incidence of CAC as compared to that in wild-type (WT) mice.", "genes": ["CHI3L1"]},
+  {"id": "C12", "kind": "framing",
+   "claim": "an inhibitor was approved for UC and was never tried in UC",
+   "objection": "Self-contradictory, and the card shows the inhibitor is in phase 3 for sepsis, not approved for UC.",
+   "suggestion": "Say that an inhibitor reached phase 3 for sepsis and was never tried in UC."},
+  {"id": "C07", "kind": "framing",
+   "claim": "higher expression in sigmoid colon lowers UC risk",
+   "objection": "An odds ratio per SD of 1.191 means higher expression raises risk, as the summary and the risk allele in the same card say. The sentence contradicts them.",
+   "suggestion": "Say that higher expression in sigmoid colon raises UC risk."},
+  {"id": "C10", "kind": "framing",
+   "claim": "UniProt describes it as an oncogene",
+   "objection": "The SERPINB5 card says UniProt describes it as a tumour suppressor; the summary says the opposite.",
+   "suggestion": "Say that UniProt describes it as a tumour suppressor, while a study of IBD tissue linked its aberrant expression with neoplastic transformation."},
+  {"id": "C02", "kind": "framing",
+   "claim": "most of its bulk rise is explained by cell proportions, so blocking it would correct a change of the tissue itself",
+   "objection": "Only 13% of the bulk rise is kept after adjustment, which means it is largely neutrophil arrival; the conclusion that blocking corrects a change of the tissue does not follow.",
+   "suggestion": "Say that most of its bulk rise is explained by cell proportions, so it reports neutrophil influx in part."}
+ ],
+ "reviewed": ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10", "C11", "C12", "C13", "C14", "C15", "C16", "C17", "C18", "C19", "C20"]
+}

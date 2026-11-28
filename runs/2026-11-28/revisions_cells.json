@@ -1,0 +1,92 @@
+{
+ "agent_file": "agent_cells.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "SERPINB5 is made almost only by epithelial cells (transit-amplifying and cycling cells in Smillie 2019), with a dominant-lineage share of the transcripts of [gene=SERPINB5; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.953]; the epithelial lineage is also dominant in all three other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122), so the attribution replicates. The bulk rise is intrinsic: after adjustment for cell proportions the log2FC stays significant at [gene=SERPINB5; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=2.109]; Visium deconvolution also names epithelium as the in-situ source. This is the cleanest cell-and-tissue case in the pool for an epithelial target.",
+   "claims": [
+    {
+     "claim": "the cleanest cell-and-tissue case in the pool",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cross-gene comparison in cited records."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "CEACAM4 is mostly neutrophil RNA, with a neutrophil share in inflamed mucosa of [gene=CEACAM4; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.87]; only Gubatan 2026 includes neutrophils, so the attribution cannot be replicated and a bulk rise mainly reports neutrophil arrival.",
+   "claims": [
+    {
+     "claim": "only Gubatan 2026 includes neutrophils, so the attribution cannot be replicated",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Record gives no data on neutrophil coverage per atlas."
+    }
+   ]
+  },
+  {
+   "finding": 9,
+   "statement": "CFB is mainly epithelial: Visium deconvolution names epithelium as the in-situ and composition-corrected source and CosMx detects it above background in epithelium, and the bulk change is intrinsic (adjusted log2FC [gene=CFB; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8989]). The pool dossier flags a red safety light for this gene, which weighs against testing it first.",
+   "claims": [
+    {
+     "claim": "Visium deconvolution names epithelium as the in-situ and composition-corrected source",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No Visium record cited for CFB."
+    },
+    {
+     "claim": "The pool dossier flags a red safety light for this gene",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No safety record cited."
+    }
+   ]
+  },
+  {
+   "finding": 10,
+   "statement": "CEBPB, the genetics-first candidate, is a broadly expressed transcription factor: neutrophils make a share of its transcripts of [gene=CEBPB; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.698], with macrophages and plasma cells the main Smillie clusters, and the genetically predicted colon dendritic cell is not the dominant source. The bulk increase is mostly composition (partly_composition, retained fraction low), so a CEBPB inhibitor would act on many myeloid cell types at once.",
+   "claims": [
+    {
+     "claim": "the genetically predicted colon dendritic cell is not the dominant source",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No genetic-target record cited."
+    }
+   ]
+  },
+  {
+   "finding": 11,
+   "statement": "TUFM, the genetics-first candidate, is a ubiquitous mitochondrial gene (plasma cells and epithelial transit-amplifying cells in Smillie 2019) that does not rise in inflamed bulk tissue: its change is slightly down, with an unadjusted log2FC of [gene=TUFM; type=composition_effect; source=ANALYSIS:composition; layer=rna; unadjusted_log2fc=-0.188], opposite to the genetic direction of inhibiting a gene that risk alleles raise, and its cell does not match the predicted blood neutrophil. Single-cell and tissue data do not support it as an inflamed-mucosa target.",
+   "claims": [
+    {
+     "claim": "its cell does not match the predicted blood neutrophil",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No genetic-target record cited."
+    }
+   ]
+  },
+  {
+   "finding": 13,
+   "statement": "REG1B is epithelial (TA, goblet) and replicates in all three other atlases; its bulk rise is intrinsic, with an adjusted log2FC of [gene=REG1B; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.4585]. The dossier notes it rises in regenerating crypts, so inhibition could impair repair.",
+   "claims": [
+    {
+     "claim": "The dossier notes it rises in regenerating crypts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No dossier record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": []
+}

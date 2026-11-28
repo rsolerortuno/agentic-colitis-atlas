@@ -709,3 +709,34 @@ papers, the calibration), then "How these 49 genes were found" (the screen's cou
 the novelty and safety charts, the caveats). The screen table and the Spotlight cards (a repeat of groups A and B) were
 removed; the list of genes with drugs only for other diseases moved to the Repurposing tab as its full list before
 scoring. No data changed; the report has 796 claims (132 fewer: 120 table rows and 12 cards).
+
+## (g9) The orchestrator's decision: four targets to test first per list (2026-11-28)
+
+The question changed to "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have
+the strongest evidence to be tested first?". The orchestrator's selection (positive controls, the expected neutrophil
+signal, new candidates and biomarkers mixed) is replaced by a decision with a fixed rule (`decision.py`): four genes
+from group A of each list of targets with no therapy in UC, none with a drug tried or approved in UC or IBD. The pool
+(32 genes: 14 first-in-class, 8 well known with no drug, 5 repurposing, 5 genetics first) and a dossier per gene were
+given to the six specialists, who reported on the pool genes their tools cover (86 findings, all verified after one
+round of fixes and one reading-check revision). The orchestrator chose SDR16C5, CYP4X1, CPXM1, CHRDL2; SERPINB5, CXCL1,
+CHI3L1, REG1B; INHBA, CFB, LY96, SELP; TUFM, CEBPB, FIGNL1, CFAP90, and wrote why each was or was not chosen (XKR9 up in
+four cohorts only; LILRA1, CEACAM4 and PCDH17 mostly cell arrival; MMP10 knockout mice worse; GUCY1A1 a Moyamoya risk;
+RORC to be restored with no route and its regulon up). Positive controls (IL12B, JAK2) left the decision and stay as
+reference in the clinical list. No biomarker is filtered out: genes with a biomarker record are marked "also a
+biomarker" (CHI3L1, REG1B, INHBA, CFB, SERPINB5).
+
+The expert reviewer gives a verdict per card. It was run with Claude Sonnet: the Opus 5.5 reviewer was stopped twice by
+the model's safeguards (flagged as biology research). Verdicts: SERPINB5 support; 11 concerns; SELP, TUFM, FIGNL1 and
+CFAP90 against, each kept with an answer on its card (SELP last of its list because the alternative carries a vascular
+risk; TUFM because it holds the only causal genetic support; FIGNL1 and CFAP90 because the rule takes four and RORC has
+data against its direction). Its three cited factual objections were applied (maspin overexpressed in IBD-associated
+neoplasia; follistatin attenuated experimental colitis; an anti-P-selectin antibody did not improve experimental
+colitis). Seeded measurement (12 new errors written for the decision cards): 10 caught, all with a valid objection,
+24 objections on 28 unaltered items; missed: a reversed mouse result for SERPINB5 and "a transcription factor is easy
+to drug". `docs/expert-review-redo.md` redoes the review on the saved input.
+
+The data sections of the narrative were carried over from run 2026-11-27 and verified and read again; the summary, the
+decision paragraphs and the 16 rationales are new. Final: 140 statements, 0 failures, decision rule 0 problems;
+reading check 674 claims, 0 contradicted, 7 not in the cited evidence; reader caught 47 of 48 flips, deterministic
+checks 30. The report moves the convergence ranking to Trust and methods ("Convergence score") and adds the decision as
+the last Findings tab; the Agent benchmark tab now shows the decision rule and the expert review results.

@@ -80,3 +80,13 @@ the report as not in the evidence. So cite, in the same finding, a record for ev
   `search_literature` when the claim comes from another sentence of the abstract.
 If no record supports a claim, leave it out or write it plainly as your interpretation ("this suggests ..."); never
 as a fact.
+
+## The decision pool
+
+The analysis ends with a decision: four targets to test first from each of four lists of genes that no drug treats in
+UC (first-in-class, well known with no drug, repurposing, genetics first). Your prompt gives the path of
+`RUN/decision_pool.json`: the candidates of each list (group A) with their dossier. Besides your usual analysis, look
+up each pool gene your tools cover and report what your data say about it (findings on genes your tools do not
+cover are not needed). A finding about one pool gene carries `"gene"` and cites that gene's records; mark as `"key":
+true` the ones that should weigh on whether to test the gene first. Negative results count: a gene your data do not
+support is worth saying so.

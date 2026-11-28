@@ -1,0 +1,2119 @@
+{
+ "rule": "The orchestrator chose 4 genes from group A of each list of targets with no therapy in UC (first-in-class, well known with no drug, repurposing, genetics first): group A holds the genes that stay among the list's first ten under every way of scoring. No chosen gene has a drug tried or approved in UC or IBD. Each choice is explained by its direction, cell, drug route, safety and first experiment, and a reviewer gives a verdict on each, with PubMed citations for every fact it adds.",
+ "per_list": 4,
+ "criteria": [
+  "direction",
+  "cell",
+  "drug route",
+  "safety",
+  "first experiment"
+ ],
+ "lists": [
+  {
+   "key": "first_in_class",
+   "title": "First-in-class shortlist",
+   "pool": [
+    {
+     "gene": "CPXM1",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:79bd85b07bd0",
+      "EV:shortlist_literature:79bd85b07bd0"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 1.9,
+     "uc_papers": 5,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 41% kept; per cell: +3.4 log2 (WNT2B+ Fos-lo 1 +3.6, WNT2B+ Fos-hi +3.1, WNT2B+ Fos-lo 2 +3.7)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 87% of transcripts; same lineage in 2 of 3 other atlases (Garrido-Trigo 2023, GSE282122)"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; pocket 0.76"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 9 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 1 expression, 1 list mention"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 84% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-lo 1]; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": [
+      {
+       "pmid": "37645250",
+       "year": 2023,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "CPXM1 was among the proteins secreted at different levels by IFN-gamma-stimulated human intestinal endothelial cells, with its role in IBD described as little known."
+      }
+     ]
+    },
+    {
+     "gene": "CHRDL2",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:c77baf64a62b",
+      "EV:shortlist_literature:c77baf64a62b"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 2.29,
+     "uc_papers": 14,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 28% kept; per cell: +2.5 log2 (WNT2B+ Fos-lo 1 +2.7, WNT2B+ Fos-hi +3.1, Plasma +0.1)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 94% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in situ Smooth muscle"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; pocket 0.50"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 43 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (1 paper): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 86% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-lo 1]; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "PCDH17",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:abe6315cb430",
+      "EV:shortlist_literature:abe6315cb430"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "endothelial",
+     "meta_log2fc": 1.63,
+     "uc_papers": 15,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 10% kept; per cell: +2.3 log2 (Post-capillary Venules +2.1, Endothelial +2.6, Microvascular +2.4)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 95% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: extracellular domain; pocket 0.64"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 15 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (3 papers): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "silencing in primary human intestinal microvascular endothelial cells stimulated with TNF and IL-1β (read-outs: ICAM1 and VCAM1, leukocyte adhesion and transmigration, permeability) [endothelium, 87% of its RNA, mainly Post-capillary Venules and Endothelial]; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "LAIR2",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:d24c4db29165",
+      "EV:shortlist_literature:d24c4db29165"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "T/NK",
+     "meta_log2fc": 1.48,
+     "uc_papers": 11,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 33% kept; per cell: +1.8 log2 (Tregs +0.9, CD8+ LP +3.2, NKs +4.2)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "T/NK 89% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; pocket 0.59"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 1 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (4 papers): nothing specific (outside IBD: pathogenic in mouse (PMID 41231542))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "knock-down or blockade in regulatory T cells (read-outs: suppression assay, FOXP3 stability, IL-10) [regulatory T cells, 48% of its RNA, mainly Tregs]. Also in T and NK cells (41% of its RNA, mainly CD8+ LP and NKs) with the matching system; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": [
+      {
+       "pmid": "41231542",
+       "year": 2025,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "Lair1 knockout mice, used to model LAIR2 decoy overexpression, had exaggerated inflammation and tissue damage in skin infection, suggesting LAIR2 is pro-inflammatory; no UC data."
+      }
+     ]
+    },
+    {
+     "gene": "LYPD5",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:f8e4842e4de5",
+      "EV:shortlist_literature:f8e4842e4de5"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 1.45,
+     "uc_papers": 2,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 23% kept; per cell: +1.7 log2 (TA 1 +1.5, Cycling TA +1.8, Post-capillary Venules +1.8)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "epithelial 57% of transcripts; same lineage in 2 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: GPI-anchored at the surface; pocket 0.65"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 6 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "no paper about the gene in UC or IBD"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death) [epithelium, 54% of its RNA, mainly TA 1 and Cycling TA]. Also in endothelium (22% of its RNA, mainly Post-capillary Venules and Endothelial) with the matching system; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "LILRA1",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:d3bb818acc2e",
+      "EV:shortlist_literature:d3bb818acc2e"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "neutrophil",
+     "meta_log2fc": 1.46,
+     "uc_papers": 8,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "neutrophils make 50% of its transcripts (Gubatan 2026); per neutrophil, inflamed vs uninflamed UC: -0.3 log2 (Neutrophil -0.2, Neutrophil OSM -1.1, Neutrophil PADI4 +1.2); weighted with its other cells: +1.3 log2; bulk: composition, 13% kept (not scored: the adjustment removes the neutrophil influx these genes are about); in the atlas without neutrophils (Smillie 2019): +3.0 log2 (Macrophages +3.1, Inflammatory Monocytes +3.0, DC2 +1.1)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "neutrophil 50% of transcripts (Gubatan 2026, the only atlas with neutrophils; cannot replicate); without neutrophils: myeloid 96% in Smillie 2019; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: extracellular domain; pocket 0.79"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 2 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 2 list mention, 1 expression"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "blocking antibody or knock-down in blood neutrophils (read-outs: migration towards CXCL8, activation markers, degranulation and NET formation; co-culture with colon organoids for epithelial damage) [neutrophils, 50% of its RNA, mainly Neutrophil and Neutrophil OSM]. In the atlas without neutrophils (Smillie 2019) it is mostly in macrophages and DC (95% of the RNA there, mainly Macrophages and Inflammatory Monocytes): check that system too; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": [
+      {
+       "pmid": "37215724",
+       "year": 2023,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "In an IBD exome and expression analysis, LILRA1 was upregulated and highly expressed in non-classical monocytes; the paper's main variant findings concern LILRB1 and PRSS3."
+      }
+     ]
+    },
+    {
+     "gene": "SGIP1",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:912846ea3990",
+      "EV:shortlist_literature:912846ea3990"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 1.41,
+     "uc_papers": 10,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 24% kept; per cell: +2.4 log2 (WNT2B+ Fos-lo 2 +2.0, WNT2B+ Fos-lo 1 +2.2, Pericytes +3.3)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 92% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "amber",
+       "detail": "no extracellular part; pocket 0.60"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 20 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 2 list mention, 1 genetic"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 76% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-lo 2]; small-molecule tool compounds may exist (Open Targets ligand or pocket evidence). Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": [
+      {
+       "pmid": "42221328",
+       "year": 2026,
+       "kind": "genetic",
+       "direction": "neutral",
+       "summary": "An IBS risk locus carries a cis-eQTL for SGIP1 in brain and colon; the paper notes SGIP1 is reported upregulated in Crohn's mucosa."
+      }
+     ]
+    },
+    {
+     "gene": "FIBIN",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:59e0b06eb66a",
+      "EV:shortlist_literature:59e0b06eb66a"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 1.69,
+     "uc_papers": 10,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "amber",
+       "detail": "bulk: partly composition, 34% kept; per cell: +0.5 log2 (WNT2B+ Fos-lo 1 +0.3, WNT2B+ Fos-lo 2 +1.1, WNT2B+ Fos-hi +0.1)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 93% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; pocket 0.24"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 22 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (2 papers): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 85% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-lo 1]; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "XKR9",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:6eb069569835",
+      "EV:shortlist_literature:6eb069569835"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 1.52,
+     "uc_papers": 7,
+     "lights": {
+      "reproducible": {
+       "light": "amber",
+       "detail": "up in 4/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: intrinsic, 80% kept; per cell: +2.4 log2 (Plasma +0.0, Immature Goblet +3.6, Enterocytes +4.3)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "epithelial 72% of transcripts; same lineage in 2 of 3 other atlases (Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: extracellular domain; pocket 0.95"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 3 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (1 paper): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death) [epithelium, 68% of its RNA, mainly Immature Goblet and Enterocytes]. Also in B and plasma cells (21% of its RNA, mainly Plasma and Follicular) with the matching system; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "FJX1",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:b32e635d05ad",
+      "EV:shortlist_literature:b32e635d05ad"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 1.49,
+     "uc_papers": 6,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "amber",
+       "detail": "bulk: partly composition, 28% kept; per cell: +1.3 log2 (Myofibroblasts +2.5, Macrophages +0.1, Plasma +0.1)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 83% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; pocket 0.91"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 13 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (1 paper): nothing specific (outside IBD: pathogenic in mouse (PMID 23922772))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 36% of its RNA, mainly Inflammatory Fibroblasts and Myofibroblasts]. Also in endothelium (34% of its RNA, mainly Post-capillary Venules and Endothelial) with the matching system; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": [
+      {
+       "pmid": "23922772",
+       "year": 2013,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "FJX1 knockout mice develop fewer colonic polyps after DSS plus AOM, and FJX1 promotes tumour angiogenesis in colorectal cancer; this is a tumour outcome, not colitis."
+      }
+     ]
+    },
+    {
+     "gene": "OLFML2B",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:af3bc82e3b9c",
+      "EV:shortlist_literature:af3bc82e3b9c"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 1.43,
+     "uc_papers": 5,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 15% kept; per cell: +2.1 log2 (Macrophages +1.0, Pericytes +4.3, WNT2B+ Fos-lo 1 +2.6)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "stromal 52% of transcripts; same lineage in 1 of 3 other atlases (GSE282122)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; pocket 0.60"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 14 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (1 paper): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "knock-down in monocyte-derived macrophages stimulated with LPS and IFN-γ (read-outs: IL-1β, TNF, IL-23 and CXCL8 release, M1 polarisation) [macrophages and DC, 44% of its RNA, mainly Macrophages and Inflammatory Monocytes]. Also in fibroblasts (29% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-hi) with the matching system; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "CEACAM4",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:828b3c277e38",
+      "EV:shortlist_literature:828b3c277e38"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "neutrophil",
+     "meta_log2fc": 1.29,
+     "uc_papers": 7,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 6/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "neutrophils make 87% of its transcripts (Gubatan 2026); per neutrophil, inflamed vs uninflamed UC: +0.8 log2 (Neutrophil +0.9, Neutrophil PADI4 +0.7); weighted with its other cells: +1.1 log2; bulk: partly composition, 27% kept (not scored: the adjustment removes the neutrophil influx these genes are about); in the atlas without neutrophils (Smillie 2019): +2.8 log2 (Macrophages +2.8, Inflammatory Monocytes +3.4, DC2 +1.4)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "neutrophil 87% of transcripts (Gubatan 2026, the only atlas with neutrophils; cannot replicate); without neutrophils: myeloid 92% in Smillie 2019; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: extracellular domain; pocket 0.55"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 6 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (1 paper): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "blocking antibody or knock-down in blood neutrophils (read-outs: migration towards CXCL8, activation markers, degranulation and NET formation; co-culture with colon organoids for epithelial damage) [neutrophils, 87% of its RNA, mainly Neutrophil and Neutrophil PADI4]. In the atlas without neutrophils (Smillie 2019) it is mostly in macrophages and DC (92% of the RNA there, mainly Macrophages and Inflammatory Monocytes): check that system too; a blocking antibody can be tested directly. Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "CYP4X1",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:71f501753be5",
+      "EV:shortlist_literature:71f501753be5"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 1.23,
+     "uc_papers": 12,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: intrinsic, 53% kept; per cell: +1.8 log2 (TA 1 +1.9, Cycling TA +1.7, Stem +1.5)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "epithelial 89% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); 94% of epithelial RNA in the crypt zone, rising there: possible repair programme"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "no extracellular part; Open Targets: Druggable Family; pocket 0.78"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 11 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (1 paper): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death), with a wound-healing or organoid regrowth assay, since the gene rises in regenerating crypt cells [epithelium, 86% of its RNA, mainly TA 1 and Cycling TA]; small-molecule tool compounds may exist (Open Targets ligand or pocket evidence). Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    },
+    {
+     "gene": "SDR16C5",
+     "list": "first_in_class",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:8818d4515313",
+      "EV:shortlist_literature:8818d4515313"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 1.14,
+     "uc_papers": 8,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: intrinsic, 66% kept; per cell: +2.8 log2 (TA 1 +2.8, Cycling TA +2.6, Immature Goblet +2.9)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "epithelial 92% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "amber",
+       "detail": "no extracellular part; pocket 0.89"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 27 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "only named in lists or reviews (1 paper): nothing specific"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death) [epithelium, 88% of its RNA, mainly TA 1 and Cycling TA]; small-molecule tool compounds may exist (Open Targets ligand or pocket evidence). Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
+     "key_papers": []
+    }
+   ]
+  },
+  {
+   "key": "known",
+   "title": "Well known in UC, no drug yet",
+   "pool": [
+    {
+     "gene": "SERPINB5",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:8e8276a3179a",
+      "EV:known_literature:8e8276a3179a"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 3.01,
+     "uc_papers": 47,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "green",
+       "detail": "log2 ratio 0.32, padj 4.0e-02"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: intrinsic, 68% kept; per cell: +4.7 log2 (TA 1 +4.9, Cycling TA +4.2, TA 2 +4.9)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "epithelial 95% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in situ Epithelial"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; Open Targets: High-Quality Pocket; pocket 0.61"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 0 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "green",
+       "detail": "2 functional studies with a pathogenic role"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "tested in mouse colitis: pathogenic (PMID 41485180); pathogenic (PMID 42735487)"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death) [epithelium, 94% of its RNA, mainly TA 1 and Cycling TA]; a blocking antibody can be tested directly. Published lead: SerpinB5 is raised in UC and its knockdown reduced inflammation, apoptosis and M1 polarisation in cells and DSS colitis mice (PMID 41485180). Mouse colitis data exist (2 papers): check them first.",
+     "key_papers": [
+      {
+       "pmid": "20363977",
+       "year": 2010,
+       "kind": "functional",
+       "direction": "unclear",
+       "summary": "Maspin is a candidate autoantigen that activated T cells from psoriasis patients; no UC or colitis result."
+      },
+      {
+       "pmid": "41485180",
+       "year": 2026,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "SerpinB5 is raised in UC and its knockdown reduced inflammation, apoptosis and M1 polarisation in cells and DSS colitis mice."
+      },
+      {
+       "pmid": "41961123",
+       "year": 2026,
+       "kind": "functional",
+       "direction": "unclear",
+       "summary": "Correction notice for the SerpinB5 UC paper with no abstract or new data."
+      },
+      {
+       "pmid": "42735487",
+       "year": 2026,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "SERPINB5 knockdown mimicked trichostatin A and protected mice and Caco-2 cells from colitis by destabilising MMP9, so SERPINB5 is pathogenic."
+      }
+     ]
+    },
+    {
+     "gene": "CHI3L1",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:b3f7b3e784f8",
+      "EV:known_literature:b3f7b3e784f8"
+     ],
+     "biomarker_pmids": [
+      "21763261"
+     ],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 4.91,
+     "uc_papers": 355,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "green",
+       "detail": "log2 ratio 0.61, padj 1.3e-04"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 37% kept; per cell: +4.1 log2 (WNT2B+ Fos-lo 1 +4.4, WNT2B+ Fos-lo 2 +4.2, WNT2B+ Fos-hi +3.3)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 94% of transcripts; same lineage in 2 of 3 other atlases (Garrido-Trigo 2023, GSE282122); in situ Plasma"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; Open Targets: High-Quality Pocket; pocket 0.89; weak: Structure with Ligand"
+      },
+      "safety": {
+       "light": "amber",
+       "detail": "vital organs 424 nTPM"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "functional studies in both directions (3 pathogenic, 1 protective) (outside IBD: pathogenic in mouse (PMID 19414556); outside IBD: pathogenic in cells (PMID 22056877); outside IBD: pathogenic in mouse (PMID 25511377))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "tested in mouse colitis: pathogenic (PMID 16472595); protective (PMID 26431492)"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 93% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-lo 1]; a blocking antibody can be tested directly. Published lead: Chi3l1 knockout mice develop more severe colitis but less colitis-associated cancer, so it protects epithelium yet promotes tumor growth (PMID 26431492). Mouse colitis data exist (8 papers): check them first.",
+     "key_papers": [
+      {
+       "pmid": "16472595",
+       "year": 2006,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "CHI3L1 is induced in inflamed mucosa including UC, and anti-CHI3L1 antibody reduced bacterial invasion and DSS colitis."
+      },
+      {
+       "pmid": "26431492",
+       "year": 2015,
+       "kind": "functional",
+       "direction": "protective",
+       "summary": "Chi3l1 knockout mice develop more severe colitis but less colitis-associated cancer, so it protects epithelium yet promotes tumor growth."
+      },
+      {
+       "pmid": "21546314",
+       "year": 2011,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "Mutating the chitin-binding motif of CHI3L1 in colonic epithelial cells reduces Akt activation and IL-8 and TNF-alpha secretion."
+      },
+      {
+       "pmid": "18490894",
+       "year": 2008,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "CHI3L1 enhances bacterial adhesion to colonic epithelial cells; blocking or silencing it reduces adhesion."
+      }
+     ]
+    },
+    {
+     "gene": "KLK10",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:02496df2b616",
+      "EV:known_literature:02496df2b616"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 3.06,
+     "uc_papers": 28,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 19% kept; per cell: +2.0 log2 (Immature Enterocytes 2 +3.9, Post-capillary Venules -0.2, WNT2B+ Fos-lo 2 +0.2)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "epithelial 76% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in situ Epithelial"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 3 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "grey",
+       "detail": "no paper about the gene in UC or IBD"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "not searched"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death) [epithelium, 76% of its RNA, mainly Enterocytes and Immature Enterocytes 2]; a blocking antibody can be tested directly.",
+     "key_papers": []
+    },
+    {
+     "gene": "REG1B",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:75d5350d923d",
+      "EV:known_literature:75d5350d923d"
+     ],
+     "biomarker_pmids": [
+      "34731452",
+      "40242727",
+      "41387681",
+      "nan"
+     ],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 3.96,
+     "uc_papers": 89,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: intrinsic, 56% kept; per cell: +4.7 log2 (TA 1 +3.7, Cycling TA +5.3, Immature Goblet +6.1)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "epithelial 88% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); 82% of epithelial RNA in the crypt zone, rising there: possible repair programme; in situ Epithelial"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 5 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 4 expression, 4 biomarker, 3 list mention"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "not searched"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death), with a wound-healing or organoid regrowth assay, since the gene rises in regenerating crypt cells [epithelium, 86% of its RNA, mainly TA 1 and Cycling TA]; a blocking antibody can be tested directly.",
+     "key_papers": [
+      {
+       "pmid": "34731452",
+       "year": 2022,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "REG1B is one of five genes in a logistic regression diagnostic model for UC built from biopsy transcriptomes."
+      },
+      {
+       "pmid": "41387681",
+       "year": 2025,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "Plasma REG1B was one of nine proteins in a model predicting incident Crohn's disease years before diagnosis."
+      },
+      {
+       "pmid": "40242727",
+       "year": 2025,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "REG1B was one of five machine-learning-derived diagnostic hub genes for Crohn's disease with kidney stone disease, with high expression in goblet cells."
+      },
+      {
+       "pmid": NaN,
+       "year": 2026,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "REG1B was among the genes with highest predictive importance for relapse after anti-TNF withdrawal in a UC biopsy machine learning model."
+      }
+     ]
+    },
+    {
+     "gene": "MMP10",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:43ccd4c18cba",
+      "EV:known_literature:43ccd4c18cba"
+     ],
+     "biomarker_pmids": [
+      "34298022",
+      "37335372",
+      "38070204"
+     ],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 3.91,
+     "uc_papers": 220,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 44% kept; per cell: +2.9 log2 (Macrophages +2.5, WNT5B+ 2 +4.0, WNT5B+ 1 +3.6)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 55% of transcripts; same lineage in 2 of 3 other atlases (Garrido-Trigo 2023, GSE282122); in situ Inflammatory fibroblast"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; Open Targets: Druggable Family, High-Quality Ligand, High-Quality Pocket; pocket 0.91; weak: Structure with Ligand"
+      },
+      "safety": {
+       "light": "amber",
+       "detail": "known safety events"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "functional studies in both directions (1 pathogenic, 1 protective)"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "tested in mouse colitis: protective (PMID 23044923); pathogenic (PMID 34979166)"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 54% of its RNA, mainly Inflammatory Fibroblasts and WNT5B+ 2]. Also in macrophages and DC (36% of its RNA, mainly Macrophages and Inflammatory Monocytes) with the matching system; a blocking antibody can be tested directly. Published lead: In miR-148/152 knockout mice, elevated MMP10 and MMP13 disrupted the barrier and worsened colitis, implying MMP10 is pathogenic here; MMP10 not directly perturbed (PMID 34979166). Mouse colitis data exist (4 papers): check them first.",
+     "key_papers": [
+      {
+       "pmid": "23044923",
+       "year": 2012,
+       "kind": "functional",
+       "direction": "protective",
+       "summary": "MMP10-deficient mice had worse DSS colitis, failed to resolve inflammation and developed more dysplasia, so MMP10 protects."
+      },
+      {
+       "pmid": "34979166",
+       "year": 2022,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "In miR-148/152 knockout mice, elevated MMP10 and MMP13 disrupted the barrier and worsened colitis, implying MMP10 is pathogenic here; MMP10 not directly perturbed."
+      },
+      {
+       "pmid": "34298022",
+       "year": 2021,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "Plasma MMP10 was raised years before ulcerative colitis diagnosis and, with other proteins, predicted later UC."
+      },
+      {
+       "pmid": "38070204",
+       "year": 2024,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "MMP10 is one of eight machine-learning signature genes proposed as UC diagnostic biomarkers from GEO data."
+      }
+     ]
+    },
+    {
+     "gene": "CXCL1",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:b36f0e2e423a",
+      "EV:known_literature:b36f0e2e423a"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "neutrophil",
+     "meta_log2fc": 3.69,
+     "uc_papers": 2854,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "neutrophils make 51% of its transcripts (Gubatan 2026); per neutrophil, inflamed vs uninflamed UC: +1.1 log2 (Neutrophil OSM +0.9, Neutrophil +1.8, Neutrophil CXCR4 +1.1); weighted with its other cells: +1.9 log2; bulk: partly composition, 13% kept (not scored: the adjustment removes the neutrophil influx these genes are about); in the atlas without neutrophils (Smillie 2019): +2.7 log2 (Macrophages +0.8, WNT2B+ Fos-hi -0.0, Enterocytes +7.7)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "neutrophil 51% of transcripts (Gubatan 2026, the only atlas with neutrophils; cannot replicate); without neutrophils: stromal 58% in Smillie 2019; same lineage in 2 of 3 other atlases (Garrido-Trigo 2023, GSE282122); in situ Epithelial"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted; pocket 0.54"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 47 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 4 expression, 3 list mention (outside IBD: pathogenic in mouse (PMID 28455419); outside IBD: pathogenic in mouse (PMID 19702783))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "69 mouse colitis papers"
+      }
+     },
+     "proposed_experiment": "blocking antibody or knock-down in blood neutrophils (read-outs: migration towards CXCL8, activation markers, degranulation and NET formation; co-culture with colon organoids for epithelial damage) [neutrophils, 51% of its RNA, mainly Neutrophil OSM and Neutrophil]. In the atlas without neutrophils (Smillie 2019) it is mostly in fibroblasts (58% of the RNA there, mainly Inflammatory Fibroblasts and WNT2B+ Fos-hi): check that system too; a blocking antibody can be tested directly. Mouse colitis data exist (69 papers): check them first.",
+     "key_papers": [
+      {
+       "pmid": "22957064",
+       "year": 2012,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Cxcl1 intestinal expression rises with DSS dose in mouse colitis, alongside other cytokines; the paper's focus is fecal lipocalin 2."
+      },
+      {
+       "pmid": "33323397",
+       "year": 2021,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "In mice with colitis or PSC, leaky gut raises hepatocyte CXCL1, recruiting MDSCs that promote cholangiocarcinoma."
+      },
+      {
+       "pmid": "16888083",
+       "year": 2006,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Depleting intestinal macrophages and dendritic cells worsens DSS colitis and raises CXCL1 mRNA with neutrophil influx."
+      },
+      {
+       "pmid": "21411735",
+       "year": 2011,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Nod1-deficient mice infected with C. difficile make less CXCL1 and recruit fewer neutrophils; CXCL1 itself was not perturbed."
+      }
+     ]
+    },
+    {
+     "gene": "CXCL3",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:d832bc78ffd7",
+      "EV:known_literature:d832bc78ffd7"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 2.71,
+     "uc_papers": 525,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "amber",
+       "detail": "bulk: partly composition, 20% kept; per cell: +1.2 log2 (Macrophages +0.6, TA 1 +1.6, Cycling TA +1.9)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "epithelial 56% of transcripts; same lineage in 2 of 3 other atlases (Gubatan 2026, GSE282122); in situ Epithelial"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: secreted"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 17 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 8 list mention, 2 expression"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "not searched"
+      }
+     },
+     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death) [epithelium, 56% of its RNA, mainly TA 1 and Cycling TA]. Also in macrophages and DC (27% of its RNA, mainly Macrophages and Inflammatory Monocytes) with the matching system; a blocking antibody can be tested directly.",
+     "key_papers": [
+      {
+       "pmid": "24297055",
+       "year": 2014,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "CXCL3 mRNA rose after muramyl dipeptide in colonic HCT116 cells and fell when NOD2-targeting miRNAs were overexpressed; CXCL3 was a readout, not perturbed."
+      },
+      {
+       "pmid": "22197944",
+       "year": 2012,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Colonic CXCL3 expression was higher in pediatric Crohn disease patients carrying the STAT3 risk allele, alongside other neutrophil chemoattractants."
+      }
+     ]
+    },
+    {
+     "gene": "PDPN",
+     "list": "known",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:1d0f85202dca",
+      "EV:known_literature:1d0f85202dca"
+     ],
+     "biomarker_pmids": [
+      "23851640",
+      "30043133"
+     ],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 2.32,
+     "uc_papers": 198,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "amber",
+       "detail": "bulk: partly composition, 34% kept; per cell: +0.5 log2 (WNT2B+ Fos-lo 1 +0.6, WNT2B+ Fos-hi +0.6, WNT5B+ 2 +0.4)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 91% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in situ Smooth muscle"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "antibody route: extracellular domain"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 31 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 6 list mention, 3 expression, 2 biomarker, 1 review (outside IBD: protective in cells (PMID 28878118))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "not searched"
+      }
+     },
+     "proposed_experiment": "silencing in primary colonic fibroblasts from inflamed UC stimulated with OSM and IL-1β (read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture) [fibroblasts, 87% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-lo 1]; a blocking antibody can be tested directly.",
+     "key_papers": [
+      {
+       "pmid": "23851640",
+       "year": 2013,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "D2-40-stained lymphatic vessel density in the uninflamed ileal margin was associated with postoperative endoscopic recurrence in Crohn's disease."
+      },
+      {
+       "pmid": "30043133",
+       "year": 2018,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "D2-40-stained mesenteric lymphatic vessel density was higher in Crohn's disease and predicted postoperative recurrence."
+      },
+      {
+       "pmid": "21736598",
+       "year": 2011,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Podoplanin and D2-40 staining showed increased lymphatic vessel density in Crohn's disease and UC tissue, mucosal in UC; podoplanin mRNA was also measured."
+      },
+      {
+       "pmid": "18040712",
+       "year": 2008,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "D2-40 (podoplanin) staining shows higher lymphatic vessel density in Crohn's disease than in other IBD or normal tissue."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "repurposing",
+   "title": "Repurposing: an inhibitor for another disease",
+   "pool": [
+    {
+     "gene": "CFB",
+     "list": "repurposing",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:d0a797252888",
+      "EV:clinical_indications:d0a797252888",
+      "EV:repurposing_literature:d0a797252888"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "epithelial",
+     "meta_log2fc": 2.24,
+     "uc_papers": 329,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "green",
+       "detail": "log2 ratio 0.24, padj 2.4e-02"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: intrinsic, 55% kept; per cell: +2.2 log2 (TA 1 +1.5, Enterocytes +3.7, Cycling TA +1.9)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "epithelial 61% of transcripts; same lineage in 2 of 3 other atlases (Gubatan 2026, GSE282122); in situ Epithelial"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "inhibitor approved (Iptacopan) for iga glomerulonephritis; paroxysmal nocturnal haemoglobinuria; paroxysmal nocturnal hemoglobinuria; never tried in UC, Crohn's disease or IBD"
+      },
+      "safety": {
+       "light": "red",
+       "detail": "vital organs 2371 nTPM; loss causes Complement factor B deficiency (not stated)"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 5 genetic, 2 expression (outside IBD: pathogenic in mouse (PMID 24154627))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "not searched"
+      }
+     },
+     "proposed_experiment": "Test Iptacopan (approved) in the cell system that makes the gene [epithelium, 61% of its RNA, mainly TA 1 and Enterocytes]; read-outs: barrier integrity, chemokine release, epithelial death. Then on explants of inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.",
+     "key_papers": [
+      {
+       "pmid": "24837172",
+       "year": 2015,
+       "kind": "genetic",
+       "direction": "neutral",
+       "summary": "A north Indian UC GWAS found an HLA-independent SNP signal at the CFB locus among novel risk loci, with no direction stated."
+      },
+      {
+       "pmid": "31857673",
+       "year": 2020,
+       "kind": "genetic",
+       "direction": "neutral",
+       "summary": "The IBD-associated CFB SNP rs4151657 is also associated with IgA nephropathy and with higher serum CFB and C3a levels; the study is in IgAN, not UC."
+      },
+      {
+       "pmid": "37080587",
+       "year": 2023,
+       "kind": "genetic",
+       "direction": "protective",
+       "summary": "A CFB coding variant (G252S) associated with perianal Crohn's disease is loss-of-function, impairing cleavage, complement activation and phagocytosis, implying CFB function is protective."
+      },
+      {
+       "pmid": "28774272",
+       "year": 2017,
+       "kind": "genetic",
+       "direction": "neutral",
+       "summary": "The CFB R32Q variant has a derived allele protective against age-related macular degeneration, flagged as a candidate protective variant; UC is not studied for CFB."
+      }
+     ],
+     "inhibitor": {
+      "stage": "APPROVAL",
+      "drugs": [
+       "Iptacopan"
+      ],
+      "made_for_cancer": false
+     }
+    },
+    {
+     "gene": "INHBA",
+     "list": "repurposing",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:7c68a6ae5c9a",
+      "EV:clinical_indications:7c68a6ae5c9a",
+      "EV:repurposing_literature:7c68a6ae5c9a"
+     ],
+     "biomarker_pmids": [
+      "37928018",
+      "38401525"
+     ],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 2.62,
+     "uc_papers": 112,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 31% kept; per cell: +1.9 log2 (Macrophages +2.0, Plasma +0.6, Inflammatory Monocytes +3.3)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "stromal 50% of transcripts; same lineage in 0 of 3 other atlases; in situ Smooth muscle"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "inhibitor approved (Sotatercept) for hypertension, pulmonary; pulmonary arterial hypertension; never tried in UC, Crohn's disease or IBD"
+      },
+      "safety": {
+       "light": "amber",
+       "detail": "constrained (LOEUF 0.17)"
+      },
+      "literature": {
+       "light": "green",
+       "detail": "1 functional study with a pathogenic role (outside IBD: pathogenic in mouse (PMID 36434305))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "never tested in mouse colitis"
+      }
+     },
+     "proposed_experiment": "Test Sotatercept (approved) in the cell system that makes the gene [fibroblasts, 49% of its RNA, mainly Inflammatory Fibroblasts and WNT5B+ 1]; read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture. Then on explants of inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.",
+     "key_papers": [
+      {
+       "pmid": NaN,
+       "year": 2025,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "Inhba (activin A) is a JunB target and recombinant activin A restored IL-17A and Rorc during pathogenic Th17 differentiation, suggesting it supports Th17 pathogenicity."
+      },
+      {
+       "pmid": "37928018",
+       "year": 2023,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "INHBA was overexpressed in baseline mucosal biopsies of UC patients who failed anti-TNF therapy and is part of a five-mRNA panel predicting non-response."
+      },
+      {
+       "pmid": "38401525",
+       "year": 2024,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "INHBA was among 13 candidate blood predictors of anti-TNF response in paediatric IBD but was not among the four validated significant genes."
+      },
+      {
+       "pmid": "36434305",
+       "year": 2022,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "Activin A (INHBA-encoded) and CCR2 drive macrophage-mediated testicular fibrosis in mouse orchitis, and the activin A antagonist follistatin reduced damage; not an intestinal model."
+      }
+     ],
+     "inhibitor": {
+      "stage": "APPROVAL",
+      "drugs": [
+       "Sotatercept"
+      ],
+      "made_for_cancer": false
+     }
+    },
+    {
+     "gene": "SELP",
+     "list": "repurposing",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:aa9a1b387402",
+      "EV:clinical_indications:aa9a1b387402",
+      "EV:repurposing_literature:aa9a1b387402"
+     ],
+     "biomarker_pmids": [
+      "16868799"
+     ],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "endothelial",
+     "meta_log2fc": 2.11,
+     "uc_papers": 110,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 8/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 25% kept; per cell: +1.7 log2 (Post-capillary Venules +1.8, Plasma +0.4, Endothelial +0.5)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 86% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in situ Endothelial"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "inhibitor approved (Crizanlizumab) for sickle cell anemia; never tried in UC, Crohn's disease or IBD"
+      },
+      "safety": {
+       "light": "amber",
+       "detail": "known safety events"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 6 expression, 1 biomarker (outside IBD: pathogenic in mouse (PMID 37064877); outside IBD: pathogenic in cells (PMID 39665236))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "not searched"
+      }
+     },
+     "proposed_experiment": "Test Crizanlizumab (approved) in the cell system that makes the gene [endothelium, 84% of its RNA, mainly Post-capillary Venules and Endothelial]; read-outs: ICAM1 and VCAM1, leukocyte adhesion and transmigration, permeability. Then on explants of inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.",
+     "key_papers": [
+      {
+       "pmid": "16868799",
+       "year": 2006,
+       "kind": "biomarker",
+       "direction": "neutral",
+       "summary": "Activated platelets (CD62-P positive) falling after the first leukocytapheresis session may predict response in severe UC."
+      },
+      {
+       "pmid": "15475744",
+       "year": 2004,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Platelet P-selectin expression was measured as an activation marker alongside platelet-leukocyte aggregates, which were higher in IBD blood and lowered by thiopurines."
+      },
+      {
+       "pmid": "7535284",
+       "year": 1995,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Endothelial P-selectin immunoreactivity was about 3.7-fold higher in inflamed Crohn's and UC gut than in normal gut, with no difference between the two diseases."
+      },
+      {
+       "pmid": "16941615",
+       "year": 2006,
+       "kind": "expression",
+       "direction": "neutral",
+       "summary": "Platelet CD62P expression was higher in active and inactive UC patients than in controls, alongside platelet-leukocyte complexes."
+      }
+     ],
+     "inhibitor": {
+      "stage": "APPROVAL",
+      "drugs": [
+       "Crizanlizumab"
+      ],
+      "made_for_cancer": false
+     }
+    },
+    {
+     "gene": "GUCY1A1",
+     "list": "repurposing",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:c826198092d3",
+      "EV:clinical_indications:c826198092d3",
+      "EV:repurposing_literature:c826198092d3"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "stromal",
+     "meta_log2fc": 1.45,
+     "uc_papers": 9,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "bulk: partly composition, 25% kept; per cell: +2.2 log2 (WNT2B+ Fos-lo 1 +2.9, WNT2B+ Fos-hi +1.5, WNT2B+ Fos-lo 2 +2.0)"
+      },
+      "cell": {
+       "light": "green",
+       "detail": "stromal 88% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122)"
+      },
+      "genetics": {
+       "light": "grey",
+       "detail": "no genetic instrument"
+      },
+      "druggable": {
+       "light": "green",
+       "detail": "inhibitor approved (Methylthioninium Chloride) for colorectal neoplasms; methemoglobinemia; never tried in UC, Crohn's disease or IBD"
+      },
+      "safety": {
+       "light": "amber",
+       "detail": "loss causes Moyamoya disease 6 with or without achalasia (not stated)"
+      },
+      "literature": {
+       "light": "amber",
+       "detail": "only 1 genetic"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "not searched"
+      }
+     },
+     "proposed_experiment": "Test Methylthioninium Chloride (approved) in the cell system that makes the gene [fibroblasts, 72% of its RNA, mainly Inflammatory Fibroblasts and WNT2B+ Fos-lo 1]; read-outs: IL-6, CXCL1, MMP release; neutrophil attraction in co-culture. Then on explants of inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.",
+     "key_papers": [
+      {
+       "pmid": "28586827",
+       "year": 2017,
+       "kind": "genetic",
+       "direction": "neutral",
+       "summary": "Cross-trait GWAS of Parkinson disease and autoimmune diseases including UC places GUCY1A3 among novel shared loci; no UC-specific effect or direction."
+      }
+     ],
+     "inhibitor": {
+      "stage": "APPROVAL",
+      "drugs": [
+       "Methylthioninium Chloride"
+      ],
+      "made_for_cancer": false
+     }
+    },
+    {
+     "gene": "LY96",
+     "list": "repurposing",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:discovery_profile:2934bc5c46fd",
+      "EV:clinical_indications:2934bc5c46fd",
+      "EV:repurposing_literature:2934bc5c46fd"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit (rises in UC)",
+     "stability": "in the top 10 in 6 of 6 scorings",
+     "cell_family": "neutrophil",
+     "meta_log2fc": 1.16,
+     "uc_papers": 86,
+     "lights": {
+      "reproducible": {
+       "light": "green",
+       "detail": "up in 7/8 cohorts; adjusted: holds"
+      },
+      "protein": {
+       "light": "grey",
+       "detail": "not quantified"
+      },
+      "tissue": {
+       "light": "green",
+       "detail": "neutrophils make 69% of its transcripts (Gubatan 2026); per neutrophil, inflamed vs uninflamed UC: +1.0 log2 (Neutrophil +1.7, Neutrophil OSM +0.5, Neutrophil CXCR4 +1.4); weighted with its other cells: +1.2 log2; bulk: composition, 15% kept (not scored: the adjustment removes the neutrophil influx these genes are about); in the atlas without neutrophils (Smillie 2019): +1.8 log2 (Plasma +2.3, Macrophages +0.6, Follicular +0.8)"
+      },
+      "cell": {
+       "light": "amber",
+       "detail": "neutrophil 69% of transcripts (Gubatan 2026, the only atlas with neutrophils; cannot replicate); without neutrophils: plasma 61% in Smillie 2019; same lineage in 2 of 3 other atlases (Garrido-Trigo 2023, GSE282122)"
+      },
+      "genetics": {
+       "light": "amber",
+       "detail": "tested, no causal effect (scores 0)"
+      },
+      "druggable": {
+       "light": "amber",
+       "detail": "inhibitor phase 3 (Eritoran Tetrasodium, Eritoran) for sepsis; covid-19; never tried in UC, Crohn's disease or IBD"
+      },
+      "safety": {
+       "light": "green",
+       "detail": "vital organs ≤ 21 nTPM, not constrained, no Mendelian disease caused by loss of the gene"
+      },
+      "literature": {
+       "light": "green",
+       "detail": "2 functional studies with a pathogenic role (outside IBD: pathogenic in cells (PMID 11466383); outside IBD: pathogenic in cells (PMID 23952219))"
+      },
+      "mouse": {
+       "light": "grey",
+       "detail": "tested in mouse colitis: pathogenic (PMID 21674704); pathogenic (PMID 29180692)"
+      }
+     },
+     "proposed_experiment": "Test Eritoran Tetrasodium, Eritoran (phase 3) in the cell system that makes the gene [neutrophils, 69% of its RNA, mainly Neutrophil and Neutrophil OSM]; read-outs: migration towards CXCL8, activation markers, degranulation and NET formation; co-culture with colon organoids for epithelial damage. Then on explants of inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.",
+     "key_papers": [
+      {
+       "pmid": "21674704",
+       "year": 2011,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "An antibody blocking the TLR4/MD-2 complex reduced colitis-associated neoplasia in mice, supporting that TLR4/MD-2 signalling promotes disease."
+      },
+      {
+       "pmid": "19359427",
+       "year": 2009,
+       "kind": "functional",
+       "direction": "unclear",
+       "summary": "An antibody against the TLR4/MD-2 complex lessened DSS colitis early but impaired mucosal healing during recovery, so the net effect is mixed."
+      },
+      {
+       "pmid": "23776545",
+       "year": 2013,
+       "kind": "functional",
+       "direction": "unclear",
+       "summary": "A small-molecule TLR4 inhibitor predicted to bind the MD-2 pocket reduced inflammation in endotoxemia and necrotizing enterocolitis models, but MD-2 itself was not directly perturbed."
+      },
+      {
+       "pmid": "29180692",
+       "year": 2017,
+       "kind": "functional",
+       "direction": "pathogenic",
+       "summary": "Baicalein, which binds MD-2 and blocks MD-2/TLR4 complex formation, alleviated TNBS colitis in mice, suggesting MD-2 inhibition is beneficial."
+      }
+     ],
+     "inhibitor": {
+      "stage": "PHASE_3",
+      "drugs": [
+       "Eritoran Tetrasodium",
+       "Eritoran"
+      ],
+      "made_for_cancer": false
+     }
+    }
+   ]
+  },
+  {
+   "key": "genetic",
+   "title": "Genetics first",
+   "pool": [
+    {
+     "gene": "TUFM",
+     "list": "genetic",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:genetic_target:f61ba7796bc7"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit",
+     "risk_allele": "raises",
+     "tier": "confident",
+     "predicted_effect": "blood neutrophil +0.327; colon monocyte +0.100; colon macrophage +0.093; colon dendritic cell +0.085",
+     "mendelian_randomisation": "agrees",
+     "biopsy_change": "no change",
+     "cell_in_single_cells": "epithelial",
+     "cell_matches_prediction": false,
+     "drug": "no clinical drug",
+     "points": 6
+    },
+    {
+     "gene": "RORC",
+     "list": "genetic",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:genetic_target:0f6f1dd80011"
+     ],
+     "biomarker_pmids": [],
+     "direction": "activate or restore",
+     "risk_allele": "lowers",
+     "tier": "confident",
+     "predicted_effect": "blood monocytes -0.068",
+     "mendelian_randomisation": "not significant or not testable",
+     "biopsy_change": "-0.53 log2FC, same direction",
+     "cell_in_single_cells": "epithelial",
+     "cell_matches_prediction": false,
+     "drug": "no clinical drug",
+     "points": 5
+    },
+    {
+     "gene": "CFAP90",
+     "list": "genetic",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:genetic_target:a7b687d672af"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit",
+     "risk_allele": "raises",
+     "tier": "confident",
+     "predicted_effect": "colon goblet cell +0.041; blood regulatory T cell +0.039; blood neutrophil +0.039; colon enterocyte +0.034",
+     "mendelian_randomisation": "not significant or not testable",
+     "biopsy_change": "no change",
+     "cell_in_single_cells": "epithelial",
+     "cell_matches_prediction": true,
+     "drug": "no clinical drug",
+     "points": 5
+    },
+    {
+     "gene": "FIGNL1",
+     "list": "genetic",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:genetic_target:1833a8f3eb78"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit",
+     "risk_allele": "raises",
+     "tier": "confident",
+     "predicted_effect": "colon NK cell +0.036",
+     "mendelian_randomisation": "not significant or not testable",
+     "biopsy_change": "no change",
+     "cell_in_single_cells": "T/NK",
+     "cell_matches_prediction": true,
+     "drug": "no clinical drug",
+     "points": 5
+    },
+    {
+     "gene": "CEBPB",
+     "list": "genetic",
+     "group": "A",
+     "from_group_b": false,
+     "evidence_ids": [
+      "EV:genetic_target:542343dc839a"
+     ],
+     "biomarker_pmids": [],
+     "direction": "inhibit",
+     "risk_allele": "raises",
+     "tier": "confident",
+     "predicted_effect": "colon dendritic cell +0.059",
+     "mendelian_randomisation": "not significant or not testable",
+     "biopsy_change": "+1.27 log2FC, same direction",
+     "cell_in_single_cells": "myeloid",
+     "cell_matches_prediction": true,
+     "drug": "no clinical drug",
+     "points": 5
+    }
+   ]
+  }
+ ],
+ "previous_selection_not_in_pool": [
+  {
+   "gene": "IL12B",
+   "now_in": "In clinical validation",
+   "reason": "a drug acting on it is approved in UC or IBD, so it is not a target without therapy; it stays in the clinical list as reference"
+  },
+  {
+   "gene": "CXCR2",
+   "now_in": "In clinical validation",
+   "reason": "a drug acting on it is tried in UC or IBD, so it is not a target without therapy; it stays in the clinical list as reference"
+  },
+  {
+   "gene": "MMP1",
+   "now_in": "In clinical validation",
+   "reason": "a drug acting on it is tried in UC or IBD, so it is not a target without therapy; it stays in the clinical list as reference"
+  },
+  {
+   "gene": "DUOX2",
+   "now_in": "Well known in UC, no drug yet, group C",
+   "reason": "group C of its list: its lights do not keep it among the first ten under every scoring"
+  },
+  {
+   "gene": "JAK2",
+   "now_in": "In clinical validation",
+   "reason": "a drug acting on it is approved in UC or IBD, so it is not a target without therapy; it stays in the clinical list as reference"
+  },
+  {
+   "gene": "CD274",
+   "now_in": "Repurposing: an inhibitor for another disease, group C",
+   "reason": "group C of its list: its lights do not keep it among the first ten under every scoring"
+  },
+  {
+   "gene": "CXCL8",
+   "now_in": "Repurposing: an inhibitor for another disease, group C",
+   "reason": "group C of its list: its lights do not keep it among the first ten under every scoring"
+  },
+  {
+   "gene": "IDO1",
+   "now_in": "Repurposing: an inhibitor for another disease, group C",
+   "reason": "group C of its list: its lights do not keep it among the first ten under every scoring"
+  },
+  {
+   "gene": "TREM1",
+   "now_in": "Repurposing: an inhibitor for another disease, group B",
+   "reason": "group B of its list: its lights do not keep it among the first ten under every scoring"
+  },
+  {
+   "gene": "SLC26A3",
+   "now_in": "none",
+   "reason": "in none of the target lists (the screens set it aside)"
+  },
+  {
+   "gene": "S100A8",
+   "now_in": "Well known in UC, no drug yet, group C",
+   "reason": "group C of its list: its lights do not keep it among the first ten under every scoring"
+  }
+ ]
+}

@@ -39,14 +39,3 @@ def test_drug_tags_say_where_the_drug_is():
         assert "IL23A" in tags["IL12B"]
     if "JAK2" in tags:
         assert "Fedratinib" not in tags["JAK2"] and "JAK1" in tags["JAK2"]
-
-
-def test_target_blocks_follow_the_rules():
-    import pandas as pd
-    from ucatlas.render import target_groups
-    drugind = {"IL12B": {"category": "UC", "short": "UC (approved)"}, "CXCR2": {"category": "UC", "short": "UC (phase 2)"}}
-    disc = pd.DataFrame({"neutrophil_share": [0.96, 0.07]}, index=["CXCR2", "MMP1"])
-    f = {"targets": [{"gene": "CXCR2", "category": "target_and_biomarker"}, {"gene": "IL12B", "category": "target"},
-                     {"gene": "MMP1", "category": "target_and_biomarker"}, {"gene": "DUOX2", "category": "biomarker"}]}
-    got = {g["key"]: [t["gene"] for t in g["targets"]] for g in target_groups(f, drugind, disc)}
-    assert got == {"controls": ["IL12B"], "neutrophil": ["CXCR2"], "tissue": ["MMP1"], "biomarkers": ["DUOX2"]}

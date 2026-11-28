@@ -1,0 +1,138 @@
+{
+ "agent_file": "agent_applied.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 1,
+   "statement": "CHRDL2 is made mainly by fibroblasts (dominant lineage share [gene=CHRDL2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.939]), and the stromal lineage replicates in all three other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in the adalimumab atlas it does not differ at baseline between remitters and non-remitters, but rises after treatment in myofibroblasts (coef [gene=CHRDL2; type=antitnf_singlecell; source=DATASET:GSE282122; after_vs_before_treatment.1.coef=1.163]). It has no mouse colitis data and no genetic support (Mendelian randomisation tested, no causal effect), so it is a first-in-class candidate with strong expression evidence but little else.",
+   "claims": [
+    {
+     "claim": "It has no mouse colitis data",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No literature record cited."
+    },
+    {
+     "claim": "no genetic support (Mendelian randomisation tested, no causal effect)",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No MR record cited."
+    }
+   ]
+  },
+  {
+   "finding": 3,
+   "statement": "PCDH17 transcripts come from post-capillary venules and endothelial cells in the Smillie atlas, and the stromal lineage replicates in all three other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); it is up in all eight bulk cohorts, but only a small part of the bulk rise is kept after composition adjustment, and it has no mouse colitis test.",
+   "claims": [
+    {
+     "claim": "it has no mouse colitis test",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No literature record cited."
+    }
+   ]
+  },
+  {
+   "finding": 5,
+   "statement": "In the adalimumab single-cell atlas INHBA shows no baseline difference between remitters and non-remitters, and rises after treatment in C1Qhi IL1Bhi macrophages (coef [gene=INHBA; type=antitnf_singlecell; source=DATASET:GSE282122; after_vs_before_treatment.1.coef=1.759]); an approved inhibitor of this pathway exists for another indication and was never tried in UC, but the cell source in the main atlas is only half stromal and not replicated in the three other atlases, and the gene is constrained.",
+   "claims": [
+    {
+     "claim": "the cell source in the main atlas is only half stromal and not replicated in the three other atlases",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No sc_summary cited for INHBA."
+    },
+    {
+     "claim": "the gene is constrained",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No constraint data cited."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "CHI3L1 (known pool) is associated with ustekinumab non-response (BH padj [gene=CHI3L1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.00971]) but equally with UNIFI placebo non-response (padj [gene=CHI3L1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0203]), so it marks severity; mouse colitis studies point in both directions and vital-organ RNA is flagged amber.",
+   "claims": [
+    {
+     "claim": "vital-organ RNA is flagged amber",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Amber light concerns literature, not vital-organ RNA."
+    }
+   ]
+  },
+  {
+   "finding": 9,
+   "statement": "CFB (repurposing pool) shows no association with response to any drug arm after correction (ustekinumab BH padj [gene=CFB; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.165]); the pool dossier also flags a red safety light (very high RNA in a vital organ and a deficiency disorder when the gene is lost), so our data do not support testing it first.",
+   "claims": [
+    {
+     "claim": "the pool dossier flags a red safety light (very high RNA in a vital organ and a deficiency disorder)",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No safety flag in cited records."
+    }
+   ]
+  },
+  {
+   "finding": 11,
+   "statement": "LILRA1 (first-in-class pool, neutrophil and myeloid) is associated with ustekinumab non-response (BH padj [gene=LILRA1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.00882]) with the UNIFI placebo arm borderline (padj [gene=LILRA1; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.0514]); the neutrophil source cannot be replicated because only Gubatan 2026 contains neutrophils, and bulk composition mostly removes the signal.",
+   "claims": [
+    {
+     "claim": "the neutrophil source cannot be replicated because only Gubatan 2026 contains neutrophils",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No replication data cited."
+    }
+   ]
+  },
+  {
+   "finding": 12,
+   "statement": "CPXM1 (first-in-class pool, fibroblast) is weakly associated with ustekinumab non-response (BH padj [gene=CPXM1; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0232]) and not with golimumab (padj [gene=CPXM1; type=treatment_response; source=ANALYSIS:treatment; arms.golimumab.padj=0.997]); the placebo arm is not significant, and the dossier lists one expression paper only and no mouse test.",
+   "claims": [
+    {
+     "claim": "the dossier lists one expression paper only and no mouse test",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No literature record cited."
+    }
+   ]
+  },
+  {
+   "finding": 13,
+   "statement": "LY96 (repurposing pool, neutrophil) is associated with ustekinumab non-response (BH padj [gene=LY96; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0000735]) while the UNIFI placebo arm is not significant (padj [gene=LY96; type=treatment_response; source=ANALYSIS:treatment; arms.placebo (UNIFI).padj=0.144]); the repurposing literature record lists mouse colitis studies in which TLR4/MD-2 blockade was beneficial or of mixed effect, but the neutrophil source cannot be replicated.",
+   "claims": [
+    {
+     "claim": "the neutrophil source cannot be replicated",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No replication data cited."
+    }
+   ]
+  },
+  {
+   "finding": 14,
+   "statement": "MMP10 (known pool) is associated with ustekinumab non-response (BH padj [gene=MMP10; type=treatment_response; source=ANALYSIS:treatment; arms.ustekinumab.padj=0.0429]) and with corticosteroid non-response in PROTECT (padj [gene=MMP10; type=treatment_response; source=ANALYSIS:treatment; arms.corticosteroids (PROTECT).padj=0.0168]); mouse colitis papers in the literature record conflict (one protective, one pathogenic) and safety events are flagged, so it is a weak candidate.",
+   "claims": [
+    {
+     "claim": "safety events are flagged",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No safety information in cited records."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": []
+}

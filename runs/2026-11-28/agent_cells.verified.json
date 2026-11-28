@@ -1,0 +1,342 @@
+{
+ "agent": "agente-celular",
+ "findings": [
+  {
+   "gene": "SERPINB5",
+   "role": "target",
+   "key": true,
+   "statement": "SERPINB5 is made almost only by epithelial cells (transit-amplifying and cycling cells in Smillie 2019), with a dominant-lineage share of the transcripts of [gene=SERPINB5; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.953]; the epithelial lineage is also dominant in all three other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122), so the attribution replicates. The bulk rise is intrinsic: after adjustment for cell proportions the log2FC stays significant at [gene=SERPINB5; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=2.109]; Visium deconvolution also names epithelium as the in-situ source.",
+   "evidence_ids": [
+    "EV:sc_summary:8e8276a3179a",
+    "EV:composition_effect:8e8276a3179a",
+    "EV:spatial_visium_cell:8e8276a3179a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:8e8276a3179a",
+     "field": [
+      "dominant_lineage_share"
+     ],
+     "display": "0.953",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:8e8276a3179a",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "2.109",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CHRDL2",
+   "role": "target",
+   "key": true,
+   "statement": "CHRDL2 is stromal (mainly Inflammatory Fibroblasts), with a stromal transcript share of [gene=CHRDL2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.939], and the lineage replicates in all three other atlases. The bulk rise is only partly composition: the retained fraction after adjustment is [gene=CHRDL2; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.276], still significant, but the adjustment may over-correct because fibroblast activation also raises lineage scores. In Visium the deconvolution places the in-situ signal in smooth muscle while the composition-corrected source is the inflammatory fibroblast, so the exact producing cell is not settled.",
+   "evidence_ids": [
+    "EV:sc_summary:c77baf64a62b",
+    "EV:composition_effect:c77baf64a62b",
+    "EV:spatial_visium_cell:c77baf64a62b"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:c77baf64a62b",
+     "field": [
+      "dominant_lineage_share"
+     ],
+     "display": "0.939",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:c77baf64a62b",
+     "field": [
+      "retained_fraction"
+     ],
+     "display": "0.276",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CPXM1",
+   "role": "target",
+   "key": false,
+   "statement": "CPXM1 is a stromal (WNT2B+ fibroblast) gene whose bulk increase partly survives cell-composition adjustment, with an adjusted log2FC of [gene=CPXM1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.057]; its neutrophil share is small, so it is not a neutrophil-influx marker. Replication in the other atlases is two of three.",
+   "evidence_ids": [
+    "EV:composition_effect:79bd85b07bd0",
+    "EV:sc_summary:79bd85b07bd0"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:79bd85b07bd0",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "1.057",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "PCDH17",
+   "role": "biomarker",
+   "key": true,
+   "statement": "PCDH17 is a stromal-lineage (endothelial) transcript that replicates in the three other atlases, but almost all of its bulk rise is explained by cell proportions: the retained fraction after adjustment is only [gene=PCDH17; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.098] (verdict partly_composition, adjusted change barely significant). Treat it as a marker of vascular or stromal expansion rather than a change inside the tissue; this weakens it for testing first. The adjustment can over-correct, so this is not proof of pure influx.",
+   "evidence_ids": [
+    "EV:composition_effect:abe6315cb430",
+    "EV:sc_summary:abe6315cb430"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:abe6315cb430",
+     "field": [
+      "retained_fraction"
+     ],
+     "display": "0.098",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "LAIR2",
+   "role": "target_and_biomarker",
+   "key": false,
+   "statement": "LAIR2 is a T/NK transcript (Tregs, CD8+ LP, NKs) with lineage replication in all three other atlases; the bulk change is partly composition, with an adjusted log2FC of [gene=LAIR2; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.4441] that remains significant. T-cell influx therefore explains much of it, and a target claim rests on a per-cell increase in Tregs and cytotoxic cells.",
+   "evidence_ids": [
+    "EV:composition_effect:d24c4db29165",
+    "EV:sc_summary:d24c4db29165"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:d24c4db29165",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.4441",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "LILRA1",
+   "role": "composition",
+   "key": true,
+   "statement": "LILRA1 behaves as a marker of myeloid and neutrophil influx: neutrophils make a share of its inflamed-mucosa transcripts of [gene=LILRA1; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.502] and its bulk change loses significance after adjustment (adjusted padj [gene=LILRA1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_padj=0.105], verdict composition). Because adjustment removes the influx these genes report, this is not a target in a resident cell.",
+   "evidence_ids": [
+    "EV:sc_summary:d3bb818acc2e",
+    "EV:composition_effect:d3bb818acc2e"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:d3bb818acc2e",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.502",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:composition_effect:d3bb818acc2e",
+     "field": [
+      "adjusted_padj"
+     ],
+     "display": "0.105",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CEACAM4",
+   "role": "composition",
+   "key": false,
+   "statement": "CEACAM4 is mostly neutrophil RNA, with a neutrophil share in inflamed mucosa of [gene=CEACAM4; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.87], so a bulk rise mainly reports neutrophil arrival.",
+   "evidence_ids": [
+    "EV:sc_summary:828b3c277e38"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:828b3c277e38",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.87",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "XKR9",
+   "role": "target",
+   "key": false,
+   "statement": "XKR9 is epithelial (Immature Goblet, Enterocytes) with the lineage agreeing in two of three other atlases (Gubatan 2026, GSE282122; Garrido-Trigo 2023 points to plasma cells). Its bulk change is intrinsic, with a retained fraction after adjustment of [gene=XKR9; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.798]. Xenium, Visium and CosMx do not cover the gene, so there is no in-situ confirmation.",
+   "evidence_ids": [
+    "EV:composition_effect:6eb069569835",
+    "EV:sc_summary:6eb069569835"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:6eb069569835",
+     "field": [
+      "retained_fraction"
+     ],
+     "display": "0.798",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "SDR16C5",
+   "role": "target",
+   "key": false,
+   "statement": "SDR16C5 is made by epithelial cells (transit-amplifying, cycling and immature goblet cells), replicated in all three other atlases, and its bulk rise is intrinsic with a retained fraction of [gene=SDR16C5; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.66] after adjustment.",
+   "evidence_ids": [
+    "EV:composition_effect:8818d4515313",
+    "EV:sc_summary:8818d4515313"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:8818d4515313",
+     "field": [
+      "retained_fraction"
+     ],
+     "display": "0.66",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CFB",
+   "role": "target",
+   "key": false,
+   "statement": "CFB is mainly epithelial: Visium deconvolution names epithelium as the in-situ and composition-corrected source and CosMx detects it above background in epithelium, and the bulk change is intrinsic (adjusted log2FC [gene=CFB; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8989]).",
+   "evidence_ids": [
+    "EV:composition_effect:d0a797252888",
+    "EV:spatial_cosmx:d0a797252888",
+    "EV:spatial_visium_cell:d0a797252888"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:d0a797252888",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.8989",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CEBPB",
+   "role": "mechanism",
+   "key": true,
+   "statement": "CEBPB, the genetics-first candidate, is a broadly expressed transcription factor: neutrophils make a share of its transcripts of [gene=CEBPB; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.698], with macrophages and plasma cells the main Smillie clusters. The genetic-target record predicts an effect in colon dendritic cells, and the cell record shows that cell is not the dominant source. The bulk increase is mostly composition (partly_composition, retained fraction low), so a CEBPB inhibitor would act on many myeloid cell types at once.",
+   "evidence_ids": [
+    "EV:sc_summary:542343dc839a",
+    "EV:composition_effect:542343dc839a",
+    "EV:genetic_target:542343dc839a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:sc_summary:542343dc839a",
+     "field": [
+      "neutrophil_share_inflamed"
+     ],
+     "display": "0.698",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "TUFM",
+   "role": "mechanism",
+   "key": true,
+   "statement": "TUFM, the genetics-first candidate, is a ubiquitous mitochondrial gene (plasma cells and epithelial transit-amplifying cells in Smillie 2019) that does not rise in inflamed bulk tissue: its change is slightly down, with an unadjusted log2FC of [gene=TUFM; type=composition_effect; source=ANALYSIS:composition; layer=rna; unadjusted_log2fc=-0.188], opposite to the genetic direction of inhibiting a gene that risk alleles raise. The genetic-target record predicts an effect in blood neutrophils, whereas the single-cell record shows epithelial and plasma cells as the main source. Single-cell and tissue data do not support it as an inflamed-mucosa target.",
+   "evidence_ids": [
+    "EV:composition_effect:f61ba7796bc7",
+    "EV:sc_summary:f61ba7796bc7",
+    "EV:genetic_target:f61ba7796bc7"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:f61ba7796bc7",
+     "field": [
+      "unadjusted_log2fc"
+     ],
+     "display": "-0.188",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "target_and_biomarker",
+   "key": false,
+   "statement": "CHI3L1 is a fibroblast transcript in Smillie 2019, but neutrophils also make a large share in Gubatan 2026 (replication in two of three other atlases only); the bulk rise partly survives adjustment, with an adjusted log2FC of [gene=CHI3L1; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.3967], so it is both a tissue change and a marker of inflammatory cell arrival.",
+   "evidence_ids": [
+    "EV:composition_effect:b3f7b3e784f8",
+    "EV:sc_summary:b3f7b3e784f8"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:b3f7b3e784f8",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "1.3967",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "REG1B",
+   "role": "target_and_biomarker",
+   "key": false,
+   "statement": "REG1B is epithelial (TA, goblet) and replicates in all three other atlases; its bulk rise is intrinsic, with an adjusted log2FC of [gene=REG1B; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=1.4585].",
+   "evidence_ids": [
+    "EV:composition_effect:75d5350d923d",
+    "EV:sc_summary:75d5350d923d"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:75d5350d923d",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "1.4585",
+     "unit": "native"
+    }
+   ]
+  },
+  {
+   "gene": "INHBA",
+   "role": "target_and_biomarker",
+   "key": false,
+   "statement": "INHBA is stromal and myeloid (fibroblasts and macrophages) in Smillie 2019 and the lineage does not replicate in the other atlases; the bulk change is partly composition, with an adjusted log2FC of [gene=INHBA; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.6949], so the cell of origin is uncertain.",
+   "evidence_ids": [
+    "EV:composition_effect:7c68a6ae5c9a",
+    "EV:sc_summary:7c68a6ae5c9a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:composition_effect:7c68a6ae5c9a",
+     "field": [
+      "adjusted_log2fc"
+     ],
+     "display": "0.6949",
+     "unit": "native"
+    }
+   ]
+  }
+ ],
+ "caveats": [
+  "Composition adjustment can over-correct: lineage scores also rise when resident cells activate, so a partly_composition or composition verdict is not proof of pure influx.",
+  "Shares of transcripts compare cell types, not tissue abundance; dissociation protocols enrich some fractions.",
+  "Smillie 2019 has no neutrophils and GSE282122 has none either, so neutrophil attribution rests only on Gubatan 2026 and cannot be replicated.",
+  "The pool dossier flags a red safety light for CFB, which weighs against testing it first (dossier statement, not an atlas record).",
+  "REG1B rises in regenerating crypts according to the pool dossier, so inhibition could impair repair (dossier statement, not an atlas record).",
+  "Not examined in this run for lack of calls: CYP4X1 (composition intrinsic, epithelial), LYPD5, SGIP1, FIBIN, FJX1, OLFML2B, KLK10, MMP10, CXCL1, CXCL3, PDPN, SELP, GUCY1A1, LY96, RORC, CFAP90 and FIGNL1 beyond the neutrophil-share screen; the neutrophil screen flags CXCL1, CHI3L1, LY96, CEACAM4 and LILRA1 as neutrophil-heavy.",
+  "Spatial data (Xenium, Visium, CosMx) were checked for only SERPINB5, CHRDL2, CFB and XKR9; XKR9 is not covered."
+ ]
+}

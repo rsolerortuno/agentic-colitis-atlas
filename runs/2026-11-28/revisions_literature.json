@@ -1,0 +1,79 @@
+{
+ "agent_file": "agent_literature.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "SerpinB5 is the pool gene with the most direct pro-disease functional literature. One paper reports that SerpinB5 expression was increased in UC patients, TNF-alpha-treated FUC cells and a mouse model of UC. A second reports that SERPINB5 binds MMP9, stabilises it and suppresses the protective factor RLN2. The dossier records two mouse-colitis papers in which SERPINB5 knockdown or ablation is protective, and one of them is a correction notice without data. The evidence is two recent single studies with no independent replication.",
+   "claims": [
+    {
+     "claim": "two mouse-colitis papers in which knockdown or ablation is protective, and one of them is a correction notice without data",
+     "verdict": "contradicted",
+     "quote": "Correction notice for the SerpinB5 UC paper with no abstract or new data.",
+     "evidence_id": "EV:known_literature:8e8276a3179a",
+     "reason": "The two pathogenic papers are real studies; the correction is a separate third entry."
+    }
+   ]
+  },
+  {
+   "finding": 5,
+   "statement": "LY96 (MD-2) has the most mouse-colitis support among the repurposing genes, but it is mixed. A TLR4/MD-2 antagonist antibody inhibited colitis-associated neoplasia in mice, and baicalein, which binds MD-2, alleviated TNBS colitis. Another anti-TLR4/MD-2 antibody lessened DSS colitis early but interfered with colonic mucosal healing during recovery. No verbatim UC-specific relation exists in the graph for this gene.",
+   "claims": [
+    {
+     "claim": "LY96 has the most mouse-colitis support among the repurposing genes",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cross-gene comparison cited."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "CFB has genetic and expression support but the functional direction points the other way. CFB was predicted as an overexpressed biomarker for colon inflammation and endoscopic disease was associated with its expression. A CFB coding variant linked to perianal Crohn's disease is loss-of-function, impairing complement activation and phagocytosis, which implies CFB function is protective. The dossier records no functional study in colitis, so inhibiting it has a contradictory literature basis.",
+   "claims": [
+    {
+     "claim": "CFB was predicted as an overexpressed biomarker for colon inflammation",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Record only links CFB expression to endoscopic disease."
+    }
+   ]
+  },
+  {
+   "finding": 12,
+   "statement": "CEBPB has the best literature among the genetics-first genes. Nintedanib alleviated DSS colitis in mice by inhibiting CEBPB/PCK1 and CEBPB/EFNA1 signaling. Mice with intestinal epithelial-specific Cebpb deletion are resistant to carcinogenesis with reduced neutrophil infiltration. The genetic record predicts a risk allele that raises expression in colon dendritic cells, with the tissue change in the same direction and no Mendelian randomisation test. It is a transcription factor, so a direct drug route is unclear.",
+   "claims": [
+    {
+     "claim": "Mice with intestinal epithelial-specific Cebpb deletion are resistant to carcinogenesis with reduced neutrophil infiltration",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cited record mentions Cebpb deletion mice."
+    }
+   ]
+  },
+  {
+   "finding": 14,
+   "statement": "TUFM is a genetic candidate whose predicted risk effect is largest in blood neutrophils, with Mendelian randomisation agreeing. The biopsy shows no change and the single-cell cell type (epithelial) does not match the predicted cell. The search found no UC literature for it.",
+   "claims": [
+    {
+     "claim": "the single-cell cell type (epithelial) does not match the predicted cell",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No single-cell record cited."
+    },
+    {
+     "claim": "The search found no UC literature for it",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No literature record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": []
+}

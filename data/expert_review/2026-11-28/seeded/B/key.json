@@ -1,0 +1,22 @@
+{
+"C01": "targets.CFB",
+"C02": "seed:influx as tissue target",
+"C03": "targets.SDR16C5",
+"C04": "seed:knockout phenotype",
+"C05": "targets.CPXM1",
+"C06": "narrative.summary[3]",
+"C07": "seed:genetic direction",
+"C08": "targets.SERPINB5",
+"C09": "targets.CHRDL2",
+"C10": "seed:protein function",
+"C11": "targets.SELP",
+"C12": "seed:trial stage",
+"C13": "targets.INHBA",
+"C14": "seed:druggability overclaimed",
+"C15": "targets.FIGNL1",
+"C16": "narrative.summary[2]",
+"C17": "narrative.summary[0]",
+"C18": "targets.CFAP90",
+"C19": "targets.CYP4X1",
+"C20": "targets.REG1B"
+}

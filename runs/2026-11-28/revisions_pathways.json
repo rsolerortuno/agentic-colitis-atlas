@@ -1,0 +1,85 @@
+{
+ "agent_file": "agent_pathways.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "In Gubatan 2026 single cells, inflammatory fibroblasts send CXCL1 to CXCR2 on neutrophil states and to ACKR1 on endothelium, and both pairs rise strongly in inflamed versus uninflamed UC mucosa. In bulk biopsies CXCL1 rises across cohorts with a meta-analysis log2 fold change of [gene=CXCL1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.6892]. The circuit is co-expression, not proof of signalling, and CXCL1 is the pool gene with the clearest fibroblast-to-neutrophil circuit.",
+   "claims": [
+    {
+     "claim": "CXCL1 is the pool gene with the clearest fibroblast-to-neutrophil circuit",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cross-gene comparison in records."
+    }
+   ]
+  },
+  {
+   "finding": 1,
+   "statement": "CXCL3 reaches neutrophil CXCR2 from monocyte-derived macrophages, but the increase in inflamed mucosa is weak or absent in some neutrophil states (essentially flat in Neutrophil PADI4 and OSM, modest in the main Neutrophil state). It shares its receptor with CXCL1, so the circuit data do not single CXCL3 out; bulk meta-analysis log2 fold change is [gene=CXCL3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.71]. Co-expression only.",
+   "claims": [
+    {
+     "claim": "the increase is essentially flat in Neutrophil OSM",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No CXCL3-OSM record cited."
+    }
+   ]
+  },
+  {
+   "finding": 7,
+   "statement": "TGFb, NFkB, MAPK, PI3K, EGFR and Hypoxia are also up in every cohort (TGFb t [type=pathway_activity; source=ANALYSIS:pathways; per_cohort.GSE206285.t=25.17] in GSE206285), while Androgen falls (t [type=pathway_activity; source=ANALYSIS:pathways; per_cohort.GSE109142.t=-10.8] in GSE109142). Because nearly every pathway moves together in inflamed mucosa, pathway-level activity cannot rank new targets; specific sender-receiver circuits are more informative.",
+   "claims": [
+    {
+     "claim": "MAPK, PI3K, EGFR and Hypoxia are also up in every cohort",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No record cited for these pathways."
+    }
+   ]
+  },
+  {
+   "finding": 8,
+   "statement": "The communication analysis finds no ligand-receptor pair for LY96 above expression thresholds, so the circuit data neither support nor contradict it. Its neutrophil source and mouse colitis literature in the pool dossier are the only support; the data from this tool are silent.",
+   "claims": [
+    {
+     "claim": "mouse colitis literature in the pool dossier",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No literature record cited."
+    }
+   ]
+  },
+  {
+   "finding": 9,
+   "statement": "No ligand-receptor pair above threshold was found for LAIR2, a decoy for LAIR1 that would be expected to act as a secreted ligand, so the single-cell circuit data give no support for a sender-receiver mechanism for this first-in-class candidate.",
+   "claims": [
+    {
+     "claim": "LAIR2 is a decoy for LAIR1 that would be expected to act as a secreted ligand",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Record has no decoy or secretion information."
+    }
+   ]
+  },
+  {
+   "finding": 10,
+   "statement": "No ligand-receptor pair above threshold was found for CHI3L1 in the single-cell communication data, so there is no circuit evidence for its fibroblast-derived signal; its mouse data in the dossier point in both directions, which is a caution for inhibition.",
+   "claims": [
+    {
+     "claim": "its mouse data in the dossier point in both directions",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No literature record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": []
+}

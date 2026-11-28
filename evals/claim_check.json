@@ -1,218 +1,115 @@
 {
- "run": "2026-11-27",
+ "run": "2026-11-28",
  "reader": ".claude/agents/lector-afirmaciones.md (Claude Code subscription)",
- "statements": 115,
- "claims": 508,
+ "statements": 140,
+ "claims": 674,
  "claims_contradicted": 0,
- "claims_not_in_evidence": 16,
+ "claims_not_in_evidence": 7,
  "statements_with_a_contradicted_claim": [],
  "statements_with_an_unsupported_claim": [
-  "agent_findings.applied[4]",
-  "agent_findings.cells[0]",
-  "agent_findings.expression[3]",
-  "agent_findings.expression[7]",
-  "agent_findings.expression[8]",
-  "agent_findings.external[10]",
-  "agent_findings.external[7]",
-  "agent_findings.external[8]",
-  "agent_findings.pathways[0]",
-  "agent_findings.pathways[2]",
-  "agent_findings.pathways[4]",
-  "agent_findings.pathways[8]",
-  "agent_findings.pathways[9]",
-  "narrative.sections.expression[1]",
-  "narrative.sections.pathways[1]"
+  "agent_findings.expression[5]",
+  "agent_findings.external[0]",
+  "agent_findings.literature[0]",
+  "agent_findings.pathways[1]",
+  "narrative.summary[3]",
+  "targets.TUFM"
  ],
  "flagged": {
-  "agent_findings.applied[4]": [
+  "agent_findings.expression[5]": [
    {
-    "claim": "CXCR2 is the leading gene of the convergence ranking",
+    "claim": "up in all eight cohorts",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "The cited treatment record holds no convergence ranking."
+    "reason": "No cohort count for CHI3L1 in cited records."
    }
   ],
-  "agent_findings.cells[0]": [
+  "agent_findings.external[0]": [
    {
-    "claim": "in Smillie 2019, which lacks neutrophils",
+    "claim": "its Open Targets association ranks outside the top 150 of the genes in the graph",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "Record does not state that Smillie lacks neutrophils."
+    "reason": "Rank record is for MR gut set (91 of 257), not Open Targets."
    }
   ],
-  "agent_findings.expression[3]": [
+  "agent_findings.literature[0]": [
    {
-    "claim": "CHI3L1 is among the largest pooled increases",
+    "claim": "The evidence is two recent single studies with no independent replication",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "Only its own log2fc 4.9126 is given; no comparison with other genes in the cited records."
-   }
-  ],
-  "agent_findings.expression[7]": [
-   {
-    "claim": "AQP8 shows the largest pooled decrease in the top-gene list",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only AQP8's own log2fc -5.7633 is given; no top-gene list or comparison in cited records."
-   }
-  ],
-  "agent_findings.expression[8]": [
-   {
-    "claim": "It ranks highly because of genetics and tractability, not because of a large expression change",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No cited record gives genetics or tractability evidence or a ranking."
-   }
-  ],
-  "agent_findings.external[10]": [
-   {
-    "claim": "CHI3L1 is among the strongest and best replicated up-regulated genes in UC biopsies",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only its own log2fc 4.9126 and 8 of 8 cohorts up are given; no comparison with other genes."
-   }
-  ],
-  "agent_findings.external[7]": [
-   {
-    "claim": "CXCL8 has no Open Targets genetic association with UC (genetics component zero in the ranking)",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No Open Targets association record for CXCL8 is cited."
-   }
-  ],
-  "agent_findings.external[8]": [
-   {
-    "claim": "Biopsy expression change is modest compared with inflammatory genes",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only JAK2 log2fc 0.8326 is cited; no comparison with inflammatory genes."
-   }
-  ],
-  "agent_findings.pathways[0]": [
-   {
-    "claim": "These are the best-replicated immune pathways",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Records give only these three pathways; no comparison with other pathways is cited."
-   }
-  ],
-  "agent_findings.pathways[2]": [
-   {
-    "claim": "AP1 is among the top transcription factors by cohort count and effect size",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "Only the AP1 record is cited; no ranking against other TFs."
+    "reason": "Replication status is not stated in the records."
    },
    {
-    "claim": "alongside ATF and BATF family TFs",
+    "claim": "SerpinB5 is the pool gene with the most direct pro-disease functional literature",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "No ATF or BATF record is cited."
+    "reason": "No cross-gene comparison in cited evidence."
    }
   ],
-  "agent_findings.pathways[4]": [
+  "agent_findings.pathways[1]": [
    {
-    "claim": "CXCR2 is first in the convergence ranking (six evidence streams)",
+    "claim": "It shares its receptor with CXCL1",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "No convergence ranking or evidence-stream count is among the cited records."
+    "reason": "No CXCL1 record cited for this statement."
    }
   ],
-  "agent_findings.pathways[8]": [
+  "narrative.summary[3]": [
    {
-    "claim": "CXCL8 is drug-targeted only by early anti-IL-8 antibodies",
+    "claim": "For the repurposing targets an inhibitor already exists for another disease",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "Cited records show these antibodies but nothing about the absence of other CXCL8-targeting agents."
+    "reason": "No cited record lists an inhibitor for another disease for these genes."
    }
   ],
-  "agent_findings.pathways[9]": [
+  "targets.TUFM": [
    {
-    "claim": "this is the top communication pair in inflamed UC",
+    "claim": "TUFM is a ubiquitous mitochondrial gene",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "Only this one pair is cited; no ranking of pairs."
-   }
-  ],
-  "narrative.sections.expression[1]": [
-   {
-    "claim": "SLC26A2 is an epithelial transporter",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No cited record gives SLC26A2 cell type or function."
-   }
-  ],
-  "narrative.sections.pathways[1]": [
-   {
-    "claim": "IL1R2 is a decoy receptor",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No cited record describes IL1R2 as a decoy."
+    "reason": "No cited record states ubiquity or mitochondrial location."
    }
   ]
  },
  "sabotage": {
-  "flipped": 73,
-  "caught_by_reader": 70,
-  "caught_by_deterministic_checks": 54,
-  "deterministic_applied": 73,
+  "flipped": 48,
+  "caught_by_reader": 47,
+  "caught_by_deterministic_checks": 30,
+  "deterministic_applied": 48,
   "caught_locations": [
    "agent_findings.applied[0]",
-   "agent_findings.applied[10]",
-   "agent_findings.applied[11]",
-   "agent_findings.applied[1]",
-   "agent_findings.applied[3]",
+   "agent_findings.applied[17]",
+   "agent_findings.applied[18]",
+   "agent_findings.applied[2]",
    "agent_findings.applied[4]",
-   "agent_findings.applied[6]",
    "agent_findings.applied[7]",
-   "agent_findings.applied[8]",
-   "agent_findings.expression[0]",
-   "agent_findings.expression[1]",
-   "agent_findings.expression[2]",
-   "agent_findings.expression[3]",
+   "agent_findings.cells[11]",
+   "agent_findings.expression[10]",
    "agent_findings.expression[4]",
    "agent_findings.expression[5]",
-   "agent_findings.expression[6]",
-   "agent_findings.expression[7]",
    "agent_findings.expression[8]",
    "agent_findings.expression[9]",
    "agent_findings.external[0]",
-   "agent_findings.external[10]",
-   "agent_findings.external[2]",
-   "agent_findings.external[5]",
-   "agent_findings.external[6]",
    "agent_findings.external[7]",
    "agent_findings.external[9]",
    "agent_findings.literature[0]",
-   "agent_findings.literature[10]",
-   "agent_findings.literature[11]",
+   "agent_findings.literature[1]",
    "agent_findings.literature[2]",
    "agent_findings.literature[4]",
-   "agent_findings.literature[5]",
    "agent_findings.literature[6]",
-   "agent_findings.literature[8]",
-   "agent_findings.literature[9]",
-   "agent_findings.pathways[0]",
-   "agent_findings.pathways[1]",
-   "agent_findings.pathways[2]",
+   "agent_findings.literature[7]",
    "agent_findings.pathways[4]",
-   "agent_findings.pathways[9]",
+   "agent_findings.pathways[5]",
+   "agent_findings.pathways[6]",
+   "agent_findings.pathways[7]",
+   "narrative.sections.decision[0]",
+   "narrative.sections.decision[3]",
    "narrative.sections.discovery[0]",
    "narrative.sections.discovery[2]",
    "narrative.sections.expression[0]",
@@ -229,20 +126,10 @@
    "narrative.sections.pathways[0]",
    "narrative.sections.treatment[0]",
    "narrative.sections.treatment[1]",
-   "narrative.summary[0]",
-   "narrative.summary[1]",
    "narrative.summary[3]",
-   "targets.CD274",
-   "targets.CHRDL2",
-   "targets.CXCL8",
-   "targets.CXCR2",
-   "targets.DUOX2",
-   "targets.IDO1",
-   "targets.IL12B",
-   "targets.S100A8",
-   "targets.SLC26A3",
-   "targets.TREM1",
-   "targets.XKR9"
+   "targets.CHI3L1",
+   "targets.INHBA",
+   "targets.TUFM"
   ]
  },
  "scope": "A language-model reader; verdicts are a review aid next to the deterministic checks, measured on the direction-flipped copies of the sabotage test."

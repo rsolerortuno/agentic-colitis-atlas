@@ -68,6 +68,70 @@
    "run": "2026-11-27",
    "added": "2026-11-27",
    "key": "08e928b845"
+  },
+  {
+   "pmid": 16227634,
+   "doi": "10.1385/IJGC:36:1:039",
+   "journal": "Int J Gastrointest Cancer",
+   "year": "2005",
+   "title": "Aberrant expression of maspin in idiopathic inflammatory bowel disease is associated with disease activity and neoplastic transformation.",
+   "publication_types": [
+    "Journal Article"
+   ],
+   "genes": [
+    "SERPINB5"
+   ],
+   "drug": null,
+   "quotes": [
+    "Targeting maspin for control of disease activity and cancer prophylaxis may be a promising novel therapeutic strategy for IBD."
+   ],
+   "added_by": "reviewer",
+   "run": "2026-11-28",
+   "added": "2026-11-28",
+   "key": "05008eba00"
+  },
+  {
+   "pmid": 19643954,
+   "doi": "10.1152/ajpgi.90631.2008",
+   "journal": "Am J Physiol Gastrointest Liver Physiol",
+   "year": "2009",
+   "title": "Upregulation of activin signaling in experimental colitis.",
+   "publication_types": [
+    "Journal Article"
+   ],
+   "genes": [
+    "INHBA"
+   ],
+   "drug": "follistatin",
+   "quotes": [
+    "Importantly, in vivo administration of follistatin attenuated inflammatory cell infiltration during colitis."
+   ],
+   "added_by": "reviewer",
+   "run": "2026-11-28",
+   "added": "2026-11-28",
+   "key": "d1741c28c7"
+  },
+  {
+   "pmid": 11266380,
+   "doi": "10.1053/gast.2001.23252",
+   "journal": "Gastroenterology",
+   "year": "2001",
+   "title": "Differential role of selectins in experimental colitis.",
+   "publication_types": [
+    "Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ],
+   "genes": [
+    "SELP"
+   ],
+   "drug": "anti-P-selectin antibody",
+   "quotes": [
+    "However, treatment with an anti-P-selectin antibody does not significantly improve colitis."
+   ],
+   "added_by": "reviewer",
+   "run": "2026-11-28",
+   "added": "2026-11-28",
+   "key": "fa93de9aca"
   }
  ]
 }

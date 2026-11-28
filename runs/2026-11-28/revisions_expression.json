@@ -1,0 +1,166 @@
+{
+ "agent_file": "agent_expression.json",
+ "findings_verified_by_index": "index into the verified file",
+ "claims_to_fix": [
+  {
+   "finding": 0,
+   "statement": "CPXM1 is raised in UC with a pooled log2FC of [gene=CPXM1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.8968], significant in seven of eight cohorts, and the stromal (fibroblast) origin is kept per cell. It is also raised in non-inflamed mucosa of MSCCR (log2FC [gene=CPXM1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=1.0059]), so part of the change tracks the disease itself, not only local inflammation; heterogeneity between cohorts is high. Genetics tested: no causal effect; protein not quantified.",
+   "claims": [
+    {
+     "claim": "Genetics tested: no causal effect; protein not quantified",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No MR or proteomics record cited."
+    }
+   ]
+  },
+  {
+   "finding": 1,
+   "statement": "PCDH17 is a local marker of inflamed mucosa: in MSCCR it rises in inflamed biopsies (log2FC [gene=PCDH17; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=1.4831]) but only slightly in non-inflamed mucosa ([gene=PCDH17; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.2776]), and it is up in all eight cohorts, with the endothelial origin kept per cell and adjustment holding.",
+   "claims": [
+    {
+     "claim": "the endothelial origin kept per cell",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Record gives stromal lineage, not endothelial."
+    },
+    {
+     "claim": "adjustment holding",
+     "verdict": "contradicted",
+     "quote": "\"retained\": 0.09825135900843082",
+     "evidence_id": "EV:discovery_profile:abe6315cb430",
+     "reason": "Only about 10% retained after composition adjustment."
+    }
+   ]
+  },
+  {
+   "finding": 3,
+   "statement": "LILRA1 rises in inflamed mucosa (log2FC [gene=LILRA1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=1.3307]) with a small change in non-inflamed ([gene=LILRA1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.3679]); one Leuven cohort is not significant. The signal is largely neutrophil/myeloid: per neutrophil the inflamed-vs-uninflamed change is small, so the bulk rise is mostly influx of cells, not a change inside the tissue. Weak as a target.",
+   "claims": [
+    {
+     "claim": "one Leuven cohort is not significant",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No per-cohort significance cited."
+    }
+   ]
+  },
+  {
+   "finding": 5,
+   "statement": "CHI3L1 is among the largest and most reproducible increases (inflamed MSCCR log2FC [gene=CHI3L1; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=3.8187], up in all eight cohorts), and the protein also rises (log2 ratio [gene=CHI3L1; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=0.607]). As a target it is weakened by mixed mouse colitis evidence (one study pathogenic, one protective) and an amber safety light for vital-organ expression; a marker first.",
+   "claims": [
+    {
+     "claim": "mixed mouse colitis evidence (one study pathogenic, one protective)",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No mouse literature record cited."
+    },
+    {
+     "claim": "an amber safety light for vital-organ expression",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No safety light in cited records."
+    }
+   ]
+  },
+  {
+   "finding": 6,
+   "statement": "CFB is raised across cohorts (pooled log2FC [gene=CFB; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.24], seven of eight cohorts significant; only the adult colon cohort misses significance), of epithelial origin and retained after composition adjustment, with a modest non-inflamed rise ([gene=CFB; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.4765]) and a protein rise ([gene=CFB; type=proteomics_de; source=DATASET:PROTEOMICS_SCHNIERS2019; contrast=inflamed UC at diagnosis vs healthy colon mucosa; log2_ratio=0.238]). Against it: the safety light is red (very high expression in vital organs and a deficiency disease from gene loss), so systemic inhibition is a concern.",
+   "claims": [
+    {
+     "claim": "only the adult colon cohort misses significance",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Which cohort is non-significant is not stated."
+    },
+    {
+     "claim": "the safety light is red (deficiency disease from gene loss)",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No safety record cited."
+    }
+   ]
+  },
+  {
+   "finding": 7,
+   "statement": "SELP is up in all eight cohorts and is an endothelial local-inflammation marker: inflamed MSCCR log2FC [gene=SELP; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=1.8372] versus non-inflamed [gene=SELP; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.4546]. The cell source is stromal/endothelial in several atlases; the safety light is amber (known safety events) and mouse colitis was not searched.",
+   "claims": [
+    {
+     "claim": "an endothelial local-inflammation marker",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "Record gives stromal lineage; endothelial not stated."
+    },
+    {
+     "claim": "the safety light is amber (known safety events)",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No safety record cited."
+    }
+   ]
+  },
+  {
+   "finding": 8,
+   "statement": "RORC is modestly lower in UC, replicated in most cohorts (inflamed MSCCR log2FC [gene=RORC; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=-0.4177]), but the paired inflamed-vs-non-inflamed change is nil ([gene=RORC; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_noninflamed_paired; log2fc=-0.0627], not significant), so the loss reflects disease rather than local inflammation. The small size makes it a weak expression-supported target; restoring a Th17/ILC3 factor could be pro-inflammatory (interpretation, not tested here).",
+   "claims": [
+    {
+     "claim": "replicated in most cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cohort count for RORC cited."
+    }
+   ]
+  },
+  {
+   "finding": 9,
+   "statement": "TUFM does not support the genetic hypothesis that inhibition helps: in inflamed MSCCR biopsies it is slightly lower, not higher (log2FC [gene=TUFM; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=-0.188]), with no change in non-inflamed mucosa ([gene=TUFM; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=noninflamed_vs_control; log2fc=0.0115]) and lower in several cohorts. The genetic record points to blood neutrophils and the single-cell lineage is epithelial, so the biopsy data neither confirm the predicted direction nor the cell. Weak candidate on expression grounds.",
+   "claims": [
+    {
+     "claim": "lower in several cohorts",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cohort-level data cited."
+    },
+    {
+     "claim": "the single-cell lineage is epithelial",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No single-cell record cited."
+    }
+   ]
+  },
+  {
+   "finding": 10,
+   "statement": "CEBPB supports its genetic rationale in expression: it is up in all cohorts that measure it, in inflamed MSCCR mucosa (log2FC [gene=CEBPB; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=0.7059]) and more strongly in UNIFI ([gene=CEBPB; type=omics_de; source=DATASET:GSE206285; layer=rna; cohort=GSE206285; contrast=uc_vs_control; log2fc=2.046]; array and RNA-seq sizes are not comparable). The change is mainly myeloid, so it may partly reflect immune-cell infiltration; it is a transcription factor, a harder drug route.",
+   "claims": [
+    {
+     "claim": "it is up in all cohorts that measure it",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No cohort count for CEBPB cited."
+    },
+    {
+     "claim": "The change is mainly myeloid",
+     "verdict": "not_in_evidence",
+     "quote": "",
+     "evidence_id": null,
+     "reason": "No lineage record cited."
+    }
+   ]
+  }
+ ],
+ "dropped_by_verifier": []
+}

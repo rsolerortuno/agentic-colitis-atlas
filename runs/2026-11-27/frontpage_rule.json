@@ -1,5 +1,5 @@
 {
- "rule": "A gene is on this page when it meets at least one fixed criterion: a drug approved in UC on the gene or its class with Open Targets genetic association of at least 0.8 among the ranked genes (a positive control, always shown); one of the first 30 of the convergence ranking; the leading first-in-class candidate by pooled increase or by retained share; or a significant Mendelian randomisation estimate. The orchestrator chooses and orders among them.",
+ "rule": "A gene is in this selection when it meets at least one fixed criterion: a drug approved in UC on the gene or its class with Open Targets genetic association of at least 0.8 among the ranked genes (a positive control, always shown); one of the first 30 of the convergence ranking; the leading first-in-class candidate by pooled increase or by retained share; or a significant Mendelian randomisation estimate. The orchestrator chooses and orders among them.",
  "mandatory_controls": [
   "IL12B",
   "JAK2"

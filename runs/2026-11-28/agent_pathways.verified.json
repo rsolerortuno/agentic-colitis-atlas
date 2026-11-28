@@ -1,0 +1,240 @@
+{
+ "agent": "agente-vias",
+ "findings": [
+  {
+   "gene": "CXCL1",
+   "role": "mechanism",
+   "statement": "In Gubatan 2026 single cells, inflammatory fibroblasts send CXCL1 to CXCR2 on neutrophil states and to ACKR1 on endothelium, and both pairs rise strongly in inflamed versus uninflamed UC mucosa. In bulk biopsies CXCL1 rises across cohorts with a meta-analysis log2 fold change of [gene=CXCL1; type=expression_meta; source=DATASET:META; layer=rna; log2fc=3.6892]. The circuit is co-expression, not proof of signalling.",
+   "evidence_ids": [
+    "EV:expression_meta:b36f0e2e423a",
+    "EV:communication:6e4642a43aa7",
+    "EV:communication:80c65b5ce89d",
+    "EV:communication:32cb55a48806",
+    "EV:discovery_profile:b36f0e2e423a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:b36f0e2e423a",
+     "field": [
+      "log2fc"
+     ],
+     "display": "3.6892",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "CXCL3",
+   "role": "mechanism",
+   "statement": "CXCL3 reaches neutrophil CXCR2 from monocyte-derived macrophages, but the increase in inflamed mucosa is weak in the Neutrophil PADI4 state and modest in the main Neutrophil state. It shares its receptor with CXCL1, so the circuit data do not single CXCL3 out; bulk meta-analysis log2 fold change is [gene=CXCL3; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.71]. Co-expression only.",
+   "evidence_ids": [
+    "EV:expression_meta:d832bc78ffd7",
+    "EV:communication:2ede648e3b32",
+    "EV:communication:9cd681ec9e9a",
+    "EV:discovery_profile:d832bc78ffd7"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:d832bc78ffd7",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.71",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "INHBA",
+   "role": "mechanism",
+   "statement": "INHBA (activin A) is sent by inflammatory fibroblasts to TGFBR3 on smooth muscle, NK cells and ACKR1 endothelium; these pairs are absent from uninflamed mucosa, but the scores are low and a change from a zero baseline is unstable. Bulk meta-analysis log2 fold change is [gene=INHBA; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.6188]. Supports a fibroblast-sender role; co-expression only.",
+   "evidence_ids": [
+    "EV:expression_meta:7c68a6ae5c9a",
+    "EV:communication:7b7ab7fd3d40",
+    "EV:communication:a1415576b6bd",
+    "EV:communication:3d75194bd8d2",
+    "EV:discovery_profile:7c68a6ae5c9a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:7c68a6ae5c9a",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.6188",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "SELP",
+   "role": "mechanism",
+   "statement": "SELP is sent by ACKR1 endothelium to SELPLG on neutrophil states (PADI4, OSM, MX1) and is not detected in uninflamed mucosa. This is an endothelium-to-neutrophil adhesion circuit consistent with the proposed endothelial experiment; scores are low and it is co-expression only. Bulk meta-analysis log2 fold change is [gene=SELP; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.11].",
+   "evidence_ids": [
+    "EV:expression_meta:aa9a1b387402",
+    "EV:communication:56866c920a31",
+    "EV:communication:47ca6755391d",
+    "EV:communication:d9f6ecfada2d",
+    "EV:discovery_profile:aa9a1b387402"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:aa9a1b387402",
+     "field": [
+      "log2fc"
+     ],
+     "display": "2.11",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "CEBPB",
+   "role": "target",
+   "statement": "CEBPB regulon activity is up in all cohorts with no cohort down, and its mRNA rises in bulk biopsies (meta-analysis log2 fold change [gene=CEBPB; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.27]). The signal is a broad inflammatory transcription programme shared with many other factors, and the pool record lists no clinical drug, so it supports the direction but not target specificity.",
+   "evidence_ids": [
+    "EV:tf_activity:542343dc839a",
+    "EV:expression_meta:542343dc839a"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:expression_meta:542343dc839a",
+     "field": [
+      "log2fc"
+     ],
+     "display": "1.27",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "gene": "RORC",
+   "role": "target",
+   "statement": "The pool proposes restoring RORC, but its regulon activity is inferred up in inflamed mucosa in most cohorts. Regulon activity is inferred from target genes, not from RORC mRNA, yet an increase does not match an activate-or-restore rationale and weighs against restoring RORC.",
+   "evidence_ids": [
+    "EV:tf_activity:0f6f1dd80011"
+   ],
+   "numeric_claims": [],
+   "key": true
+  },
+  {
+   "role": "pathway",
+   "statement": "JAK-STAT is increased in inflamed UC in all cohorts, with the lowest cohort at t [type=pathway_activity; source=ANALYSIS:pathways; per_cohort.GSE165512.t=3.89]. TNFa shows the same consistency, reaching t [type=pathway_activity; source=ANALYSIS:pathways; per_cohort.GSE206285.t=20.07] in GSE206285. These are the already drug-targeted axes (JAK-STAT, TNF), so they validate the method but are not new targets.",
+   "evidence_ids": [
+    "EV:pathway_activity:857e4a238866",
+    "EV:pathway_activity:354d06d55f30"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:pathway_activity:857e4a238866",
+     "field": [
+      "per_cohort",
+      "GSE165512",
+      "t"
+     ],
+     "display": "3.89",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:pathway_activity:354d06d55f30",
+     "field": [
+      "per_cohort",
+      "GSE206285",
+      "t"
+     ],
+     "display": "20.07",
+     "unit": "native"
+    }
+   ],
+   "key": true
+  },
+  {
+   "role": "pathway",
+   "statement": "TGFb, NFkB, MAPK, PI3K, EGFR and Hypoxia are also up in every cohort (TGFb t [type=pathway_activity; source=ANALYSIS:pathways; per_cohort.GSE206285.t=25.17] in GSE206285), while Androgen falls (t [type=pathway_activity; source=ANALYSIS:pathways; per_cohort.GSE109142.t=-10.8] in GSE109142). Because nearly every pathway moves together in inflamed mucosa, pathway-level activity cannot rank new targets; specific sender-receiver circuits are more informative.",
+   "evidence_ids": [
+    "EV:pathway_activity:c1edd8eab753",
+    "EV:pathway_activity:26c4b49f5c57",
+    "EV:pathway_activity:83609ee9d45c",
+    "EV:pathway_activity:760b4b053494",
+    "EV:pathway_activity:3eaa6c455429",
+    "EV:pathway_activity:6bce27c2d6df",
+    "EV:pathway_activity:2dff0fb8bf66"
+   ],
+   "numeric_claims": [
+    {
+     "evidence_id": "EV:pathway_activity:c1edd8eab753",
+     "field": [
+      "per_cohort",
+      "GSE206285",
+      "t"
+     ],
+     "display": "25.17",
+     "unit": "native"
+    },
+    {
+     "evidence_id": "EV:pathway_activity:26c4b49f5c57",
+     "field": [
+      "per_cohort",
+      "GSE109142",
+      "t"
+     ],
+     "display": "-10.8",
+     "unit": "native"
+    }
+   ],
+   "key": false
+  },
+  {
+   "gene": "LY96",
+   "role": "target",
+   "statement": "The communication analysis finds no ligand-receptor pair for LY96 above expression thresholds, so the circuit data neither support nor contradict it; the data from this tool are silent.",
+   "evidence_ids": [
+    "EV:discovery_profile:2934bc5c46fd"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "LAIR2",
+   "role": "target",
+   "statement": "No ligand-receptor pair above threshold was found for LAIR2, so the single-cell circuit data give no support for a sender-receiver mechanism for this first-in-class candidate.",
+   "evidence_ids": [
+    "EV:discovery_profile:d24c4db29165"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "CHI3L1",
+   "role": "target",
+   "statement": "No ligand-receptor pair above threshold was found for CHI3L1 in the single-cell communication data, so there is no circuit evidence for its fibroblast-derived signal.",
+   "evidence_ids": [
+    "EV:discovery_profile:b3f7b3e784f8"
+   ],
+   "numeric_claims": [],
+   "key": false
+  },
+  {
+   "gene": "LILRA1",
+   "role": "target",
+   "statement": "No ligand-receptor pair above threshold was found for LILRA1, so the neutrophil or myeloid receptor has no identified partner in the communication data; the pool candidate rests on bulk and single-cell expression only.",
+   "evidence_ids": [
+    "EV:discovery_profile:d3bb818acc2e"
+   ],
+   "numeric_claims": [],
+   "key": false
+  }
+ ],
+ "caveats": [
+  "Ligand-receptor scores are co-expression in one single-cell dataset (Gubatan 2026), not proof of signalling.",
+  "Most pool genes (first-in-class stromal and epithelial genes such as CPXM1, CHRDL2, PCDH17, SGIP1, FIBIN, XKR9, SERPINB5, KLK10, REG1B, MMP10, CFB, GUCY1A1, TUFM, CFAP90, FIGNL1, PDPN) are not covered by the pathway tools or have no ligand-receptor pair above threshold; no finding is made about them.",
+  "Transcription-factor activity is inferred from target genes (CollecTRI), not from the factor's own mRNA.",
+  "PROGENy pathway activity is increased for nearly all pathways in inflamed mucosa, so it is not discriminating for target choice.",
+  "Drug names are not used; JAK-STAT and TNF are mentioned only as pathway classes."
+ ]
+}
