@@ -6,6 +6,7 @@ citations and provenance are produced here. The output opens without a server or
 """
 from __future__ import annotations
 
+import base64
 import html
 import json
 import math
@@ -21,7 +22,7 @@ from .claim_display import statement_html
 from .graph import GraphStore, evidence_id
 from .paths import PROCESSED, RAW, REPORTS, ROOT
 from .report_help import HELP
-from .report_text import NAV, NAV_TEXT, PLAIN
+from .report_text import NAV, NAV_TEXT, PLAIN, QUESTIONS
 
 ASSETS = Path(__file__).parent / "report_assets"
 COHORT = {"GSE193677": "MSCCR (RNA-seq)", "GSE206285": "UNIFI", "GSE92415": "PURSUIT", "GSE16879": "GSE16879",
@@ -939,14 +940,17 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
 
     env.globals["H"] = HELP
     env.globals["PLAIN"] = PLAIN
+    env.globals["QUESTIONS"] = QUESTIONS
     env.filters["cite"] = cite
     env.filters["statement_html"] = lambda st: statement_html(st, records)
     env.filters["evattr"] = lambda ev_ids: " ".join(ev_ids)
     env.filters["fmt"] = lambda x: "—" if x is None or (isinstance(x, float) and math.isnan(x)) else x
     viewer_p = PROCESSED / "spatial_viewer.json"
+    arch_p = ROOT / "assets" / "uc-architecture.svg"   # the architecture figure of the README, on the overview
+    architecture_svg = base64.b64encode(arch_p.read_bytes()).decode() if arch_p.exists() else None
     html_out = env.get_template("report.html.j2").render(
         f=f, top25=ranking[:25], drugind=drugind, top_reading=top_reading, sw=sw, evidence=ev_views, figs=figs, nav=NAV, nav_text=NAV_TEXT, kpis=kpis,
-        badges=badges(f, cell), DEC=DEC, previous_run=PREVIOUS_RUN, expert=expert, CL=CL, cell=cell, third=third, SL=SL, GT=GT,
+        badges=badges(f, cell), DEC=DEC, previous_run=PREVIOUS_RUN, expert=expert, architecture_svg=architecture_svg, CL=CL, cell=cell, third=third, SL=SL, GT=GT,
         score_sens=layers.get("score_sensitivity", {}), negctl=layers.get("negative_control", {}), G=G, S=S, D=D, T=T, layers=layers, extra=extra, replication=rep,
         cohort_names={**COHORT, "GSE109142": "PROTECT", "GSE117993": "RISK"},
         activity_caption=F.activity_summary(report_genes[:20]), candidate_evidence=cards,

@@ -1,7 +1,8 @@
-{% from "macros.j2" import q, plain with context %}
+{% from "macros.j2" import q, plain, question with context %}
 <section class="panel" id="tab-clinical" data-name="clinical">
 {{ plain('clinical') }}
 <h2>In clinical validation, backed by the omics</h2>
+{{ question('clinical') }}
 <p class="lede">Genes on which a drug has been tried in UC or IBD: {{ CL.trial }} still in trials or stopped, and the {{ CL.approved }} with a drug approved in UC or IBD, marked <span class="tag fic">approved</span> so you can see where validated targets fall. A gene still in trials enters when its change is significant in the eight-cohort meta-analysis and goes the same way in at least {{ CL.min_cohorts }} cohorts, and when more than {{ CL.min_papers }} Europe PMC records name it with ulcerative colitis. Approved genes are listed whatever their data.</p>
 <div class="howbox"><h4>How to read this list</h4><ul>
 <li>Rows follow the <strong>convergence score</strong> (Candidates tab), which includes the literature and whether a drug exists, so it favours genes like these. The <strong>data-only rank</strong> next to it leaves those two streams out and uses only expression, replication across cohorts, inflamed against non-inflamed mucosa and human genetics: it shows how much the data alone support each gene. Ranks are among {{ "{:,}".format(CL.universe) }} genes.</li>

@@ -1,8 +1,9 @@
-{% from "macros.j2" import q, plain with context %}
+{% from "macros.j2" import q, plain, question with context %}
 <section class="panel" id="tab-repurposing" data-name="repurposing">
 {{ plain('repurposing') }}
 {% set RS = SL.rp_summary %}
 <h2>Repurposing: existing inhibitors never tried in UC {{ q('repurposing') }}</h2>
+{{ question('repurposing') }}
 <p class="lede">The First-in-class shortlist asks for targets with no drug at all. This page asks the other question: which genes that rise in UC as a change of the tissue already have an <strong>inhibitor</strong> in the clinic for another disease, never tried in UC, Crohn's disease or IBD? There are {{ SL.rp | length }}, {{ RS.approved_inhibitor }} of them with an approved inhibitor. A molecule with known human pharmacology exists, so testing it is faster; it still needs the same proof as a new drug, that blocking the target helps rather than harms the inflamed mucosa.</p>
 <div class="sl-legend"><span><i class="lt green"></i> meets</span><span><i class="lt amber"></i> partly</span><span><i class="lt red"></i> fails</span><span><i class="lt grey"></i> not measured</span></div>
 <div class="howbox"><h4>How this list differs from the First-in-class shortlist</h4><ul>

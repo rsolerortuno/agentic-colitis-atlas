@@ -1,8 +1,9 @@
-{% from "macros.j2" import q, plain with context %}
+{% from "macros.j2" import q, plain, question with context %}
 <section class="panel" id="tab-genetic" data-name="genetic">
 {{ plain('genetic') }}
 {% set GS = GT.summary %}{% set CK = GS.thresholds.check %}
 <h2>Genetics first: risk variant, gene, cell and direction {{ q('genetic') }}</h2>
+{{ question('genetic') }}
 <p class="lede">The other three lists start from what changes in inflamed biopsies, which mixes cause and consequence: a gene can rise only because the tissue is inflamed. This list starts from inherited risk variants, which come before the disease. For each of {{ GS.signals }} independent UC risk signals it asks which gene the risk allele changes, in which cell, and in which direction, so that the direction says whether to inhibit or to restore. The gene and cell are <strong>predicted</strong> from DNA sequence by AlphaGenome and checked against measured eQTL; they are not measurements.</p>
 <div class="kpis">
   <div class="kpi"><b>{{ GS.signals }}</b><span>independent risk signals ({{ GS.signals_ibd_only }} from IBD GWAS with a UC association, {{ GS.signals_preprint_only }} only in a 2025 preprint)</span></div>

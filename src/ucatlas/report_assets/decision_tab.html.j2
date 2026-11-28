@@ -1,7 +1,8 @@
-{% from "macros.j2" import q, plain with context %}
+{% from "macros.j2" import q, plain, question with context %}
 <section class="panel" id="tab-decision" data-name="decision">
 {{ plain('decision') }}
 <h2>Orchestrator decision: targets to test first {{ q('decision') }}</h2>
+{{ question('decision') }}
 <p class="lede">{{ DEC.rule }} The cards below show, for each chosen gene, the values its list measured, the orchestrator's reasons and the reviewer's verdict with its citations. {{ DEC.n }} genes chosen from a pool of {{ DEC.pool }}.</p>
 <div class="sl-legend"><span><i class="lt green"></i> meets</span><span><i class="lt amber"></i> partly</span><span><i class="lt red"></i> fails</span><span><i class="lt grey"></i> not measured</span>
 <span><span class="tag ok">reviewer: support</span></span><span><span class="tag warn">reviewer: concerns</span></span><span><span class="tag bad">reviewer: against</span></span></div>

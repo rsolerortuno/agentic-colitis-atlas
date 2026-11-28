@@ -26,6 +26,17 @@ PLAIN: dict[str, str] = {
     "methods": "This tab holds the receipts: every dataset with its checksum, the models used, the limits of the analysis, and a searchable list of the evidence records the report cites.",
 }
 
+# The atlas asks one general question; each target list answers a narrower one, and the decision the last
+# (2026-11-28).
+QUESTIONS: dict[str, str] = {
+    "shortlist": "Which genes change in the tissue itself, have few UC papers and no drug for any disease?",
+    "known": "Which genes with established UC biology does no drug reach?",
+    "repurposing": "Which genes have an inhibitor for another disease that was never tried in UC or Crohn's disease?",
+    "genetic": "Which genes do inherited UC risk variants act on, in which cell and in which direction?",
+    "clinical": "How strongly do the data back the targets already tried or approved in UC or Crohn's disease?",
+    "decision": "From the four lists of targets with no drug tested or approved in UC or Crohn's disease, which should be tested first?",
+}
+
 TOUR: list[tuple[str, str, str]] = [
     ("decision", "Orchestrator decision", "Four targets to test first from each list of targets with no therapy in UC, with the reasons and a cited clinical review."),
     ("candidates", "Convergence score", "How the evidence is combined into one score per gene, the genes it ranks first and how stable the order is."),

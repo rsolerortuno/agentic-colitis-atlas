@@ -106,8 +106,8 @@ def _write(items: list[dict], base, header: dict) -> dict:
 
 HEADER = {"question": "What are the candidate therapeutic targets and biomarkers in ulcerative colitis, and how strong "
                       "is the evidence for each?",
-          "decision_question": "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, "
-                               "have the strongest evidence to be tested first?",
+          "decision_question": "From the four lists of targets with no drug tested or approved in UC or Crohn's "
+                               "disease, which should be tested first?",
           "what_you_read": "An ulcerative colitis evidence atlas: the summary of its findings (front page) and the "
                            "orchestrator's decision: four targets to test first from each list of targets with no therapy "
                            "in UC. Each decision card shows the list, the gene's dossier from the atlas data and the "

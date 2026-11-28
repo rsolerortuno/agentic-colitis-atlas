@@ -1,4 +1,4 @@
-{% from "macros.j2" import q, plain with context %}
+{% from "macros.j2" import q, plain, question with context %}
 <style>
 .lt{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;border:1px solid rgba(0,0,0,.08)}
 .lt.green{background:#1baf7a}.lt.amber{background:#eda100}.lt.red{background:#e34948}.lt.grey{background:#d4d3cd}
@@ -11,6 +11,7 @@ table.sl td.c .lt{cursor:help}
 <section class="panel" id="tab-shortlist" data-name="shortlist">
 {{ plain('shortlist') }}
 <h2>First-in-class shortlist: candidates for experimental validation {{ q('shortlist') }}</h2>
+{{ question('shortlist') }}
 <p class="lede">The {{ SL.rows | length }} first-in-class genes: they rise in UC as a change of the tissue, have few UC papers and no clinical drug, look druggable and stay low in vital organs (<a href="#screen">how they were found</a>, at the end of this page). Each is checked against the questions a laboratory would ask before testing it, including what the UC and IBD papers on it say. A light per criterion: green meets it, amber partly, red fails it, grey not measured. Hover over a light for the values. Points are green 2, amber 1, grey 0, red −1 (a null genetic test scores 0; the mouse column is not scored). Many genes tie on points, so the table gives <strong>groups, not positions</strong>: how stable each gene is under six ways of scoring (see below). Every value comes from the other tabs; nothing here is a new estimate.</p>
 <div class="sl-legend"><span><i class="lt green"></i> meets</span><span><i class="lt amber"></i> partly</span><span><i class="lt red"></i> fails</span><span><i class="lt grey"></i> not measured</span></div>
 <div class="howbox"><h4>The criteria</h4><ul>

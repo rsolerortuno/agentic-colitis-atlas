@@ -8,8 +8,8 @@ each?"
 
 The atlas answers it through lists, each answering a sub-question (first-in-class, well known with no drug,
 repurposing, genetics first, in clinical validation), and ends in your decision, which answers the sub-question
-"Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the strongest evidence
-to be tested first?"
+"From the four lists of targets with no drug tested or approved in UC or Crohn's disease, which should be tested
+first?" (the fifth list, in clinical validation, is reference, not part of the decision)
 
 Follow these steps exactly. All numbers come from tools and scripts; you never compute or invent values.
 

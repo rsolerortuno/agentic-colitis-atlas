@@ -1,8 +1,9 @@
-{% from "macros.j2" import q, plain with context %}
+{% from "macros.j2" import q, plain, question with context %}
 <section class="panel" id="tab-known" data-name="known">
 {{ plain('known') }}
 {% set RS = SL.kn_summary %}
 <h2>Well known in UC, no drug yet {{ q('known') }}</h2>
+{{ question('known') }}
 <p class="lede">These {{ SL.kn | length }} genes are among the 100 with the most agreeing evidence (Candidates tab), rise in UC as a change of the tissue or are made mainly by neutrophils, have more than 15 UC papers each, a predicted antibody or small-molecule route, and no clinical drug for any disease. The first-in-class list leaves them out because it looks for little-studied genes; the repurposing list leaves them out because they have no drug. The biology is established and the target is open.</p>
 <div class="sl-legend"><span><i class="lt green"></i> meets</span><span><i class="lt amber"></i> partly</span><span><i class="lt red"></i> fails</span><span><i class="lt grey"></i> not measured</span></div>
 <div class="howbox"><h4>How to read this list</h4><ul>
