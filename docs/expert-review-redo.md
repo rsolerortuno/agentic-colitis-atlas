@@ -33,8 +33,11 @@ It writes `data/expert_review/<run>/review.json`.
 
 ## After the review
 
-1. Keep the previous review for comparison (for 2026-11-28 it is already saved as `review_sonnet.json`,
-   `runs/2026-11-28/expert_verdicts_sonnet.json` and `runs/2026-11-28/revisions_expert_sonnet.json`).
+1. Keep the previous review for comparison. For 2026-11-28 it is already saved: `review_sonnet.json` with the input
+   and key it was made on (`input_sonnet.json`, `key_sonnet.json`), `runs/2026-11-28/expert_verdicts_sonnet.json` and
+   `runs/2026-11-28/revisions_expert_sonnet.json`. The current `input.json` and `key.json` hold the narrative after the
+   Sonnet objections were applied and the general question of the atlas (with the decision's own question as
+   `decision_question`); SELP moved after LY96, so the item ids C15 and C16 differ from the Sonnet input.
 2. `uv run python -m ucatlas.expert_review validate <run>`: keeps factual objections and factual verdict reasons only
    with a verbatim abstract sentence of a peer-reviewed, non-retracted paper, registers those quotes as citable
    evidence, and writes `runs/<run>/revisions_expert.json` and `runs/<run>/expert_verdicts.json` (the verdicts shown on

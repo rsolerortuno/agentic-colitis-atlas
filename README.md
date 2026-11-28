@@ -1,6 +1,6 @@
 # Agentic Multi-omics Target Atlas for Ulcerative Colitis
 
-**A reproducible, evidence-based screen for drug targets in ulcerative colitis (UC): which new targets, not yet treated by any drug in UC, to test first.**
+**A reproducible, evidence-based screen for drug targets and biomarkers in ulcerative colitis (UC), ending in which new targets, not yet treated by any drug in UC, to test first.**
 
 ## Explore the interactive atlas
 

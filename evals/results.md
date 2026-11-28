@@ -712,8 +712,10 @@ scoring. No data changed; the report has 796 claims (132 fewer: 120 table rows a
 
 ## (g9) The orchestrator's decision: four targets to test first per list (2026-11-28)
 
-The question changed to "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have
-the strongest evidence to be tested first?". The orchestrator's selection (positive controls, the expected neutrophil
+The atlas question is "What are the candidate therapeutic targets and biomarkers in ulcerative colitis, and how strong
+is the evidence for each?"; each target list answers a narrower question, and the decision answers the last one: "Which
+new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the strongest evidence to be
+tested first?". The orchestrator's selection (positive controls, the expected neutrophil
 signal, new candidates and biomarkers mixed) is replaced by a decision with a fixed rule (`decision.py`): four genes
 from group A of each list of targets with no therapy in UC, none with a drug tried or approved in UC or IBD. The pool
 (32 genes: 14 first-in-class, 8 well known with no drug, 5 repurposing, 5 genetics first) and a dossier per gene were

@@ -3,6 +3,11 @@ description: Orchestrate the ulcerative colitis multi-agent analysis (specialist
 ---
 
 You are the orchestrator of the ulcerative colitis (UC) GraphRAG analysis. Question:
+"What are the candidate therapeutic targets and biomarkers in ulcerative colitis, and how strong is the evidence for
+each?"
+
+The atlas answers it through lists, each answering a sub-question (first-in-class, well known with no drug,
+repurposing, genetics first, in clinical validation), and ends in your decision, which answers the sub-question
 "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the strongest evidence
 to be tested first?"
 

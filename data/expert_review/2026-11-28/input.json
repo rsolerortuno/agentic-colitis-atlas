@@ -1,5 +1,6 @@
 {
- "question": "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the strongest evidence to be tested first?",
+ "question": "What are the candidate therapeutic targets and biomarkers in ulcerative colitis, and how strong is the evidence for each?",
+ "decision_question": "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the strongest evidence to be tested first?",
  "what_you_read": "An ulcerative colitis evidence atlas: the summary of its findings (front page) and the orchestrator's decision: four targets to test first from each list of targets with no therapy in UC. Each decision card shows the list, the gene's dossier from the atlas data and the orchestrator's rationale.",
  "selection_rule": "The orchestrator chose 4 genes from group A of each list of targets with no therapy in UC (first-in-class, well known with no drug, repurposing, genetics first): group A holds the genes that stay among the list's first ten under every way of scoring. No chosen gene has a drug tried or approved in UC or IBD. Each choice is explained by its direction, cell, drug route, safety and first experiment, and a reviewer gives a verdict on each, with PubMed citations for every fact it adds.",
  "blocks": [
@@ -24,17 +25,17 @@
   {
    "id": "C01",
    "kind": "summary paragraph",
-   "text": "The atlas recommends testing first sixteen targets that no drug treats in UC, four from each list of targets without therapy: first-in-class SDR16C5, CYP4X1, CPXM1 and CHRDL2; well known without a drug SERPINB5, CXCL1, CHI3L1 and REG1B; repurposing INHBA, CFB, SELP and LY96; and genetics first TUFM, CEBPB, FIGNL1 and CFAP90. Each was chosen from the most robust genes of its list and is argued on its direction, its cell, its drug route, its safety and its first experiment."
+   "text": "The atlas recommends testing first sixteen targets that no drug treats in UC, four from each list of targets without therapy: first-in-class SDR16C5, CYP4X1, CPXM1 and CHRDL2; well known without a drug SERPINB5, CXCL1, CHI3L1 and REG1B; repurposing INHBA, CFB, LY96 and SELP; and genetics first TUFM, CEBPB, FIGNL1 and CFAP90. Each was chosen from the most robust genes of its list and is argued on its direction, its cell, its drug route, its safety and its first experiment."
   },
   {
    "id": "C02",
    "kind": "summary paragraph",
-   "text": "SERPINB5 has the most complete case: epithelial cells make almost all of it in all four atlases, its rise is intrinsic (adjusted log2FC (adjusted_log2fc = 2.109)), and two mouse studies report that knockdown or ablation protected against colitis. Its weak points are that those studies are recent and unreplicated and that UniProt describes it as a tumour suppressor."
+   "text": "SERPINB5 has the most complete case: epithelial cells make almost all of it in all four atlases, its rise is intrinsic (adjusted log2FC (adjusted_log2fc = 2.109)), and two mouse studies report that knockdown or ablation protected against colitis. Its weak points are that both studies date from 2026 and that its role in colitis-associated cancer is unsettled: UniProt describes it as a tumour suppressor, while a study of IBD tissue linked its aberrant expression with neoplastic transformation."
   },
   {
    "id": "C03",
    "kind": "summary paragraph",
-   "text": "The first-in-class choices are changes of the lining or the stroma that survive the composition adjustment, such as SDR16C5 (retained fraction (retained_fraction = 0.66)), but none has a functional study, and several genes of that pool were set aside because their rise mostly reports cells arriving: LILRA1 and CEACAM4 are neutrophil transcripts and PCDH17 keeps only (retained_fraction = 0.098) of its rise."
+   "text": "The first-in-class choices are changes of the lining or the stroma that survive the composition adjustment, such as SDR16C5 (retained fraction (retained_fraction = 0.66)), but the literature reviews found no functional study of any of them, and several genes of that pool were set aside because their rise mostly reports cells arriving: LILRA1 and CEACAM4 are neutrophil transcripts and PCDH17 keeps only (retained_fraction = 0.098) of its rise."
   },
   {
    "id": "C04",
@@ -151,7 +152,7 @@
     "proposed_experiment": "knock-down or CRISPR knockout in patient-derived colon organoids stimulated with TNF and IFN-γ (read-outs: barrier integrity, chemokine release, epithelial death), with a wound-healing or organoid regrowth assay, since the gene rises in regenerating crypt cells [epithelium, 86% of its RNA, mainly TA 1 and Cycling TA]; small-molecule tool compounds may exist (Open Targets ligand or pocket evidence). Then a knockout or blockade in DSS or T-cell transfer colitis (never tested in mouse colitis).",
     "key_papers": []
    },
-   "text": "Direction: inhibit; CYP4X1 rises in UC in all eight cohorts. Cell and tissue: epithelial cells make it, the lineage agrees in all three other atlases, and its rise is classed intrinsic after the composition adjustment, so it is a change of the lining. Drug route: Open Targets predicts both an antibody and a small-molecule route. Safety: it is not loss-constrained and has no recorded safety events; it has never been tested in mouse colitis. First experiment: silencing or inhibition in organoids from inflamed UC mucosa. What is missing: the specialists did not examine it, and its only UC paper names it in a list."
+   "text": "Direction: inhibit; CYP4X1 rises in UC in all eight cohorts. Cell and tissue: epithelial cells make it, the lineage agrees in all three other atlases, and its rise is classed intrinsic after the composition adjustment, so it is a change of the lining. Drug route: Open Targets predicts both an antibody and a small-molecule route. Safety: it is not loss-constrained and has no recorded safety events; it has never been tested in mouse colitis. First experiment: silencing or inhibition in organoids from inflamed UC mucosa. What is missing: any functional or genetic evidence; its only UC paper names it in a list."
   },
   {
    "id": "C07",
@@ -356,7 +357,7 @@
      }
     ]
    },
-   "text": "Direction: inhibit; SERPINB5 rises in all eight cohorts, by (log2fc = 2.0451) log2 units in inflamed against non-inflamed mucosa of the same patients. Cell and tissue: epithelial cells make almost all of it (share (dominant_lineage_share = 0.953)), in all four atlases, and the rise is intrinsic (adjusted log2FC (adjusted_log2fc = 2.109)). Function: two 2026 mouse studies report that knockdown or ablation protected against colitis, which is the strongest functional support in the pool, but neither has been replicated. Drug route: Open Targets predicts an antibody and a small-molecule route. Safety: it is not loss-constrained, but UniProt describes it as a tumour suppressor, so long-term inhibition in a colon at risk of cancer needs care. First experiment: silencing in organoids from inflamed UC mucosa stimulated with TNF."
+   "text": "Direction: inhibit; SERPINB5 rises in all eight cohorts, by (log2fc = 2.0451) log2 units in inflamed against non-inflamed mucosa of the same patients. Cell and tissue: epithelial cells make almost all of it (share (dominant_lineage_share = 0.953)), in all four atlases, and the rise is intrinsic (adjusted log2FC (adjusted_log2fc = 2.109)). Function: two 2026 mouse studies report that knockdown or ablation protected against colitis, which is the strongest functional support in the pool, though both date from 2026. Drug route: Open Targets predicts an antibody and a small-molecule route. Safety: it is not loss-constrained. UniProt describes it as a tumour suppressor, but a study of IBD tissue linked its aberrant expression with disease activity and neoplastic transformation and proposed targeting it for control of disease activity and cancer prophylaxis, so its role in colitis-associated cancer is unsettled and long-term inhibition still needs care. First experiment: silencing in organoids from inflamed UC mucosa stimulated with TNF."
   },
   {
    "id": "C10",
@@ -703,7 +704,7 @@
      }
     ]
    },
-   "text": "Direction: inhibit; INHBA (activin A) rises with a pooled log2FC of (log2fc = 2.6188). Cell and tissue: fibroblasts and macrophages make it and the lineage does not replicate across atlases; part of the rise survives adjustment (adjusted log2FC (adjusted_log2fc = 0.6949)). Drug route: an inhibitor is approved for pulmonary arterial hypertension and was never tried in UC or IBD. Literature: it was overexpressed in baseline biopsies of patients who failed anti-TNF therapy, but in this atlas it separates ustekinumab and placebo non-responders alike, so it marks severity. Safety: it is strongly loss-constrained (LOEUF (loeuf = 0.166)). First experiment: the existing inhibitor on inflamed UC fibroblasts and macrophages, then on explants of inflamed mucosa."
+   "text": "Direction: inhibit; INHBA (activin A) rises with a pooled log2FC of (log2fc = 2.6188). Cell and tissue: fibroblasts and macrophages make it and the lineage does not replicate across atlases; part of the rise survives adjustment (adjusted log2FC (adjusted_log2fc = 0.6949)). Drug route: an inhibitor is approved for pulmonary arterial hypertension and was never tried in UC or IBD. Literature: it was overexpressed in baseline biopsies of patients who failed anti-TNF therapy, but in this atlas it separates ustekinumab and placebo non-responders alike, so it marks severity. Safety: it is strongly loss-constrained (LOEUF (loeuf = 0.166)). In experimental colitis, administration of follistatin attenuated inflammatory cell infiltration, which supports blocking activin signalling. First experiment: the existing inhibitor on inflamed UC fibroblasts and macrophages, then on explants of inflamed mucosa."
   },
   {
    "id": "C14",
@@ -801,98 +802,6 @@
    "id": "C15",
    "kind": "decision card",
    "list": "Repurposing: an inhibitor for another disease",
-   "gene": "SELP",
-   "role": "target",
-   "dossier": {
-    "group": "A",
-    "direction": "inhibit (rises in UC)",
-    "stability": "in the top 10 in 6 of 6 scorings",
-    "cell_family": "endothelial",
-    "meta_log2fc": 2.11,
-    "uc_papers": 110,
-    "lights": {
-     "reproducible": {
-      "light": "green",
-      "detail": "up in 8/8 cohorts; adjusted: holds"
-     },
-     "protein": {
-      "light": "grey",
-      "detail": "not quantified"
-     },
-     "tissue": {
-      "light": "green",
-      "detail": "bulk: partly composition, 25% kept; per cell: +1.7 log2 (Post-capillary Venules +1.8, Plasma +0.4, Endothelial +0.5)"
-     },
-     "cell": {
-      "light": "green",
-      "detail": "stromal 86% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in situ Endothelial"
-     },
-     "genetics": {
-      "light": "amber",
-      "detail": "tested, no causal effect (scores 0)"
-     },
-     "druggable": {
-      "light": "green",
-      "detail": "inhibitor approved (Crizanlizumab) for sickle cell anemia; never tried in UC, Crohn's disease or IBD"
-     },
-     "safety": {
-      "light": "amber",
-      "detail": "known safety events"
-     },
-     "literature": {
-      "light": "amber",
-      "detail": "only 6 expression, 1 biomarker (outside IBD: pathogenic in mouse (PMID 37064877); outside IBD: pathogenic in cells (PMID 39665236))"
-     },
-     "mouse": {
-      "light": "grey",
-      "detail": "not searched"
-     }
-    },
-    "proposed_experiment": "Test Crizanlizumab (approved) in the cell system that makes the gene [endothelium, 84% of its RNA, mainly Post-capillary Venules and Endothelial]; read-outs: ICAM1 and VCAM1, leukocyte adhesion and transmigration, permeability. Then on explants of inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.",
-    "inhibitor": {
-     "stage": "APPROVAL",
-     "drugs": [
-      "Crizanlizumab"
-     ],
-     "made_for_cancer": false
-    },
-    "key_papers": [
-     {
-      "pmid": "16868799",
-      "year": 2006,
-      "kind": "biomarker",
-      "direction": "neutral",
-      "summary": "Activated platelets (CD62-P positive) falling after the first leukocytapheresis session may predict response in severe UC."
-     },
-     {
-      "pmid": "15475744",
-      "year": 2004,
-      "kind": "expression",
-      "direction": "neutral",
-      "summary": "Platelet P-selectin expression was measured as an activation marker alongside platelet-leukocyte aggregates, which were higher in IBD blood and lowered by thiopurines."
-     },
-     {
-      "pmid": "7535284",
-      "year": 1995,
-      "kind": "expression",
-      "direction": "neutral",
-      "summary": "Endothelial P-selectin immunoreactivity was about 3.7-fold higher in inflamed Crohn's and UC gut than in normal gut, with no difference between the two diseases."
-     },
-     {
-      "pmid": "16941615",
-      "year": 2006,
-      "kind": "expression",
-      "direction": "neutral",
-      "summary": "Platelet CD62P expression was higher in active and inactive UC patients than in controls, alongside platelet-leukocyte complexes."
-     }
-    ]
-   },
-   "text": "Direction: inhibit; SELP (P-selectin) rises in inflamed mucosa (inflamed MSCCR log2FC (log2fc = 1.8372) against (log2fc = 0.4546) in non-inflamed mucosa), so it is a local-inflammation signal. Cell: endothelium sends it to SELPLG on neutrophils, and UniProt describes it as the receptor that binds activated endothelium or platelets to leukocytes. Drug route: an inhibitor is approved for sickle cell anaemia and was never tried in UC. Against it: plasma Mendelian randomisation is null (p (p = 0.484)) and its baseline level separates ustekinumab and placebo non-responders alike. First experiment: the existing antibody in a flow assay of neutrophils over inflamed UC endothelial cells."
-  },
-  {
-   "id": "C16",
-   "kind": "decision card",
-   "list": "Repurposing: an inhibitor for another disease",
    "gene": "LY96",
    "role": "target",
    "dossier": {
@@ -983,6 +892,98 @@
    "text": "Direction: inhibit, with a caution. LY96 (MD-2) is associated with ustekinumab non-response while the UNIFI placebo arm is not significant (padj (arms.placebo (UNIFI).padj = 0.144)). Cell: neutrophils make much of its RNA, so its rise reports in part cell arrival. Drug route: an inhibitor reached phase 3 in sepsis and covid-19 and was never tried in UC. Literature: in mice, TLR4/MD-2 blockade inhibited colitis-associated neoplasia and an MD-2 binder alleviated TNBS colitis, but another anti-TLR4/MD-2 antibody interfered with mucosal healing during recovery. Genetics: plasma and gut-cell Mendelian randomisation are not significant. First experiment: the existing inhibitor on inflamed UC explants, read early and during recovery."
   },
   {
+   "id": "C16",
+   "kind": "decision card",
+   "list": "Repurposing: an inhibitor for another disease",
+   "gene": "SELP",
+   "role": "target",
+   "dossier": {
+    "group": "A",
+    "direction": "inhibit (rises in UC)",
+    "stability": "in the top 10 in 6 of 6 scorings",
+    "cell_family": "endothelial",
+    "meta_log2fc": 2.11,
+    "uc_papers": 110,
+    "lights": {
+     "reproducible": {
+      "light": "green",
+      "detail": "up in 8/8 cohorts; adjusted: holds"
+     },
+     "protein": {
+      "light": "grey",
+      "detail": "not quantified"
+     },
+     "tissue": {
+      "light": "green",
+      "detail": "bulk: partly composition, 25% kept; per cell: +1.7 log2 (Post-capillary Venules +1.8, Plasma +0.4, Endothelial +0.5)"
+     },
+     "cell": {
+      "light": "green",
+      "detail": "stromal 86% of transcripts; same lineage in 3 of 3 other atlases (Garrido-Trigo 2023, Gubatan 2026, GSE282122); in situ Endothelial"
+     },
+     "genetics": {
+      "light": "amber",
+      "detail": "tested, no causal effect (scores 0)"
+     },
+     "druggable": {
+      "light": "green",
+      "detail": "inhibitor approved (Crizanlizumab) for sickle cell anemia; never tried in UC, Crohn's disease or IBD"
+     },
+     "safety": {
+      "light": "amber",
+      "detail": "known safety events"
+     },
+     "literature": {
+      "light": "amber",
+      "detail": "only 6 expression, 1 biomarker (outside IBD: pathogenic in mouse (PMID 37064877); outside IBD: pathogenic in cells (PMID 39665236))"
+     },
+     "mouse": {
+      "light": "grey",
+      "detail": "not searched"
+     }
+    },
+    "proposed_experiment": "Test Crizanlizumab (approved) in the cell system that makes the gene [endothelium, 84% of its RNA, mainly Post-capillary Venules and Endothelial]; read-outs: ICAM1 and VCAM1, leukocyte adhesion and transmigration, permeability. Then on explants of inflamed UC mucosa, and compare its dose with the one used in its approved or trial indication.",
+    "inhibitor": {
+     "stage": "APPROVAL",
+     "drugs": [
+      "Crizanlizumab"
+     ],
+     "made_for_cancer": false
+    },
+    "key_papers": [
+     {
+      "pmid": "16868799",
+      "year": 2006,
+      "kind": "biomarker",
+      "direction": "neutral",
+      "summary": "Activated platelets (CD62-P positive) falling after the first leukocytapheresis session may predict response in severe UC."
+     },
+     {
+      "pmid": "15475744",
+      "year": 2004,
+      "kind": "expression",
+      "direction": "neutral",
+      "summary": "Platelet P-selectin expression was measured as an activation marker alongside platelet-leukocyte aggregates, which were higher in IBD blood and lowered by thiopurines."
+     },
+     {
+      "pmid": "7535284",
+      "year": 1995,
+      "kind": "expression",
+      "direction": "neutral",
+      "summary": "Endothelial P-selectin immunoreactivity was about 3.7-fold higher in inflamed Crohn's and UC gut than in normal gut, with no difference between the two diseases."
+     },
+     {
+      "pmid": "16941615",
+      "year": 2006,
+      "kind": "expression",
+      "direction": "neutral",
+      "summary": "Platelet CD62P expression was higher in active and inactive UC patients than in controls, alongside platelet-leukocyte complexes."
+     }
+    ]
+   },
+   "text": "Direction: inhibit; SELP (P-selectin) rises in inflamed mucosa (inflamed MSCCR log2FC (log2fc = 1.8372) against (log2fc = 0.4546) in non-inflamed mucosa), so it is a local-inflammation signal. Cell: endothelium sends it to SELPLG on neutrophils, and UniProt describes it as the receptor that binds activated endothelium or platelets to leukocytes. Drug route: an inhibitor is approved for sickle cell anaemia and was never tried in UC. Against it: plasma Mendelian randomisation is null (p (p = 0.484)) and its baseline level separates ustekinumab and placebo non-responders alike, and in experimental colitis an anti-P-selectin antibody did not significantly improve colitis. The reviewer is against testing it first; it stays as the last repurposing choice because the only other gene of the pool, GUCY1A1, carries a vascular risk, and the negative animal result argues for a human test before any trial. First experiment: the existing antibody in a flow assay of neutrophils over inflamed UC endothelial cells."
+  },
+  {
    "id": "C17",
    "kind": "decision card",
    "list": "Genetics first",
@@ -1000,7 +1001,7 @@
     "cell_matches_prediction": false,
     "drug": "no clinical drug"
    },
-   "text": "Direction: inhibit; the UC risk allele raises TUFM expression, and Mendelian randomisation agrees: higher expression in sigmoid colon raises UC risk (odds ratio per SD (odds_ratio_per_sd = 1.191)), colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023, and so does expression in gut plasma B cells ((odds_ratio_per_sd = 1.356)). This is the strongest causal evidence in the pool. Cell and tissue: the predicted effect is largest in blood neutrophils, while single cells place it in plasma and epithelial cells, and in inflamed MSCCR biopsies it is slightly lower, not higher (log2FC (log2fc = -0.188)), with no change in non-inflamed mucosa, which does not support the inhibition hypothesis in tissue. Drug route and safety: TUFM is a ubiquitous mitochondrial gene with no clinical drug, so a drug would need to act in one cell type. First experiment: allele-specific silencing in gut plasma cells or neutrophils. Caveat: one instrument."
+   "text": "Direction: inhibit; the UC risk allele raises TUFM expression, and Mendelian randomisation agrees: higher expression in sigmoid colon raises UC risk (odds ratio per SD (odds_ratio_per_sd = 1.191)), colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023, and so does expression in gut plasma B cells ((odds_ratio_per_sd = 1.356)). This is the strongest causal evidence in the pool. Cell and tissue: the predicted effect is largest in blood neutrophils, while single cells place it in plasma and epithelial cells, and in inflamed MSCCR biopsies it is slightly lower, not higher (log2FC (log2fc = -0.188)), with no change in non-inflamed mucosa, which does not support the inhibition hypothesis in tissue. Drug route and safety: TUFM is a ubiquitous mitochondrial gene, so a drug would need to act in one cell type. First experiment: allele-specific silencing in gut plasma cells or neutrophils. Caveat: one instrument. The reviewer is against testing it first for these reasons; it stays because it carries the only causal genetic support in the pool, and the first experiment tests that support in one cell type before any drug is considered."
   },
   {
    "id": "C18",
@@ -1020,7 +1021,7 @@
     "cell_matches_prediction": true,
     "drug": "no clinical drug"
    },
-   "text": "Direction: inhibit; the risk allele raises CEBPB, predicted in colon dendritic cells, and its mRNA rises in biopsies (meta-analysis log2FC (log2fc = 1.27)), with its regulon active in all cohorts. Cell: it is a broadly expressed transcription factor, made mostly by neutrophils and macrophages (neutrophil share (neutrophil_share_inflamed = 0.698)), and the predicted dendritic cell is not the main source. Against it: gut-cell Mendelian randomisation points the other way without reaching significance, and its baseline level separates ustekinumab and placebo non-responders alike. Drug route: no clinical drug; a transcription factor is hard to drug, though nintedanib alleviated DSS colitis in mice by inhibiting CEBPB signalling. First experiment: silencing in monocyte-derived dendritic cells carrying the risk allele."
+   "text": "Direction: inhibit; the risk allele raises CEBPB, predicted in colon dendritic cells, and its mRNA rises in biopsies (meta-analysis log2FC (log2fc = 1.27)), with its regulon active in all cohorts. Cell: it is a broadly expressed transcription factor, made mostly by neutrophils and macrophages (neutrophil share (neutrophil_share_inflamed = 0.698)), and the predicted dendritic cell is not the main source. Against it: gut-cell Mendelian randomisation points the other way without reaching significance, and its baseline level separates ustekinumab and placebo non-responders alike. Drug route: a transcription factor is hard to drug, though nintedanib alleviated DSS colitis in mice by inhibiting CEBPB signalling. First experiment: silencing in monocyte-derived dendritic cells carrying the risk allele."
   },
   {
    "id": "C19",
@@ -1040,7 +1041,7 @@
     "cell_matches_prediction": true,
     "drug": "no clinical drug"
    },
-   "text": "Direction: inhibit; the risk allele is predicted to raise FIGNL1 in colon NK cells, in a confidently fine-mapped UC signal. Against it: Mendelian randomisation gives no support, and biopsies show no change. Drug route: no clinical drug. It stays in the decision because the genetics list has only five candidates and its prediction is confident; it is a hypothesis about inherited risk, not about inflamed tissue. First experiment: allele-specific expression and silencing in primary NK cells."
+   "text": "Direction: inhibit; the risk allele is predicted to raise FIGNL1 in colon NK cells, in a confidently fine-mapped UC signal. Against it: Mendelian randomisation gives no support, and biopsies show no change. It stays in the decision because the genetics list has only five candidates and its prediction is confident; it is a hypothesis about inherited risk, not about inflamed tissue. The reviewer is against it; it stays because the rule takes four genes from each list and the remaining genetics candidate, RORC, has data against its direction. First experiment: allele-specific expression and silencing in primary NK cells."
   },
   {
    "id": "C20",
@@ -1060,7 +1061,7 @@
     "cell_matches_prediction": true,
     "drug": "no clinical drug"
    },
-   "text": "Direction: inhibit; the risk allele is predicted to raise CFAP90 in colon goblet cells and several blood cell types, in a confidently fine-mapped UC signal. Against it: no Mendelian randomisation support and no change in biopsies. Drug route: no clinical drug. Like FIGNL1, it is a hypothesis about inherited risk; the first step is to confirm the predicted effect of the variant on expression in goblet cells before any functional test."
+   "text": "Direction: inhibit; the risk allele is predicted to raise CFAP90 in colon goblet cells and several blood cell types, in a confidently fine-mapped UC signal. Against it: no Mendelian randomisation support and no change in biopsies. Like FIGNL1, it is a hypothesis about inherited risk; the first step is to confirm the predicted effect of the variant on expression in goblet cells before any functional test. The reviewer is against it for the same reasons as FIGNL1, and it stays for the same reason."
   }
  ]
 }

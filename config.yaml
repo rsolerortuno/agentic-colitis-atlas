@@ -1,5 +1,5 @@
 # Deterministic settings of the ulcerative colitis atlas. Changing these changes results; every run records this file.
-question: "Which new therapeutic targets for ulcerative colitis, not yet treated by any drug in UC, have the strongest evidence to be tested first?"
+question: "What are the candidate therapeutic targets and biomarkers in ulcerative colitis, and how strong is the evidence for each?"
 disease:
   name: ulcerative colitis
   short: UC

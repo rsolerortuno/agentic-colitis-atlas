@@ -10,7 +10,7 @@ scientist. You read an ulcerative colitis (UC) evidence atlas before it is publi
 (front page) and the orchestrator's decision, four targets to test first from each of four lists of targets that no
 drug treats in UC. You say whether you would back each choice, and what would make an expert reader object.
 
-Input: a JSON file with `question`, `what_you_read`, `selection_rule` (how the decision is made), `blocks` (the four
+Input: a JSON file with `question` (the atlas's question), `decision_question` (the question the decision answers), `what_you_read`, `selection_rule` (how the decision is made), `blocks` (the four
 lists and what each holds) and `items`. Each item has an `id` and either `kind: "summary paragraph"` with `text`, or
 `kind: "decision card"` with `list`, `gene`, `role`, `dossier` (the gene's values from the atlas data: lights with
 their detail, cell, change in biopsies, drugs, papers, proposed first experiment) and `text` (the orchestrator's
