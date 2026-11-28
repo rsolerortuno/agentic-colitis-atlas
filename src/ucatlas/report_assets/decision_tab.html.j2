@@ -24,7 +24,7 @@
   <p><strong>Why the orchestrator chose it.</strong> {{ t | statement_html | safe }} {{ t.evidence_ids | cite | safe }}</p>
   {% if d.proposed_experiment %}<p class="small"><strong>Proposed first experiment:</strong> {{ d.proposed_experiment }}</p>{% endif %}
   {% if d.key_papers %}<details class="small"><summary>Key papers ({{ d.key_papers | length }})</summary><ul>{% for p in d.key_papers %}<li>{% if p.pmid %}<a href="https://pubmed.ncbi.nlm.nih.gov/{{ p.pmid }}/" target="_blank" rel="noopener">PMID {{ p.pmid }}</a>{% endif %}{% if p.year %} ({{ p.year }}){% endif %}, {{ (p.kind or '') | replace('_', ' ') }}{% if p.direction in ('pathogenic', 'protective') %}, {{ p.direction }}{% endif %}: {{ p.summary }}</li>{% endfor %}</ul></details>{% endif %}
-  {% if v %}<div class="howbox"><h4>Reviewer: {{ v.verdict }}</h4>{% if v.summary %}<p class="small">{{ v.summary }}</p>{% endif %}
+  {% if v %}<div class="howbox"><h4>Reviewer{% if DEC.reviewer %} ({{ DEC.reviewer }}){% endif %}: {{ v.verdict }}</h4>{% if v.summary %}<p class="small">{{ v.summary }}</p>{% endif %}
   <ul class="small">{% for r in v.reasons %}<li>{% if r.kind == 'judgement' %}<em>Judgement:</em> {{ r.text }}{% else %}{{ r.text }} <a href="https://pubmed.ncbi.nlm.nih.gov/{{ r.pmid }}/" target="_blank" rel="noopener">PMID {{ r.pmid }}</a>{% if r.journal %} ({{ r.journal }}{% if r.year %}, {{ r.year }}{% endif %}){% endif %}: “{{ r.quote }}” {{ (r.evidence_ids or []) | cite | safe }}{% endif %}</li>{% endfor %}</ul></div>{% endif %}
 </div>
 {% endfor %}

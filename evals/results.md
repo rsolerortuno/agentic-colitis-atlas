@@ -739,6 +739,15 @@ to drug". `docs/expert-review-redo.md` redoes the review on the saved input.
 
 The data sections of the narrative were carried over from run 2026-11-27 and verified and read again; the summary, the
 decision paragraphs and the 16 rationales are new. Final: 140 statements, 0 failures, decision rule 0 problems;
-reading check 674 claims, 0 contradicted, 7 not in the cited evidence; reader caught 47 of 48 flips, deterministic
+reading check 677 claims, 0 contradicted, 6 not in the cited evidence (after the Codex review below); reader caught 47 of 48 flips, deterministic
 checks 30. The report moves the convergence ranking to Trust and methods ("Convergence score") and adds the decision as
 the last Findings tab; the Agent benchmark tab now shows the decision rule and the expert review results.
+
+A second review by Codex (run by the author outside this pipeline on the corrected input, same instructions) was
+validated (16 verdicts, 5 framing objections, none discarded) and applied: CYP4X1 no longer claims an antibody route
+(no extracellular part), CHRDL2 leads with its stromal localisation, CEBPB's direction is written as a prediction, and
+the summary says INHBA and SELP "may reflect severity" and that the CFB protective signal comes from perianal Crohn's
+disease. Its verdicts are the ones shown: CPXM1 and SERPINB5 support; CFB, SELP, FIGNL1 and CFAP90 against (CFB kept as
+the pool's other gene was set aside; TUFM no longer against). The six changed statements and their flipped copies were
+read again with the same ids (2 flips caught; "TUFM is a ubiquitous mitochondrial gene" still not in the cited
+evidence). The Sonnet review is kept with the input it was made on (`*_sonnet.json`).

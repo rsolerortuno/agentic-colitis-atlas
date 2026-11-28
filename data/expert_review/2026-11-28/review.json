@@ -1,0 +1,239 @@
+{
+  "verdicts": [
+    {
+      "id": "C05",
+      "verdict": "concerns",
+      "summary": "The epithelial signal warrants an organoid test, but the case for inhibition depends on what silencing does to the lining.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The increase persists within epithelial cells across cohorts. The predicted pocket offers a possible drug route, while the absence of functional evidence leaves the therapeutic direction open."
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "verdict": "concerns",
+      "summary": "I would test CYP4X1 silencing only with crypt regrowth as an explicit outcome.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "Expression rises in regenerating crypt cells, so impaired regrowth would count against inhibition even if chemokine release fell. The dossier supports investigating a small molecule and reports no extracellular region."
+        }
+      ]
+    },
+    {
+      "id": "C07",
+      "verdict": "support",
+      "summary": "I would back CPXM1 blockade in primary UC fibroblasts as a first-in-class experiment.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The secreted protein offers a direct intervention, and expression rises within fibroblast subsets despite the contribution from cell composition. The proposed neutrophil-attraction assay can test a consequence of blockade."
+        }
+      ]
+    },
+    {
+      "id": "C08",
+      "verdict": "concerns",
+      "summary": "CHRDL2 is accessible to an antibody, but a fibroblast-only result would leave its role in intact mucosa unresolved.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "Only 28% of the bulk rise survives adjustment, and the spatial signal points to smooth muscle. A negative fibroblast experiment would therefore leave uncertainty about the relevant source."
+        }
+      ]
+    },
+    {
+      "id": "C09",
+      "verdict": "support",
+      "summary": "SERPINB5 is my first choice for epithelial silencing because human tissue and both mouse perturbations support testing the same direction.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The paired-biopsy increase and replicated epithelial localization make the organoid experiment interpretable. The unresolved cancer association limits what short-term protection could establish about prolonged treatment."
+        }
+      ]
+    },
+    {
+      "id": "C10",
+      "verdict": "concerns",
+      "summary": "I would back CXCL1 neutralisation to test recruitment, with a narrower interpretation than therapeutic benefit.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The proposed co-culture directly tests the inferred fibroblast–neutrophil circuit. A fall in migration would support that mechanism, while leaving the effect on mucosal injury open."
+        }
+      ]
+    },
+    {
+      "id": "C11",
+      "verdict": "concerns",
+      "summary": "I would test CHI3L1 blockade because the parallel fibroblast and epithelial experiments can resolve a consequential disagreement.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "Antibody treatment and gene deletion gave opposite colitis outcomes. An epithelial injury signal would weigh against advancing blockade even if fibroblast inflammatory readouts improved."
+        }
+      ]
+    },
+    {
+      "id": "C12",
+      "verdict": "concerns",
+      "summary": "I would back the paired silencing and protein-addition experiment while leaving the therapeutic direction open.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The consistent epithelial source makes organoids appropriate. The biomarker evidence and link to regeneration leave open whether the rise contributes to injury or supports recovery."
+        }
+      ]
+    },
+    {
+      "id": "C13",
+      "verdict": "concerns",
+      "summary": "I would test activin-pathway inhibition in UC explants, with limited confidence that a response establishes INHBA as the target.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The follistatin result supports a pathway-level hypothesis. Inconsistent cellular attribution and strong loss constraint limit the inference from a positive fibroblast or macrophage result."
+        }
+      ]
+    },
+    {
+      "id": "C14",
+      "verdict": "against",
+      "summary": "I would deprioritise CFB inhibition because its strongest directional warning concerns loss of the very function the drug would block.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The human loss-of-function signal comes from perianal Crohn’s disease, so its relevance to UC remains uncertain. Epithelial induction and higher protein alone offer insufficient justification to prioritise iptacopan given the deficiency phenotype."
+        }
+      ]
+    },
+    {
+      "id": "C15",
+      "verdict": "concerns",
+      "summary": "I would back eritoran in UC explants if recovery is treated as a decisive outcome.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "Early anti-inflammatory effects could coexist with impaired healing, as the dossier describes for complex blockade. The proposed two-phase readout addresses this risk more directly than the response associations."
+        }
+      ]
+    },
+    {
+      "id": "C16",
+      "verdict": "against",
+      "summary": "I would deprioritise SELP even though the proposed flow assay is well matched to P-selectin biology.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "A flow assay could establish an effect on adhesion. The negative antibody result in experimental colitis and similar associations in both treatment arms weaken the case for spending a year on therapeutic blockade."
+        }
+      ]
+    },
+    {
+      "id": "C17",
+      "verdict": "concerns",
+      "summary": "I would back a cell-restricted TUFM genetic experiment on the strength of the colocalising signal, while deferring drug development.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "Replication gives the single-instrument result weight. The unresolved effector cell and ubiquitous mitochondrial expression make systemic inhibition a poor inference from that result."
+        }
+      ]
+    },
+    {
+      "id": "C18",
+      "verdict": "concerns",
+      "summary": "I would test CEBPB silencing in risk-allele carriers as a cell-specific genetic hypothesis.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The dendritic-cell prediction and active regulon justify the experiment, but most measured RNA comes from other myeloid cells and Mendelian randomisation gives no concordant support for inhibition."
+        }
+      ]
+    },
+    {
+      "id": "C19",
+      "verdict": "against",
+      "summary": "I would deprioritise FIGNL1 as a therapeutic target while retaining the NK-cell allele-specific expression question.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "Fine mapping and a matching lineage justify checking expression. Neither the biopsy data nor Mendelian randomisation independently supports inhibition, and filling a shortlist slot adds no biological evidence."
+        }
+      ]
+    },
+    {
+      "id": "C20",
+      "verdict": "against",
+      "summary": "I would defer CFAP90 inhibition until the proposed goblet-cell expression effect is demonstrated.",
+      "reasons": [
+        {
+          "kind": "judgement",
+          "text": "The prediction spans several cell types, and neither biopsy expression nor Mendelian randomisation corroborates the proposed direction. Confirming the expression effect is a narrower objective than developing a UC treatment."
+        }
+      ]
+    }
+  ],
+  "objections": [
+    {
+      "id": "C04",
+      "kind": "framing",
+      "claim": "so they mark severity",
+      "objection": "Similar associations in both arms weaken a treatment-specific interpretation but do not establish what causes non-response.",
+      "suggestion": "Say that both genes distinguish non-responders in both arms and may reflect severity."
+    },
+    {
+      "id": "C04",
+      "kind": "framing",
+      "claim": "for CFB a loss-of-function variant implies its function protects",
+      "objection": "This summary invites a UC-specific reading of a directional signal that the CFB card attributes to perianal Crohn’s disease.",
+      "suggestion": "State that the protective inference comes from perianal Crohn’s disease and makes inhibition in UC uncertain."
+    },
+    {
+      "id": "C06",
+      "kind": "framing",
+      "claim": "Open Targets predicts both an antibody and a small-molecule route.",
+      "objection": "The dossier reports no extracellular region and cites a druggable family and a pocket. The antibody route is unsupported by the evidence displayed.",
+      "suggestion": "Retain the predicted small-molecule route and remove the antibody claim."
+    },
+    {
+      "id": "C08",
+      "kind": "framing",
+      "claim": "fibroblasts make it",
+      "objection": "The opening identifies fibroblasts definitively although the same sentence acknowledges that the spatial signal points to smooth muscle.",
+      "suggestion": "Lead with the consistent stromal localization, then give the fibroblast and smooth-muscle observations."
+    },
+    {
+      "id": "C18",
+      "kind": "framing",
+      "claim": "the risk allele raises CEBPB, predicted in colon dendritic cells",
+      "objection": "The direction itself is a sequence prediction. The biopsy increase does not verify an allele-specific effect in dendritic cells.",
+      "suggestion": "Say that the risk allele is predicted to raise CEBPB in colon dendritic cells."
+    }
+  ],
+  "reviewed": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "C10",
+    "C11",
+    "C12",
+    "C13",
+    "C14",
+    "C15",
+    "C16",
+    "C17",
+    "C18",
+    "C19",
+    "C20"
+  ]
+}

@@ -2,54 +2,49 @@
  "run": "2026-11-28",
  "kept": [
   {
-   "id": "C09",
-   "kind": "factual",
-   "claim": "UniProt describes it as a tumour suppressor, so long-term inhibition in a colon at risk of cancer needs care",
-   "objection": "Human IBD tissue data show maspin overexpressed in active IBD and in colitis-associated neoplasia, which weakens the tumour-suppressor safety argument; the cancer effect is unsettled.",
-   "suggestion": "Reword to say the tumour-suppressor role in the colon is unsettled, as maspin is overexpressed in IBD-associated neoplasia.",
-   "pmid": 16227634,
-   "quote": "Targeting maspin for control of disease activity and cancer prophylaxis may be a promising novel therapeutic strategy for IBD.",
-   "genes": [
-    "SERPINB5"
-   ],
-   "location": "targets.SERPINB5",
-   "evidence_ids": [
-    "EV:pubmed_quote:88db8e561453"
-   ]
+   "id": "C04",
+   "kind": "framing",
+   "claim": "so they mark severity",
+   "objection": "Similar associations in both arms weaken a treatment-specific interpretation but do not establish what causes non-response.",
+   "suggestion": "Say that both genes distinguish non-responders in both arms and may reflect severity.",
+   "location": "narrative.summary[3]",
+   "rule": "framing: reword, reorder or remove what the text already says; add no fact"
   },
   {
-   "id": "C13",
-   "kind": "factual",
-   "claim": "First experiment: the existing inhibitor on inflamed UC fibroblasts and macrophages, then on explants of inflamed mucosa.",
-   "objection": "The card omits that activin blockade with follistatin already attenuated DSS colitis in mice, the only colitis evidence for the gene's direction, which an expert would want stated.",
-   "suggestion": "State that mouse colitis data exist for activin blockade.",
-   "pmid": 19643954,
-   "quote": "Importantly, in vivo administration of follistatin attenuated inflammatory cell infiltration during colitis.",
-   "genes": [
-    "INHBA"
-   ],
-   "drug": "follistatin",
-   "location": "targets.INHBA",
-   "evidence_ids": [
-    "EV:pubmed_quote:c27d93298d02"
-   ]
+   "id": "C04",
+   "kind": "framing",
+   "claim": "for CFB a loss-of-function variant implies its function protects",
+   "objection": "This summary invites a UC-specific reading of a directional signal that the CFB card attributes to perianal Crohn’s disease.",
+   "suggestion": "State that the protective inference comes from perianal Crohn’s disease and makes inhibition in UC uncertain.",
+   "location": "narrative.summary[3]",
+   "rule": "framing: reword, reorder or remove what the text already says; add no fact"
   },
   {
-   "id": "C15",
-   "kind": "factual",
-   "claim": "First experiment: the existing antibody in a flow assay of neutrophils over inflamed UC endothelial cells.",
-   "objection": "The text omits that anti-P-selectin antibody did not significantly improve TNBS colitis in rats despite blocking rolling; without it the decision misleads about expected benefit.",
-   "suggestion": "State the negative colitis result among the points against the gene.",
-   "pmid": 11266380,
-   "quote": "However, treatment with an anti-P-selectin antibody does not significantly improve colitis.",
-   "genes": [
-    "SELP"
-   ],
-   "drug": "anti-P-selectin antibody",
-   "location": "targets.SELP",
-   "evidence_ids": [
-    "EV:pubmed_quote:f6cdf776f76a"
-   ]
+   "id": "C06",
+   "kind": "framing",
+   "claim": "Open Targets predicts both an antibody and a small-molecule route.",
+   "objection": "The dossier reports no extracellular region and cites a druggable family and a pocket. The antibody route is unsupported by the evidence displayed.",
+   "suggestion": "Retain the predicted small-molecule route and remove the antibody claim.",
+   "location": "targets.CYP4X1",
+   "rule": "framing: reword, reorder or remove what the text already says; add no fact"
+  },
+  {
+   "id": "C08",
+   "kind": "framing",
+   "claim": "fibroblasts make it",
+   "objection": "The opening identifies fibroblasts definitively although the same sentence acknowledges that the spatial signal points to smooth muscle.",
+   "suggestion": "Lead with the consistent stromal localization, then give the fibroblast and smooth-muscle observations.",
+   "location": "targets.CHRDL2",
+   "rule": "framing: reword, reorder or remove what the text already says; add no fact"
+  },
+  {
+   "id": "C18",
+   "kind": "framing",
+   "claim": "the risk allele raises CEBPB, predicted in colon dendritic cells",
+   "objection": "The direction itself is a sequence prediction. The biopsy increase does not verify an allele-specific effect in dendritic cells.",
+   "suggestion": "Say that the risk allele is predicted to raise CEBPB in colon dendritic cells.",
+   "location": "targets.CEBPB",
+   "rule": "framing: reword, reorder or remove what the text already says; add no fact"
   }
  ],
  "discarded": [],

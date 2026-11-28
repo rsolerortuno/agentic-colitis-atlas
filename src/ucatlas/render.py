@@ -885,8 +885,10 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     # the orchestrator's decision with the reviewer's verdicts (2026-11-28)
     from .decision import PREVIOUS_RUN, view as decision_view
     vf = findings_path.parent / "expert_verdicts.json"
-    verdicts = json.loads(vf.read_text(encoding="utf-8")).get("verdicts", {}) if vf.exists() else {}
+    vjson = json.loads(vf.read_text(encoding="utf-8")) if vf.exists() else {}
+    verdicts = vjson.get("verdicts", {})
     DEC = decision_view(f, verdicts)
+    DEC["reviewer"] = vjson.get("reviewer")
     dec_dossiers = [c["dossier"] for B in DEC["blocks"] for c in B["cards"] if c["dossier"]]
     dec_reasons = [r for B in DEC["blocks"] for c in B["cards"] if c["verdict"] for r in c["verdict"]["reasons"]
                    if r.get("evidence_ids")]
@@ -899,12 +901,12 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
         expert = {"kept": len(rv.get("kept", [])), "discarded": len(rv.get("discarded", [])),
                   "factual_kept": sum(o.get("kind") == "factual" for o in rv.get("kept", [])),
                   "verdicts": {k: vs.count(k) for k in ("support", "concerns", "against")},
-                  "reasons_cited": len(dec_reasons),
+                  "reasons_cited": len(dec_reasons), "reviewer": vjson.get("reviewer"),
                   "seeded": None}
         if ex_p.exists():
             ex = json.loads(ex_p.read_text(encoding="utf-8"))
             if ex.get("run") == findings_path.parent.name:
-                expert["seeded"] = {"n": ex["seeded"], "caught": ex["caught"],
+                expert["seeded"] = {"n": ex["seeded"], "caught": ex["caught"], "reviewer": ex.get("reviewer"),
                                     "valid": ex["caught_with_valid_objection"],
                                     "unaltered": ex["unaltered"]["items"],
                                     "objections_unaltered": ex["unaltered"]["objections"]}

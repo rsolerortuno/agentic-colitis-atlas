@@ -1,5 +1,8 @@
 # Redoing the expert review of a run
 
+Run 2026-11-28 has been reviewed twice: by Claude Sonnet (kept as `*_sonnet.json`) and by Codex
+(`review.json`, the verdicts shown in the report).
+
 The expert review (step 4c of `/informe`) can be redone on its own, for example with another model, without
 re-running the specialists, the decision pool or the orchestrator's choice. The run of 2026-11-28 was reviewed by
 Claude Sonnet because the Opus 5.5 reviewer was stopped twice by the model's safeguards; these are the steps to redo

@@ -8,7 +8,7 @@
   "open_targets_top": 2000,
   "doid": "DOID:8577"
  },
- "generated_utc": "2026-11-28T15:36:35+00:00",
+ "generated_utc": "2026-11-28T15:51:22+00:00",
  "models": {
   "orchestrator": "Claude Opus 5.5 — Claude Code main session",
   "agents": "Claude Sonnet 5.5 — Claude Code subagents (agente-expresion, agente-literatura, agente-externo, agente-celular, agente-vias, agente-aplicado)",
@@ -19425,7 +19425,7 @@
     ]
    },
    {
-    "text": "For the repurposing targets an inhibitor already exists for another disease, but the data argue for caution: INHBA and SELP separate ustekinumab and placebo non-responders alike, so they mark severity, and for CFB a loss-of-function variant implies its function protects. Genetics gives the strongest causal argument for TUFM, whose higher expression in colon raises UC risk (odds ratio per SD [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=colon_tissue; odds_ratio_per_sd=1.191]), although biopsies show no rise; the other genetics-first genes rest on sequence predictions. These are hypotheses from public data, to be tested in human cells first.",
+    "text": "For the repurposing targets an inhibitor already exists for another disease, but the data argue for caution: INHBA and SELP distinguish non-responders in both the ustekinumab and the placebo arm and may reflect severity, and for CFB a loss-of-function variant linked to perianal Crohn's disease implies its function protects, which makes inhibition in UC uncertain. Genetics gives the strongest causal argument for TUFM, whose higher expression in colon raises UC risk (odds ratio per SD [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=colon_tissue; odds_ratio_per_sd=1.191]), although biopsies show no rise; the other genetics-first genes rest on sequence predictions. These are hypotheses from public data, to be tested in human cells first.",
     "evidence_ids": [
      "EV:mendelian_randomization_gut:889be2060c1c",
      "EV:treatment_response:7c68a6ae5c9a",
@@ -19440,6 +19440,10 @@
      "EV:rank_context:f41adbf6c790",
      "EV:omics_de:b34091a6fe79",
      "EV:omics_de:8708da4720ff",
+     "EV:clinical_indications:7c68a6ae5c9a",
+     "EV:clinical_indications:d0a797252888",
+     "EV:clinical_indications:2934bc5c46fd",
+     "EV:clinical_indications:aa9a1b387402",
      "EV:genetic_target:542343dc839a",
      "EV:genetic_target:1833a8f3eb78",
      "EV:genetic_target:a7b687d672af"
@@ -20649,7 +20653,7 @@
     "text": "The data sections of this report (expression, inflammation, replication, literature, external, cells, spatial, pathways, treatment, discovery, integration) were written for the run of 2026-11-27 from its verified agent files and were verified and read again in this run; the summary, the decision and the targets are new."
    },
    {
-    "text": "The expert review of this run was made by Claude Sonnet: the Opus 5.5 reviewer was stopped twice by the model's safeguards. The review can be redone on the same input without re-running the specialists."
+    "text": "The expert review was made twice: first by Claude Sonnet (the Opus 5.5 reviewer was stopped twice by the model's safeguards), whose three cited corrections are in the text, then by Codex on the corrected text, whose verdicts are shown on the cards and whose five wording corrections were applied. The seeded-error measurement is of the Sonnet reviewer."
    },
    {
     "text": "A reading subagent checked every claim against its cited records; claims it found unsupported are listed in the Agents tab rather than removed."
@@ -20685,7 +20689,7 @@
    "gene": "CYP4X1",
    "list": "first_in_class",
    "category": "target",
-   "rationale": "Direction: inhibit; CYP4X1 rises in UC in all eight cohorts. Cell and tissue: epithelial cells make it, the lineage agrees in all three other atlases, and its rise is classed intrinsic after the composition adjustment, so it is a change of the lining. Drug route: Open Targets predicts both an antibody and a small-molecule route. Safety: it is not loss-constrained and has no recorded safety events; it has never been tested in mouse colitis. First experiment: silencing or inhibition in organoids from inflamed UC mucosa. What is missing: any functional or genetic evidence; its only UC paper names it in a list.",
+   "rationale": "Direction: inhibit; CYP4X1 rises in UC in all eight cohorts. Cell and tissue: epithelial cells make it, the lineage agrees in all three other atlases, and its rise is classed intrinsic after the composition adjustment, so it is a change of the lining. Drug route: a small molecule, which Open Targets predicts. Safety: it is not loss-constrained and has no recorded safety events; it has never been tested in mouse colitis. First experiment: silencing or inhibition in organoids from inflamed UC mucosa. What is missing: any functional or genetic evidence; its only UC paper names it in a list.",
    "evidence_ids": [
     "EV:discovery_profile:71f501753be5",
     "EV:sc_replication_4atlas:71f501753be5",
@@ -20742,7 +20746,7 @@
    "gene": "CHRDL2",
    "list": "first_in_class",
    "category": "target",
-   "rationale": "Direction: inhibit; CHRDL2 rises in UC in seven of eight cohorts. Cell and tissue: fibroblasts make it (stromal share [gene=CHRDL2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.939]) and the lineage agrees in all three other atlases, but only part of the rise survives the composition adjustment (retained fraction [gene=CHRDL2; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.276]), and Visium places its in-situ signal in smooth muscle, so the producing cell is not settled. Drug route: it is secreted and a predicted antibody target; UniProt describes it as a possible inhibitor of BMP activity. Safety: not loss-constrained, no recorded safety events. Its baseline level separates ustekinumab and placebo non-responders alike, so it marks severity. First experiment: a blocking antibody on inflamed UC fibroblasts. What is missing: genetics (plasma Mendelian randomisation not significant) and any mouse colitis study.",
+   "rationale": "Direction: inhibit; CHRDL2 rises in UC in seven of eight cohorts. Cell and tissue: it is stromal in all four atlases (stromal share [gene=CHRDL2; type=sc_summary; source=DATASET:SCP259; dominant_lineage_share=0.939]), mainly inflammatory fibroblasts in single cells, but only part of the rise survives the composition adjustment (retained fraction [gene=CHRDL2; type=composition_effect; source=ANALYSIS:composition; layer=rna; retained_fraction=0.276]), and Visium places its in-situ signal in smooth muscle, so the producing cell is not settled. Drug route: it is secreted and a predicted antibody target; UniProt describes it as a possible inhibitor of BMP activity. Safety: not loss-constrained, no recorded safety events. Its baseline level separates ustekinumab and placebo non-responders alike, so it marks severity. First experiment: a blocking antibody on inflamed UC fibroblasts. What is missing: genetics (plasma Mendelian randomisation not significant) and any mouse colitis study.",
    "evidence_ids": [
     "EV:sc_summary:c77baf64a62b",
     "EV:composition_effect:c77baf64a62b",
@@ -20978,7 +20982,7 @@
    "gene": "CFB",
    "list": "repurposing",
    "category": "target_and_biomarker",
-   "rationale": "Direction: inhibit, against a contrary signal. CFB rises with a pooled log2FC of [gene=CFB; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.24], significant in seven of eight cohorts, its protein rises too, and epithelial cells make it as an intrinsic change (adjusted log2FC [gene=CFB; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8989]). Drug route: an inhibitor is approved for IgA glomerulonephritis and paroxysmal nocturnal haemoglobinuria and was never tried in UC. Against it: a CFB loss-of-function variant linked to perianal Crohn's disease implies its function protects, the treatment arms show no response signal, and loss of the gene causes complement factor B deficiency, so long-term inhibition may reproduce that disease. First experiment: the existing inhibitor on organoids and explants of inflamed UC mucosa, reading epithelial damage as well as inflammation.",
+   "rationale": "Direction: inhibit, against a contrary signal. CFB rises with a pooled log2FC of [gene=CFB; type=expression_meta; source=DATASET:META; layer=rna; log2fc=2.24], significant in seven of eight cohorts, its protein rises too, and epithelial cells make it as an intrinsic change (adjusted log2FC [gene=CFB; type=composition_effect; source=ANALYSIS:composition; layer=rna; adjusted_log2fc=0.8989]). Drug route: an inhibitor is approved for IgA glomerulonephritis and paroxysmal nocturnal haemoglobinuria and was never tried in UC. Against it: a CFB loss-of-function variant linked to perianal Crohn's disease implies its function protects, the treatment arms show no response signal, and loss of the gene causes complement factor B deficiency, so long-term inhibition may reproduce that disease. First experiment: the existing inhibitor on organoids and explants of inflamed UC mucosa, reading epithelial damage as well as inflammation. The reviewer is against testing it first; it stays because the only other gene of its pool, GUCY1A1, was set aside, and the first experiment reads harm as well as benefit.",
    "evidence_ids": [
     "EV:composition_effect:d0a797252888",
     "EV:expression_meta:d0a797252888",
@@ -21092,7 +21096,7 @@
    "gene": "TUFM",
    "list": "genetic",
    "category": "target",
-   "rationale": "Direction: inhibit; the UC risk allele raises TUFM expression, and Mendelian randomisation agrees: higher expression in sigmoid colon raises UC risk (odds ratio per SD [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=colon_tissue; odds_ratio_per_sd=1.191]), colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023, and so does expression in gut plasma B cells ([gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=gut_cell; odds_ratio_per_sd=1.356]). This is the strongest causal evidence in the pool. Cell and tissue: the predicted effect is largest in blood neutrophils, while single cells place it in plasma and epithelial cells, and in inflamed MSCCR biopsies it is slightly lower, not higher (log2FC [gene=TUFM; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=-0.188]), with no change in non-inflamed mucosa, which does not support the inhibition hypothesis in tissue. Drug route and safety: TUFM is a ubiquitous mitochondrial gene, so a drug would need to act in one cell type. First experiment: allele-specific silencing in gut plasma cells or neutrophils. Caveat: one instrument. The reviewer is against testing it first for these reasons; it stays because it carries the only causal genetic support in the pool, and the first experiment tests that support in one cell type before any drug is considered.",
+   "rationale": "Direction: inhibit; the UC risk allele raises TUFM expression, and Mendelian randomisation agrees: higher expression in sigmoid colon raises UC risk (odds ratio per SD [gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=colon_tissue; odds_ratio_per_sd=1.191]), colocalising with the IBD GWAS and replicating in FinnGen and Liu 2023, and so does expression in gut plasma B cells ([gene=TUFM; type=mendelian_randomization_gut; source=DATASET:MR_GUT_EQTL_UC; layer=gut_cell; odds_ratio_per_sd=1.356]). This is the strongest causal evidence in the pool. Cell and tissue: the predicted effect is largest in blood neutrophils, while single cells place it in plasma and epithelial cells, and in inflamed MSCCR biopsies it is slightly lower, not higher (log2FC [gene=TUFM; type=omics_de; source=DATASET:GSE193677; layer=rna; cohort=GSE193677; contrast=inflamed_vs_control; log2fc=-0.188]), with no change in non-inflamed mucosa, which does not support the inhibition hypothesis in tissue. Drug route and safety: TUFM is a ubiquitous mitochondrial gene, so a drug would need to act in one cell type. First experiment: allele-specific silencing in gut plasma cells or neutrophils. Caveat: one instrument. It carries the only causal genetic support in the pool, and the first experiment tests that support in one cell type before any drug is considered.",
    "evidence_ids": [
     "EV:omics_de:b34091a6fe79",
     "EV:mendelian_randomization_gut:889be2060c1c",
@@ -21135,7 +21139,7 @@
    "gene": "CEBPB",
    "list": "genetic",
    "category": "target",
-   "rationale": "Direction: inhibit; the risk allele raises CEBPB, predicted in colon dendritic cells, and its mRNA rises in biopsies (meta-analysis log2FC [gene=CEBPB; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.27]), with its regulon active in all cohorts. Cell: it is a broadly expressed transcription factor, made mostly by neutrophils and macrophages (neutrophil share [gene=CEBPB; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.698]), and the predicted dendritic cell is not the main source. Against it: gut-cell Mendelian randomisation points the other way without reaching significance, and its baseline level separates ustekinumab and placebo non-responders alike. Drug route: a transcription factor is hard to drug, though nintedanib alleviated DSS colitis in mice by inhibiting CEBPB signalling. First experiment: silencing in monocyte-derived dendritic cells carrying the risk allele.",
+   "rationale": "Direction: inhibit; the risk allele is predicted to raise CEBPB in colon dendritic cells, and its mRNA rises in biopsies (meta-analysis log2FC [gene=CEBPB; type=expression_meta; source=DATASET:META; layer=rna; log2fc=1.27]), with its regulon active in all cohorts. Cell: it is a broadly expressed transcription factor, made mostly by neutrophils and macrophages (neutrophil share [gene=CEBPB; type=sc_summary; source=DATASET:SCP259; neutrophil_share_inflamed=0.698]), and the predicted dendritic cell is not the main source. Against it: gut-cell Mendelian randomisation points the other way without reaching significance, and its baseline level separates ustekinumab and placebo non-responders alike. Drug route: a transcription factor is hard to drug, though nintedanib alleviated DSS colitis in mice by inhibiting CEBPB signalling. First experiment: silencing in monocyte-derived dendritic cells carrying the risk allele.",
    "evidence_ids": [
     "EV:sc_summary:542343dc839a",
     "EV:expression_meta:542343dc839a",

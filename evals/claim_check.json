@@ -2,16 +2,15 @@
  "run": "2026-11-28",
  "reader": ".claude/agents/lector-afirmaciones.md (Claude Code subscription)",
  "statements": 140,
- "claims": 674,
+ "claims": 677,
  "claims_contradicted": 0,
- "claims_not_in_evidence": 7,
+ "claims_not_in_evidence": 6,
  "statements_with_a_contradicted_claim": [],
  "statements_with_an_unsupported_claim": [
   "agent_findings.expression[5]",
   "agent_findings.external[0]",
   "agent_findings.literature[0]",
   "agent_findings.pathways[1]",
-  "narrative.summary[3]",
   "targets.TUFM"
  ],
  "flagged": {
@@ -58,22 +57,13 @@
     "reason": "No CXCL1 record cited for this statement."
    }
   ],
-  "narrative.summary[3]": [
-   {
-    "claim": "For the repurposing targets an inhibitor already exists for another disease",
-    "verdict": "not_in_evidence",
-    "quote": "",
-    "evidence_id": null,
-    "reason": "No cited record lists an inhibitor for another disease for these genes."
-   }
-  ],
   "targets.TUFM": [
    {
     "claim": "TUFM is a ubiquitous mitochondrial gene",
     "verdict": "not_in_evidence",
     "quote": "",
     "evidence_id": null,
-    "reason": "No cited record states ubiquity or mitochondrial location."
+    "reason": "No cited record describes TUFM as ubiquitous or mitochondrial."
    }
   ]
  },
