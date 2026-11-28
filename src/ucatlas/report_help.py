@@ -145,9 +145,8 @@ HELP: dict[str, dict[str, str]] = {
                 "Same lights and groups as the first-in-class shortlist; the literature light comes from a review of the most cited colitis papers on each gene. Hover over a light for its values.",
                 "Vital-organ expression is a safety light here, not a filter; tractability is predicted, not proven."),
     "repurposing": _h("Genes that rise in UC and already have an inhibitor in the clinic for another disease, never tried in UC.",
-                      "Same lights and groups as the Validation shortlist; the druggable light becomes the inhibitor's stage, and safety flags drugs made only for cancer. Hover over a light for its values.",
+                      "Same lights and groups as the First-in-class shortlist; the druggable light becomes the inhibitor's stage, and safety flags drugs made only for cancer. Hover over a light for its values.",
                       "Open Targets clinical records; drugs that hit more than five targets are left out, and an approval known only from an ATC code is not counted as approved."),
-    "discovery_table": _h("The screen results.", "Filter by cell family or status, or search a gene.", "Tractability is predicted, not experimental."),
     # treatment and subgroups
     "treatment_controls": _h("The check: published infliximab non-response genes in every arm.",
                              "Bars above zero: higher before treatment in people who did not respond.",

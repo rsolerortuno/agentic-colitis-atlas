@@ -698,3 +698,14 @@ approved. Approved targets fall low: median convergence rank 763 and median data
 replication, inflammation and genetics only) of 26,551 genes; TNF is 222 on the full score and 1,888 on data only,
 ITGB7 3,611 and 7,539. Genes in trials lead the list (CXCR2, CXCR1, MMP1, MMP7, IL1B). Rows whose only UC drug is
 doxycycline (MMP1, MMP7, MMP13) are flagged as not gene-directed.
+
+## (g8) One tab for new targets: Discovery merged into the First-in-class shortlist (2026-11-28)
+
+The Discovery tab and the shortlist answered the same question in two places, and the screen table (top 40 genes per
+cell family by novelty score) read as a ranking of new targets although its first rows were genes the screen sets
+aside (SERPINB5, DEFA5, ABCA12: well studied in UC) and it held only 18 of the 49 first-in-class genes. The two tabs
+are now one, "First-in-class shortlist": the shortlist first (lights, groups, cards with the proposed experiment, the
+papers, the calibration), then "How these 49 genes were found" (the screen's counts, where the set-aside genes are,
+the novelty and safety charts, the caveats). The screen table and the Spotlight cards (a repeat of groups A and B) were
+removed; the list of genes with drugs only for other diseases moved to the Repurposing tab as its full list before
+scoring. No data changed; the report has 796 claims (132 fewer: 120 table rows and 12 cards).

@@ -28,7 +28,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
     <div class="navmenu" id="navmenu" hidden>
     {% for cat, subs in nav %}<div class="navcat"><h4>{{ cat }}</h4>
       {% for sub, keys in subs %}<div class="navsub"><span>{{ sub }}</span>
-        {% for k in keys %}<button class="tab" type="button" data-tab="{{ k }}" data-cat="{{ cat }}">{{ nav_text[k][0] }}{% if k == 'discovery' %}<span class="n">{{ kpis.fic }}</span>{% endif %}<small>{{ nav_text[k][1] }}</small></button>{% endfor %}
+        {% for k in keys %}<button class="tab" type="button" data-tab="{{ k }}" data-cat="{{ cat }}">{{ nav_text[k][0] }}{% if k == 'shortlist' %}<span class="n">{{ kpis.fic }}</span>{% endif %}<small>{{ nav_text[k][1] }}</small></button>{% endfor %}
       </div>{% endfor %}
     </div>{% endfor %}
     </div>
@@ -100,7 +100,7 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
   {{ plot('component_heatmap', figs.component_heatmap) }}
 </div>
 <h3 id="top25">Top 25 {{ q('top25') }}</h3>
-<p class="small">This ranking scores how many kinds of evidence agree, so its top is mostly well-known UC biology: the neutrophil chemokine axis, matrix metalloproteinases, calprotectin (S100A8/A9) and the lost epithelial programme. That is its check, not its news. It mixes three kinds of gene: changes of resident tissue, markers of arriving immune cells, and genes lost in UC; the "How to read it" column says which, from the data. New targets are in Discovery, the Validation shortlist and Repurposing.</p>
+<p class="small">This ranking scores how many kinds of evidence agree, so its top is mostly well-known UC biology: the neutrophil chemokine axis, matrix metalloproteinases, calprotectin (S100A8/A9) and the lost epithelial programme. That is its check, not its news. It mixes three kinds of gene: changes of resident tissue, markers of arriving immune cells, and genes lost in UC; the "How to read it" column says which, from the data. New targets are in the <a href="#tab-shortlist">First-in-class shortlist</a> and <a href="#tab-repurposing">Repurposing</a>.</p>
 <div class="tw"><table class="t25">
 <thead><tr><th>#</th><th>Gene</th><th>Score</th>{% for k in sw %}<th>{{ k[:6] }}.</th>{% endfor %}<th>Rank 90 % interval</th>
 <th>Meta log2FC</th><th>Cohorts</th><th>Local log2FC (paired)</th><th>How to read it</th><th>Drugs: in UC or elsewhere?</th><th>Evidence</th></tr></thead>
@@ -352,60 +352,27 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 {% endfor %}</tbody></table></div>
 </section>
 
-<!-- ================================================================ DISCOVERY -->
-<section class="panel" id="tab-discovery" data-name="discovery">
-{{ plain('discovery') }}
-<h2>Target discovery: promising, little studied, no drug yet</h2>
-<p class="lede">The screen starts from <strong>{{ D.pool }}</strong> genes that rise in UC in the meta-analysis of eight cohorts (padj &lt; 0.05, log2FC ≥ 1, at least two cohorts). Each gene is then checked for how much of its rise survives the composition adjustment (a tissue change, not cells arriving), which cell family makes it, how much UC literature it has (Europe PMC), whether a clinical drug exists (Open Targets), whether it looks tractable, and how much it is expressed in vital organs (Human Protein Atlas). A gene is a <strong>first-in-class opportunity</strong> when it keeps at least half of its rise after adjustment, has few UC papers and no clinical drug, is tractable and stays at or below 50 nTPM in every vital organ ({{ kpis.fic }} genes: {% for t, n in D.fic_by_track.items() %}{{ n }} {{ t }}{% if not loop.last %}, {% endif %}{% endfor %}). These are hypotheses ranked by data, not validated targets.</p>
+{# ---- the screen that finds the first-in-class genes: shown at the end of the First-in-class shortlist tab #}
+{% set screen_html %}
+<h2 id="screen">How these {{ kpis.fic }} genes were found</h2>
+<p>The screen starts from <strong>{{ D.pool }}</strong> genes that rise in UC in the meta-analysis of eight cohorts (padj &lt; 0.05, log2FC ≥ 1, at least two cohorts). Each gene is then checked for how much of its rise survives the composition adjustment (a tissue change, not cells arriving), which cell family makes it, how much UC literature it has (Europe PMC), whether a clinical drug exists (Open Targets), whether it looks tractable, and how much it is expressed in vital organs (Human Protein Atlas). A gene is a <strong>first-in-class opportunity</strong> when it keeps at least half of its rise after adjustment, has few UC papers and no clinical drug, is tractable and stays at or below 50 nTPM in every vital organ ({{ kpis.fic }} genes: {% for t, n in D.fic_by_track.items() %}{{ n }} {{ t }}{% if not loop.last %}, {% endif %}{% endfor %}). These are hypotheses ranked by data, not validated targets.</p>
 {{ paras(f.narrative.sections.discovery or []) }}
 <div class="kpis">
   {% for t, n in D.by_track.items() %}<div class="kpi"><b>{{ n }}</b><span>{{ t }} track</span></div>{% endfor %}
   {% for k, v in D.status.items() %}<div class="kpi"><b>{{ v }}</b><span>{{ k }}</span></div>{% endfor %}
 </div>
+<div class="howbox"><h4>Where the genes the screen sets aside are</h4><ul>
+<li><strong>Well studied in UC</strong>: established UC biology, many papers. Those with no drug are on <a href="#tab-known">Well known in UC, no drug yet</a>.</li>
+<li><strong>Known druggable target</strong>: a clinical drug exists. Drugs for other diseases only, never tried in UC: <a href="#tab-repurposing">Repurposing</a>. Drugs tried or approved in UC or IBD: <a href="#tab-clinical">In clinical validation</a>.</li>
+<li><strong>Cell influx (composition)</strong>: less than half of the rise survives the composition adjustment, so it mostly reflects immune cells arriving rather than the tissue changing.</li>
+<li><strong>Novel, not tractable</strong> and <strong>novel, vital-organ expression</strong>: new, but no drug route is predicted, or the gene is above 50 nTPM in a vital organ.</li></ul></div>
 <div class="grid two">
   {{ plot('discovery_scatter', figs.discovery_scatter) }}{{ plot('discovery_bars', figs.discovery_bars) }}
 </div>
-<h3>Spotlight: first-in-class candidates</h3>
-<p class="small">The best first-in-class genes of each cell family after the checks of the Validation shortlist (its groups A, then B, in its order), so a gene the checks place in group C is not shown here even if its novelty score is high. Novelty score ({% for k, v in D.weights.items() %}{{ k | replace("_"," ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}; it only orders the list, the filters decide the status).</p>
-<div class="grid">
-{% for r in D.cards %}
-<div class="card cand claim" data-evidence="{{ r.evidence_ids | evattr }}">
-  <h3>{{ r.gene }} <span class="small">{{ r.name or "" }}</span></h3>
-  <div class="meta"><span class="tag {{ r.track }}">{{ r.track }} #{{ r.rank_in_track }}</span><span class="tag fic">first-in-class</span>{% if r.group %}<span class="tag">shortlist group {{ r.group }}</span>{% endif %}
-    <span class="tag">novelty {{ r.novelty }}</span><span class="tag">{{ r.papers }} UC papers</span>
-    <span class="tag">kept {{ "%.0f" | format(100 * r.retained) }} %</span>{% if r.pocket %}<span class="tag">pocket {{ r.pocket }}</span>{% endif %}</div>
-  <p>{{ r.why }} {{ r.evidence_ids | cite | safe }}</p>
-</div>
-{% endfor %}
-</div>
-{% if D.repurposing %}<h3>Repurposing leads: drugs for other diseases, never tried in UC</h3>
-<p class="small">The first-in-class filter sets aside every gene that already has a clinical drug. Of those, {{ D.repurposing | length }} have drugs only for other diseases, with no trial in UC, Crohn's disease or IBD: the target can be reached and its safety in people is partly known, so they are candidates to repurpose. They pass the same tissue-change filter as the first-in-class genes. These genes rise in UC, so what matters is whether an <strong>inhibitor</strong> exists: {{ D.repurposing | selectattr("inhibitor") | list | length }} have one in the clinic. For the others the drugs activate the protein, or their action is not stated, which is often an antibody that carries a toxin to cells bearing the protein (cancer drugs that would harm the colon lining). A drug made for cancer may also be too toxic for a chronic disease. Genes with an inhibitor come first, then by UC papers (least studied first); drugs that hit more than five targets are not counted. Those with an inhibitor are scored on the Repurposing page.</p>
-<div class="tw"><table><thead><tr><th>Gene</th><th>Lineage (neutrophil share)</th><th class="num">Meta log2FC</th><th class="num">Change kept</th><th class="num">UC papers</th><th>Inhibitor in the clinic? (drug, stage, indication)</th><th>Evidence</th></tr></thead><tbody>
-{% for r in D.repurposing %}<tr class="claim" data-evidence="{{ r.evidence_ids | evattr }}"><td><strong>{{ r.gene }}</strong></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td><td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td class="wrap">{% if r.inhibitor %}{{ r.inhibitor_text }}{% else %}{{ r.inhibitor_text }}. Most advanced drug: {{ r.drugs }}{% endif %}</td><td>{{ r.evidence_ids | cite | safe }}</td></tr>{% endfor %}
-</tbody></table></div>{% endif %}
+<p class="small">Novelty score ({% for k, v in D.weights.items() %}{{ k | replace("_"," ") }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}): it only orders genes within the screen; the filters decide which genes are first-in-class, and the checks above decide their group.</p>
 {{ plot('safety', figs.safety) }}
-<h3>Screen results (top 40 per track by novelty score) {{ q('discovery_table') }}</h3>
-<div class="filters">
-  <span class="small">Track</span>
-  <button class="chip" aria-pressed="true" data-ftrack="all">all</button><button class="chip" aria-pressed="false" data-ftrack="epithelial">epithelial</button>
-  <button class="chip" aria-pressed="false" data-ftrack="stromal">stromal</button><button class="chip" aria-pressed="false" data-ftrack="immune">immune</button>
-  <span class="small" style="margin-left:10px">Status</span>
-  <button class="chip" aria-pressed="false" data-fstatus="first-in-class opportunity">first-in-class</button>
-  <button class="chip" aria-pressed="false" data-fstatus="novel">any novel</button>
-  <input class="search" id="dsearch" type="search" placeholder="Search gene or lineage" aria-label="Search discovery table">
-  <span class="small" id="dcount"></span>
-</div>
-<div class="tw"><table id="dtable">
-<thead><tr><th>Gene</th><th>Track</th><th>Lineage (neutrophil share)</th><th>Novelty</th><th>Meta log2FC</th><th>Change kept</th><th>UC papers</th><th>Clinical drug (where)</th><th>Tractability</th><th>Vital-organ max nTPM</th><th>Status</th><th>Evidence</th></tr></thead><tbody>
-{% for r in D.rows %}
-<tr{% if r.evidence_ids %} class="claim" data-evidence="{{ r.evidence_ids | evattr }}"{% endif %} data-track="{{ r.track }}" data-status="{{ r.status }}" data-text="{{ (r.gene ~ ' ' ~ r.lineage) | lower }}">
-<td><strong>{{ r.gene }}</strong></td><td><span class="tag {{ r.track }}">{{ r.track }}</span></td><td>{{ r.lineage }} ({{ "%.0f" | format(100 * r.neutrophil_share) }}%)</td>
-<td class="num"><span class="score" style="width:{{ (r.novelty * 50) | round(0) | int }}px"></span>{{ r.novelty }}</td>
-<td class="num">{{ r.log2fc }}</td><td class="num">{{ r.retained | fmt }}</td><td class="num">{{ r.papers }}</td><td>{{ r.drug }}</td><td>{{ r.tractable or "—" }}</td>
-<td class="num">{{ r.vital | fmt }}</td><td>{{ r.status }}</td><td>{{ r.evidence_ids[:3] | cite | safe }}</td></tr>
-{% endfor %}</tbody></table></div>
 <div class="note"><strong>Caveats.</strong> Literature volume is a Europe PMC title/abstract count for the gene symbol and UC terms; ambiguous or recently renamed symbols can under- or over-count. "No clinical drug" and tractability come from Open Targets (predicted tractability, not experimental). Vital-organ expression is RNA (HPA consensus), not protein. The composition adjustment uses marker-gene scores and can over-correct activated resident cells.</div>
-</section>
+{% endset %}
 
 {% if SL.kn %}{% include "known_tab.html.j2" %}{% endif %}
 {% include "shortlist_tab.html.j2" %}
@@ -517,11 +484,11 @@ window.atlasPayload=async function(id){var el=document.getElementById(id);var sr
 </div>
 {{ plot('rank_charts', figs.rank_conv) }}
 {% if score_sens %}<h3>Stability of the other scores</h3>
-<p class="small">The same 1,000 random re-weightings applied to the scores of the Discovery, Biologics &amp; immune and Structure tabs. "Top 10 stable" counts genes of the configured top 10 that stay in the top 10 in at least 80 % of re-weightings; rho is the median rank correlation between the configured and re-weighted scores.</p>
+<p class="small">The same 1,000 random re-weightings applied to the scores of the first-in-class screen, the Biologics &amp; immune and the Structure tabs. "Top 10 stable" counts genes of the configured top 10 that stay in the top 10 in at least 80 % of re-weightings; rho is the median rank correlation between the configured and re-weighted scores.</p>
 <div class="tw"><table><thead><tr><th>Score</th><th class="num">Genes</th><th class="num">Top 10 stable</th><th class="num">Median rho</th></tr></thead><tbody>
 {% for k, v in score_sens.items() %}<tr><td>{{ {"biologics": "Biologic suitability", "immune": "Immune target", "novelty": "Discovery novelty (ordering only)", "pockets": "Pocket score"}.get(k, k) }}</td><td class="num">{{ v.n }}</td><td class="num">{{ v.top10_stable }} / 10</td><td class="num">{{ v.median_rho }}</td></tr>{% endfor %}
 </tbody></table></div>
-<p class="small">The overall order of every score is stable (rho ≥ 0.9). The exact top 10 of the novelty ordering is not: it only orders the discovery table, while the filters decide which genes are first-in-class.</p>{% endif %}
+<p class="small">The overall order of every score is stable (rho ≥ 0.9). The exact top 10 of the novelty ordering is not: it only orders genes within the first-in-class screen, while the filters decide which genes are first-in-class.</p>{% endif %}
 
 <h2>Evaluation against outcomes the scores do not see {{ q('outcomes') }}</h2>
 <p class="small">Gold sets: {{ evals.gold_sets.uc_clinical_targets | length }} UC clinical targets (phase ≥ 2 with at least two trials or approval, drugs with ≤ 5 targets) and the {{ evals.gold_sets.temporal_wide_targets | length }} targets first tried in UC on or after {{ evals.gold_sets.cutoff_wide }} ({{ evals.gold_sets.temporal_wide_targets | join(", ") }}), with older UC targets removed from the universe. The convergence score includes literature and drug history, so its clinical-target AUROC is partly circular.</p>
@@ -686,22 +653,6 @@ These checks do not constitute complete scientific validation.{% endif %}
       host._help=box;}
     box.hidden=false; b.setAttribute('aria-expanded','true');
   });
-  var rows=[].slice.call(document.querySelectorAll('#dtable tbody tr')), ft='all', fs='', q='';
-  function filt(){
-    var n=0;
-    rows.forEach(function(r){
-      var okT=ft==='all'||r.dataset.track===ft;
-      var st=r.dataset.status, okS=!fs||(fs==='novel'?(st.indexOf('novel')===0||st==='first-in-class opportunity'):st===fs);
-      var okQ=!q||r.dataset.text.indexOf(q)>=0, vis=okT&&okS&&okQ; r.style.display=vis?'':'none'; if(vis)n++;});
-    var c=document.getElementById('dcount'); if(c) c.textContent=n+' of '+rows.length+' shown';
-  }
-  [].slice.call(document.querySelectorAll('[data-ftrack]')).forEach(function(b){b.addEventListener('click',function(){
-    ft=b.dataset.ftrack; [].slice.call(document.querySelectorAll('[data-ftrack]')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');}); filt();});});
-  [].slice.call(document.querySelectorAll('[data-fstatus]')).forEach(function(b){b.addEventListener('click',function(){
-    var on=b.getAttribute('aria-pressed')==='true'; [].slice.call(document.querySelectorAll('[data-fstatus]')).forEach(function(x){x.setAttribute('aria-pressed','false');});
-    fs=on?'':b.dataset.fstatus; if(!on) b.setAttribute('aria-pressed','true'); filt();});});
-  var ds=document.getElementById('dsearch'); if(ds) ds.addEventListener('input',function(){q=ds.value.trim().toLowerCase();filt();});
-  filt();
   var ev=[].slice.call(document.querySelectorAll('#evlist .ev')), es=document.getElementById('esearch');
   function efilt(){var s=es.value.trim().toLowerCase(),n=0; ev.forEach(function(e){var v=!s||e.textContent.toLowerCase().indexOf(s)>=0; e.style.display=v?'':'none'; if(v)n++;});
     document.getElementById('ecount').textContent=n+' of '+ev.length+' shown';}

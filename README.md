@@ -169,9 +169,10 @@ and described in [data/README.md](data/README.md).
   increase, tractability, response).
 - **Treatment response.** Responders against non-responders per arm, placebo arms included, and a drug × arm
   interaction, with the published infliximab non-response genes (Arijs 2009) as a positive control.
-- **Discovery screen.** Genes that rise in UC as a tissue change, are tractable, have no clinical drug, few UC papers
-  and low expression in vital organs.
-- **Validation shortlist.** Each first-in-class gene checked against eight questions a laboratory would ask
+- **First-in-class screen.** Genes that rise in UC as a tissue change, are tractable, have no clinical drug, few UC papers
+  and low expression in vital organs. Shown at the end of the First-in-class shortlist tab, with where the genes it sets
+  aside are (Well known, Repurposing, In clinical validation).
+- **First-in-class shortlist.** Each first-in-class gene checked against eight questions a laboratory would ask
   (reproducible, protein, tissue change, cell source, causal genetics, druggable, safety, UC literature, mouse), one traffic light
   per question with fixed thresholds checked on markers and on the UC clinical targets. Genes are reported in
   groups, not positions: A, B or C by how many of six ways of scoring keep them in the top ten. A green cell-source

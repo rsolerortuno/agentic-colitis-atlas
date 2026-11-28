@@ -417,16 +417,9 @@ def discovery_tables(layers: dict) -> dict:
                       "group": sl.at[r.gene, "group"] if sl is not None and r.gene in sl.index else None,
                       "novelty": round(float(r.novelty_score), 2), "papers": int(r.uc_papers), "retained": float(r.retained),
                       "pocket": pk, "why": why, "evidence_ids": [evidence_id("discovery_profile", r.gene)]})
-    top = d.sort_values("novelty_score", ascending=False).groupby("track").head(40)
-    rows = [{"gene": r.gene, "track": r.track, "lineage": r.lineage, "neutrophil_share": float(r.neutrophil_share or 0),
-             "novelty": round(float(r.novelty_score), 2), "log2fc": round(float(r.meta_log2fc), 2),
-             "retained": _num(r.retained), "papers": int(r.uc_papers), "clinical": bool(r.clinical_drug),
-             "drug": DRUGIND.get(r.gene, {}).get("short", "yes" if r.clinical_drug else "no"),
-             "tractable": ", ".join(r.tractable), "vital": _num(r.vital_max_ntpm, 1), "status": r.status,
-             "evidence_ids": [evidence_id("discovery_profile", r.gene)]} for r in top.itertuples()]
     return {"pool": len(d), "by_track": d.track.value_counts().to_dict(), "fic_by_track": fic.track.value_counts().to_dict(),
             "repurposing": repurposing_rows(DRUGIND),
-            "status": d.status.value_counts().to_dict(), "cards": cards, "rows": rows, "weights": layers["novelty"]["weights"]}
+            "status": d.status.value_counts().to_dict(), "cards": cards, "weights": layers["novelty"]["weights"]}
 
 
 def drug_indication_view() -> dict:
@@ -940,7 +933,7 @@ def render(findings_path: Path, out: Path | None = None) -> Path:
     extra_ids = []
     top25_drug = [{"gene": r["gene"], "evidence_ids": [drugind[r["gene"]]["evidence_id"]]} for r in ranking[:25]
                   if r["gene"] in drugind]
-    blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"], D["cards"], D["rows"],
+    blocks = [cell["cell_rows"], cell["spatial_rows"], S["rows"],
               third.get("proteomics_rows", []), third.get("mouse_rows", []), third.get("cosmx_rows", []),
               third.get("safety_rows", []), third.get("antitnf_rows", []), third.get("antitnf_own", []), SL["rows"], SL["rp"], SL["kn"], G.get("alphagenome", {}).get("rows", []), GT.get("rows", []),
               cell.get("rep4", {}).get("rows", []), D.get("repurposing", []), top25_drug, CL.get("rows", [])]
